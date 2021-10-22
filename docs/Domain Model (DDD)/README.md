@@ -10,7 +10,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 
 ## Modelo de domínio (DDD) ###
 
-![DDD_diagram.svg](DDD_diagram.svg.png)
+![DDD_diagram.svg](DDD_diagram.svg)
 
 ## Documentação ###
 
