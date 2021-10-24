@@ -26,3 +26,9 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 
 * Adicionei alguns *Value Objects* para complementar informação adicional a certas Entidades
 
+### 24/10/2021 - Pedro Vieira (1190948)
+
+* Alterei o Stereotype dos concentios do status de Missão e do pedido de coneção de "Entity" para "Value object", uma vez que achei que estes mesmos conceitos não têm entidade dentro do negócio e só servem como conceito caracterizador da "Entity", Missão e Pedido de coneção, respetivamente.
+
+* Relativamente à força da ligação entre dois utilizadores, considerei que esta seria um conceito **Abstrato**, ao qual será extendido dependento dos diferentes tipos de força de ligação que o negócio ditará.  
+
