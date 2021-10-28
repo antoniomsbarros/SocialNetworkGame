@@ -32,3 +32,6 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 
 * Relativamente à força da ligação entre dois utilizadores, considerei que esta seria um conceito **Abstrato**, ao qual será extendido dependento dos diferentes tipos de força de ligação que o negócio ditará.  
 
+### 28/10/2021 -António Barros (1200606)
+
+* Alterei o DDD alterando o nome da entidade postReaction para Reaction para se perceber melhor, alterei o nome do postReactionEnum para ReactionEnum pelo mesmo motivo. Adicionei uma relação entre Coment e Reaction como está explicito no fórum (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11076) e adicionei uma relação entre o RelationShip  e Player para mostrar melhor a relação entre um Player e outro Player.
