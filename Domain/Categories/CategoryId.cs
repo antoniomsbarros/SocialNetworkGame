@@ -1,8 +1,8 @@
 using System;
-using DDDSample1.Domain.Shared;
+using LEI_21s5_3dg_41.Domain.Shared;
 using Newtonsoft.Json;
 
-namespace DDDSample1.Domain.Categories
+namespace LEI_21s5_3dg_41.Domain.Categories
 {
     public class CategoryId : EntityId
     {

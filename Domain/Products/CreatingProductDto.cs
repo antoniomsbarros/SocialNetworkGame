@@ -1,6 +1,6 @@
-using DDDSample1.Domain.Categories;
+using LEI_21s5_3dg_41.Domain.Categories;
 
-namespace DDDSample1.Domain.Products
+namespace LEI_21s5_3dg_41.Domain.Products
 {
     public class CreatingProductDto
     {

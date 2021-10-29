@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DDDSample1.Domain.Products;
+using LEI_21s5_3dg_41.Domain.Products;
 
-namespace DDDSample1.Infrastructure.Products
+namespace LEI_21s5_3dg_41.Infrastructure.Products
 {
     internal class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
     {

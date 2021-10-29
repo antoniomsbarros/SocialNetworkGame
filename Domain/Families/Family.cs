@@ -1,6 +1,6 @@
-using DDDSample1.Domain.Shared;
+using LEI_21s5_3dg_41.Domain.Shared;
 
-namespace DDDSample1.Domain.Families
+namespace LEI_21s5_3dg_41.Domain.Families
 {
     public class Family : Entity<FamilyId>, IAggregateRoot
     {

@@ -1,12 +1,12 @@
-using DDDSample1.Domain.Families;
-using DDDSample1.Infrastructure.Shared;
+using LEI_21s5_3dg_41.Domain.Families;
+using LEI_21s5_3dg_41.Infrastructure.Shared;
 
-namespace DDDSample1.Infrastructure.Families
+namespace LEI_21s5_3dg_41.Infrastructure.Families
 {
     public class FamilyRepository : BaseRepository<Family, FamilyId>, IFamilyRepository
     {
       
-        public FamilyRepository(DDDSample1DbContext context):base(context.Families)
+        public FamilyRepository(LEI_21s5_3dg_41DbContext context):base(context.Families)
         {
             
         }

@@ -1,12 +1,12 @@
-using DDDSample1.Domain.Categories;
-using DDDSample1.Infrastructure.Shared;
+using LEI_21s5_3dg_41.Domain.Categories;
+using LEI_21s5_3dg_41.Infrastructure.Shared;
 
-namespace DDDSample1.Infrastructure.Categories
+namespace LEI_21s5_3dg_41.Infrastructure.Categories
 {
     public class CategoryRepository : BaseRepository<Category, CategoryId>, ICategoryRepository
     {
     
-        public CategoryRepository(DDDSample1DbContext context):base(context.Categories)
+        public CategoryRepository(LEI_21s5_3dg_41DbContext context):base(context.Categories)
         {
            
         }

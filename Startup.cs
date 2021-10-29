@@ -5,17 +5,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using DDDSample1.Infrastructure;
-using DDDSample1.Infrastructure.Categories;
-using DDDSample1.Infrastructure.Products;
-using DDDSample1.Infrastructure.Families;
-using DDDSample1.Infrastructure.Shared;
-using DDDSample1.Domain.Shared;
-using DDDSample1.Domain.Categories;
-using DDDSample1.Domain.Products;
-using DDDSample1.Domain.Families;
+using LEI_21s5_3dg_41.Infrastructure;
+using LEI_21s5_3dg_41.Infrastructure.Categories;
+using LEI_21s5_3dg_41.Infrastructure.Products;
+using LEI_21s5_3dg_41.Infrastructure.Families;
+using LEI_21s5_3dg_41.Infrastructure.Shared;
+using LEI_21s5_3dg_41.Domain.Shared;
+using LEI_21s5_3dg_41.Domain.Categories;
+using LEI_21s5_3dg_41.Domain.Products;
+using LEI_21s5_3dg_41.Domain.Families;
 
-namespace DDDSample1
+namespace LEI_21s5_3dg_41
 {
     public class Startup
     {
@@ -29,7 +29,7 @@ namespace DDDSample1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DDDSample1DbContext>(opt =>
+            services.AddDbContext<LEI_21s5_3dg_41DbContext>(opt =>
                 opt.UseInMemoryDatabase("DDDSample1DB")
                 .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
 

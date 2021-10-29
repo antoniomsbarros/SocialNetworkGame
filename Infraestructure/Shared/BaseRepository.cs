@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using DDDSample1.Domain.Shared;
+using LEI_21s5_3dg_41.Domain.Shared;
 
-namespace DDDSample1.Infrastructure.Shared
+namespace LEI_21s5_3dg_41.Infrastructure.Shared
 {
     public class BaseRepository<TEntity,TEntityId> : IRepository<TEntity,TEntityId>
     where TEntity : Entity<TEntityId>

@@ -1,4 +1,4 @@
-namespace DDDSample1.Infrastructure
+namespace LEI_21s5_3dg_41.Infrastructure
 {
     internal class SchemaNames
     {

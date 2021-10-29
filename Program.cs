@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace DDDSample1
+namespace LEI_21s5_3dg_41
 {
     public class Program
     {
