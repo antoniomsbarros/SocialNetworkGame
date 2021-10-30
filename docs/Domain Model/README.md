@@ -41,3 +41,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 * Alteração do DDD da criação de um value Object Text que representa o texto que irá ser apresentado ao utilizador intermediário e ao utilizador objetivo (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11319).
 * Alteração do DDD passando o FacebookProfile, LinkedinProfile, PhoneNumber e email estarem ligados a player e não a profile porque não fazem parte do perfil publico do player mas sim da informação privada do player (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11140).
 * Alteração do DDD para adicionar um value Object data de nascimento no Player (que se encontra na pagina 2 do enunciado).
+
+### 30/10/2021 -António Barros (1200606)
+
+* Alteração do DDD para adicinar relação entre mission e Profile que corresponde ao objetivo da mission.

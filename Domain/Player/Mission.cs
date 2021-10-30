@@ -15,14 +15,14 @@ public enum MissionStatus{
     public class Mission : Entity<MissionId>
     {
         public MissionStatus missionStatus { get;  private set; }
-
+        public Profile profiledestinion { get;  private set; }
         public int dificulty { get;  private set; }
 
-        public Mission(MissionStatus missionStatus, int dificulty){
+        public Mission(MissionStatus missionStatus, int dificulty, Profile profiledestinion){
             this.missionStatus=missionStatus;
             this.dificulty=dificulty;
+            this.profiledestinion=profiledestinion;
         }
-
 
     }
 }
