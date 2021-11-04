@@ -32,16 +32,22 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 
 * Relativamente à força da ligação entre dois utilizadores, considerei que esta seria um conceito **Abstrato**, ao qual será extendido dependento dos diferentes tipos de força de ligação que o negócio ditará.  
 
-### 28/10/2021 -António Barros (1200606)
+### 28/10/2021 - António Barros (1200606)
 
 * Alterei o DDD alterando o nome da entidade postReaction para Reaction para se perceber melhor, alterei o nome do postReactionEnum para ReactionEnum pelo mesmo motivo. Adicionei uma relação entre Coment e Reaction como está explicito no fórum (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11076) e adicionei uma relação entre o RelationShip  e Player para mostrar melhor a relação entre um Player e outro Player.
 
-### 29/10/2021 -António Barros (1200606)/ Daniel Reis (1200608)
+### 29/10/2021 - António Barros (1200606) / Daniel Reis (1200608)
 
 * Alteração do DDD da criação de um value Object Text que representa o texto que irá ser apresentado ao utilizador intermediário e ao utilizador objetivo (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11319).
 * Alteração do DDD passando o FacebookProfile, LinkedinProfile, PhoneNumber e email estarem ligados a player e não a profile porque não fazem parte do perfil publico do player mas sim da informação privada do player (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11140).
 * Alteração do DDD para adicionar um value Object data de nascimento no Player (que se encontra na pagina 2 do enunciado).
 
-### 30/10/2021 -António Barros (1200606)
+### 30/10/2021 - António Barros (1200606)
 
 * Alteração do DDD para adicinar relação entre mission e Profile que corresponde ao objetivo da mission.
+
+### 04/11/2021 - Pedro Vieira (1190948)
+
+* Alterei a relação entre "Mission -> Profile" para "Mission -> Player", uma vez que o o "Profile" é apenas um conjunto de informação pública do "Player" e o real objetivo de uma "Mission" é a ligação("connection") com um "Player".
+* Adicionei um Enum "MissionDifficultyEnum" que enumera as diferentes dificuldades que uma missão pode ter.
+* Melhorei a organização da estrutura do modelo (do ponto de vista estética, de modo a ser mais fácil de o analisar).
