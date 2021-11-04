@@ -602,5 +602,5 @@ Thumbs.db
 *.mov
 *.wmv
 
-# Backup files of the Project from Visual Paradigm
-docs/LAPR5 - Project.vpp.bak_*
+# Backup files from Visual Paradigm's project
+docs/LAPR5_Project.vpp.bak_*
