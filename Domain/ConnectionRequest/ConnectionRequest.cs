@@ -11,12 +11,16 @@ hold
 
     public abstract class ConnectionRequest : Entity<ConnectionRequestId>, IAggregateRoot
     {
-        public ConnectionRequestStatus connectionRequestStatus { get;  private set; }
+        public ConnectionRequestStatus connectionRequestStatus { get;   set; }
 
-        public PlayerId playerSender { get;  private set; }
-         public PlayerId playerRecever { get;  private set; }
+        public PlayerId playerSender { get;   set; }
+         public PlayerId playerRecever { get;   set; }
         
-        public string text { get;  private set; }
+        public string text { get;   set; }
+
+public ConnectionRequest (){
+    
+}
 
         public ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, PlayerId playerRecever, string text){
                 this.connectionRequestStatus=connectionRequestStatus;
