@@ -48,25 +48,25 @@
       ><path d="M0 0 L0 33 L161 33 L161 0 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath15"
-      ><path d="M-101 -15 L202 -15 L202 30 L-101 30 L-101 -15 Z"
+      ><path d="M-162 -15 L324 -15 L324 30 L-162 30 L-162 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath16"
-      ><path d="M-88 -15 L176 -15 L176 30 L-88 30 L-88 -15 Z"
+      ><path d="M-87 -15 L174 -15 L174 30 L-87 30 L-87 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath17"
-      ><path d="M-122 -15 L244 -15 L244 30 L-122 30 L-122 -15 Z"
+      ><path d="M-136 -15 L272 -15 L272 30 L-136 30 L-136 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath18"
       ><path d="M-93 -15 L186 -15 L186 30 L-93 30 L-93 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath19"
-      ><path d="M-136 -15 L272 -15 L272 30 L-136 30 L-136 -15 Z"
+      ><path d="M-122 -15 L244 -15 L244 30 L-122 30 L-122 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath20"
-      ><path d="M-87 -15 L174 -15 L174 30 L-87 30 L-87 -15 Z"
+      ><path d="M-88 -15 L176 -15 L176 30 L-88 30 L-88 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath21"
-      ><path d="M-162 -15 L324 -15 L324 30 L-162 30 L-162 -15 Z"
+      ><path d="M-101 -15 L202 -15 L202 30 L-101 30 L-101 -15 Z"
       /></clipPath
       ><clipPath clipPathUnits="userSpaceOnUse" id="clipPath22"
       ><path d="M0 0 L104 0 L104 155 L0 155 L0 0 Z"
@@ -215,7 +215,9 @@
       >&lt;&lt;component&gt;&gt;</text
       ><text x="39" xml:space="preserve" y="30" clip-path="url(#clipPath7)" stroke="none"
       >&lt;&lt;C4 Container&gt;&gt;</text
-      ></g
+      ><text x="50" xml:space="preserve" y="45" clip-path="url(#clipPath7)" font-weight="bold" stroke="none"
+      >Visualization</text
+    ></g
     ><g font-size="11px" transform="translate(460,361)" fill-opacity="1" fill="rgb(122,207,245)" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="rgb(122,207,245)" font-weight="bold" stroke-opacity="1"
     ><rect x="0" width="161" height="69" y="0" clip-path="url(#clipPath9)" stroke="none"
     /></g
@@ -302,33 +304,33 @@
     ><g fill-opacity="1" text-rendering="geometricPrecision" stroke="black" stroke-linecap="butt" transform="translate(472,271)" stroke-miterlimit="0" stroke-opacity="1" fill="black" font-weight="bold" font-family="sans-serif" stroke-linejoin="round" font-size="11px" image-rendering="optimizeQuality"
     ><circle fill="none" r="9.5" clip-path="url(#clipPath5)" cx="9.5" cy="9.5"
     /></g
-    ><g font-size="11px" transform="translate(502,276)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(2,22)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath15)" stroke="none"
-      >API WebApp AI</text
+      >UI Player (Registered User)</text
     ></g
-    ><g font-size="11px" transform="translate(325,409)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(883,162)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath16)" stroke="none"
-      >API AI Visual</text
+      >Linkedin API</text
     ></g
-    ><g font-size="11px" transform="translate(308,210)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(154,22)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath17)" stroke="none"
-      >API WebApp Visual</text
+      >UI Unregistered Users</text
     ></g
     ><g font-size="11px" transform="translate(880,252)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath18)" stroke="none"
       >Facebook API</text
     ></g
-    ><g font-size="11px" transform="translate(154,22)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(308,210)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath19)" stroke="none"
-      >UI Unregistered Users</text
+      >API WebApp Visual</text
     ></g
-    ><g font-size="11px" transform="translate(883,162)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(325,409)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath20)" stroke="none"
-      >Linkedin API</text
+      >API AI Visual</text
     ></g
-    ><g font-size="11px" transform="translate(2,22)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
+    ><g font-size="11px" transform="translate(502,276)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke="black" font-weight="bold" stroke-opacity="1"
     ><text x="10" xml:space="preserve" y="12" clip-path="url(#clipPath21)" stroke="none"
-      >UI Player (Registered User)</text
+      >API WebApp AI</text
     ></g
     ><g stroke-linecap="butt" font-size="11px" transform="translate(33,-30)" fill-opacity="1" fill="black" text-rendering="geometricPrecision" image-rendering="optimizeQuality" font-family="sans-serif" stroke-linejoin="round" stroke="black" stroke-opacity="1"
     ><line y2="101" fill="none" x1="50" clip-path="url(#clipPath23)" x2="50" y1="50"
