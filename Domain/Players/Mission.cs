@@ -2,26 +2,32 @@ using LEI_21s5_3dg_41.Domain.Shared;
 
 namespace LEI_21s5_3dg_41.Domain.Players
 {
-    public enum MissionStatus
-    {
-        Active,
-        Canceled,
-        Completed,
-        In_progress
-    }
 
     public class Mission : Entity<MissionId>
     {
-        public MissionStatus missionStatus { get; private set; }
-        public Profile profiledestinion { get; private set; }
-        public int dificulty { get; private set; }
+        public MissionStatus Status { get; private set; }
 
-        public Mission(MissionStatus missionStatus, int dificulty, Profile profiledestinion)
+        public MissionDifficulty Difficulty { get; private set; }
+
+        public PlayerId ObjectivePlayer { get; private set; }
+
+        public Mission(MissionDifficulty difficulty, PlayerId objectivePlayer)
         {
-            this.missionStatus = missionStatus;
-            this.dificulty = dificulty;
-            this.profiledestinion = profiledestinion;
+            this.Status = new(MissionStatusEnum.Suspended);
+            this.Difficulty = difficulty;
+            this.ObjectivePlayer = objectivePlayer;
         }
 
+        public Mission(MissionStatus status, MissionDifficulty difficulty, PlayerId objectivePlayer)
+        {
+            this.Status = status;
+            this.Difficulty = difficulty;
+            this.ObjectivePlayer = objectivePlayer;
+        }
+
+        public void ChanceStatusTo(MissionStatus newStatus)
+        {
+            this.Status = newStatus;
+        }
     }
 }
