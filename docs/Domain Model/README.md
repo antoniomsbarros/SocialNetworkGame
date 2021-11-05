@@ -51,3 +51,8 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 * Alterei a relação entre "Mission -> Profile" para "Mission -> Player", uma vez que o o "Profile" é apenas um conjunto de informação pública do "Player" e o real objetivo de uma "Mission" é a ligação("connection") com um "Player".
 * Adicionei um Enum "MissionDifficultyEnum" que enumera as diferentes dificuldades que uma missão pode ter.
 * Melhorei a organização da estrutura do modelo (do ponto de vista estética, de modo a ser mais fácil de o analisar).
+
+
+### 05/11/2021 - António Barros (1200606)
+
+* Adicionei uma relação entre introduction Request and Connection Request
