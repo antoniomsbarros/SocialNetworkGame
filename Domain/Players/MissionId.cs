@@ -2,7 +2,7 @@ using LEI_21s5_3dg_41.Domain.Shared;
 using System;
 using Newtonsoft.Json;
 
-namespace LEI_21s5_3dg_41.Domain.Player
+namespace LEI_21s5_3dg_41.Domain.Players
 {
     public class MissionId :EntityId
     {

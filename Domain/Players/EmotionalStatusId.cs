@@ -1,17 +1,16 @@
 using LEI_21s5_3dg_41.Domain.Shared;
 using System;
 using Newtonsoft.Json;
-
-namespace LEI_21s5_3dg_41.Domain.Player
+namespace LEI_21s5_3dg_41.Domain.Players
 {
-    public class PlayerId : EntityId
+    public class EmotionalStatusId: EntityId
     {
         [JsonConstructor]
-        public PlayerId(Guid value) : base(value)
+        public EmotionalStatusId(Guid value) : base(value)
         {
         }
 
-        public PlayerId(String value) : base(value)
+        public EmotionalStatusId(String value) : base(value)
         {
         }
 

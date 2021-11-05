@@ -1,4 +1,4 @@
-using LEI_21s5_3dg_41.Domain.Player;
+using LEI_21s5_3dg_41.Domain.Players;
 using LEI_21s5_3dg_41.Domain.Tag;
 using System.Collections.Generic;
 using LEI_21s5_3dg_41.Domain.Reaction;

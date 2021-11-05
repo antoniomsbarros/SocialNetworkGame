@@ -1,6 +1,6 @@
 using System;
 using LEI_21s5_3dg_41.Domain.Shared;
-using LEI_21s5_3dg_41.Domain.Player;
+using LEI_21s5_3dg_41.Domain.Players;
 namespace LEI_21s5_3dg_41.Domain.ConnectionRequest
 {
 public enum ConnectionRequestStatus{

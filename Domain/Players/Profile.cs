@@ -4,7 +4,7 @@ using LEI_21s5_3dg_41.Domain.Tag;
 
 using System;
 
-namespace LEI_21s5_3dg_41.Domain.Player
+namespace LEI_21s5_3dg_41.Domain.Players
 {
     public class Profile :Entity<ProfileId>
     {

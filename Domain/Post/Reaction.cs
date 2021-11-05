@@ -1,6 +1,6 @@
 using System;
 using LEI_21s5_3dg_41.Domain.Shared;
-using LEI_21s5_3dg_41.Domain.Player;
+using LEI_21s5_3dg_41.Domain.Players;
 using System.Collections.Generic;
 using LEI_21s5_3dg_41.Domain.Post;
 
