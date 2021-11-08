@@ -2,9 +2,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using LEI_21s5_3dg_41.Domain.Shared;
+using SocialNetwork.core.shared;
 
-namespace LEI_21s5_3dg_41.Infrastructure.Shared
+namespace SocialNetwork.infraestructure.Shared
 {
     /// <summary>
     /// Based on https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/
@@ -14,7 +14,7 @@ namespace LEI_21s5_3dg_41.Infrastructure.Shared
         private readonly ConcurrentDictionary<(Type ModelClrType, Type ProviderClrType), ValueConverterInfo> _converters
             = new ConcurrentDictionary<(Type ModelClrType, Type ProviderClrType), ValueConverterInfo>();
 
-        public StronglyEntityIdValueConverterSelector(ValueConverterSelectorDependencies dependencies) 
+        public StronglyEntityIdValueConverterSelector(ValueConverterSelectorDependencies dependencies)
             : base(dependencies)
         {
         }

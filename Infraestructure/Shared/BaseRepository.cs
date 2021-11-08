@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using LEI_21s5_3dg_41.Domain.Shared;
+using SocialNetwork.core.shared;
 
-namespace LEI_21s5_3dg_41.Infrastructure.Shared
+namespace SocialNetwork.infraestructure.Shared
 {
-    public class BaseRepository<TEntity,TEntityId> : IRepository<TEntity,TEntityId>
+    public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
     where TEntity : Entity<TEntityId>
     where TEntityId : EntityId
     {
         private readonly DbSet<TEntity> _objs;
-        
+
         public BaseRepository(DbSet<TEntity> objs)
         {
             this._objs = objs ?? throw new ArgumentNullException(nameof(objs));
-        
+
         }
 
         public async Task<List<TEntity>> GetAllAsync()
         {
             return await this._objs.ToListAsync();
         }
-        
+
         public async Task<TEntity> GetByIdAsync(TEntityId id)
         {
             //return await this._context.Categories.FindAsync(id);

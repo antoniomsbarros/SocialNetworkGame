@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace LEI_21s5_3dg_41
+namespace SocialNetwork
 {
     public class Program
     {

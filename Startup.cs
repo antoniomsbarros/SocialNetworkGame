@@ -5,12 +5,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using LEI_21s5_3dg_41.Infrastructure;
-using LEI_21s5_3dg_41.Infrastructure.Shared;
-using LEI_21s5_3dg_41.Domain.Shared;
+using SocialNetwork.infraestructure;
+using SocialNetwork.infraestructure.Shared;
+using SocialNetwork.core.shared;
 
-
-namespace LEI_21s5_3dg_41
+namespace SocialNetwork
 {
     public class Startup
     {
@@ -29,7 +28,7 @@ namespace LEI_21s5_3dg_41
                 .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
 
             ConfigureMyServices(services);
-            
+
 
             services.AddControllers().AddNewtonsoftJson();
         }
@@ -61,7 +60,7 @@ namespace LEI_21s5_3dg_41
 
         public void ConfigureMyServices(IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork,UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
     }

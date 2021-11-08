@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using LEI_21s5_3dg_41.Domain.Shared;
+using SocialNetwork.core.shared;
 
-namespace LEI_21s5_3dg_41.Infrastructure
+namespace SocialNetwork.infraestructure
 {
     public class UnitOfWork : IUnitOfWork
     {

@@ -1,13 +1,13 @@
 using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using LEI_21s5_3dg_41.Domain.Shared;
+using SocialNetwork.core.shared;
 
-namespace LEI_21s5_3dg_41.Infrastructure.Shared
+namespace SocialNetwork.infraestructure.Shared
 {
     public class EntityIdValueConverter<TTypedIdValue> : ValueConverter<TTypedIdValue, String>
         where TTypedIdValue : EntityId
     {
-        public EntityIdValueConverter(ConverterMappingHints mappingHints = null) 
+        public EntityIdValueConverter(ConverterMappingHints mappingHints = null)
             : base(id => id.Value, value => Create(value), mappingHints)
         {
         }
