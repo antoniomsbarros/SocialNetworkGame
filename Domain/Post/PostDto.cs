@@ -1,9 +1,9 @@
 using System;
 using LEI_21s5_3dg_41.Domain.Players;
-using LEI_21s5_3dg_41.Domain.Tag;
+
 using System.Collections.Generic;
 using LEI_21s5_3dg_41.Domain.Comment;
-
+using LEI_21s5_3dg_41.Domain.Shared;
 namespace LEI_21s5_3dg_41.Domain.Post
 {
     public class PostDto
@@ -13,7 +13,7 @@ namespace LEI_21s5_3dg_41.Domain.Post
 
         public PlayerId playerId { get;  private set; }
 
-        public TagId tagId { get; private set; }
+        public Tag tagId { get; private set; }
 
         public DateTime date {get; private set; }
 
@@ -21,7 +21,7 @@ namespace LEI_21s5_3dg_41.Domain.Post
 
         public List<CommentId> listOfComments = new List<CommentId>();
         
-        public PostDto(Guid Id, string postText, PlayerId playerId, TagId tagId, DateTime date, List<ReactionId> listOfReactions,List<CommentId> listOfComments)
+        public PostDto(Guid Id, string postText, PlayerId playerId, Tag tagId, DateTime date, List<ReactionId> listOfReactions,List<CommentId> listOfComments)
         {
             this.Id = Id;
             this.postText = postText;

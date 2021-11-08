@@ -1,17 +1,14 @@
 ﻿using LEI_21s5_3dg_41.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace LEI_21s5_3dg_41.Domain.Tag
+
+namespace LEI_21s5_3dg_41.Domain.Shared
 {
-    public class TagName : IValueObject
+    public class Tag : IValueObject
     {
 
         public string Name { get; }
 
-        public TagName(string tagName)
+        public Tag(string tagName)
         {
             if (IsValid(tagName))
                 this.Name = tagName;

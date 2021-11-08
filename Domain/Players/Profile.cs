@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using LEI_21s5_3dg_41.Domain.Shared;
-using LEI_21s5_3dg_41.Domain.Tag;
+
 
 using System;
 
@@ -12,7 +12,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
 
         // Emotional Status -> Study better how it will be implemented 
 
-        public List<TagId> TagsList { get; private set; }
+        public List<Tag> TagsList { get; private set; }
 
         public Profile(Name name)
         {
@@ -21,7 +21,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
             this.TagsList = new();
         }
 
-        public bool AddTag(TagId newTag)
+        public bool AddTag(Tag newTag)
         {
             if (TagsList.Contains(newTag))
                 return false;
@@ -30,7 +30,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
             return true;
         }
 
-        public bool RemoveTag(TagId tagToRemove)
+        public bool RemoveTag(Tag tagToRemove)
         {
             if (!TagsList.Contains(tagToRemove))
                 return false;

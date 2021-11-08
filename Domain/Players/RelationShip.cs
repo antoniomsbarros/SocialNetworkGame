@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using LEI_21s5_3dg_41.Domain.Shared;
 using System;
-using LEI_21s5_3dg_41.Domain.Tag;
 
 namespace LEI_21s5_3dg_41.Domain.Players
 {
@@ -11,9 +10,9 @@ namespace LEI_21s5_3dg_41.Domain.Players
 
         public ConnectionStrenght ConnectionStrenght { get; private set; }
 
-        public List<TagId> TagsList { get; private set; }
+        public List<Tag> TagsList { get; private set; }
 
-        public RelationShip(PlayerId player, ConnectionStrenght connectionStrenght, List<TagId> tagsList)
+        public RelationShip(PlayerId player, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
             if (tagsList.Capacity > 0)
                 this.TagsList = new(tagsList);
@@ -25,7 +24,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
             this.ConnectionStrenght = connectionStrenght;
         }
 
-        public RelationShip(PlayerId player, ConnectionStrenght connectionStrenght, TagId tag)
+        public RelationShip(PlayerId player, ConnectionStrenght connectionStrenght, Tag tag)
         {
             this.Id = new RelationShipId(Guid.NewGuid());
             this.PlayerId = player;
@@ -34,7 +33,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
             this.TagsList.Add(tag);
         }
 
-        public bool AddTag(TagId newTag)
+        public bool AddTag(Tag newTag)
         {
             if (this.TagsList.Contains(newTag))
                 return false;
@@ -43,7 +42,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
             return true;
         }
 
-        public bool RemoveTag(TagId tagToRemove)
+        public bool RemoveTag(Tag tagToRemove)
         {
             if (!this.TagsList.Contains(tagToRemove))
                 return false;
