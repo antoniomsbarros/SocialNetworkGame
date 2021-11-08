@@ -56,3 +56,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 ### 05/11/2021 - António Barros (1200606)
 
 * Adicionei uma relação entre introduction Request and Connection Request
+
+### 08/11/2021 - Grupo
+
+* O conceito "Mission" e "Relationship" (entre 2 jogadores) foram separados do agregado "Player", passando assim a constituir 2 agregados separados. A razão desta separação foi pelo facto de que dentro do agregado "Player" existiam outras entidade que dependiam do "Mission" / "Relationship" e não propriamente do "Player", e pelo facto de no sistema ter de haver uma gestão frequente nas relações da rede de cada jogardor, podendo gerar problemas de concorrência caso estes se mantivessem no agregado "Player".
