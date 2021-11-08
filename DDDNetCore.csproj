@@ -16,5 +16,19 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
+ 
+  <ItemGroup>
+    <Folder Include="Base\ConnectionRequest\Application\" />
+    <Folder Include="Base\ConnectionRequest\Dto\" />
+    <Folder Include="Base\Mission\Application\" />
+    <Folder Include="Base\Mission\Dto\" />
+    <Folder Include="Base\Mission\Repository\" />
+    <Folder Include="Base\Players\Application\" />
+    <Folder Include="Base\Players\Dto\" />
+    <Folder Include="Base\RelationShips\Application\" />
+    <Folder Include="Base\RelationShips\Dto\" />
+    <Folder Include="Base\RelationShips\Repository\" />
+    <Folder Include="Controllers\" />
+  </ItemGroup>
 
 </Project>

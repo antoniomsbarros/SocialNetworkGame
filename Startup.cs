@@ -6,14 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using LEI_21s5_3dg_41.Infrastructure;
-using LEI_21s5_3dg_41.Infrastructure.Categories;
-using LEI_21s5_3dg_41.Infrastructure.Products;
-using LEI_21s5_3dg_41.Infrastructure.Families;
 using LEI_21s5_3dg_41.Infrastructure.Shared;
 using LEI_21s5_3dg_41.Domain.Shared;
-using LEI_21s5_3dg_41.Domain.Categories;
-using LEI_21s5_3dg_41.Domain.Products;
-using LEI_21s5_3dg_41.Domain.Families;
+
 
 namespace LEI_21s5_3dg_41
 {
@@ -67,15 +62,7 @@ namespace LEI_21s5_3dg_41
         public void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork,UnitOfWork>();
-
-            services.AddTransient<ICategoryRepository,CategoryRepository>();
-            services.AddTransient<CategoryService>();
-
-            services.AddTransient<IProductRepository,ProductRepository>();
-            services.AddTransient<ProductService>();
-
-            services.AddTransient<IFamilyRepository,FamilyRepository>();
-            services.AddTransient<FamilyService>();
         }
+
     }
 }
