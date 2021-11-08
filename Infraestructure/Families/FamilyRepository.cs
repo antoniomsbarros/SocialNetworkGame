@@ -6,7 +6,7 @@ namespace LEI_21s5_3dg_41.Infrastructure.Families
     public class FamilyRepository : BaseRepository<Family, FamilyId>, IFamilyRepository
     {
       
-        public FamilyRepository(LEI_21s5_3dg_41DbContext context):base(context.Families)
+        public FamilyRepository(SocialNetworkDbContext context):base(context.Families)
         {
             
         }

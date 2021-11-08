@@ -5,9 +5,9 @@ namespace LEI_21s5_3dg_41.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LEI_21s5_3dg_41DbContext _context;
+        private readonly SocialNetworkDbContext _context;
 
-        public UnitOfWork(LEI_21s5_3dg_41DbContext context)
+        public UnitOfWork(SocialNetworkDbContext context)
         {
             this._context = context;
         }

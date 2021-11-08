@@ -1,4 +1,5 @@
 using LEI_21s5_3dg_41.Domain.Shared;
+using System;
 
 namespace LEI_21s5_3dg_41.Domain.Players
 {
@@ -13,6 +14,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
 
         public Mission(MissionDifficulty difficulty, PlayerId objectivePlayer)
         {
+            this.Id = new(Guid.NewGuid());
             this.Status = new(MissionStatusEnum.Suspended);
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;
@@ -20,6 +22,7 @@ namespace LEI_21s5_3dg_41.Domain.Players
 
         public Mission(MissionStatus status, MissionDifficulty difficulty, PlayerId objectivePlayer)
         {
+            this.Id = new(Guid.NewGuid());
             this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;

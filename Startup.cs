@@ -29,7 +29,7 @@ namespace LEI_21s5_3dg_41
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<LEI_21s5_3dg_41DbContext>(opt =>
+            services.AddDbContext<SocialNetworkDbContext>(opt =>
                 opt.UseInMemoryDatabase("DDDSample1DB")
                 .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
 

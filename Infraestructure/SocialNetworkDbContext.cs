@@ -7,7 +7,7 @@ using LEI_21s5_3dg_41.Infrastructure.Products;
 
 namespace LEI_21s5_3dg_41.Infrastructure
 {
-    public class LEI_21s5_3dg_41DbContext : DbContext
+    public class SocialNetworkDbContext : DbContext
     {
         public DbSet<Category> Categories { get; set; }
 
@@ -15,7 +15,7 @@ namespace LEI_21s5_3dg_41.Infrastructure
 
         public DbSet<Family> Families { get; set; }
 
-        public LEI_21s5_3dg_41DbContext(DbContextOptions options) : base(options)
+        public SocialNetworkDbContext(DbContextOptions options) : base(options)
         {
 
         }

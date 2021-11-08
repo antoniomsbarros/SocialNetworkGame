@@ -2,7 +2,9 @@
 
 <PropertyGroup>
     <TargetFramework>netcoreapp5.0</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel> 
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <RootNamespace>SocialNetwork</RootNamespace>
+    <AssemblyName>LEI_21s5_3dg_41</AssemblyName> 
   </PropertyGroup>
  
   <ItemGroup>
