@@ -9,20 +9,20 @@ namespace LEI_21s5_3dg_41.Domain.Post
 {
     public class Post : Entity<PostId>, IAggregateRoot
     {
-        public string postText { get;  private set; }
+        public PostText postText { get;  private set; }
 
         public PlayerId playerId { get;  private set; }
 
         public Tag tag { get; private set; }
 
-        public DateTime date {get; private set; }
+        public CreationDate date {get; private set; }
 
-        public List<ReactionId> listOfReactions = new List<ReactionId>();
+        public List<ReactionId> listOfReactions {get; private set; }
 
-        public List<CommentId> listOfComments = new List<CommentId>();
+        public List<CommentId> listOfComments {get; private set; }
 
 
-        public Post(string postText, PlayerId playerId, Tag tag, DateTime date, List<ReactionId> listOfReactions, List<CommentId> listOfComments) {
+        public Post(PostText postText, PlayerId playerId, Tag tag, CreationDate date, List<ReactionId> listOfReactions, List<CommentId> listOfComments) {
             if (playerId == null)
                 throw new BusinessRuleValidationException("Every Post requires a Player");
 

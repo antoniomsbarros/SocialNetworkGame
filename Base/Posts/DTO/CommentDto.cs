@@ -9,15 +9,15 @@ namespace LEI_21s5_3dg_41.Domain.Comment
     public class CommentDto
     {
         public Guid Id { get; set; }       
-        public ReactionEnum reaction { get;  private set; }
+        public string reaction { get;  private set; }
 
-        public PlayerId playerId { get;  private set; }
+        public string playerId { get;  private set; }
 
         public string commentText {get; private set; }
 
         public DateTime date {get; private set; }
 
-        public CommentDto(Guid Id, ReactionEnum reaction, PlayerId playerId,string commentText,DateTime date)
+        public CommentDto(Guid Id, string reaction, string playerId, string commentText, DateTime date)
         {
             this.Id = Id;
             this.reaction = reaction;

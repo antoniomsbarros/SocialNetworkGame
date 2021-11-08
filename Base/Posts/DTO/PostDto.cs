@@ -11,17 +11,17 @@ namespace LEI_21s5_3dg_41.Domain.Post
         public Guid Id { get; set; }
         public string postText { get;  private set; }
 
-        public PlayerId playerId { get;  private set; }
+        public string playerId { get;  private set; }
 
-        public Tag tagId { get; private set; }
+        public string tagId { get; private set; }
 
         public DateTime date {get; private set; }
 
-        public List<ReactionId> listOfReactions = new List<ReactionId>();
+        public List<string> listOfReactions {get; private set; }
 
-        public List<CommentId> listOfComments = new List<CommentId>();
+        public List<string> listOfComments {get; private set; }
         
-        public PostDto(Guid Id, string postText, PlayerId playerId, Tag tagId, DateTime date, List<ReactionId> listOfReactions,List<CommentId> listOfComments)
+        public PostDto(Guid Id, string postText, string playerId, string tagId, DateTime date, List<string> listOfReactions,List<string> listOfComments)
         {
             this.Id = Id;
             this.postText = postText;

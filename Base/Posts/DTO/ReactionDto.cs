@@ -8,11 +8,11 @@ namespace LEI_21s5_3dg_41.Domain.Reaction
     public class ReactionDto
     {
         public Guid Id { get; set; }
-        public ReactionEnum reaction { get;  private set; }
+        public string reaction { get;  private set; }
 
-        public PlayerId playerId { get;  private set; }
+        public string playerId { get;  private set; }
 
-        public ReactionDto(Guid Id, ReactionEnum reaction, PlayerId playerId)
+        public ReactionDto(Guid Id, string reaction, string playerId)
         {
             this.Id = Id;
             this.reaction = reaction;
