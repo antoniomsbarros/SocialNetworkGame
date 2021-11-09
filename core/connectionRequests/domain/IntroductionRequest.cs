@@ -8,9 +8,9 @@ namespace SocialNetwork.core.connectionRequests.domain
         public TextBox TextIntroduction { get; private set; }
         public Player PlayerIntroduction { get; private set; }
         public ConnectionRequestStatus IntroductionStatus { get; private set; }
-        private IntroductionRequest() : base()
+        protected IntroductionRequest() : base()
         {
-            // Empty constructor
+            // for ORM
         }
         public IntroductionRequest(Player playerIdintroduction, TextBox textIntroduction, ConnectionRequestStatus connectionRequestStatus,
                                      Player playerSender, Player playerRecever, TextBox text, ConnectionRequestStatus introductionStatus)

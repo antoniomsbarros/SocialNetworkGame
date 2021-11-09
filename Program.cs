@@ -19,7 +19,7 @@ namespace SocialNetwork
                 try
                 {
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
-                    Console.WriteLine(context.Database.EnsureCreated());
+                    context.Database.EnsureCreated();
                 }
                 catch (Exception ex)
                 {

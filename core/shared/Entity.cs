@@ -8,7 +8,6 @@ namespace SocialNetwork.core.shared
     public abstract class Entity<TEntityId>
     where TEntityId : EntityId
     {
-        [Key]
         public TEntityId Id { get; protected set; }
     }
 }

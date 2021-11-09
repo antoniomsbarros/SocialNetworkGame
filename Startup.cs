@@ -9,7 +9,6 @@ using SocialNetwork.infrastructure;
 using SocialNetwork.infrastructure.Shared;
 using SocialNetwork.core.shared;
 
-
 namespace SocialNetwork
 {
     public class Startup
@@ -30,7 +29,10 @@ namespace SocialNetwork
             */
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+    options
+        .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
+        .UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureMyServices(services);
 

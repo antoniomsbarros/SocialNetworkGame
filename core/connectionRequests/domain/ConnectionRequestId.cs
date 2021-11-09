@@ -11,10 +11,6 @@ namespace SocialNetwork.core.connectionRequests.domain
         protected ConnectionRequestId() : base()
         {
         }
-
-        public ConnectionRequestId(Guid value) : base(value)
-        {
-        }
         public ConnectionRequestId(String value) : base(value)
         {
         }
@@ -22,17 +18,12 @@ namespace SocialNetwork.core.connectionRequests.domain
         override
         protected Object createFromString(String text)
         {
-            return new Guid(text);
+            return text;
         }
         override
         public String AsString()
         {
-            Guid obj = (Guid)base.ObjValue;
-            return obj.ToString();
-        }
-        public Guid AsGuid()
-        {
-            return (Guid)base.ObjValue;
+            return (String)base.Value;
         }
     }
 }

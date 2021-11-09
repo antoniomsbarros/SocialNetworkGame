@@ -5,9 +5,9 @@ namespace SocialNetwork.core.connectionRequests.domain
 {
     public class DirectRequest : ConnectionRequest
     {
-        private DirectRequest()
+        protected DirectRequest() : base()
         {
-            // Empty constructor
+            // for ORM
         }
 
         public DirectRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, TextBox text)

@@ -4,6 +4,13 @@ using SocialNetwork.core.missions.domain;
 using SocialNetwork.core.players.domain;
 using SocialNetwork.core.posts.domain.post;
 using SocialNetwork.core.relationships.domain;
+using SocialNetwork.infrastructure.connectionRequests;
+using SocialNetwork.infrastructure.missions;
+using SocialNetwork.infrastructure.players;
+using SocialNetwork.infrastructure.posts.comment;
+using SocialNetwork.infrastructure.posts.post;
+using SocialNetwork.infrastructure.posts.reaction;
+using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.infrastructure
 {
@@ -16,12 +23,21 @@ namespace SocialNetwork.infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>().ToTable("Player");
-            modelBuilder.Entity<RelationShip>().ToTable("PlayersRelationShip");
-            modelBuilder.Entity<Post>().ToTable("Post");
-            modelBuilder.Entity<Mission>().ToTable("Mission");
-            modelBuilder.Entity<DirectRequest>().ToTable("DirectRequest");
-            modelBuilder.Entity<IntroductionRequest>().ToTable("IntroductionRequest");
+            modelBuilder.ApplyConfiguration(new ConnectionRequestEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new DirectRequestEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new IntroductionRequestEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new MissionEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new ProfileEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PlayerEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PostEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ReactionEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new RelationShipEntityTypeConfiguration());
         }
 
         // DB Entities 
