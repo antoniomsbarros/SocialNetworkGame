@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using SocialNetwork.core.shared;
 
-namespace SocialNetwork.infraestructure
+namespace SocialNetwork.infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {

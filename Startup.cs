@@ -5,9 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SocialNetwork.infraestructure;
-using SocialNetwork.infraestructure.Shared;
+using SocialNetwork.infrastructure;
+using SocialNetwork.infrastructure.Shared;
 using SocialNetwork.core.shared;
+
 
 namespace SocialNetwork
 {
@@ -23,9 +24,13 @@ namespace SocialNetwork
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SocialNetworkDbContext>(opt =>
+            /* services.AddDbContext<SocialNetworkDbContext>(opt =>
                 opt.UseInMemoryDatabase("DDDSample1DB")
                 .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>());
+            */
+
+            services.AddDbContext<SocialNetworkDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureMyServices(services);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.core.shared;
 
-namespace SocialNetwork.infraestructure.Shared
+namespace SocialNetwork.infrastructure.Shared
 {
     /// <summary>
     /// Based on https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/

@@ -1,4 +1,4 @@
-namespace SocialNetwork.infraestructure
+namespace SocialNetwork.infrastructure
 {
     internal class SchemaNames
     {

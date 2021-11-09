@@ -5,7 +5,7 @@ using SocialNetwork.core.players.domain;
 using SocialNetwork.core.posts.domain.post;
 using SocialNetwork.core.relationships.domain;
 
-namespace SocialNetwork.infraestructure
+namespace SocialNetwork.infrastructure
 {
     public class SocialNetworkDbContext : DbContext
     {
@@ -16,7 +16,12 @@ namespace SocialNetwork.infraestructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Player>().ToTable("Player");
+            modelBuilder.Entity<RelationShip>().ToTable("PlayersRelationShip");
+            modelBuilder.Entity<Post>().ToTable("Post");
+            modelBuilder.Entity<Mission>().ToTable("Mission");
+            modelBuilder.Entity<DirectRequest>().ToTable("DirectRequest");
+            modelBuilder.Entity<IntroductionRequest>().ToTable("IntroductionRequest");
         }
 
         // DB Entities 
