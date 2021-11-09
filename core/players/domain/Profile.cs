@@ -12,11 +12,20 @@ namespace SocialNetwork.core.players.domain
 
         public List<Tag> TagsList { get; private set; }
 
-        public Profile(Name name)
+        protected Profile()
+        {
+            // for ORM
+        }
+
+        public Profile(Name name, List<Tag> tagList)
         {
             this.Id = new ProfileId(Guid.NewGuid());
             this.Name = name;
-            this.TagsList = new();
+
+            if (tagList.Count == 0)
+                throw new BusinessRuleValidationException("The profile must have at least one Tag");
+
+            this.TagsList = new(tagList);
         }
 
         public bool AddTag(Tag newTag)

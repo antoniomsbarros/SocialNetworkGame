@@ -1,4 +1,5 @@
-﻿using SocialNetwork.core.shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.missions.domain
 {
@@ -9,9 +10,15 @@ namespace SocialNetwork.core.missions.domain
         Hard
     }
 
+    [Owned]
     public class MissionDifficulty : IValueObject
     {
         public MissionDifficultyEnum Difficulty { get; }
+
+        protected MissionDifficulty()
+        {
+            // for ORM
+        }
 
         public MissionDifficulty(MissionDifficultyEnum difficulty)
         {

@@ -1,10 +1,17 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.relationships.domain
 {
+    [Owned]
     public class RelationShipId : EntityId
     {
+
+        protected RelationShipId() : base()
+        {
+        }
+
         public RelationShipId(Guid value) : base(value)
         {
         }

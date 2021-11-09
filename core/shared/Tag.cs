@@ -1,10 +1,17 @@
-﻿namespace SocialNetwork.core.shared
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace SocialNetwork.core.shared
 {
+    [Owned]
     public class Tag : IValueObject
     {
 
         public string Name { get; }
 
+        protected Tag()
+        {
+            // for ORM
+        }
         public Tag(string tagName)
         {
             if (IsValid(tagName))

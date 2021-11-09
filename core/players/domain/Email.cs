@@ -1,13 +1,20 @@
-﻿using SocialNetwork.core.shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.core.shared;
 using System;
 using System.Net.Mail;
 
 namespace SocialNetwork.core.players.domain
 {
+    [Owned]
     public class Email : IValueObject
     {
 
         public string EmailAddress { get; }
+
+        protected Email()
+        {
+            // for ORM
+        }
 
         public Email(String emailAddress)
         {

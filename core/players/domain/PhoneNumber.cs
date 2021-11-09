@@ -1,14 +1,20 @@
-﻿using SocialNetwork.core.shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.core.shared;
 using System.Text.RegularExpressions;
 
 namespace SocialNetwork.core.players.domain
 {
+    [Owned]
     public class PhoneNumber : IValueObject
     {
         public string Number { get; }
 
         private static readonly string PHONE_NUMBER_REGEX_RULE = "[0-9]*";
 
+        protected PhoneNumber()
+        {
+            // for ORM
+        }
         public PhoneNumber(string number)
         {
             if (IsValid(number))

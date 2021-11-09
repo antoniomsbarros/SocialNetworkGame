@@ -1,10 +1,18 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
+    [Owned]
     public class ProfileId : EntityId
     {
+
+        protected ProfileId() : base()
+        {
+            // for ORM
+        }
+
         public ProfileId(Guid value) : base(value)
         {
         }

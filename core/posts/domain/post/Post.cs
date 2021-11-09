@@ -21,7 +21,10 @@ namespace SocialNetwork.core.posts.domain.post
 
         public List<Comment> ListOfComments { get; private set; }
 
-
+        protected Post()
+        {
+            // for ORM
+        }
         public Post(TextBox postText, Player player, Tag tag, CreationDate date, List<Reaction> listOfReactions, List<Comment> listOfComments)
         {
             this.PlayerCreator = player ?? throw new BusinessRuleValidationException("Every Post requires a Player");

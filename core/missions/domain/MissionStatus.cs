@@ -1,4 +1,5 @@
-﻿using SocialNetwork.core.shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.missions.domain
 {
@@ -11,9 +12,15 @@ namespace SocialNetwork.core.missions.domain
         Suspended
     }
 
+    [Owned]
     public class MissionStatus : IValueObject
     {
         public MissionStatusEnum CurrentStatus { get; }
+
+        protected MissionStatus()
+        {
+            // for ORM
+        }
 
         public MissionStatus(MissionStatusEnum status)
         {

@@ -13,6 +13,11 @@ namespace SocialNetwork.core.missions.domain
 
         public Player ObjectivePlayer { get; private set; }
 
+        protected Mission()
+        {
+            // for ORM
+        }
+
         public Mission(MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = new(Guid.NewGuid());

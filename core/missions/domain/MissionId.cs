@@ -1,10 +1,17 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.missions.domain
 {
+    [Owned]
     public class MissionId : EntityId
     {
+
+        protected MissionId() : base()
+        {
+        }
+
         public MissionId(Guid value) : base(value)
         {
         }

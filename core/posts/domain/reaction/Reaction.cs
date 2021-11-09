@@ -8,6 +8,12 @@ namespace SocialNetwork.core.posts.domain.reaction
     {
         public ReactionValueEnum ReactionValue { get; private set; }
         public Player Player { get; private set; }
+
+        protected Reaction()
+        {
+            // for ORM
+        }
+
         public Reaction(ReactionValueEnum reaction, Player player)
         {
             this.Player = player ?? throw new BusinessRuleValidationException("Every Reaction requires a Player");

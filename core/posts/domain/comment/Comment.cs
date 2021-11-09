@@ -16,6 +16,10 @@ namespace SocialNetwork.core.posts.domain.comment
 
         public CreationDate CreationDate { get; private set; }
 
+        private Comment()
+        {
+            // Empty constructor
+        }
         public Comment(List<Reaction> listOfReactions, Player playerCreator, TextBox commentText, CreationDate creationDate)
         {
             this.PlayerCreator = playerCreator ?? throw new BusinessRuleValidationException("Every Comment requires a Player");

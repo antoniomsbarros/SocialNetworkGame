@@ -23,4 +23,9 @@
 	
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Remove="core\connectionRequests\domain\DirectRequestId.cs" />
+	  <Compile Remove="core\connectionRequests\domain\IntroductionRequestId.cs" />
+	</ItemGroup>
+
 </Project>

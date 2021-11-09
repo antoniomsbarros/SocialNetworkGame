@@ -1,10 +1,16 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.posts.domain.comment
 {
+    [Owned]
     public class CommentId : EntityId
     {
+        protected CommentId() : base()
+        {
+        }
+
         public CommentId(Guid value) : base(value)
         {
         }

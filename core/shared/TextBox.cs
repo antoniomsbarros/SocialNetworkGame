@@ -1,9 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace SocialNetwork.core.shared
 {
+    [Owned]
     public class TextBox : IValueObject
     {
         public string text { get; }
 
+        protected TextBox()
+        {
+            // for ORM
+        }
         public TextBox(string text)
         {
             if (IsTextBoxValid(text))

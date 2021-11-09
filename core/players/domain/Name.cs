@@ -1,12 +1,18 @@
-﻿using SocialNetwork.core.shared;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
+    [Owned]
     public class Name : IValueObject
     {
         public string ShortName { get; }
         public string FullName { get; }
 
+        protected Name()
+        {
+            // for ORM
+        }
         public Name(string shortName, string fullName)
         {
             if (IsFullNameValid(fullName) && IsShortNameValid(shortName))

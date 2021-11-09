@@ -1,12 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace SocialNetwork.core.shared
 {
+    [Owned]
     public class CreationDate : IValueObject
     {
 
         public DateTime Date { get; }
-
         public CreationDate()
         {
             this.Date = new DateTime();

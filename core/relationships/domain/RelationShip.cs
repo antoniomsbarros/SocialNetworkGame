@@ -13,6 +13,11 @@ namespace SocialNetwork.core.relationships.domain
 
         public List<Tag> TagsList { get; private set; }
 
+        protected RelationShip()
+        {
+            // for ORM
+        }
+
         public RelationShip(Player player, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
             if (tagsList.Capacity > 0)

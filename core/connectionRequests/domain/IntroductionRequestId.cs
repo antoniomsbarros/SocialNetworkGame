@@ -1,8 +1,10 @@
 using System;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.connectionRequests.domain
 {
+    [Owned]
     public class IntroductionRequestId : EntityId
     {
         public IntroductionRequestId(Guid value) : base(value)

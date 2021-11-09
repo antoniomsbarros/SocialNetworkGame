@@ -18,6 +18,10 @@ namespace SocialNetwork.core.shared
             }
         }
 
+        protected EntityId()
+        {
+            // for ORM
+        }
         protected EntityId(Object value)
         {
             if (value.GetType() == typeof(String))

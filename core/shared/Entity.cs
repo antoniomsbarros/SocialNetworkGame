@@ -1,11 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SocialNetwork.core.shared
 {
     /// <summary>
     /// Base class for entities.
     /// </summary>
     public abstract class Entity<TEntityId>
-    where TEntityId: EntityId
+    where TEntityId : EntityId
     {
-         public TEntityId Id { get;  protected set; }
+        [Key]
+        public TEntityId Id { get; protected set; }
     }
 }
