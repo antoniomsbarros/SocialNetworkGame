@@ -1,10 +1,8 @@
 ﻿using SocialNetwork.core.shared;
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace SocialNetwork.core.missions.domain
 {
-    [Owned]
     public class MissionId : EntityId
     {
 

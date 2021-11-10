@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 
 namespace SocialNetwork.core.shared
 {
-    [Owned]
     public class Tag : IValueObject
     {
         private static readonly int minCaract = 1;

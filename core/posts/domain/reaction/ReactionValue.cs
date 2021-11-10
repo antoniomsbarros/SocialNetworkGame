@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 
 namespace SocialNetwork.core.posts.domain.reaction
@@ -10,7 +9,6 @@ namespace SocialNetwork.core.posts.domain.reaction
         Dislike
     }
 
-    [Owned]
     public class ReactionValue : IValueObject
     {
         public ReactionValueEnum Reaction { get; }

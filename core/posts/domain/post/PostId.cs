@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 
 namespace SocialNetwork.core.posts.domain.post
 {
-    [Owned]
     public class PostId : EntityId
     {
         protected PostId() : base()
