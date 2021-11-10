@@ -8,7 +8,7 @@ namespace SocialNetwork.core.connectionRequests.domain
     {
         public TextBox TextIntroduction { get; private set; }
         public Player PlayerIntroduction { get; private set; }
-        public ConnectionRequestStatus IntroductionStatus { get; private set; }
+        public ConnectionRequestStatus IntroductionStatus { get;  set; }
         protected IntroductionRequest() : base()
         {
             // for ORM
@@ -50,6 +50,11 @@ namespace SocialNetwork.core.connectionRequests.domain
         public override int GetHashCode()
         {
             return HashCode.Combine(this.Id);
+        }
+
+        public void ChangeIntroductionStatus(ConnectionRequestStatus connectionRequestStatus)
+        {
+            this.IntroductionStatus = connectionRequestStatus;
         }
     }
 }

@@ -46,8 +46,8 @@ namespace SocialNetwork.infrastructure
         public DbSet<Post> Posts { get; set; }
         public DbSet<Mission> Missions { get; set; }
         public DbSet<DirectRequest> DirectRequests { get; set; }
+        
+        public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
-
-
     }
 }
