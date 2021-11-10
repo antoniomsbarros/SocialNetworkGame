@@ -11,7 +11,7 @@ namespace SocialNetwork.core.missions.domain
 
         public MissionDifficulty Difficulty { get; private set; }
 
-        public Player ObjectivePlayer { get; private set; }
+        public PlayerId ObjectivePlayer { get; private set; }
 
         protected Mission()
         {
@@ -23,14 +23,14 @@ namespace SocialNetwork.core.missions.domain
             this.Id = id;
             this.Status = status;
             this.Difficulty = difficulty;
-            this.ObjectivePlayer = objectivePlayer;
+            this.ObjectivePlayer = objectivePlayer.Id;
         }
 
         public Mission(MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = new MissionId(Guid.NewGuid());
             this.Difficulty = difficulty;
-            this.ObjectivePlayer = objectivePlayer;
+            this.ObjectivePlayer = objectivePlayer.Id;
             this.Status = new(MissionStatusEnum.In_progress); // status for omission
         }
 
@@ -39,7 +39,7 @@ namespace SocialNetwork.core.missions.domain
             this.Id = new MissionId(Guid.NewGuid());
             this.Status = status;
             this.Difficulty = difficulty;
-            this.ObjectivePlayer = objectivePlayer;
+            this.ObjectivePlayer = objectivePlayer.Id;
         }
 
         public void ChangeStatusTo(MissionStatus newStatus)

@@ -8,9 +8,9 @@ namespace SocialNetwork.core.connectionRequests.domain
     {
         public ConnectionRequestStatus ConnectionRequestStatus { get; set; }
 
-        public Player PlayerSender { get; set; }
+        public PlayerId PlayerSender { get; set; }
 
-        public Player PlayerReceiver { get; set; }
+        public PlayerId PlayerReceiver { get; set; }
 
         public TextBox Text { get; set; }
 
@@ -26,8 +26,8 @@ namespace SocialNetwork.core.connectionRequests.domain
         {
             this.Id = id;
             this.ConnectionRequestStatus = status;
-            this.PlayerSender = playerSender;
-            this.PlayerReceiver = playerReceiver;
+            this.PlayerSender = playerSender.Id;
+            this.PlayerReceiver = playerReceiver.Id;
             this.Text = text;
             this.CreationDate = creationDate;
         }
@@ -36,8 +36,8 @@ namespace SocialNetwork.core.connectionRequests.domain
         {
             this.Id = new ConnectionRequestId(Guid.NewGuid());
             this.ConnectionRequestStatus = connectionRequestStatus;
-            this.PlayerSender = playerSender;
-            this.PlayerReceiver = playerRecever;
+            this.PlayerSender = playerSender.Id;
+            this.PlayerReceiver = playerRecever.Id;
             this.Text = text;
             this.CreationDate = new();
         }

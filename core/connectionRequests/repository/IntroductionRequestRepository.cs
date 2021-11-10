@@ -30,7 +30,7 @@ namespace SocialNetwork.core.connectionRequests.repository
         public List<IntroductionRequest> FindbyPlayerIntroductionIdThatAreOnHold(PlayerId playerId)
         {
             return (from VAR in _socialNetworkDbContext.IntroductionRequests
-                where VAR.PlayerIntroduction.Id == playerId && VAR.IntroductionStatus.Equals("OnHold")
+                where VAR.PlayerIntroduction == playerId && VAR.IntroductionStatus.Equals("OnHold")
                 select VAR).ToList();
         }
 

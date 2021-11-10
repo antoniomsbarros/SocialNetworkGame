@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
     // Read the comments from FacebookProfile
 
-    [Owned]
     public class LinkedinProfile : IValueObject
     {
         public string LinkedinProfileLink { get; }

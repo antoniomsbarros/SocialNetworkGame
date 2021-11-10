@@ -1,9 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace SocialNetwork.core.shared
 {
-    [Owned]
     public class CreationDate : IValueObject
     {
 

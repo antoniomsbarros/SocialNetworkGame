@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 using System.Text.RegularExpressions;
 
 namespace SocialNetwork.core.players.domain
 {
-    [Owned]
     public class PhoneNumber : IValueObject
     {
         public string Number { get; }

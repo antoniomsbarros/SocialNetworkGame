@@ -20,9 +20,9 @@ namespace SocialNetwork.core.players.domain
 
         public Profile Profile { get; private set; }
 
-        public List<Mission> Missions { get; private set; }
+        public List<MissionId> Missions { get; private set; }
 
-        public List<RelationShip> RelationShips { get; private set; }
+        public List<RelationshipId> RelationShips { get; private set; }
 
         protected Player()
         {
@@ -38,8 +38,8 @@ namespace SocialNetwork.core.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = new(missions);
-            this.RelationShips = new(relationships);
+            this.Missions = missions.ConvertAll<MissionId>(m => m.Id);
+            this.RelationShips = relationships.ConvertAll<RelationshipId>(m => m.Id); ;
             this.Profile = profile;
         }
 
@@ -96,7 +96,7 @@ namespace SocialNetwork.core.players.domain
 
         public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
         {
-            this.Missions.Add(new(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty, objectivePlayer));
+            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty, objectivePlayer).Id);
         }
 
         // Finish / Pause Mission
@@ -104,10 +104,10 @@ namespace SocialNetwork.core.players.domain
 
         public bool CreateRelationShipWith(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
         {
-            if (this.RelationShips.Contains(new RelationShip(player)))
+            if (this.RelationShips.Contains(new RelationShip(player).Id))
                 return false;
 
-            this.RelationShips.Add(new RelationShip(player));
+            this.RelationShips.Add(new RelationShip(player).Id);
             return true;
         }
 

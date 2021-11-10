@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 
 namespace SocialNetwork.core.players.domain
 {
-    [Owned]
     public class DateOfBirth : IValueObject
     {
         private static readonly int minimumAge = 16; // In years

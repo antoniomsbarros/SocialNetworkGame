@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 
 namespace SocialNetwork.core.relationships.domain
 {
-    [Owned]
     public class RelationshipId : EntityId
     {
         protected RelationshipId() : base()

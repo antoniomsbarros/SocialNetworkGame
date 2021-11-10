@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 namespace SocialNetwork.core.connectionRequests.domain
 {
-    [Owned]
     public class ConnectionRequestId : EntityId
     {
         protected ConnectionRequestId() : base()

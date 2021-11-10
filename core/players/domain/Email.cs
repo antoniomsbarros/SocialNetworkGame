@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 using System.Net.Mail;
 
 namespace SocialNetwork.core.players.domain
 {
-    [Owned]
     public class Email : IValueObject
     {
 

@@ -1,10 +1,8 @@
 using System;
-using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
-    [Owned]
     public class ProfileId : EntityId
     {
 

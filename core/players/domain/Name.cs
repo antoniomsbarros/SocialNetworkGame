@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.shared;
+﻿using SocialNetwork.core.shared;
 using System;
 
 namespace SocialNetwork.core.players.domain
 {
-    [Owned]
     public class Name : IValueObject
     {
         public string ShortName { get; }

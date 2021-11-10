@@ -11,7 +11,7 @@ namespace SocialNetwork.core.posts.domain.post
     {
         public TextBox PostText { get; private set; }
 
-        public Player PlayerCreator { get; private set; }
+        public PlayerId PlayerCreator { get; private set; }
 
         public List<Tag> Tags { get; private set; }
 
@@ -31,7 +31,7 @@ namespace SocialNetwork.core.posts.domain.post
         {
             this.Id = id;
             this.PostText = postText;
-            this.PlayerCreator = playerCreator;
+            this.PlayerCreator = playerCreator.Id;
             this.Tags = new(tagsList);
             this.Reactions = new(reactionsList);
             this.Comments = new(commentsList);
@@ -42,7 +42,7 @@ namespace SocialNetwork.core.posts.domain.post
         {
             this.Id = new PostId(Guid.NewGuid());
             this.PostText = postText;
-            this.PlayerCreator = playerCreator;
+            this.PlayerCreator = playerCreator.Id;
             this.Tags = new(tagsList);
             this.Reactions = new();
             this.Comments = new();
@@ -53,7 +53,7 @@ namespace SocialNetwork.core.posts.domain.post
         {
             this.Id = new PostId(Guid.NewGuid());
             this.PostText = postText;
-            this.PlayerCreator = playerCreator;
+            this.PlayerCreator = playerCreator.Id;
             this.Tags = new();
             this.Reactions = new();
             this.Comments = new();
