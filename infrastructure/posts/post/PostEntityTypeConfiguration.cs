@@ -10,6 +10,22 @@ namespace SocialNetwork.infrastructure.posts.post
         {
             builder.ToTable("Post");
             builder.HasKey(b => b.Id);
+            builder.OwnsOne(post => post.CreationDate, creationDate =>
+            {
+                creationDate.Property("Date");
+            });
+
+            builder.OwnsMany(post => post.Tags, tag =>
+            {
+                tag.Property("Name");
+            });
+
+            builder.OwnsOne(post => post.PostText, postText =>
+            {
+                postText.Property("Text");
+            });
+
+
         }
     }
 }

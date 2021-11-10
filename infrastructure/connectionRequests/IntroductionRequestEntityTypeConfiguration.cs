@@ -14,6 +14,17 @@ namespace SocialNetwork.infrastructure.connectionRequests
         {
             builder.HasBaseType<ConnectionRequest>();
             builder.ToTable("IntroductionRequest");
+
+            builder.OwnsOne(request => request.TextIntroduction, textIntroduction =>
+            {
+                textIntroduction.Property("Text");
+            });
+
+            builder.OwnsOne(request => request.IntroductionStatus,
+                introductionStatus =>
+                {
+                    introductionStatus.Property("CurrentStatus");
+                });
         }
     }
 }

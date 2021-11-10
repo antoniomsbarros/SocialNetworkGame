@@ -10,6 +10,17 @@ namespace SocialNetwork.infrastructure.relationships
         {
             builder.ToTable("Relationship");
             builder.HasKey(b => b.Id);
+            builder.OwnsMany(relationship => relationship.TagsList, tag =>
+            {
+                tag.Property("Name");
+            });
+
+            builder.OwnsOne(relationship => relationship.ConnectionStrenght,
+                connectionStrength =>
+                {
+                    connectionStrength.Property(c => c.Strenght);
+                });
+
         }
     }
 }

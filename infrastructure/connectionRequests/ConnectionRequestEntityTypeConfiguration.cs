@@ -13,6 +13,22 @@ namespace SocialNetwork.infrastructure.connectionRequests
         public void Configure(EntityTypeBuilder<ConnectionRequest> builder)
         {
             builder.HasKey(b => b.Id);
+            builder.OwnsOne(connectionRequest => connectionRequest.CreationDate, 
+                creationDate =>
+            {
+                creationDate.Property("Date");
+            });
+
+            builder.OwnsOne(request => request.Text, text =>
+            {
+                text.Property("Text");
+            });
+
+            builder.OwnsOne(request => request.ConnectionRequestStatus,
+                connectionRequestStatus =>
+                {
+                    connectionRequestStatus.Property("CurrentStatus");
+                });
         }
     }
 }

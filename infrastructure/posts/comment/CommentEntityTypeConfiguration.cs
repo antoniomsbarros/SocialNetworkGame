@@ -10,6 +10,14 @@ namespace SocialNetwork.infrastructure.posts.comment
         {
             builder.ToTable("Comment");
             builder.HasKey(b => b.Id);
+            builder.OwnsOne(comment => comment.CreationDate, creationDate =>
+            {
+                creationDate.Property("Date");
+            });
+            builder.OwnsOne(comment => comment.CommentText, commentText =>
+            {
+                commentText.Property("Text");
+            });
         }
     }
 }

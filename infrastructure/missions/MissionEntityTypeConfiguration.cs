@@ -10,6 +10,17 @@ namespace SocialNetwork.infrastructure.missions
         {
             builder.ToTable("Mission");
             builder.HasKey(b => b.Id);
+            builder.OwnsOne(m => m.Difficulty, d =>
+            {
+                d.Property("Difficulty");
+            });
+            builder.OwnsOne(m => m.Status, d =>
+            {
+                d.Property("CurrentStatus");
+            });
+
+
+
         }
     }
 }

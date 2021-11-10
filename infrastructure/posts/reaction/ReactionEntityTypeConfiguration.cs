@@ -10,6 +10,16 @@ namespace SocialNetwork.infrastructure.posts.reaction
         {
             builder.ToTable("Reaction");
             builder.HasKey(b => b.Id);
+
+            builder.OwnsOne(reaction => reaction.ReactionValue, reactionValue =>
+            {
+                reactionValue.Property("Reaction");
+            });
+
+            builder.OwnsOne(reaction => reaction.CreationDate, creationDate =>
+            {
+                creationDate.Property("Date");
+            });
         }
     }
 }
