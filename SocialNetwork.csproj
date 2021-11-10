@@ -20,6 +20,14 @@
 
 	<ItemGroup>
 		<Folder Include="core\*" />
+		<Folder Include="core\controller\missions" />
+		<Folder Include="core\controller\players" />
+		<Folder Include="core\controller\posts" />
+		<Folder Include="core\controller\relationships" />
+		<Folder Include="core\services\connectionRequests" />
+		<Folder Include="core\services\missions" />
+		<Folder Include="core\services\players" />
+		<Folder Include="core\services\relationships" />
 	
 	</ItemGroup>
 

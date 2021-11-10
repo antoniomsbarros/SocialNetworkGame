@@ -4,7 +4,6 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class EmotionalStatus : Entity<EmotionalStatusId>
     {
-
         // protected 
         public EmotionalStatus()
         {

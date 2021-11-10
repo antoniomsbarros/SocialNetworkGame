@@ -8,9 +8,7 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class Player : Entity<PlayerId>, IAggregateRoot
     {
-        public Email Email { get; private set; }
-
-        public int Password { get; private set; }
+        public Email Email { get; private set; } // SystemUserId
 
         public PhoneNumber PhoneNumber { get; private set; }
 
@@ -31,8 +29,9 @@ namespace SocialNetwork.core.model.players.domain
             // for ORM
         }
 
-        protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            List<Mission> missions, List<RelationShip> relationships, Profile profile)
+        protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
+            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+            List<MissionId> missions, List<RelationshipId> relationships, Profile profile)
         {
             this.Id = id;
             this.Email = email;
@@ -40,23 +39,9 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = missions.ConvertAll<MissionId>(m => m.Id);
-            this.RelationShips = relationships.ConvertAll<RelationshipId>(m => m.Id); ;
+            this.Missions = missions;
+            this.RelationShips = relationships;
             this.Profile = profile;
-        }
-
-        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            Name name)
-        {
-            this.Id = new PlayerId(Guid.NewGuid());
-            this.Email = email;
-            this.PhoneNumber = phoneNumber;
-            this.FacebookProfile = facebookProfile;
-            this.LinkedinProfile = linkedinProfile;
-            this.DateOfBirth = dateOfBirth;
-            this.Missions = new();
-            this.RelationShips = new();
-            CreateProfile(name);
         }
 
         public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
@@ -65,8 +50,10 @@ namespace SocialNetwork.core.model.players.domain
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;
+
             this.Missions = new();
             this.RelationShips = new();
+
             CreateProfile(name);
         }
 
@@ -79,7 +66,6 @@ namespace SocialNetwork.core.model.players.domain
         {
             this.LinkedinProfile = linkedinProfile;
         }
-
 
         private void CreateProfile(Name name)
         {
@@ -98,18 +84,19 @@ namespace SocialNetwork.core.model.players.domain
 
         public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
         {
-            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty, objectivePlayer).Id);
+            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty,
+                objectivePlayer).Id);
         }
 
         // Finish / Pause Mission
         // ...
 
-        public bool CreateRelationShipWith(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
+        public bool StablishRelationShip(RelationshipId relationshipId)
         {
-            if (this.RelationShips.Contains(new RelationShip(player).Id))
+            if (this.RelationShips.Contains(relationshipId))
                 return false;
 
-            this.RelationShips.Add(new RelationShip(player).Id);
+            this.RelationShips.Add(relationshipId);
             return true;
         }
 
@@ -121,14 +108,14 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(Player))
                 return false;
 
-            Player otherPlayer = (Player)obj;
+            Player otherPlayer = (Player) obj;
 
             return otherPlayer.Email.Equals(this.Email);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Email);
+            return HashCode.Combine(this.Id);
         }
     }
 }
