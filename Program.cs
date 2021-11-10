@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.core.players.domain;
+using SocialNetwork.core.posts.domain.post;
+using SocialNetwork.core.shared;
 using SocialNetwork.infrastructure;
 using System;
+using System.Collections.Generic;
 
 namespace SocialNetwork
 {
@@ -22,8 +25,9 @@ namespace SocialNetwork
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     if (!context.Database.EnsureCreated())
                         DbInit(context); // Para teste
+                    DbInit(context); // Para teste
 
-                    Console.WriteLine(context.Players.Find((long)1)); // Para teste
+                    //Console.WriteLine(context.Players.Find()); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -45,6 +49,12 @@ namespace SocialNetwork
         {
             Player playerA = new Player(Email.ValueOf("1190948@isep.ipp.opt"), PhoneNumber.ValueOf("911111111"), DateOfBirth.ValueOf(1994, 10, 2),
                 Name.ValueOf("Pedro Vieira", "Pedro F S Vieira"));
+
+            List<Tag> tags = new List<Tag>();
+            tags.Add(Tag.ValueOf("tag1"));
+            tags.Add(Tag.ValueOf("tag2"));
+            Post post = new Post(TextBox.ValueOf("abc"), playerA, tags);
+            context.Posts.Add(post);
 
             context.Players.Add(playerA);
             context.SaveChanges();

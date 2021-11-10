@@ -29,10 +29,9 @@ namespace SocialNetwork
             */
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
-    options
-        //.ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
-        .UseSqlServer(
-            Configuration.GetConnectionString("DefaultConnection")));
+                options
+                .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
+                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureMyServices(services);
 
