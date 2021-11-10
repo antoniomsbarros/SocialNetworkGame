@@ -5,7 +5,7 @@ using System;
 namespace SocialNetwork.core.missions.domain
 {
 
-    public class Mission : Entity<long>
+    public class Mission : Entity<MissionId>
     {
         public MissionStatus Status { get; private set; }
 
@@ -18,7 +18,7 @@ namespace SocialNetwork.core.missions.domain
             // for ORM
         }
 
-        protected Mission(long id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
+        protected Mission(MissionId id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = id;
             this.Status = status;
@@ -28,6 +28,7 @@ namespace SocialNetwork.core.missions.domain
 
         public Mission(MissionDifficulty difficulty, Player objectivePlayer)
         {
+            this.Id = new MissionId(Guid.NewGuid());
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;
             this.Status = new(MissionStatusEnum.In_progress); // status for omission
@@ -35,6 +36,7 @@ namespace SocialNetwork.core.missions.domain
 
         public Mission(MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
+            this.Id = new MissionId(Guid.NewGuid());
             this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;

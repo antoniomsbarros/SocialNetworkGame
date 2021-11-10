@@ -5,7 +5,7 @@ using SocialNetwork.core.players.domain;
 
 namespace SocialNetwork.core.relationships.domain
 {
-    public class RelationShip : Entity<long>, IAggregateRoot
+    public class RelationShip : Entity<RelationshipId>, IAggregateRoot
     {
         public Player PlayerDest { get; private set; } // Player who has a relationship with
 
@@ -18,7 +18,7 @@ namespace SocialNetwork.core.relationships.domain
             // for ORM
         }
 
-        protected RelationShip(long id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
+        protected RelationShip(RelationshipId id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
         {
             this.Id = id;
             this.PlayerDest = playerDest;
@@ -28,6 +28,7 @@ namespace SocialNetwork.core.relationships.domain
 
         public RelationShip(Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
+            this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = playerDest;
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tagsList);
@@ -35,6 +36,7 @@ namespace SocialNetwork.core.relationships.domain
 
         public RelationShip(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
         {
+            this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = player;
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tags);
@@ -42,6 +44,7 @@ namespace SocialNetwork.core.relationships.domain
 
         public RelationShip(Player player)
         {
+            this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = player;
             this.ConnectionStrenght = ConnectionStrenght.ValueOf(0); // Connection strenght by omission
             this.TagsList = new();

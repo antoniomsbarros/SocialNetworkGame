@@ -9,6 +9,7 @@ namespace SocialNetwork.infrastructure.players
         public void Configure(EntityTypeBuilder<Player> builder)
         {
             builder.ToTable("Player");
+
             builder.HasKey(b => b.Id);
             builder.OwnsOne(player => player.Email, email => {
                 email.Property("EmailAddress");

@@ -11,7 +11,7 @@ namespace SocialNetwork.core.connectionRequests.domain
             // for ORM
         }
 
-        protected DirectRequest(long id, ConnectionRequestStatus status,
+        protected DirectRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate)
             : base(id, status, playerSender, playerReceiver, text, creationDate)
         {

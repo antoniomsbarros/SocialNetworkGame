@@ -24,7 +24,7 @@ namespace SocialNetwork.core.players.domain
 
         public override String AsString()
         {
-            return (String)base.Value;
+            return base.Value;
         }
 
     }

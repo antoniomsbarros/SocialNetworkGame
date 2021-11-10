@@ -2,7 +2,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
-    public class EmotionalStatus : Entity<long>
+    public class EmotionalStatus : Entity<EmotionalStatusId>
     {
 
         // protected 
@@ -11,7 +11,7 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        protected EmotionalStatus(long id)
+        protected EmotionalStatus(EmotionalStatusId id)
         {
             this.Id = id;
         }

@@ -7,7 +7,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.posts.domain.post
 {
-    public class Post : Entity<long>, IAggregateRoot
+    public class Post : Entity<PostId>, IAggregateRoot
     {
         public TextBox PostText { get; private set; }
 
@@ -26,7 +26,7 @@ namespace SocialNetwork.core.posts.domain.post
             // for ORM
         }
 
-        protected Post(long id, TextBox postText, Player playerCreator, List<Tag> tagsList, List<Reaction> reactionsList,
+        protected Post(PostId id, TextBox postText, Player playerCreator, List<Tag> tagsList, List<Reaction> reactionsList,
             List<Comment> commentsList, CreationDate creationDate)
         {
             this.Id = id;
@@ -40,6 +40,7 @@ namespace SocialNetwork.core.posts.domain.post
 
         public Post(TextBox postText, Player playerCreator, List<Tag> tagsList)
         {
+            this.Id = new PostId(Guid.NewGuid());
             this.PostText = postText;
             this.PlayerCreator = playerCreator;
             this.Tags = new(tagsList);
@@ -50,6 +51,7 @@ namespace SocialNetwork.core.posts.domain.post
 
         public Post(TextBox postText, Player playerCreator)
         {
+            this.Id = new PostId(Guid.NewGuid());
             this.PostText = postText;
             this.PlayerCreator = playerCreator;
             this.Tags = new();

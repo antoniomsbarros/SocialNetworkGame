@@ -4,7 +4,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
-    public class Profile : Entity<long>
+    public class Profile : Entity<ProfileId>
     {
         public Name Name { get; private set; }
 
@@ -17,7 +17,7 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        protected Profile(long id, Name name, List<Tag> tagsList)
+        protected Profile(ProfileId id, Name name, List<Tag> tagsList)
         {
             this.Id = id;
             this.Name = name;
@@ -26,6 +26,7 @@ namespace SocialNetwork.core.players.domain
 
         public Profile(Name name)
         {
+            this.Id = new ProfileId(Guid.NewGuid());
             this.Name = name;
             this.TagsList = new();
         }

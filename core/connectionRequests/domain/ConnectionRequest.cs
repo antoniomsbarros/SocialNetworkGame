@@ -1,9 +1,10 @@
 using SocialNetwork.core.players.domain;
 using SocialNetwork.core.shared;
+using System;
 
 namespace SocialNetwork.core.connectionRequests.domain
 {
-    public abstract class ConnectionRequest : Entity<long>, IAggregateRoot
+    public abstract class ConnectionRequest : Entity<ConnectionRequestId>, IAggregateRoot
     {
         public ConnectionRequestStatus ConnectionRequestStatus { get; set; }
 
@@ -20,7 +21,7 @@ namespace SocialNetwork.core.connectionRequests.domain
             // for ORM
         }
 
-        protected ConnectionRequest(long id, ConnectionRequestStatus status,
+        protected ConnectionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate)
         {
             this.Id = id;
@@ -33,6 +34,7 @@ namespace SocialNetwork.core.connectionRequests.domain
 
         protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, TextBox text)
         {
+            this.Id = new ConnectionRequestId(Guid.NewGuid());
             this.ConnectionRequestStatus = connectionRequestStatus;
             this.PlayerSender = playerSender;
             this.PlayerReceiver = playerRecever;
