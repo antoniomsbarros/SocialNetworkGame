@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SocialNetwork.core.relationships.domain
 {
-    public class RelationShipBuilder : IDomainFactory<RelationShip>
+    public class RelationShipBuilder : IDomainBuilder<RelationShip>
     {
         private RelationShip relationShip;
 
@@ -60,7 +60,6 @@ namespace SocialNetwork.core.relationships.domain
             this.relationShip = null;
             return rel;
         }
-
     }
 }
 

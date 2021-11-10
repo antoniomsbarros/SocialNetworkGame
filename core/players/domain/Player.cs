@@ -10,6 +10,8 @@ namespace SocialNetwork.core.players.domain
     {
         public Email Email { get; private set; }
 
+        public int Password { get; private set; }
+
         public PhoneNumber PhoneNumber { get; private set; }
 
         public FacebookProfile FacebookProfile { get; private set; }

@@ -45,7 +45,7 @@ namespace SocialNetwork.core.players.domain
             return TagsList.Remove(tagToRemove);
         }
 
-        public void ChangeNameTo(Name newName)
+        public void SetName(Name newName)
         {
             this.Name = newName;
         }

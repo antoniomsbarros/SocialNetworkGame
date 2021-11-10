@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.core.shared
 {
-    interface IDomainFactory<T>
+    interface IDomainBuilder<T>
     {
         T BuildOrIgnore();
 
