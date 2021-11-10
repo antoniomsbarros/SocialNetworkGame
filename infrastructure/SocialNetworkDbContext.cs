@@ -4,6 +4,8 @@ using SocialNetwork.core.model.missions.domain;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.posts.domain.post;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.infrastructure.authz.domain.model;
+using SocialNetwork.infrastructure.persistence.authz;
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.missions;
 using SocialNetwork.infrastructure.persistence.players;
@@ -37,9 +39,13 @@ namespace SocialNetwork.infrastructure
             modelBuilder.ApplyConfiguration(new ReactionEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new RelationShipEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new SystemUserEntityTypeConfiguration());
         }
 
         // DB Entities 
+
+        public DbSet<SystemUser> Users { get; set; }
         public DbSet<Player> Players { get; set; }
 
         public DbSet<RelationShip> RelationShips { get; set; }
