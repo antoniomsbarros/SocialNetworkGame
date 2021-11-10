@@ -58,7 +58,7 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(Profile))
                 return false;
 
-            Profile otherProfile = (Profile)obj;
+            Profile otherProfile = (Profile) obj;
 
             return otherProfile.Id.Equals(this.Id);
         }

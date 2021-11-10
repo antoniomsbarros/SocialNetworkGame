@@ -1,7 +1,7 @@
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.posts.dto.repository;
 
-namespace SocialNetwork.core.model.posts.application
+namespace SocialNetwork.core.services.posts
 {
     public class PostService
     {
@@ -16,6 +16,5 @@ namespace SocialNetwork.core.model.posts.application
             this._repo = repo;
             //this._repoPlayer = repoPlayer;
         }
-
     }
 }
