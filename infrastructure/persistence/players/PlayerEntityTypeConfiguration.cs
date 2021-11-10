@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.core.players.domain;
+using SocialNetwork.core.model.players.domain;
 
 namespace SocialNetwork.infrastructure.persistence.players
 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.core.relationships.domain;
+using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.infrastructure.persistence.relationships
 {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using SocialNetwork.core.shared;
+using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.infrastructure.persistence.Shared
 {

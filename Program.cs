@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using SocialNetwork.core.players.domain;
-using SocialNetwork.core.posts.domain.post;
-using SocialNetwork.core.shared;
+using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.posts.domain.post;
+using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure;
 using System;
 using System.Collections.Generic;

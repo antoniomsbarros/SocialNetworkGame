@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.core.connectionRequests.domain;
+using SocialNetwork.core.model.connectionRequests.domain;
 
 namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {

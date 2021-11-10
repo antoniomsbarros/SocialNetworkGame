@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.core.posts.domain.post;
+using SocialNetwork.core.model.posts.domain.post;
 
 namespace SocialNetwork.infrastructure.persistence.posts.post
 {

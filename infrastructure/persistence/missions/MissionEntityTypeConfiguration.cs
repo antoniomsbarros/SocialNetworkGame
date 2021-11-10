@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.core.missions.domain;
+using SocialNetwork.core.model.missions.domain;
 
 namespace SocialNetwork.infrastructure.persistence.missions
 {

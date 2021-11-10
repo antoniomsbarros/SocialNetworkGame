@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SocialNetwork.core.shared;
+using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.infrastructure
 {

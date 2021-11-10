@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using SocialNetwork.core.connectionRequests.domain;
-using SocialNetwork.core.missions.domain;
-using SocialNetwork.core.players.domain;
-using SocialNetwork.core.posts.domain.post;
-using SocialNetwork.core.relationships.domain;
+using SocialNetwork.core.model.connectionRequests.domain;
+using SocialNetwork.core.model.missions.domain;
+using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.posts.domain.post;
+using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.missions;
 using SocialNetwork.infrastructure.persistence.players;
