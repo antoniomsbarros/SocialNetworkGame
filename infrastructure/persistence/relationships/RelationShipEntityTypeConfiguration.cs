@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.relationships.domain;
 
-namespace SocialNetwork.infrastructure.relationships
+namespace SocialNetwork.infrastructure.persistence.relationships
 {
     internal class RelationShipEntityTypeConfiguration : IEntityTypeConfiguration<RelationShip>
     {

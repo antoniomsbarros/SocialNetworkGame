@@ -4,13 +4,13 @@ using SocialNetwork.core.missions.domain;
 using SocialNetwork.core.players.domain;
 using SocialNetwork.core.posts.domain.post;
 using SocialNetwork.core.relationships.domain;
-using SocialNetwork.infrastructure.connectionRequests;
-using SocialNetwork.infrastructure.missions;
-using SocialNetwork.infrastructure.players;
-using SocialNetwork.infrastructure.posts.comment;
-using SocialNetwork.infrastructure.posts.post;
-using SocialNetwork.infrastructure.posts.reaction;
-using SocialNetwork.infrastructure.relationships;
+using SocialNetwork.infrastructure.persistence.connectionRequests;
+using SocialNetwork.infrastructure.persistence.missions;
+using SocialNetwork.infrastructure.persistence.players;
+using SocialNetwork.infrastructure.persistence.posts.comment;
+using SocialNetwork.infrastructure.persistence.posts.post;
+using SocialNetwork.infrastructure.persistence.posts.reaction;
+using SocialNetwork.infrastructure.persistence.relationships;
 
 namespace SocialNetwork.infrastructure
 {
@@ -18,7 +18,6 @@ namespace SocialNetwork.infrastructure
     {
         public SocialNetworkDbContext(DbContextOptions options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,12 +41,17 @@ namespace SocialNetwork.infrastructure
 
         // DB Entities 
         public DbSet<Player> Players { get; set; }
+
         public DbSet<RelationShip> RelationShips { get; set; }
+
         public DbSet<Post> Posts { get; set; }
+
         public DbSet<Mission> Missions { get; set; }
+
         public DbSet<DirectRequest> DirectRequests { get; set; }
-        
+
         public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
+
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
     }
 }

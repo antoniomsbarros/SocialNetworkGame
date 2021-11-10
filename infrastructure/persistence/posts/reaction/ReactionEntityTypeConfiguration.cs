@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.posts.domain.reaction;
 
-namespace SocialNetwork.infrastructure.posts.reaction
+namespace SocialNetwork.infrastructure.persistence.posts.reaction
 {
     internal class ReactionEntityTypeConfiguration : IEntityTypeConfiguration<Reaction>
     {

@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.posts.domain.comment;
 
-namespace SocialNetwork.infrastructure.posts.comment
+namespace SocialNetwork.infrastructure.persistence.posts.comment
 {
     internal class CommentEntityTypeConfiguration : IEntityTypeConfiguration<Comment>
     {

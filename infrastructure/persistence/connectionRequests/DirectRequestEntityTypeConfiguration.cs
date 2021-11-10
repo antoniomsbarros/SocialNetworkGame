@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.connectionRequests.domain;
 
-namespace SocialNetwork.infrastructure.connectionRequests
+namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {
     internal class DirectRequestEntityTypeConfiguration : IEntityTypeConfiguration<DirectRequest>
     {

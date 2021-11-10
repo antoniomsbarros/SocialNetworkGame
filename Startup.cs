@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.infrastructure;
-using SocialNetwork.infrastructure.Shared;
 using SocialNetwork.core.shared;
+using SocialNetwork.infrastructure.persistence.Shared;
 
 namespace SocialNetwork
 {

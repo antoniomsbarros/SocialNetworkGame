@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.players.domain;
 
-namespace SocialNetwork.infrastructure.players
+namespace SocialNetwork.infrastructure.persistence.players
 {
     internal class ProfileEntityTypeConfiguration : IEntityTypeConfiguration<Profile>
     {

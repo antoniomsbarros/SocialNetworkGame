@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
 
-namespace SocialNetwork.infrastructure.Shared
+namespace SocialNetwork.infrastructure.persistence.Shared
 {
     public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
     where TEntity : Entity<TEntityId>

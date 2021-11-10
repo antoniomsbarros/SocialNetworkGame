@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.players.domain;
 
-namespace SocialNetwork.infrastructure.players
+namespace SocialNetwork.infrastructure.persistence.players
 {
     internal class PlayerEntityTypeConfiguration : IEntityTypeConfiguration<Player>
     {
@@ -23,10 +23,11 @@ namespace SocialNetwork.infrastructure.players
 
 
             builder.HasKey(b => b.Id);
-            builder.OwnsOne(player => player.Email, email => {
+            builder.OwnsOne(player => player.Email, email =>
+            {
                 email.Property("EmailAddress");
             });
-            builder.OwnsOne(player => player.PhoneNumber, number => 
+            builder.OwnsOne(player => player.PhoneNumber, number =>
             {
                 number.Property("Number");
             });
@@ -48,5 +49,5 @@ namespace SocialNetwork.infrastructure.players
 
 
         }
-    }   
+    }
 }

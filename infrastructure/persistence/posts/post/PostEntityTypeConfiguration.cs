@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.posts.domain.post;
 
-namespace SocialNetwork.infrastructure.posts.post
+namespace SocialNetwork.infrastructure.persistence.posts.post
 {
     internal class PostEntityTypeConfiguration : IEntityTypeConfiguration<Post>
     {

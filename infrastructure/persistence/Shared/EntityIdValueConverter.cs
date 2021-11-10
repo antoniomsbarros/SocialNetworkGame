@@ -2,7 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.core.shared;
 
-namespace SocialNetwork.infrastructure.Shared
+namespace SocialNetwork.infrastructure.persistence.Shared
 {
     public class EntityIdValueConverter<TTypedIdValue> : ValueConverter<TTypedIdValue, String>
         where TTypedIdValue : EntityId
