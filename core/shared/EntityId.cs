@@ -14,7 +14,8 @@ namespace SocialNetwork.core.shared
             {
                 if (this.ObjValue.GetType() == typeof(String))
                     return (String)this.ObjValue;
-                return AsString();
+                else
+                    return this.ObjValue.ToString();
             }
         }
 
