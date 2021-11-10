@@ -7,7 +7,7 @@ namespace SocialNetwork.core.connectionRequests.domain
     public class IntroductionRequest : ConnectionRequest
     {
         public TextBox TextIntroduction { get; private set; }
-        public Player PlayerIntroduction { get; private set; }
+        public PlayerId PlayerIntroduction { get; private set; }
         public ConnectionRequestStatus IntroductionStatus { get; private set; }
         protected IntroductionRequest() : base()
         {
@@ -20,7 +20,7 @@ namespace SocialNetwork.core.connectionRequests.domain
              : base(id, status, playerSender, playerReceiver, text, creationDate)
         {
             this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction;
+            this.PlayerIntroduction = playerIntroduction.Id;
             this.IntroductionStatus = introductionStatus;
         }
 
@@ -30,7 +30,7 @@ namespace SocialNetwork.core.connectionRequests.domain
              : base(status, playerSender, playerReceiver, text)
         {
             this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction;
+            this.PlayerIntroduction = playerIntroduction.Id;
             this.IntroductionStatus = introductionStatus;
         }
 

@@ -10,7 +10,7 @@ namespace SocialNetwork.core.posts.domain.comment
     {
         public List<Reaction> Reactions { get; private set; }
 
-        public Player PlayerCreator { get; private set; }
+        public PlayerId PlayerCreator { get; private set; }
 
         public TextBox CommentText { get; private set; }
 
@@ -24,7 +24,7 @@ namespace SocialNetwork.core.posts.domain.comment
         protected Comment(CommentId id, Player playerCreator, TextBox commentText, CreationDate creationDate, List<Reaction> reactions)
         {
             this.Id = id;
-            this.PlayerCreator = playerCreator;
+            this.PlayerCreator = playerCreator.Id;
             this.CommentText = commentText;
             this.CreationDate = creationDate;
             this.Reactions = new(reactions);
@@ -33,7 +33,7 @@ namespace SocialNetwork.core.posts.domain.comment
         public Comment(Player playerCreator, TextBox commentText)
         {
             this.Id = new CommentId(Guid.NewGuid());
-            this.PlayerCreator = playerCreator;
+            this.PlayerCreator = playerCreator.Id;
             this.CommentText = commentText;
             this.CreationDate = new();
             this.Reactions = new();

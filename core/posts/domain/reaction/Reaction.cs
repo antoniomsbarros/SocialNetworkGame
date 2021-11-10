@@ -8,7 +8,7 @@ namespace SocialNetwork.core.posts.domain.reaction
     {
         public ReactionValue ReactionValue { get; private set; }
 
-        public Player Player { get; private set; }
+        public PlayerId Player { get; private set; }
 
         public CreationDate CreationDate { get; private set; }
 
@@ -21,7 +21,7 @@ namespace SocialNetwork.core.posts.domain.reaction
         {
             this.Id = id;
             this.ReactionValue = reactionValue;
-            this.Player = player;
+            this.Player = player.Id;
             this.CreationDate = creationDate;
         }
 
@@ -29,7 +29,7 @@ namespace SocialNetwork.core.posts.domain.reaction
         {
             this.Id = new ReactionId(Guid.NewGuid());
             this.ReactionValue = reaction;
-            this.Player = player;
+            this.Player = player.Id;
             this.CreationDate = new();
         }
 
