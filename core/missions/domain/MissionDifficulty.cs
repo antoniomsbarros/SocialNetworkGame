@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
+using System;
 
 namespace SocialNetwork.core.missions.domain
 {
@@ -23,6 +24,29 @@ namespace SocialNetwork.core.missions.domain
         public MissionDifficulty(MissionDifficultyEnum difficulty)
         {
             this.Difficulty = difficulty;
+        }
+
+        public static MissionDifficulty ValueOf(MissionDifficultyEnum difficulty)
+        {
+            return new(difficulty);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(MissionDifficulty))
+                return false;
+
+            MissionDifficulty otherMissionDifficulty = (MissionDifficulty)obj;
+
+            return otherMissionDifficulty.Difficulty.Equals(this.Difficulty);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Difficulty);
         }
     }
 }

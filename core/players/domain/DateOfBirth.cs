@@ -28,5 +28,28 @@ namespace SocialNetwork.core.players.domain
         {
             return (DateTime.Now.Year - year >= minimumAge);
         }
+
+        public static DateOfBirth ValueOf(int year, int month, int day)
+        {
+            return new(year, month, day);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(DateOfBirth))
+                return false;
+
+            DateOfBirth otherDateOfBirth = (DateOfBirth)obj;
+
+            return otherDateOfBirth.Date.Equals(this.Date);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Date);
+        }
     }
 }

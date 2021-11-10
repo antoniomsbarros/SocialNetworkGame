@@ -1,5 +1,6 @@
 using SocialNetwork.core.players.domain;
 using SocialNetwork.core.shared;
+using System;
 
 namespace SocialNetwork.core.connectionRequests.domain
 {
@@ -12,14 +13,43 @@ namespace SocialNetwork.core.connectionRequests.domain
         {
             // for ORM
         }
-        public IntroductionRequest(Player playerIdintroduction, TextBox textIntroduction, ConnectionRequestStatus connectionRequestStatus,
-                                     Player playerSender, Player playerRecever, TextBox text, ConnectionRequestStatus introductionStatus)
-            : base(connectionRequestStatus, playerSender, playerRecever, text)
+
+        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, Player playerIntroduction,
+            ConnectionRequestStatus introductionStatus)
+             : base(id, status, playerSender, playerReceiver, text, creationDate)
         {
-            this.PlayerIntroduction = playerIdintroduction;
             this.TextIntroduction = textIntroduction;
+            this.PlayerIntroduction = playerIntroduction;
             this.IntroductionStatus = introductionStatus;
         }
 
+        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+            Player playerSender, Player playerReceiver, TextBox text, TextBox textIntroduction, Player playerIntroduction,
+            ConnectionRequestStatus introductionStatus)
+             : base(status, playerSender, playerReceiver, text)
+        {
+            this.TextIntroduction = textIntroduction;
+            this.PlayerIntroduction = playerIntroduction;
+            this.IntroductionStatus = introductionStatus;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(IntroductionRequest))
+                return false;
+
+            IntroductionRequest otherIntroductionRequest = (IntroductionRequest)obj;
+
+            return otherIntroductionRequest.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
+        }
     }
 }

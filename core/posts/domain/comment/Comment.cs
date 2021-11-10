@@ -8,7 +8,7 @@ namespace SocialNetwork.core.posts.domain.comment
 {
     public class Comment : Entity<CommentId>
     {
-        public List<Reaction> ListOfReactions { get; private set; }
+        public List<Reaction> Reactions { get; private set; }
 
         public Player PlayerCreator { get; private set; }
 
@@ -16,17 +16,49 @@ namespace SocialNetwork.core.posts.domain.comment
 
         public CreationDate CreationDate { get; private set; }
 
-        private Comment()
+        protected Comment()
         {
-            // Empty constructor
+            // for ORM
         }
-        public Comment(List<Reaction> listOfReactions, Player playerCreator, TextBox commentText, CreationDate creationDate)
+
+        protected Comment(CommentId id, Player playerCreator, TextBox commentText, CreationDate creationDate, List<Reaction> reactions)
         {
-            this.PlayerCreator = playerCreator ?? throw new BusinessRuleValidationException("Every Comment requires a Player");
-            this.Id = new CommentId(Guid.NewGuid());
-            this.ListOfReactions = listOfReactions;
+            this.Id = id;
+            this.PlayerCreator = playerCreator;
             this.CommentText = commentText;
             this.CreationDate = creationDate;
+            this.Reactions = new(reactions);
+        }
+
+        public Comment(Player playerCreator, TextBox commentText)
+        {
+            this.PlayerCreator = playerCreator;
+            this.CommentText = commentText;
+            this.CreationDate = new();
+            this.Reactions = new();
+        }
+
+        public void ReactCommentWith(Reaction reaction) // For now it will not be considered this situations :
+        {                                               // Change and Remove a Reaction (not specified by the client)
+            this.Reactions.Add(reaction);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Comment))
+                return false;
+
+            Comment otherComment = (Comment)obj;
+
+            return otherComment.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
         }
     }
 }

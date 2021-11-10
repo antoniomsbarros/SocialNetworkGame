@@ -13,28 +13,109 @@ namespace SocialNetwork.core.posts.domain.post
 
         public Player PlayerCreator { get; private set; }
 
-        public Tag Tag { get; private set; }
+        public List<Tag> Tags { get; private set; }
+
+        public List<Reaction> Reactions { get; private set; }
+
+        public List<Comment> Comments { get; private set; }
 
         public CreationDate CreationDate { get; private set; }
-
-        public List<Reaction> ListOfReactions { get; private set; }
-
-        public List<Comment> ListOfComments { get; private set; }
 
         protected Post()
         {
             // for ORM
         }
-        public Post(TextBox postText, Player player, Tag tag, CreationDate date, List<Reaction> listOfReactions, List<Comment> listOfComments)
-        {
-            this.PlayerCreator = player ?? throw new BusinessRuleValidationException("Every Post requires a Player");
 
-            this.Id = new PostId(Guid.NewGuid());
+        protected Post(PostId id, TextBox postText, Player playerCreator, List<Tag> tagsList, List<Reaction> reactionsList,
+            List<Comment> commentsList, CreationDate creationDate)
+        {
+            this.Id = id;
             this.PostText = postText;
-            this.Tag = tag;
-            this.CreationDate = date;
-            this.ListOfReactions = listOfReactions;
-            this.ListOfComments = listOfComments;
+            this.PlayerCreator = playerCreator;
+            this.Tags = new(tagsList);
+            this.Reactions = new(reactionsList);
+            this.Comments = new(commentsList);
+            this.CreationDate = creationDate;
+        }
+
+        public Post(TextBox postText, Player playerCreator, List<Tag> tagsList)
+        {
+            this.PostText = postText;
+            this.PlayerCreator = playerCreator;
+            this.Tags = new(tagsList);
+            this.Reactions = new();
+            this.Comments = new();
+            this.CreationDate = new();
+        }
+
+        public Post(TextBox postText, Player playerCreator)
+        {
+            this.PostText = postText;
+            this.PlayerCreator = playerCreator;
+            this.Tags = new();
+            this.Reactions = new();
+            this.Comments = new();
+            this.CreationDate = new();
+        }
+
+        public bool AssignTag(Tag newTag)
+        {
+            if (this.Tags.Contains(newTag))
+                return false;
+
+            this.Tags.Add(newTag);
+            return true;
+        }
+
+        public bool RemoveTag(Tag tagToRemove)
+        {
+            return this.Tags.Remove(tagToRemove);
+        }
+
+        public bool AddReaction(Reaction reaction)
+        {
+            if (this.Reactions.Contains(reaction))
+                return false;
+
+            this.Reactions.Add(reaction);
+            return true;
+        }
+
+        public bool RemoveReaction(Reaction reaction)
+        {
+            return this.Reactions.Remove(reaction);
+        }
+
+        public bool AddComment(Comment comment)
+        {
+            if (this.Comments.Contains(comment))
+                return false;
+
+            this.Comments.Add(comment);
+            return true;
+        }
+
+        public bool RemoveComment(Comment comment)
+        {
+            return this.Comments.Remove(comment);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Post))
+                return false;
+
+            Post otherPost = (Post)obj;
+
+            return otherPost.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
         }
     }
 

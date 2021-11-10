@@ -29,25 +29,81 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            Name name, List<Tag> tagsList)
+        protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+            List<Mission> missions, List<RelationShip> relationships, Profile profile)
         {
-            this.Id = new(Guid.NewGuid());
+            this.Id = id;
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            CreateProfile(name, tagsList);
+            this.Missions = new(missions);
+            this.RelationShips = new(relationships);
+            this.Profile = profile;
+        }
+
+        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+            Name name)
+        {
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.FacebookProfile = facebookProfile;
+            this.LinkedinProfile = linkedinProfile;
+            this.DateOfBirth = dateOfBirth;
             this.Missions = new();
             this.RelationShips = new();
+            CreateProfile(name);
         }
 
-        private void CreateProfile(Name name, List<Tag> tagsList)
+        private void CreateProfile(Name name)
         {
-            this.Profile = new(name, tagsList);
+            this.Profile = new(name);
         }
 
-        // Add and remove Missions and relationships
+        public bool AssignTag(Tag newTag)
+        {
+            return this.Profile.AddTag(newTag);
+        }
+
+        public bool RemoveTag(Tag tagToRemove)
+        {
+            return this.Profile.RemoveTag(tagToRemove);
+        }
+
+        public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
+        {
+            this.Missions.Add(new(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty, objectivePlayer));
+        }
+
+        // Finish / Pause Mission
+        // ...
+
+        public bool CreateRelationShipWith(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
+        {
+            if (this.RelationShips.Contains(new RelationShip(player)))
+                return false;
+
+            this.RelationShips.Add(new RelationShip(player));
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Player))
+                return false;
+
+            Player otherPlayer = (Player)obj;
+
+            return otherPlayer.Email.Equals(this.Email);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Email);
+        }
     }
 }

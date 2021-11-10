@@ -18,17 +18,23 @@ namespace SocialNetwork.core.missions.domain
             // for ORM
         }
 
-        public Mission(MissionDifficulty difficulty, Player objectivePlayer)
+        protected Mission(MissionId id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
-            this.Id = new(Guid.NewGuid());
-            this.Status = new(MissionStatusEnum.Suspended);
+            this.Id = id;
+            this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;
         }
 
+        public Mission(MissionDifficulty difficulty, Player objectivePlayer)
+        {
+            this.Difficulty = difficulty;
+            this.ObjectivePlayer = objectivePlayer;
+            this.Status = new(MissionStatusEnum.In_progress); // status for omission
+        }
+
         public Mission(MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
-            this.Id = new(Guid.NewGuid());
             this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer;
@@ -37,6 +43,24 @@ namespace SocialNetwork.core.missions.domain
         public void ChangeStatusTo(MissionStatus newStatus)
         {
             this.Status = newStatus;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Mission))
+                return false;
+
+            Mission otherMission = (Mission)obj;
+
+            return otherMission.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
         }
     }
 }

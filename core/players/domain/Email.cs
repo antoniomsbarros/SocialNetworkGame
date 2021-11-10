@@ -16,7 +16,7 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        public Email(String emailAddress)
+        public Email(string emailAddress)
         {
             if (IsValid(emailAddress))
                 this.EmailAddress = emailAddress;
@@ -37,5 +37,27 @@ namespace SocialNetwork.core.players.domain
             }
         }
 
+        public static Email ValueOf(string emailAddress)
+        {
+            return new(emailAddress);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Email))
+                return false;
+
+            Email otherEmail = (Email)obj;
+
+            return otherEmail.EmailAddress.Equals(this.EmailAddress);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.EmailAddress);
+        }
     }
 }

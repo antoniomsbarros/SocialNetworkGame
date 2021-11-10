@@ -17,15 +17,17 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        public Profile(Name name, List<Tag> tagList)
+        protected Profile(ProfileId id, Name name, List<Tag> tagsList)
         {
-            this.Id = new ProfileId(Guid.NewGuid());
+            this.Id = id;
             this.Name = name;
+            this.TagsList = new(tagsList);
+        }
 
-            if (tagList.Count == 0)
-                throw new BusinessRuleValidationException("The profile must have at least one Tag");
-
-            this.TagsList = new(tagList);
+        public Profile(Name name)
+        {
+            this.Name = name;
+            this.TagsList = new();
         }
 
         public bool AddTag(Tag newTag)
@@ -39,11 +41,7 @@ namespace SocialNetwork.core.players.domain
 
         public bool RemoveTag(Tag tagToRemove)
         {
-            if (!TagsList.Contains(tagToRemove))
-                return false;
-
-            TagsList.Remove(tagToRemove);
-            return true;
+            return TagsList.Remove(tagToRemove);
         }
 
         public void ChangeNameTo(Name newName)
@@ -51,5 +49,22 @@ namespace SocialNetwork.core.players.domain
             this.Name = newName;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Profile))
+                return false;
+
+            Profile otherProfile = (Profile)obj;
+
+            return otherProfile.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
+        }
     }
 }

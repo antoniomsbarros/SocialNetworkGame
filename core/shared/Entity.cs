@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace SocialNetwork.core.shared
 {
     /// <summary>
@@ -9,5 +7,7 @@ namespace SocialNetwork.core.shared
     where TEntityId : EntityId
     {
         public TEntityId Id { get; protected set; }
+        public override abstract bool Equals(object obj);
+        public override abstract int GetHashCode();
     }
 }

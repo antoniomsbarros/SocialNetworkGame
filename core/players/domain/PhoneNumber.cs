@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.shared;
+using System;
 using System.Text.RegularExpressions;
 
 namespace SocialNetwork.core.players.domain
@@ -15,6 +16,7 @@ namespace SocialNetwork.core.players.domain
         {
             // for ORM
         }
+
         public PhoneNumber(string number)
         {
             if (IsValid(number))
@@ -29,5 +31,27 @@ namespace SocialNetwork.core.players.domain
             return regex.IsMatch(number);
         }
 
+        public static PhoneNumber ValueOf(string number)
+        {
+            return new PhoneNumber(number);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(PhoneNumber))
+                return false;
+
+            PhoneNumber otherPhoneNumber = (PhoneNumber)obj;
+
+            return otherPhoneNumber.Number.Equals(this.Number);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Number);
+        }
     }
 }

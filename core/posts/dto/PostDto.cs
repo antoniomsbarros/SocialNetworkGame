@@ -15,9 +15,9 @@ namespace SocialNetwork.core.posts.dto
 
         public DateTime CreationDate { get; private set; }
 
-        public List<ReactionDto> ListOfReactions { get; private set; }
+        public List<ReactionDto> Reactions { get; private set; }
 
-        public List<CommentDto> ListOfComments { get; private set; }
+        public List<CommentDto> Comments { get; private set; }
 
         public PostDto(Guid Id, string postText, string playerId, string tagId, DateTime date, List<string> listOfReactions, List<string> listOfComments)
         {
@@ -26,8 +26,8 @@ namespace SocialNetwork.core.posts.dto
             this.Player = playerId;
             this.Tag = tagId;
             this.CreationDate = date;
-            this.ListOfReactions = listOfReactions;
-            this.ListOfComments = listOfComments;
+            this.Reactions = listOfReactions;
+            this.Comments = listOfComments;
         }
         */
     }

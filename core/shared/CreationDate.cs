@@ -8,6 +8,7 @@ namespace SocialNetwork.core.shared
     {
 
         public DateTime Date { get; }
+
         public CreationDate()
         {
             this.Date = new DateTime();
@@ -18,5 +19,32 @@ namespace SocialNetwork.core.shared
             this.Date = new DateTime(year, month, day);
         }
 
+        public static CreationDate ValueOf(int year, int month, int day)
+        {
+            return new(year, month, day);
+        }
+
+        public static CreationDate ValueOf()
+        {
+            return new();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(CreationDate))
+                return false;
+
+            CreationDate otherCreationDate = (CreationDate)obj;
+
+            return otherCreationDate.Date.Equals(this.Date);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Date);
+        }
     }
 }

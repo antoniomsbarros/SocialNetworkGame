@@ -5,9 +5,9 @@ using SocialNetwork.core.players.domain;
 
 namespace SocialNetwork.core.relationships.domain
 {
-    public class RelationShip : Entity<RelationShipId>
+    public class RelationShip : Entity<RelationShipId>, IAggregateRoot
     {
-        public Player PlayerDest { get; private set; } // Player related with
+        public Player PlayerDest { get; private set; } // Player who has a relationship with
 
         public ConnectionStrenght ConnectionStrenght { get; private set; }
 
@@ -18,28 +18,36 @@ namespace SocialNetwork.core.relationships.domain
             // for ORM
         }
 
-        public RelationShip(Player player, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
+        protected RelationShip(RelationShipId id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
         {
-            if (tagsList.Capacity > 0)
-                this.TagsList = new(tagsList);
-            else
-                throw new BusinessRuleValidationException("At least 1 tag must be related to a relationship");
-
-            this.Id = new RelationShipId(Guid.NewGuid());
-            this.PlayerDest = player;
+            this.Id = id;
+            this.PlayerDest = playerDest;
             this.ConnectionStrenght = connectionStrenght;
+            this.TagsList = new(tagList);
         }
 
-        public RelationShip(Player player, ConnectionStrenght connectionStrenght, Tag tag)
+        public RelationShip(Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
-            this.Id = new RelationShipId(Guid.NewGuid());
+            this.PlayerDest = playerDest;
+            this.ConnectionStrenght = connectionStrenght;
+            this.TagsList = new(tagsList);
+        }
+
+        public RelationShip(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
+        {
             this.PlayerDest = player;
             this.ConnectionStrenght = connectionStrenght;
+            this.TagsList = new(tags);
+        }
+
+        public RelationShip(Player player)
+        {
+            this.PlayerDest = player;
+            this.ConnectionStrenght = ConnectionStrenght.ValueOf(0); // Connection strenght by omission
             this.TagsList = new();
-            this.TagsList.Add(tag);
         }
 
-        public bool AddTag(Tag newTag)
+        public bool AssignTag(Tag newTag)
         {
             if (this.TagsList.Contains(newTag))
                 return false;
@@ -50,11 +58,12 @@ namespace SocialNetwork.core.relationships.domain
 
         public bool RemoveTag(Tag tagToRemove)
         {
-            if (!this.TagsList.Contains(tagToRemove))
-                return false;
+            return this.TagsList.Remove(tagToRemove);
+        }
 
-            this.TagsList.Remove(tagToRemove);
-            return true;
+        public void AssignConnectionStrenght(ConnectionStrenght connectionStrenght)
+        {
+            this.ConnectionStrenght = connectionStrenght;
         }
 
         public int ComputeRelationStrenght()
@@ -62,6 +71,23 @@ namespace SocialNetwork.core.relationships.domain
             throw new NotImplementedException("not implemented yet");
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(RelationShip))
+                return false;
+
+            RelationShip otherRelationShip = (RelationShip)obj;
+
+            return otherRelationShip.Id.Equals(this.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(this.Id);
+        }
 
     }
 }
