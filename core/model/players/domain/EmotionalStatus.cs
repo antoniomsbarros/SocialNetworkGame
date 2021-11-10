@@ -1,28 +1,44 @@
+using System;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
-    public class EmotionalStatus : Entity<EmotionalStatusId>
+    public class EmotionalStatus : IValueObject
     {
+        public EmotionalStatusEnum CurrentEmotionalStatus { get; }
+
         // protected 
-        public EmotionalStatus()
+        protected EmotionalStatus()
         {
             // for ORM
         }
 
-        protected EmotionalStatus(EmotionalStatusId id)
+        public EmotionalStatus(EmotionalStatusEnum emotionalStatus)
         {
-            this.Id = id;
+            this.CurrentEmotionalStatus = emotionalStatus;
+        }
+
+        public static EmotionalStatus ValueOf(EmotionalStatusEnum emotionalStatus)
+        {
+            return new(emotionalStatus);
         }
 
         public override bool Equals(object obj)
         {
-            throw new System.NotImplementedException();
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(EmotionalStatus))
+                return false;
+
+            EmotionalStatus otherEmotionalStatus = (EmotionalStatus) obj;
+
+            return otherEmotionalStatus.CurrentEmotionalStatus.Equals(this.CurrentEmotionalStatus);
         }
 
         public override int GetHashCode()
         {
-            throw new System.NotImplementedException();
+            return HashCode.Combine(this.CurrentEmotionalStatus);
         }
     }
 }
