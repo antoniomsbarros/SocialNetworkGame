@@ -30,7 +30,7 @@ namespace SocialNetwork
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
     options
-        .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
+        //.ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
         .UseSqlServer(
             Configuration.GetConnectionString("DefaultConnection")));
 

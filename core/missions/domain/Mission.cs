@@ -5,7 +5,7 @@ using System;
 namespace SocialNetwork.core.missions.domain
 {
 
-    public class Mission : Entity<MissionId>
+    public class Mission : Entity<long>
     {
         public MissionStatus Status { get; private set; }
 
@@ -18,7 +18,7 @@ namespace SocialNetwork.core.missions.domain
             // for ORM
         }
 
-        protected Mission(MissionId id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
+        protected Mission(long id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = id;
             this.Status = status;

@@ -14,7 +14,7 @@ namespace SocialNetwork.core.connectionRequests.domain
             // for ORM
         }
 
-        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+        protected IntroductionRequest(long id, ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, Player playerIntroduction,
             ConnectionRequestStatus introductionStatus)
              : base(id, status, playerSender, playerReceiver, text, creationDate)
@@ -24,7 +24,7 @@ namespace SocialNetwork.core.connectionRequests.domain
             this.IntroductionStatus = introductionStatus;
         }
 
-        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+        protected IntroductionRequest(ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, TextBox textIntroduction, Player playerIntroduction,
             ConnectionRequestStatus introductionStatus)
              : base(status, playerSender, playerReceiver, text)

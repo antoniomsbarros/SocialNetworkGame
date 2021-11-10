@@ -3,7 +3,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.connectionRequests.domain
 {
-    public abstract class ConnectionRequest : Entity<ConnectionRequestId>, IAggregateRoot
+    public abstract class ConnectionRequest : Entity<long>, IAggregateRoot
     {
         public ConnectionRequestStatus ConnectionRequestStatus { get; set; }
 
@@ -20,7 +20,7 @@ namespace SocialNetwork.core.connectionRequests.domain
             // for ORM
         }
 
-        protected ConnectionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+        protected ConnectionRequest(long id, ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate)
         {
             this.Id = id;

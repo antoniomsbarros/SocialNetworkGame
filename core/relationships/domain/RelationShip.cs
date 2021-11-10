@@ -5,7 +5,7 @@ using SocialNetwork.core.players.domain;
 
 namespace SocialNetwork.core.relationships.domain
 {
-    public class RelationShip : Entity<RelationShipId>, IAggregateRoot
+    public class RelationShip : Entity<long>, IAggregateRoot
     {
         public Player PlayerDest { get; private set; } // Player who has a relationship with
 
@@ -18,7 +18,7 @@ namespace SocialNetwork.core.relationships.domain
             // for ORM
         }
 
-        protected RelationShip(RelationShipId id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
+        protected RelationShip(long id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
         {
             this.Id = id;
             this.PlayerDest = playerDest;

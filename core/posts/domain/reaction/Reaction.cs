@@ -4,7 +4,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.posts.domain.reaction
 {
-    public class Reaction : Entity<ReactionId>
+    public class Reaction : Entity<long>
     {
         public ReactionValue ReactionValue { get; private set; }
 
@@ -17,7 +17,7 @@ namespace SocialNetwork.core.posts.domain.reaction
             // for ORM
         }
 
-        protected Reaction(ReactionId id, ReactionValue reactionValue, Player player, CreationDate creationDate)
+        protected Reaction(long id, ReactionValue reactionValue, Player player, CreationDate creationDate)
         {
             this.Id = id;
             this.ReactionValue = reactionValue;

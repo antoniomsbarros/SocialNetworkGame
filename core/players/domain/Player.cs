@@ -6,7 +6,7 @@ using SocialNetwork.core.shared;
 
 namespace SocialNetwork.core.players.domain
 {
-    public class Player : Entity<PlayerId>, IAggregateRoot
+    public class Player : Entity<long>, IAggregateRoot
     {
         public Email Email { get; private set; }
 
@@ -29,7 +29,7 @@ namespace SocialNetwork.core.players.domain
             // for ORM
         }
 
-        protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+        protected Player(long id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
             List<Mission> missions, List<RelationShip> relationships, Profile profile)
         {
             this.Id = id;
@@ -55,6 +55,27 @@ namespace SocialNetwork.core.players.domain
             this.RelationShips = new();
             CreateProfile(name);
         }
+
+        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
+        {
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.DateOfBirth = dateOfBirth;
+            this.Missions = new();
+            this.RelationShips = new();
+            CreateProfile(name);
+        }
+
+        public void LinkFacebook(FacebookProfile facebookProfile)
+        {
+            this.FacebookProfile = facebookProfile;
+        }
+
+        public void LinkLinkedin(LinkedinProfile linkedinProfile)
+        {
+            this.LinkedinProfile = linkedinProfile;
+        }
+
 
         private void CreateProfile(Name name)
         {

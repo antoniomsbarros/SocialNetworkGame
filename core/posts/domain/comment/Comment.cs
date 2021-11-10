@@ -6,7 +6,7 @@ using SocialNetwork.core.posts.domain.reaction;
 
 namespace SocialNetwork.core.posts.domain.comment
 {
-    public class Comment : Entity<CommentId>
+    public class Comment : Entity<long>
     {
         public List<Reaction> Reactions { get; private set; }
 
@@ -21,7 +21,7 @@ namespace SocialNetwork.core.posts.domain.comment
             // for ORM
         }
 
-        protected Comment(CommentId id, Player playerCreator, TextBox commentText, CreationDate creationDate, List<Reaction> reactions)
+        protected Comment(long id, Player playerCreator, TextBox commentText, CreationDate creationDate, List<Reaction> reactions)
         {
             this.Id = id;
             this.PlayerCreator = playerCreator;
