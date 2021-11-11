@@ -5,22 +5,22 @@ namespace SocialNetwork.infrastructure.authz.domain.model
 {
     public class SystemUser
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         public string Password { get; set; }
 
         protected SystemUser()
         {
-            // for ORM
+            // for ORM-
         }
 
-        public SystemUser(string email, string password, IPasswordPolicy passwordPolicy)
+        public SystemUser(string username, string password, IPasswordPolicy passwordPolicy)
         {
             if (!passwordPolicy.IsSatisfiedBy(password))
                 throw new ArgumentException("The password doesn't satisfy the policy");
 
-            this.Email = email;
-            this.Password = password; // needs encryption
+            this.Username = username;
+            this.Password = password; // needs encryption (Sprint B)
         }
     }
 }
