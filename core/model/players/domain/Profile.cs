@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
-    public class Profile : Entity<ProfileId>
+    public class Profile : Entity<ProfileId>, IDTOable<ProfileDto>
     {
         public Name Name { get; private set; }
 
-        // Emotional Status -> Study better how it will be implemented 
+        public EmotionalStatus EmotionalStatus { get; private set; }
 
         public List<Tag> TagsList { get; private set; }
 
@@ -17,10 +18,11 @@ namespace SocialNetwork.core.model.players.domain
             // for ORM
         }
 
-        protected Profile(ProfileId id, Name name, List<Tag> tagsList)
+        protected Profile(ProfileId id, Name name, EmotionalStatus emotionalStatus, List<Tag> tagsList)
         {
             this.Id = id;
             this.Name = name;
+            this.EmotionalStatus = emotionalStatus;
             this.TagsList = new(tagsList);
         }
 
@@ -45,9 +47,24 @@ namespace SocialNetwork.core.model.players.domain
             return TagsList.Remove(tagToRemove);
         }
 
-        public void SetName(Name newName)
+        public void SetNameTo(Name newName)
         {
             this.Name = newName;
+        }
+
+        public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)
+        {
+            this.EmotionalStatus = emotionalStatus;
+        }
+
+        public ProfileDto ToDto()
+        {
+            List<string> tags = new();
+            foreach (Tag nTag in this.TagsList)
+                tags.Add(nTag.Name);
+
+            return new ProfileDto(this.Name.FullName, this.Name.ShortName,
+                this.EmotionalStatus.CurrentEmotionalStatus, tags);
         }
 
         public override bool Equals(object obj)
