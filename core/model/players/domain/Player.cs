@@ -22,9 +22,10 @@ namespace SocialNetwork.core.model.players.domain
 
         public List<MissionId> Missions { get; private set; }
 
-        public List<RelationshipId> RelationShips { get; private set; }
+        public List<RelationshipId> Relationships { get; private set; }
 
-        protected Player()
+        //TODO Enquanto nao tiver o PlayerDTO completo
+        public Player()
         {
             // for ORM
         }
@@ -39,9 +40,23 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = missions;
-            this.RelationShips = relationships;
+            this.Missions = new(missions);
+            this.Relationships = new(relationships);
             this.Profile = profile;
+        }
+
+        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+            Name name)
+        {
+            this.Id = new PlayerId(Guid.NewGuid());
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.FacebookProfile = facebookProfile;
+            this.LinkedinProfile = linkedinProfile;
+            this.DateOfBirth = dateOfBirth;
+            this.Missions = new();
+            this.Relationships = new();
+            CreateProfile(name);
         }
 
         public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
@@ -52,8 +67,7 @@ namespace SocialNetwork.core.model.players.domain
             this.DateOfBirth = dateOfBirth;
 
             this.Missions = new();
-            this.RelationShips = new();
-
+            this.Relationships = new();
             CreateProfile(name);
         }
 
@@ -90,13 +104,13 @@ namespace SocialNetwork.core.model.players.domain
 
         // Finish / Pause Mission
         // ...
-
         public bool StablishRelationShip(RelationshipId relationshipId)
         {
-            if (this.RelationShips.Contains(relationshipId))
+            if (this.Relationships.Contains(relationshipId))
                 return false;
 
-            this.RelationShips.Add(relationshipId);
+            this.Relationships.Add(relationshipId);
+
             return true;
         }
 

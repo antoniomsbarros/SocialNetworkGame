@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 namespace SocialNetwork.core.model.relationships.domain
 {
-    public class RelationShipBuilder : IDomainBuilder<RelationShip>
+
+    public class RelationshipBuilder : IDomainBuilder<Relationship>
     {
-        private RelationShip relationShip;
+        private Relationship relationship;
 
         private Player playerDest;
 
@@ -14,50 +15,45 @@ namespace SocialNetwork.core.model.relationships.domain
 
         private readonly List<Tag> tagsList = new();
 
-        public RelationShipBuilder WithPlayer(Player player)
+        public RelationshipBuilder WithPlayer(Player player)
         {
             this.playerDest = player;
             return this;
         }
 
-        public RelationShipBuilder WithTag(Tag tag)
+        public RelationshipBuilder WithTag(Tag tag)
         {
             this.tagsList.Add(tag);
             return this;
         }
 
-        public RelationShipBuilder WithConnectionStrenght(ConnectionStrenght connectionStrenght)
+        public RelationshipBuilder WithConnectionStrenght(ConnectionStrenght connectionStrenght)
         {
             this.connectionStrenght = connectionStrenght;
             return this;
         }
 
-        public RelationShip BuildOrIgnore()
+        public Relationship BuildOrIgnore()
         {
-            if (this.relationShip != null)
-                return this.relationShip;
+            if (this.relationship != null)
+                return this.relationship;
             else if (this.connectionStrenght != null && this.tagsList.Count > 0)
-                this.relationShip = new(this.playerDest, this.connectionStrenght, this.tagsList);
+                this.relationship = new(this.playerDest, this.connectionStrenght, this.tagsList);
             else if (this.connectionStrenght != null)
-                this.relationShip = new(this.playerDest, this.connectionStrenght);
-            else if (this.tagsList.Count > 0)
-            {
-                this.relationShip = new(this.playerDest);
-                foreach (Tag nTag in tagsList)
-                    this.relationShip.AssignTag(nTag);
-            }
+            //TODO checkar se lista de tags pode ir vazia
+                this.relationship = new(this.playerDest, this.connectionStrenght, new List<Tag>());
             else
             {
                 throw new System.InvalidOperationException();
             }
 
-            return this.relationShip;
+            return this.relationship;
         }
 
-        public RelationShip Build()
+        public Relationship Build()
         {
-            RelationShip rel = BuildOrIgnore();
-            this.relationShip = null;
+            Relationship rel = BuildOrIgnore();
+            this.relationship = null;
             return rel;
         }
     }

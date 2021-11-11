@@ -4,9 +4,9 @@ using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.infrastructure.persistence.relationships
 {
-    internal class RelationShipEntityTypeConfiguration : IEntityTypeConfiguration<RelationShip>
+    internal class RelationShipEntityTypeConfiguration : IEntityTypeConfiguration<Relationship>
     {
-        public void Configure(EntityTypeBuilder<RelationShip> builder)
+        public void Configure(EntityTypeBuilder<Relationship> builder)
         {
             builder.ToTable("Relationship");
             builder.HasKey(b => b.Id);

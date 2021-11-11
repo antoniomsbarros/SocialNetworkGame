@@ -11,7 +11,8 @@ namespace SocialNetwork.core.model.relationships.domain
 
         public int Strenght { get; }
 
-        protected ConnectionStrenght()
+//TODO Enquanto nao tiver o PlayerDTO completo
+        public ConnectionStrenght()
         {
             // for ORM
         }

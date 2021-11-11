@@ -48,8 +48,7 @@ namespace SocialNetwork.infrastructure
         public DbSet<SystemUser> Users { get; set; }
         public DbSet<Player> Players { get; set; }
 
-        public DbSet<RelationShip> RelationShips { get; set; }
-
+        public DbSet<Relationship> Relationships { get; set; }
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Mission> Missions { get; set; }
