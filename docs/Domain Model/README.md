@@ -60,3 +60,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 ### 08/11/2021 - Grupo
 
 * O conceito "Mission" e "Relationship" (entre 2 jogadores) foram separados do agregado "Player", passando assim a constituir 2 agregados separados. A razão desta separação foi pelo facto de que dentro do agregado "Player" existiam outras entidade que dependiam do "Mission" / "Relationship" e não propriamente do "Player", e pelo facto de no sistema ter de haver uma gestão frequente nas relações da rede de cada jogardor, podendo gerar problemas de concorrência caso estes se mantivessem no agregado "Player".
+
+### 11/11/2021 - Daniel Reis (1200608) / Pedro Vieira (1190948)
+
+* Removemos a Entidade "Profile", uma vez que verificamos que o mesmo só servia como um "banco" de dados específicos (Estado emocional e nome) que pertenciam à Entidade "Player". No agregado das "Relationships" intermos a ligação que existia  do "Player" para o "Relationships", com isto tendo esta entidade DUAS ligações com os DOIS "Players" envolvidos (Origem e destino).
