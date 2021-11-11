@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.missions.domain;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
-    public class Player : Entity<PlayerId>, IAggregateRoot
+    public class Player : Entity<PlayerId>, IAggregateRoot, IDTOable<PlayerDto>
     {
         public Email Email { get; private set; } // SystemUserId
 
@@ -98,6 +99,21 @@ namespace SocialNetwork.core.model.players.domain
 
             this.RelationShips.Add(relationshipId);
             return true;
+        }
+
+        public PlayerDto ToDto()
+        {
+            List<string> missions = new();
+            foreach (MissionId nMission in Missions)
+                missions.Add(nMission.Value);
+
+            List<string> relationships = new();
+            foreach (RelationshipId nRelationship in RelationShips)
+                relationships.Add(nRelationship.Value);
+
+            return new PlayerDto(this.Email.EmailAddress, this.PhoneNumber.Number,
+                this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
+                this.DateOfBirth.Date, this.Profile.ToDto(), missions, relationships);
         }
 
         public override bool Equals(object obj)

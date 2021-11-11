@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using System;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
-    public class Profile : Entity<ProfileId>
+    public class Profile : Entity<ProfileId>, IDTOable<ProfileDto>
     {
         public Name Name { get; private set; }
 
@@ -54,6 +55,16 @@ namespace SocialNetwork.core.model.players.domain
         public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)
         {
             this.EmotionalStatus = emotionalStatus;
+        }
+
+        public ProfileDto ToDto()
+        {
+            List<string> tags = new();
+            foreach (Tag nTag in this.TagsList)
+                tags.Add(nTag.Name);
+
+            return new ProfileDto(this.Name.FullName, this.Name.ShortName,
+                this.EmotionalStatus.CurrentEmotionalStatus, tags);
         }
 
         public override bool Equals(object obj)
