@@ -1,10 +1,7 @@
 ﻿using SocialNetwork.core.model.missions.domain;
-using SocialNetwork.core.model.players.domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SocialNetwork.core.model.connectionRequests.domain;
-using SocialNetwork.core.model.players.domain;
 using SocialNetwork.infrastructure;
 using System.Linq;
 namespace SocialNetwork.core.model.missions.MissionRepository

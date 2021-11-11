@@ -8,7 +8,7 @@ namespace SocialNetwork.infrastructure.persistence.authz
     {
         public void Configure(EntityTypeBuilder<SystemUser> builder)
         {
-            builder.HasKey(b => b.Email);
+            builder.HasKey(b => b.Username);
         }
     }
 }

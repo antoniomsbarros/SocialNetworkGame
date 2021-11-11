@@ -50,5 +50,10 @@ namespace SocialNetwork.core.model.shared
         {
             return HashCode.Combine(this.Name);
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

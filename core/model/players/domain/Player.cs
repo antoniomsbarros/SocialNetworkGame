@@ -23,8 +23,9 @@ namespace SocialNetwork.core.model.players.domain
 
         public List<MissionId> Missions { get; private set; }
 
-        public List<RelationshipId> RelationShips { get; private set; }
+        public List<RelationshipId> Relationships { get; private set; }
 
+        //TODO Enquanto nao tiver o PlayerDTO completo
         protected Player()
         {
             // for ORM
@@ -40,9 +41,24 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = missions;
-            this.RelationShips = relationships;
+            this.Missions = new(missions);
+            this.Relationships = new(relationships);
             this.Profile = profile;
+        }
+
+
+        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
+            Name name)
+        {
+            this.Id = new PlayerId(Guid.NewGuid());
+            this.Email = email;
+            this.PhoneNumber = phoneNumber;
+            this.FacebookProfile = facebookProfile;
+            this.LinkedinProfile = linkedinProfile;
+            this.DateOfBirth = dateOfBirth;
+            this.Missions = new();
+            this.Relationships = new();
+            CreateProfile(name);
         }
 
         public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
@@ -51,11 +67,10 @@ namespace SocialNetwork.core.model.players.domain
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;
-
             this.Missions = new();
-            this.RelationShips = new();
-
+            this.Relationships = new();
             CreateProfile(name);
+            this.Relationships = new();
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
@@ -83,21 +98,27 @@ namespace SocialNetwork.core.model.players.domain
             return this.Profile.RemoveTag(tagToRemove);
         }
 
-        public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
+        public bool GiveMission(MissionId mission)
         {
-            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty,
-                objectivePlayer).Id);
+            if (this.Missions.Contains(mission))
+                return false;
+
+            this.Missions.Add(mission);
+            return true;
         }
 
-        // Finish / Pause Mission
-        // ...
+        public bool RemoveMission(MissionId mission)
+        {
+            return this.Missions.Remove(mission);
+        }
 
         public bool StablishRelationShip(RelationshipId relationshipId)
         {
-            if (this.RelationShips.Contains(relationshipId))
+            if (this.Relationships.Contains(relationshipId))
                 return false;
 
-            this.RelationShips.Add(relationshipId);
+            this.Relationships.Add(relationshipId);
+
             return true;
         }
 
@@ -108,7 +129,7 @@ namespace SocialNetwork.core.model.players.domain
                 missions.Add(nMission.Value);
 
             List<string> relationships = new();
-            foreach (RelationshipId nRelationship in RelationShips)
+            foreach (RelationshipId nRelationship in Relationships)
                 relationships.Add(nRelationship.Value);
 
             return new PlayerDto(this.Email.EmailAddress, this.PhoneNumber.Number,

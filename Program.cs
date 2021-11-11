@@ -38,7 +38,6 @@ namespace SocialNetwork
             }
 
             host.Run();
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -48,8 +47,9 @@ namespace SocialNetwork
 
         public static void DbInit(SocialNetworkDbContext context)
         {
-            Player playerA = new Player(Email.ValueOf("1190948@isep.ipp.opt"), PhoneNumber.ValueOf("911111111"), DateOfBirth.ValueOf(1994, 10, 2),
-                Name.ValueOf("Pedro Vieira", "Pedro F S Vieira"));
+            Player playerA = new Player(Email.ValueOf("1190948@isep.ipp.opt"), PhoneNumber.ValueOf("911111111"),
+                DateOfBirth.ValueOf(1994, 10, 2),
+                new Profile(Name.ValueOf("Pedro Vieira", "Pedro F S Vieira")).Name);
 
             List<Tag> tags = new List<Tag>();
             tags.Add(Tag.ValueOf("tag1"));
@@ -69,5 +69,3 @@ namespace SocialNetwork
         }
     }
 }
-
-

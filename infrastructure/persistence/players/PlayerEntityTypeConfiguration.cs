@@ -16,7 +16,7 @@ namespace SocialNetwork.infrastructure.persistence.players
                 mission.Property("Id");
             });
 
-            builder.OwnsMany(player => player.RelationShips, relationship =>
+            builder.OwnsMany(player => player.Relationships, relationship =>
             {
                 relationship.Property("Id");
             });

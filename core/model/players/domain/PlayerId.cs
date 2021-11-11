@@ -5,10 +5,6 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class PlayerId : EntityId
     {
-        protected PlayerId() : base()
-        {
-        }
-
         public PlayerId(Guid guid) : base(guid)
         {
         }

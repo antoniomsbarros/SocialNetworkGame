@@ -20,19 +20,19 @@ namespace SocialNetwork.core.model.relationships.repository
             _socialNetworkDbContext = socialNetworkDbContext;
         }
         
-        public async Task Save(RelationShip relationShip)
+        public async Task Save(Relationship relationShip)
         {
-            _socialNetworkDbContext.RelationShips.Add(relationShip);
+            _socialNetworkDbContext.Relationships.Add(relationShip);
             await _socialNetworkDbContext.SaveChangesAsync();
         }
-        public List<RelationShip> FindAll()
+        public List<Relationship> FindAll()
         {
-            return (from VAR in _socialNetworkDbContext.RelationShips select VAR).ToList();
+            return (from VAR in _socialNetworkDbContext.Relationships select VAR).ToList();
         }
-        public RelationShip FindbyId(RelationshipId relationshipId)
+        public Relationship FindbyId(RelationshipId relationshipId)
         {
-            RelationShip relationShip= (from VAR in _socialNetworkDbContext.RelationShips
-                where VAR.Id == relationshipId
+            Relationship relationShip = (from VAR in _socialNetworkDbContext.Relationships
+                                         where VAR.Id == relationshipId
                 select VAR).SingleOrDefault();
             if (relationShip==null)
             {
@@ -44,7 +44,7 @@ namespace SocialNetwork.core.model.relationships.repository
         
         public async Task RemoveIntroductionRequest(RelationshipId relationshipId)
         {
-            _socialNetworkDbContext.RelationShips.Remove(this.FindbyId(relationshipId));
+            _socialNetworkDbContext.Relationships.Remove(this.FindbyId(relationshipId));
             await _socialNetworkDbContext.SaveChangesAsync();
         }
     }

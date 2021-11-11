@@ -10,6 +10,9 @@ using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.persistence.Shared;
+using lapr5_3dg.Services;
+using SocialNetwork.infrastructure.relationships;
+using lapr5_3dg.infrastructure.relationships;
 
 namespace SocialNetwork
 {
@@ -69,9 +72,13 @@ namespace SocialNetwork
         public void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             
             services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
             services.AddTransient<IntroductionRequestService>();
+
+            services.AddTransient<RelationshipService>();
+            services.AddTransient<IRelationshipRepository, RelationshipRepository>();
         }
 
     }
