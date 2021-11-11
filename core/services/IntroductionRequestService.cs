@@ -1,5 +1,6 @@
 ﻿using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.connectionRequests.repository;
+using SocialNetwork.core.model.players.domain;
 using SocialNetwork.infrastructure;
 
 namespace SocialNetwork.core.model.posts.application
@@ -8,11 +9,17 @@ namespace SocialNetwork.core.model.posts.application
     {
         private IntroductionRequestRepository _introductionRequestRepository;
         private ConnectionRequestRepository _connectionRequestRepository;
-
+        
         public IntroductionRequestService(SocialNetworkDbContext context)
         {
             _introductionRequestRepository = context.repositories().IntroductionRequest();
             _connectionRequestRepository = context.repositories().ConnectionRequest();
         }
+
+        public IntroductionRequest_DTO create(IntroductionRequest introductionRequest)
+        {
+            return null;
+        }
+        
     }
 }
