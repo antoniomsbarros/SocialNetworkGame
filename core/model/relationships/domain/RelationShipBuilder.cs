@@ -38,10 +38,10 @@ namespace SocialNetwork.core.model.relationships.domain
             if (this.relationship != null)
                 return this.relationship;
             else if (this.connectionStrenght != null && this.tagsList.Count > 0)
-                this.relationship = new(this.playerDest, this.connectionStrenght, this.tagsList);
+                this.relationship = new(this.playerDest.Id, this.connectionStrenght, this.tagsList);
             else if (this.connectionStrenght != null)
             //TODO checkar se lista de tags pode ir vazia
-                this.relationship = new(this.playerDest, this.connectionStrenght, new List<Tag>());
+                this.relationship = new(this.playerDest.Id, this.connectionStrenght, new List<Tag>());
             else
             {
                 throw new System.InvalidOperationException();

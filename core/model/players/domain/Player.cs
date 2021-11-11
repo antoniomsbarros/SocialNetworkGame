@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.missions.domain;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
-    public class Player : Entity<PlayerId>, IAggregateRoot
+    public class Player : Entity<PlayerId>, IAggregateRoot, IDTOable<PlayerDto>
     {
         public Email Email { get; private set; } // SystemUserId
 
@@ -25,7 +26,7 @@ namespace SocialNetwork.core.model.players.domain
         public List<RelationshipId> Relationships { get; private set; }
 
         //TODO Enquanto nao tiver o PlayerDTO completo
-        public Player()
+        protected Player()
         {
             // for ORM
         }
@@ -44,6 +45,7 @@ namespace SocialNetwork.core.model.players.domain
             this.Relationships = new(relationships);
             this.Profile = profile;
         }
+
 
         public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
             Name name)
@@ -65,10 +67,10 @@ namespace SocialNetwork.core.model.players.domain
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;
-
             this.Missions = new();
             this.Relationships = new();
             CreateProfile(name);
+            this.Relationships = new();
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
@@ -96,14 +98,20 @@ namespace SocialNetwork.core.model.players.domain
             return this.Profile.RemoveTag(tagToRemove);
         }
 
-        public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
+        public bool GiveMission(MissionId mission)
         {
-            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty,
-                objectivePlayer).Id);
+            if (this.Missions.Contains(mission))
+                return false;
+
+            this.Missions.Add(mission);
+            return true;
         }
 
-        // Finish / Pause Mission
-        // ...
+        public bool RemoveMission(MissionId mission)
+        {
+            return this.Missions.Remove(mission);
+        }
+
         public bool StablishRelationShip(RelationshipId relationshipId)
         {
             if (this.Relationships.Contains(relationshipId))
@@ -112,6 +120,21 @@ namespace SocialNetwork.core.model.players.domain
             this.Relationships.Add(relationshipId);
 
             return true;
+        }
+
+        public PlayerDto ToDto()
+        {
+            List<string> missions = new();
+            foreach (MissionId nMission in Missions)
+                missions.Add(nMission.Value);
+
+            List<string> relationships = new();
+            foreach (RelationshipId nRelationship in Relationships)
+                relationships.Add(nRelationship.Value);
+
+            return new PlayerDto(this.Email.EmailAddress, this.PhoneNumber.Number,
+                this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
+                this.DateOfBirth.Date, this.Profile.ToDto(), missions, relationships);
         }
 
         public override bool Equals(object obj)

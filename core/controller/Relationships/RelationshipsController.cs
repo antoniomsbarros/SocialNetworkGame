@@ -8,6 +8,7 @@ using lapr5_3dg.DTO;
 using lapr5_3dg.infrastructure.relationships;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.relationships.dto;
 
 namespace LEI_21s5_3dg_41.Controllers
 {
@@ -42,18 +43,24 @@ namespace LEI_21s5_3dg_41.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<RelationshipDto>> Create(RelationshipDto dto)
+        public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
         {
-            var cat = await _service.AddAsync(dto);
-
-            return CreatedAtAction(nameof(GetGetById), cat);
+            try
+            {
+                var con = await _service.AddAsync(dto);
+                return CreatedAtAction(nameof(GetGetById), new { id = con.id }, con);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
         }
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<RelationshipDto>> Update(Guid id, RelationshipDto dto)
+        public async Task<ActionResult<RelationshipDto>> Update(string id, RelationshipDto dto)
         {
-            if (id.ToString() != dto.id)
+            if (id != dto.id)
             {
                 return BadRequest();
             }
@@ -74,7 +81,7 @@ namespace LEI_21s5_3dg_41.Controllers
             }
         }
 
-        /*
+        
         [HttpDelete("{id}")]
         public async Task<ActionResult<RelationshipDto>> SoftDelete(Guid id)
         {
@@ -86,10 +93,10 @@ namespace LEI_21s5_3dg_41.Controllers
             }
 
             return Ok(cat);
-        }*/
+        }
         
         [HttpDelete("{id}/hard")]
-        public async Task<ActionResult<RelationshipDto>> HardDelete(Guid id)
+        public async Task<ActionResult<RelationshipDto>> HardDelete(string id)
         {
             try
             {

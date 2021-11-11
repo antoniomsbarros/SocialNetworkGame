@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.DTO;
 using SocialNetwork.infrastructure.relationships;
@@ -38,10 +39,11 @@ namespace lapr5_3dg.Services
             return cat.toDTO();
         }
 
-        public async Task<RelationshipDto> AddAsync(RelationshipDto dto)
+        public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
         {
-            Player player = new Player();
-            ConnectionStrenght connectionStrenght = new ConnectionStrenght();
+            Guid guid = Guid.NewGuid();
+            PlayerId player = new PlayerId(dto.player);
+            ConnectionStrenght connectionStrenght = new ConnectionStrenght(dto.connection);
             List<Tag> tagList = new List<Tag>();
             dto.tags.ForEach(tag => tagList.Add(new Tag(tag)));
             var Relationship = new Relationship(player, connectionStrenght, tagList);
@@ -60,7 +62,6 @@ namespace lapr5_3dg.Services
             if (Relationship == null)
                 return null;   
 
-            // change all field
             Relationship.ChangePlayer(dto.player);
             Relationship.ChangeConnectionStrenght(dto.connection);
             Relationship.ChangeTags(dto.tags);
@@ -78,6 +79,7 @@ namespace lapr5_3dg.Services
                 return null;   
 
             // change all fields
+            //TODO inactive if necessary
             //Relationship.MarkAsInative();
             
             await this._unitOfWork.CommitAsync();

@@ -4,12 +4,13 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.DTO;
 using lapr5_3dg.DTO;
+using SocialNetwork.core.model.players.dto;
 
 namespace SocialNetwork.core.model.relationships.domain
 {
     public class Relationship : Entity<RelationshipId>, IAggregateRoot
     {
-        public Player PlayerDest { get; private set; } // Player who has a relationship with
+        public PlayerId PlayerDest { get; private set; } // Player who has a relationship with
 
         public ConnectionStrenght ConnectionStrenght { get; private set; }
 
@@ -20,7 +21,7 @@ namespace SocialNetwork.core.model.relationships.domain
             // for ORM
         }
 
-        protected Relationship(RelationshipId id, Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
+        protected Relationship(RelationshipId id, PlayerId playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
         {
             this.Id = id;
             this.PlayerDest = playerDest;
@@ -28,7 +29,7 @@ namespace SocialNetwork.core.model.relationships.domain
             this.TagsList = new(tagList);
         }
 
-        public Relationship(Player playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
+        public Relationship(PlayerId playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
             this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = playerDest;
@@ -36,7 +37,7 @@ namespace SocialNetwork.core.model.relationships.domain
             this.TagsList = new(tagsList);
         }
 
-        public Relationship(Player player, ConnectionStrenght connectionStrenght, params Tag[] tags)
+        public Relationship(PlayerId player, ConnectionStrenght connectionStrenght, params Tag[] tags)
         {
             this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = player;
@@ -86,30 +87,34 @@ namespace SocialNetwork.core.model.relationships.domain
             return HashCode.Combine(this.Id);
         }
 
-        //TODO quando ConnectionStrenghtDto estiver feito
-        public void ChangeConnectionStrenght(ConnectionStrenghtDto connectionStrenght ) 
+        public void ChangeConnectionStrenght(int connectionStrenght) 
         {
-            //ConnectionStrenght = 
+            if(connectionStrenght > 0)
+                ConnectionStrenght = new ConnectionStrenght(connectionStrenght);
         }
 
         public void ChangeTags(List<string> tags ) 
         {
-            TagsList = new List<Tag>();
-            tags.ForEach(tag => TagsList.Add(new Tag(tag)));
+            if(tags != null || tags.Count > 0)
+            {
+                TagsList = new List<Tag>();
+                tags.ForEach(tag => TagsList.Add(new Tag(tag)));
+            }
+            
         }
 
-        //TODO quando playerDTO estiver feito
-        public void ChangePlayer(PlayerDto player) 
+        public void ChangePlayer(String player) 
         {
-            //PlayerDest = 
+            if (!string.IsNullOrEmpty(player))
+                PlayerDest = new PlayerId(player);
         }
 
         public RelationshipDto toDTO()
         {
             List<string> tagToDto = new List<string>();
             TagsList.ForEach(tag => tagToDto.Add(tag.Name));
-            return new RelationshipDto(this.Id.Value, new PlayerDto(new Guid(PlayerDest.Id.Value)), 
-                new ConnectionStrenghtDto(ConnectionStrenght.Strenght), tagToDto);
+            return new RelationshipDto(this.Id.Value, PlayerDest.Value, 
+                ConnectionStrenght.Strenght, tagToDto);
         }
 
     }

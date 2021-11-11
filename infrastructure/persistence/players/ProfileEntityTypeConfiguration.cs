@@ -19,6 +19,10 @@ namespace SocialNetwork.infrastructure.persistence.players
             {
                 tag.Property("Name");
             });
+            builder.OwnsOne(profile => profile.EmotionalStatus, emotionalStatus =>
+            {
+                emotionalStatus.Property("CurrentEmotionalStatus");
+            });
         }
     }
 }

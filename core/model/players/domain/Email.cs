@@ -6,7 +6,6 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class Email : IValueObject
     {
-
         public string EmailAddress { get; }
 
         protected Email()
@@ -26,7 +25,7 @@ namespace SocialNetwork.core.model.players.domain
         {
             try
             {
-                MailAddress email = new(emailaddress);
+                MailAddress email = new MailAddress(emailaddress);
                 return true;
             }
             catch (FormatException)
@@ -48,7 +47,7 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(Email))
                 return false;
 
-            Email otherEmail = (Email)obj;
+            Email otherEmail = (Email) obj;
 
             return otherEmail.EmailAddress.Equals(this.EmailAddress);
         }
