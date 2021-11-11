@@ -44,5 +44,10 @@ namespace SocialNetwork.core.model.shared
         {
             return HashCode.Combine(this.Date);
         }
+
+        public override string ToString()
+        {
+            return Date.ToString("dd/MM/yyyy");
+        }
     }
 }

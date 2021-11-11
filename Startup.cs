@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SocialNetwork.core.model.connectionRequests.repository;
+using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.persistence.Shared;
@@ -67,6 +69,9 @@ namespace SocialNetwork
         public void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            
+            services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
+            services.AddTransient<IntroductionRequestService>();
         }
 
     }

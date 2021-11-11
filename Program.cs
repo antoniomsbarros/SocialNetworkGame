@@ -8,6 +8,7 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure;
 using System;
 using System.Collections.Generic;
+using SocialNetwork.core.model.connectionRequests.domain;
 
 namespace SocialNetwork
 {
@@ -57,6 +58,13 @@ namespace SocialNetwork
             context.Posts.Add(post);
 
             context.Players.Add(playerA);
+            /*ConnectionRequest connectionRequest =
+                new ConnectionRequest(new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), playerA, playerA, new TextBox("ola"));
+            context.ConnectionRequests.Add(connectionRequest);*/
+
+            IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.OnHold), 
+                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+            context.IntroductionRequests.Add(introductionRequest);
             context.SaveChanges();
         }
     }

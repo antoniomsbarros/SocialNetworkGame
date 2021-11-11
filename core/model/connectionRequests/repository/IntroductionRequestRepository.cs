@@ -5,11 +5,17 @@ using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.infrastructure;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using SocialNetwork.infrastructure.persistence.Shared;
+
 namespace SocialNetwork.core.model.connectionRequests.repository
 {
-    public class IntroductionRequestRepository
+    public class IntroductionRequestRepository:BaseRepository<IntroductionRequest,ConnectionRequestId>,IIntroductionRequestRepository
     {
-        private SocialNetworkDbContext _socialNetworkDbContext;
+        public IntroductionRequestRepository(SocialNetworkDbContext socialNetworkDbContext) : base(socialNetworkDbContext.IntroductionRequests)
+        {
+        }
+        /*private SocialNetworkDbContext _socialNetworkDbContext;
 
         public IntroductionRequestRepository(SocialNetworkDbContext socialNetworkDbContext)
         {
@@ -60,6 +66,6 @@ namespace SocialNetwork.core.model.connectionRequests.repository
             _socialNetworkDbContext.IntroductionRequests.Remove(this.FindbyId(connectionRequestId));
             await _socialNetworkDbContext.SaveChangesAsync();
         }
-        
+        */
     }
 }

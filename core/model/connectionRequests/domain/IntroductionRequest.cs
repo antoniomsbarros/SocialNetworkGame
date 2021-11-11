@@ -15,7 +15,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             // for ORM
         }
 
-        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+        public IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, Player playerIntroduction,
             ConnectionRequestStatus introductionStatus)
              : base(id, status, playerSender, playerReceiver, text, creationDate)
@@ -25,7 +25,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.IntroductionStatus = introductionStatus;
         }
 
-        protected IntroductionRequest(ConnectionRequestStatus status,
+        public IntroductionRequest(ConnectionRequestStatus status,
             Player playerSender, Player playerReceiver, TextBox text, TextBox textIntroduction, Player playerIntroduction,
             ConnectionRequestStatus introductionStatus)
              : base(status, playerSender, playerReceiver, text)
@@ -56,6 +56,16 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public void ChangeIntroductionStatus(ConnectionRequestStatus connectionRequestStatus)
         {
             this.IntroductionStatus = connectionRequestStatus;
+        }
+
+        public ConnectionIntroductionDTO Dto()
+        {
+           /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
+                this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
+                this.CreationDate.ToString());*/
+           return new ConnectionIntroductionDTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
+               this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
+               this.CreationDate.ToString());
         }
     }
 }

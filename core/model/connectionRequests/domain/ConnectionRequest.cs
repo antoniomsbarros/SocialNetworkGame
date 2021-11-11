@@ -41,6 +41,15 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.Text = text;
             this.CreationDate = new();
         }
+        public ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, PlayerId playerRecever, TextBox text)
+        {
+            this.Id = new ConnectionRequestId(Guid.NewGuid());
+            this.ConnectionRequestStatus = connectionRequestStatus;
+            this.PlayerSender = playerSender;
+            this.PlayerReceiver = playerRecever;
+            this.Text = text;
+            this.CreationDate = new();
+        }
 
         public void ChangeStatus(ConnectionRequestStatus connectionRequestStatus)
         {
