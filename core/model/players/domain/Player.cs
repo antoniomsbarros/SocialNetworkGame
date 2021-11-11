@@ -45,17 +45,16 @@ namespace SocialNetwork.core.model.players.domain
             this.Profile = profile;
         }
 
-        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
+        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Profile profile)
         {
             this.Id = new PlayerId(Guid.NewGuid());
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;
+            this.Profile = profile;
 
             this.Missions = new();
             this.RelationShips = new();
-
-            CreateProfile(name);
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
@@ -83,14 +82,19 @@ namespace SocialNetwork.core.model.players.domain
             return this.Profile.RemoveTag(tagToRemove);
         }
 
-        public void StartMission(MissionDifficulty difficulty, Player objectivePlayer)
+        public bool GiveMission(MissionId mission)
         {
-            this.Missions.Add(new Mission(MissionStatus.ValueOf(MissionStatusEnum.In_progress), difficulty,
-                objectivePlayer).Id);
+            if (this.Missions.Contains(mission))
+                return false;
+
+            this.Missions.Add(mission);
+            return true;
         }
 
-        // Finish / Pause Mission
-        // ...
+        public bool RemoveMission(MissionId mission)
+        {
+            return this.Missions.Remove(mission);
+        }
 
         public bool StablishRelationShip(RelationshipId relationshipId)
         {
