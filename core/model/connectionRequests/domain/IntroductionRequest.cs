@@ -9,7 +9,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public TextBox TextIntroduction { get; private set; }
 
         public PlayerId PlayerIntroduction { get; private set; }
-        public ConnectionRequestStatus IntroductionStatus { get; private set; }
+        public ConnectionRequestStatus IntroductionStatus { get;  set; }
         protected IntroductionRequest() : base()
         {
             // for ORM

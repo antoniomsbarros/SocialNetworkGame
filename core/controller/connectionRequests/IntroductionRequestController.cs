@@ -16,28 +16,18 @@ namespace SocialNetwork.core.controller
     [ApiController]
     public class IntroductionRequestController : ControllerBase
     {
-        /// <summary>
-        /// esta classe está me a dar problemas para conseguir enviar para o postman
-        /// </summary>
-        /* private IntroductionRequestRepository introductionRequestRepository;
-        private ConnectionRequestRepository connectionRequestRepository;*/
+        
         private readonly IntroductionRequestService _service;
         
-        public IntroductionRequestController( IntroductionRequestService service/*, SocialNetworkDbContext context*/)
+        public IntroductionRequestController( IntroductionRequestService service)
         {
-           /* introductionRequestRepository = context.repositories().IntroductionRequest();
-            connectionRequestRepository = context.repositories().ConnectionRequest();*/
+           
             _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ConnectionIntroductionDTO>>> GetAll()
         {
-            /*List<IntroductionRequest> op = await Task.Run((() => this.introductionRequestRepository.FindAll()));
-            List<ConnectionIntroductionDTO> requestDtos = new List<ConnectionIntroductionDTO>();
-            op.ForEach(o=> requestDtos.Add(o.Dto()));
-            return requestDtos;*/
-            System.Diagnostics.Debug.WriteLine("stuff");
             return await _service.GetAllAsync();
         }
         
@@ -58,16 +48,29 @@ namespace SocialNetwork.core.controller
             }
         }*/
         [HttpGet("{id}")]
-        public async Task<ActionResult<ConnectionIntroductionDTO>> GetGetById(Guid id)
+        [ProducesResponseType(typeof(ConnectionIntroductionDTO),200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetGetById(string id)
         {
             var cat = await _service.GetByIdAsync(new ConnectionRequestId(id));
 
             if (cat == null)
             {
-                return NotFound();
+                return NotFound($"the request with id:{id} does not exist");
             }
 
-            return cat;
+            return Ok(cat);
         }
+        
+       
+       [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
+       [ProducesResponseType(typeof(ConnectionIntroductionDTO),200)]
+       [ProducesResponseType(400)]
+       public  async Task<ActionResult<IEnumerable<ConnectionIntroductionDTO>>> GetPendingIntroductions(Guid PlayerIntroduction)
+       {
+           return await _service.GetAllPendingIntroduction(new PlayerId(PlayerIntroduction));
+       }
+       
+       
     }
 }

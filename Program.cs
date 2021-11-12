@@ -58,10 +58,10 @@ namespace SocialNetwork
                 new ConnectionRequest(new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), playerA, playerA, new TextBox("ola"));
             context.ConnectionRequests.Add(connectionRequest);*/
 
-            IntroductionRequest introductionRequest = new IntroductionRequest(
-                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),
-                playerA, playerA, new TextBox("ola"), new TextBox("ola1"), playerA,
-                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+
+            IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.Approved), 
+                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+
             context.IntroductionRequests.Add(introductionRequest);
             context.SaveChanges();
         }

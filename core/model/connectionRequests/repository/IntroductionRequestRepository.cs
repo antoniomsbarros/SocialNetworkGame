@@ -12,60 +12,22 @@ namespace SocialNetwork.core.model.connectionRequests.repository
 {
     public class IntroductionRequestRepository:BaseRepository<IntroductionRequest,ConnectionRequestId>,IIntroductionRequestRepository
     {
+
+        private readonly DbSet<IntroductionRequest> _introductionRequests;
         public IntroductionRequestRepository(SocialNetworkDbContext socialNetworkDbContext) : base(socialNetworkDbContext.IntroductionRequests)
         {
+            _introductionRequests = socialNetworkDbContext.IntroductionRequests;
         }
-        /*private SocialNetworkDbContext _socialNetworkDbContext;
-
-        public IntroductionRequestRepository(SocialNetworkDbContext socialNetworkDbContext)
+        
+        public List<IntroductionRequest> GetAllPendingIntroductionAsync(PlayerId playerIntroductionId)
         {
-            _socialNetworkDbContext = socialNetworkDbContext;
-        }
 
-        public async Task Save(IntroductionRequest introductionRequest)
-        {
-            _socialNetworkDbContext.IntroductionRequests.Add(introductionRequest);
-            await _socialNetworkDbContext.SaveChangesAsync();
-        }
+            return _introductionRequests.Where(x => x.PlayerIntroduction.Equals(playerIntroductionId))
+                .Where(x=> x.ConnectionRequestStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
+                    .Approved))
+                .Where(x=> x.IntroductionStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
+                    .OnHold)).ToList();
 
-        public List<IntroductionRequest> FindAll()
-        {
-            return (from VAR in _socialNetworkDbContext.IntroductionRequests select VAR).ToList();
         }
-
-        public List<IntroductionRequest> FindbyPlayerIntroductionIdThatAreOnHold(PlayerId playerId)
-        {
-            return (from VAR in _socialNetworkDbContext.IntroductionRequests
-                where VAR.PlayerIntroduction == playerId && VAR.IntroductionStatus.Equals("OnHold")
-                select VAR).ToList();
-        }
-
-        public IntroductionRequest FindbyId(ConnectionRequestId connectionRequestId)
-        {
-            IntroductionRequest introductionRequest= (from VAR in _socialNetworkDbContext.IntroductionRequests
-                where VAR.Id == connectionRequestId
-                select VAR).SingleOrDefault();
-            if (introductionRequest==null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return introductionRequest;
-        }
-
-        public async Task UpdateStatusOfIntroduction(IntroductionRequest introductionRequest,
-            ConnectionRequestStatus connectionRequestStatus)
-        {
-            introductionRequest.ChangeIntroductionStatus(connectionRequestStatus);
-            _socialNetworkDbContext.IntroductionRequests.Update(introductionRequest);
-            await _socialNetworkDbContext.SaveChangesAsync();
-        }
-
-        public async Task RemoveIntroductionRequest(ConnectionRequestId connectionRequestId)
-        {
-            _socialNetworkDbContext.IntroductionRequests.Remove(this.FindbyId(connectionRequestId));
-            await _socialNetworkDbContext.SaveChangesAsync();
-        }
-        */
     }
 }
