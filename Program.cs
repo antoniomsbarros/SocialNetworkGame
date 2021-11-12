@@ -9,6 +9,7 @@ using SocialNetwork.infrastructure;
 using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.connectionRequests.domain;
+using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork
 {
@@ -25,7 +26,7 @@ namespace SocialNetwork
                 {
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     context.Database.EnsureCreated();
-                    // DbInit(context); // Para teste
+                     //DbInit(context); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -60,7 +61,8 @@ namespace SocialNetwork
 
 
             IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.Approved), 
-                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),
+                playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),new ConnectionStrenght(10),tags);
 
             context.IntroductionRequests.Add(introductionRequest);
             context.SaveChanges();

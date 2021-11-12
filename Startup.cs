@@ -80,6 +80,7 @@ namespace SocialNetwork
 
             services.AddTransient<PlayerService>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
+            
         }
     }
 }

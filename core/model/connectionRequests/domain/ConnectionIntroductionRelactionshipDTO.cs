@@ -1,8 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using SocialNetwork.core.model.shared;
+
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
-    public class ConnectionIntroductionDTO
+    public class ConnectionIntroductionRelactionshipDTO
     {
         public string Id;
 
@@ -23,20 +24,22 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public string IntroductionStatus;
 
         public int ConnectionStrenght;
-        public List<string> Tags { get; set; }
-        public ConnectionIntroductionDTO(string textIntroduction, string playerIntroduction, string introductionStatus, 
-            string id, string connectionRequestStatus, string playerSender, string playerReceiver, string text, 
-            string creationDate,int connectionStrenght, List<string> tags)
+
+        public List<string> Tags;
+
+        public ConnectionIntroductionRelactionshipDTO(string id, string connectionRequestStatus, string playerSender, 
+            string playerReceiver, string text, string creationDate, string textIntroduction, string playerIntroduction,
+            string introductionStatus, int connectionStrenght, List<string> tags)
         {
-            TextIntroduction = textIntroduction;
-            PlayerIntroduction = playerIntroduction;
-            IntroductionStatus = introductionStatus;
             Id = id;
             ConnectionRequestStatus = connectionRequestStatus;
             PlayerSender = playerSender;
             PlayerReceiver = playerReceiver;
             Text = text;
             CreationDate = creationDate;
+            TextIntroduction = textIntroduction;
+            PlayerIntroduction = playerIntroduction;
+            IntroductionStatus = introductionStatus;
             ConnectionStrenght = connectionStrenght;
             Tags = tags;
         }

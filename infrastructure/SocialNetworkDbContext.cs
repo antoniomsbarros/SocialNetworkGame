@@ -29,7 +29,6 @@ namespace SocialNetwork.infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ConnectionRequestEntityTypeConfiguration());
-
             modelBuilder.ApplyConfiguration(new DirectRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new IntroductionRequestEntityTypeConfiguration());
 
@@ -50,7 +49,7 @@ namespace SocialNetwork.infrastructure
 
         public DbSet<SystemUser> Users { get; set; }
         public DbSet<Player> Players { get; set; }
-
+       
         public DbSet<Relationship> Relationships { get; set; }
         public DbSet<Post> Posts { get; set; }
 
@@ -59,7 +58,7 @@ namespace SocialNetwork.infrastructure
         public DbSet<DirectRequest> DirectRequests { get; set; }
 
         public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
-
+        
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
         
         public RepositoryFactory repositories()

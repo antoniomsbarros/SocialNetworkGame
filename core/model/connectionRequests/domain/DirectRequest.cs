@@ -1,24 +1,27 @@
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.shared;
 using System;
-
+using SocialNetwork.core.model.relationships;
+using SocialNetwork.core.model.relationships.domain;
+using System.Collections.Generic;
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
     public class DirectRequest : ConnectionRequest
     {
-        protected DirectRequest() : base()
+        protected DirectRequest() : base()  
         {
             // for ORM
         }
 
         protected DirectRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate)
-            : base(id, status, playerSender, playerReceiver, text, creationDate)
+            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
+            : base(id, status, playerSender, playerReceiver, text, creationDate,connectionStrenghtsender, tags)
         {
         }
 
-        public DirectRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, TextBox text)
-            : base(connectionRequestStatus, playerSender, playerRecever, text)
+        public DirectRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, 
+            TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
+            : base(connectionRequestStatus, playerSender, playerRecever, text,connectionStrenghtsender, tags)
         {
         }
 

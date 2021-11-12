@@ -26,10 +26,12 @@ namespace SocialNetwork.core.model.posts.application
         public async Task<List<ConnectionIntroductionDTO>> GetAllAsync()
         {
             var list = await _repository.GetAllAsync();
+
+
             List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat => new ConnectionIntroductionDTO(
                     cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
                     cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                    cat.Text.Text, cat.CreationDate.ToString()));
+                    cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
             return dtos;
         }
 
@@ -39,7 +41,7 @@ namespace SocialNetwork.core.model.posts.application
             List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat => new ConnectionIntroductionDTO(
                 cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
                 cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                cat.Text.Text, cat.CreationDate.ToString()));
+                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
             return dtos;
         }
         public async Task<ConnectionIntroductionDTO> GetByIdAsync(ConnectionRequestId connectionRequestId)
@@ -49,10 +51,30 @@ namespace SocialNetwork.core.model.posts.application
             if(cat == null )
                 return null;
 
+            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), 
+                cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
+                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
+                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
+        }
+
+        public async Task<ConnectionIntroductionDTO> UpdateIntroductionStatus(ConnectionIntroductionDTO connectionIntroductionDto)
+        {
+            var cat = await _repository.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
+            if (cat==null)
+            {
+                return null;
+            }
+
+            ConnectionRequestStatusEnum statusEnum =
+                (ConnectionRequestStatusEnum) Enum.Parse(typeof(ConnectionRequestStatusEnum),
+                    connectionIntroductionDto.IntroductionStatus);
+            cat.ChangeIntroductionStatus(new ConnectionRequestStatus(statusEnum));
+            await _unitOfWork.CommitAsync();
             return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
                 cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                cat.Text.Text, cat.CreationDate.ToString());
-        }/*
+                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
+        }
+        /*
         public async Task<ConnectionIntroductionDTO> AddAsync(CreatingIntroductionConnectionDTO dto)
         {
             var connectionRequest = new ConnectionRequest(new ConnectionRequestStatus(dto.ConnectionRequestStatus), 

@@ -1,6 +1,8 @@
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.shared;
 using System;
+using System.Collections.Generic;
+using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
@@ -16,13 +18,18 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public CreationDate CreationDate { get; }
 
+       public ConnectionStrenght ConnectionStrenghtsender { get; }
+
+       public List<Tag> Tags;
+
         protected ConnectionRequest()
         {
             // for ORM
         }
 
         protected ConnectionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate)
+            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate,
+            ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
         {
             this.Id = id;
             this.ConnectionRequestStatus = status;
@@ -30,9 +37,12 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.PlayerReceiver = playerReceiver.Id;
             this.Text = text;
             this.CreationDate = creationDate;
+            this.ConnectionStrenghtsender = connectionStrenghtsender;
+            Tags = tags;
         }
 
-        protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, TextBox text)
+        protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, 
+            Player playerRecever, TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
         {
             this.Id = new ConnectionRequestId(Guid.NewGuid());
             this.ConnectionRequestStatus = connectionRequestStatus;
@@ -40,8 +50,11 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.PlayerReceiver = playerRecever.Id;
             this.Text = text;
             this.CreationDate = new();
+            this.ConnectionStrenghtsender = connectionStrenghtsender;
+            Tags = tags;
         }
-        public ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, PlayerId playerRecever, TextBox text)
+        public ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, 
+            PlayerId playerRecever, TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
         {
             this.Id = new ConnectionRequestId(Guid.NewGuid());
             this.ConnectionRequestStatus = connectionRequestStatus;
@@ -49,6 +62,8 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.PlayerReceiver = playerRecever;
             this.Text = text;
             this.CreationDate = new();
+            this.ConnectionStrenghtsender = connectionStrenghtsender;
+            Tags = tags;
         }
 
         public void ChangeStatus(ConnectionRequestStatus connectionRequestStatus)

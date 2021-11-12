@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {
@@ -29,6 +30,17 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
                 {
                     connectionRequestStatus.Property("CurrentStatus");
                 });
+            
+            builder.OwnsOne(request => request.ConnectionStrenghtsender,
+                ConnectionStrenghtsender =>
+                {
+                    ConnectionStrenghtsender.Property(c=> c.Strenght);
+                });
+           
+            builder.OwnsMany(request => request.Tags, tag =>
+            {
+                tag.Property("Name");
+            });
         }
     }
 }
