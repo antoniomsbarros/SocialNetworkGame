@@ -3,7 +3,8 @@
 image: mcr.microsoft.com/dotnet/sdk:5.0
 
 pipelines:
-  default:
+  custom:
+   CI:
     - parallel:
         - step:
             name: Build and Test
