@@ -42,11 +42,12 @@ namespace lapr5_3dg.Services
         public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
         {
             Guid guid = Guid.NewGuid();
-            PlayerId player = new PlayerId(dto.player);
+            PlayerId playerDest = new PlayerId(dto.playerDest);
+            PlayerId playerOrig = new PlayerId(dto.playerOrig);
             ConnectionStrenght connectionStrenght = new ConnectionStrenght(dto.connection);
             List<Tag> tagList = new List<Tag>();
             dto.tags.ForEach(tag => tagList.Add(new Tag(tag)));
-            var Relationship = new Relationship(player, connectionStrenght, tagList);
+            var Relationship = new Relationship(playerDest, playerOrig, connectionStrenght, tagList);
 
             await this._repo.AddAsync(Relationship);
 
@@ -62,7 +63,8 @@ namespace lapr5_3dg.Services
             if (Relationship == null)
                 return null;   
 
-            Relationship.ChangePlayer(dto.player);
+            Relationship.ChangePlayerDest(dto.playerDest);
+            Relationship.ChangePlayerOrig(dto.playerOrig);
             Relationship.ChangeConnectionStrenght(dto.connection);
             Relationship.ChangeTags(dto.tags);
             

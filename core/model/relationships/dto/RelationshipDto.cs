@@ -8,13 +8,15 @@ namespace SocialNetwork.DTO
     public class RelationshipDto
     {
         public string id {get; set; }
-        public string player { get; set; }
+        public string playerDest { get; set; }
+        public string playerOrig { get; set; }
         public int connection { get; set; }
         public List<string> tags { get; set; }
-        public RelationshipDto(string id, string player, int connection, List<string> tags)
+        public RelationshipDto(string id, string playerDest, string playerOrig, int connection, List<string> tags)
         {
             this.id = id;
-            this.player = player;
+            this.playerDest = playerDest;
+            this.playerOrig = playerOrig;
             this.connection = connection;
             this.tags = tags;
         }

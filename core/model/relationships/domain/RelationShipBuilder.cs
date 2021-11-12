@@ -9,15 +9,23 @@ namespace SocialNetwork.core.model.relationships.domain
     {
         private Relationship relationship;
 
-        private Player playerDest;
+        private PlayerId playerDest;
+
+        private PlayerId playerOrig;
 
         private ConnectionStrenght connectionStrenght;
 
         private readonly List<Tag> tagsList = new();
 
-        public RelationshipBuilder WithPlayer(Player player)
+        public RelationshipBuilder WithPlayerDest(PlayerId playerDest)
         {
-            this.playerDest = player;
+            this.playerDest = playerDest;
+            return this;
+        }
+
+        public RelationshipBuilder WithPlayerOrig(PlayerId playerOrig)
+        {
+            this.playerOrig = playerOrig;
             return this;
         }
 
@@ -38,10 +46,10 @@ namespace SocialNetwork.core.model.relationships.domain
             if (this.relationship != null)
                 return this.relationship;
             else if (this.connectionStrenght != null && this.tagsList.Count > 0)
-                this.relationship = new(this.playerDest.Id, this.connectionStrenght, this.tagsList);
+                this.relationship = new(this.playerDest, this.playerOrig,this.connectionStrenght, this.tagsList);
             else if (this.connectionStrenght != null)
             //TODO checkar se lista de tags pode ir vazia
-                this.relationship = new(this.playerDest.Id, this.connectionStrenght, new List<Tag>());
+                this.relationship = new(this.playerDest, this.playerOrig,this.connectionStrenght, new List<Tag>());
             else
             {
                 throw new System.InvalidOperationException();

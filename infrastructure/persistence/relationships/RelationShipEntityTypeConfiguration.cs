@@ -25,6 +25,11 @@ namespace SocialNetwork.infrastructure.persistence.relationships
                 {
                     playerDest.Property(c => c.Value);
                 });
+            builder.OwnsOne(relationship => relationship.PlayerOrig,
+                playerOrig =>
+                {
+                    playerOrig.Property(c => c.Value);
+                });
         }
     }
 }

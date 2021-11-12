@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
+using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.core.services.players
 {
@@ -11,11 +13,13 @@ namespace SocialNetwork.core.services.players
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
+        private readonly IRelationshipRepository _repoRela;
 
-        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
+        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo, IRelationshipRepository repoRela)
         {
-            this._unitOfWork = unitOfWork;
-            this._repo = repo;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
+            _repoRela = repoRela;
         }
 
         public async Task<List<PlayerDto>> GetAllAsync()
@@ -32,6 +36,41 @@ namespace SocialNetwork.core.services.players
                 return null;
 
             return player.ToDto();
+        }
+
+        public PlayerDto GetByIdAsyncDaniel(PlayerId id)
+        {
+            var player =  this._repo.GetPlayerId(id);
+
+            if (player == null)
+                return null;
+
+            return player.ToDto();
+        }
+
+        public async Task<List<PlayerEmailDto>> GetPlayerFriends(List<string> relationship)
+        {
+
+            List<Relationship> relations = new List<Relationship>();
+            List<Player> friends = new List<Player>();
+            List<PlayerEmailDto> friendsdto = new List<PlayerEmailDto>();
+
+            foreach(var r in relationship)
+            {
+                relations.Add(_repoRela.GetByIdAsync(new RelationshipId(r)).Result);
+            }
+
+            foreach(var r in relations)
+            {
+                friends.Add(_repo.GetByIdAsync(r.PlayerDest).Result);
+            }
+
+            foreach(var r in friends)
+            {
+                friendsdto.Add(new PlayerEmailDto(r.Email.EmailAddress, r.Profile.Name.FullName));
+            }
+
+            return friendsdto;
         }
 
         // To continue

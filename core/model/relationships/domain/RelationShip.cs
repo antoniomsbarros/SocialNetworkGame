@@ -10,7 +10,9 @@ namespace SocialNetwork.core.model.relationships.domain
 {
     public class Relationship : Entity<RelationshipId>, IAggregateRoot
     {
-        public PlayerId PlayerDest { get; private set; } // Player who has a relationship with
+        public PlayerId PlayerDest { get; private set; }
+
+        public PlayerId PlayerOrig { get; private set; }
 
         public ConnectionStrenght ConnectionStrenght { get; private set; }
 
@@ -21,26 +23,29 @@ namespace SocialNetwork.core.model.relationships.domain
             // for ORM
         }
 
-        protected Relationship(RelationshipId id, PlayerId playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
+        protected Relationship(RelationshipId id, PlayerId playerDest, PlayerId playerOrig, ConnectionStrenght connectionStrenght, List<Tag> tagList)
         {
             this.Id = id;
             this.PlayerDest = playerDest;
+            this.PlayerOrig = playerOrig;
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tagList);
         }
 
-        public Relationship(PlayerId playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
+        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrenght connectionStrenght, List<Tag> tagsList)
         {
             this.Id = new RelationshipId(Guid.NewGuid());
             this.PlayerDest = playerDest;
+            this.PlayerOrig= playerOrig;
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tagsList);
         }
 
-        public Relationship(PlayerId player, ConnectionStrenght connectionStrenght, params Tag[] tags)
+        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrenght connectionStrenght, params Tag[] tags)
         {
             this.Id = new RelationshipId(Guid.NewGuid());
-            this.PlayerDest = player;
+            this.PlayerDest = playerDest;
+            this.PlayerOrig = playerOrig;
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tags);
         }
@@ -103,17 +108,23 @@ namespace SocialNetwork.core.model.relationships.domain
             
         }
 
-        public void ChangePlayer(String player) 
+        public void ChangePlayerDest(String playerDest) 
         {
-            if (!string.IsNullOrEmpty(player))
-                PlayerDest = new PlayerId(player);
+            if (!string.IsNullOrEmpty(playerDest))
+                PlayerDest = new PlayerId(playerDest);
+        }
+
+        public void ChangePlayerOrig(String playerOrig)
+        {
+            if (!string.IsNullOrEmpty(playerOrig))
+                PlayerOrig = new PlayerId(playerOrig);
         }
 
         public RelationshipDto toDTO()
         {
             List<string> tagToDto = new List<string>();
             TagsList.ForEach(tag => tagToDto.Add(tag.Name));
-            return new RelationshipDto(this.Id.Value, PlayerDest.Value, 
+            return new RelationshipDto(this.Id.Value, PlayerDest.Value, PlayerOrig.Value, 
                 ConnectionStrenght.Strenght, tagToDto);
         }
 
