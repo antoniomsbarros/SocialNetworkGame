@@ -8,7 +8,7 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.DTO;
 using SocialNetwork.infrastructure.relationships;
 
-namespace lapr5_3dg.Services
+namespace SocialNetwork.core.services.relationships
 {
     public class RelationshipService
     {
@@ -24,7 +24,7 @@ namespace lapr5_3dg.Services
         public async Task<List<RelationshipDto>> GetAllAsync()
         {
             var list = await this._repo.GetAllAsync();
-            var listDto =  new List<RelationshipDto>();
+            var listDto = new List<RelationshipDto>();
             list.ForEach(r => listDto.Add(r.toDTO()));
             return listDto;
         }
@@ -33,7 +33,7 @@ namespace lapr5_3dg.Services
         {
             var cat = await this._repo.GetByIdAsync(id);
 
-            if(cat == null)
+            if (cat == null)
                 return null;
 
             return cat.toDTO();
@@ -57,15 +57,15 @@ namespace lapr5_3dg.Services
 
         public async Task<RelationshipDto> UpdateAsync(RelationshipDto dto)
         {
-            var Relationship = await this._repo.GetByIdAsync(new RelationshipId(dto.id)); 
+            var Relationship = await this._repo.GetByIdAsync(new RelationshipId(dto.id));
 
             if (Relationship == null)
-                return null;   
+                return null;
 
             Relationship.ChangePlayer(dto.player);
             Relationship.ChangeConnectionStrenght(dto.connection);
             Relationship.ChangeTags(dto.tags);
-            
+
             await this._unitOfWork.CommitAsync();
 
             return Relationship.toDTO();
@@ -73,27 +73,27 @@ namespace lapr5_3dg.Services
 
         public async Task<RelationshipDto> InactivateAsync(RelationshipId id)
         {
-            var Relationship = await this._repo.GetByIdAsync(id); 
+            var Relationship = await this._repo.GetByIdAsync(id);
 
             if (Relationship == null)
-                return null;   
+                return null;
 
             // change all fields
             //TODO inactive if necessary
             //Relationship.MarkAsInative();
-            
+
             await this._unitOfWork.CommitAsync();
 
             return Relationship.toDTO();
         }
 
-         public async Task<RelationshipDto> DeleteAsync(RelationshipId id)
+        public async Task<RelationshipDto> DeleteAsync(RelationshipId id)
         {
-            var Relationship = await this._repo.GetByIdAsync(id); 
+            var Relationship = await this._repo.GetByIdAsync(id);
 
             if (Relationship == null)
                 return null;
-            
+
             this._repo.Remove(Relationship);
             await this._unitOfWork.CommitAsync();
 

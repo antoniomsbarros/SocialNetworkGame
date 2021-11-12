@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
@@ -34,16 +35,17 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        // To continue
-
-        /*
-        public async Task<PlayerDto> AddPlayer(PlayerDto player)
+        public async Task<PlayerDto> AddAsync(RegisterPlayerDto playerDto)
         {
-            
-            
-            
-            this._repo.AddAsync()
+            Player player = new Player(Email.ValueOf(playerDto.email), PhoneNumber.ValueOf(playerDto.phoneNumber),
+                FacebookProfile.ValueOf(playerDto.facebookProfile), LinkedinProfile.ValueOf(playerDto.linkedinProfile),
+                DateOfBirth.ValueOf(playerDto.dateOfBirth), Name.ValueOf(playerDto.shortName, playerDto.fullName),
+                EmotionalStatus.ValueOf(playerDto.emotionalStatus));
+
+            await this._repo.AddAsync(player);
+            await this._unitOfWork.CommitAsync();
+
+            return player.ToDto();
         }
-        */
     }
 }
