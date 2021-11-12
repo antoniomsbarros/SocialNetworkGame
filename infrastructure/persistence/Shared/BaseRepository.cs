@@ -8,15 +8,14 @@ using SocialNetwork.core.model.shared;
 namespace SocialNetwork.infrastructure.persistence.Shared
 {
     public class BaseRepository<TEntity, TEntityId> : IRepository<TEntity, TEntityId>
-    where TEntity : Entity<TEntityId>
-    where TEntityId : EntityId
+        where TEntity : Entity<TEntityId>
+        where TEntityId : EntityId
     {
-        private readonly DbSet<TEntity> _objs;
+        protected readonly DbSet<TEntity> _objs;
 
         public BaseRepository(DbSet<TEntity> objs)
         {
             this._objs = objs ?? throw new ArgumentNullException(nameof(objs));
-
         }
 
         public async Task<List<TEntity>> GetAllAsync()
@@ -30,11 +29,13 @@ namespace SocialNetwork.infrastructure.persistence.Shared
             return await this._objs
                 .Where(x => id.Equals(x.Id)).FirstOrDefaultAsync();
         }
+
         public async Task<List<TEntity>> GetByIdsAsync(List<TEntityId> ids)
         {
             return await this._objs
                 .Where(x => ids.Contains(x.Id)).ToListAsync();
         }
+
         public async Task<TEntity> AddAsync(TEntity obj)
         {
             var ret = await this._objs.AddAsync(obj);

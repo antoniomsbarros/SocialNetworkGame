@@ -10,7 +10,6 @@ namespace SocialNetwork.infrastructure.persistence.players
         {
             builder.ToTable("Player");
 
-
             builder.OwnsMany(player => player.Missions, mission =>
             {
                 mission.Property("Id");
@@ -21,12 +20,14 @@ namespace SocialNetwork.infrastructure.persistence.players
                 relationship.Property("Id");
             });
 
-
             builder.HasKey(b => b.Id);
+
             builder.OwnsOne(player => player.Email, email =>
             {
-                email.Property("EmailAddress");
+                email.Property("EmailAddress").IsRequired();
+                email.HasIndex("EmailAddress").IsUnique();
             });
+
             builder.OwnsOne(player => player.PhoneNumber, number =>
             {
                 number.Property("Number");
