@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
@@ -28,6 +27,16 @@ namespace SocialNetwork.core.services.players
         public async Task<PlayerDto> GetByIdAsync(PlayerId id)
         {
             var player = await this._repo.GetByIdAsync(id);
+
+            if (player == null)
+                return null;
+
+            return player.ToDto();
+        }
+
+        public async Task<PlayerDto> GetByEmailAsync(Email email)
+        {
+            var player = await this._repo.GetByEmailAsync(email);
 
             if (player == null)
                 return null;

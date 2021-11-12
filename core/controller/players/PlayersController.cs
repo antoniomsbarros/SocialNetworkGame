@@ -27,9 +27,22 @@ namespace SocialNetwork.core.controller.players
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlayerDto>> GetGetById(Guid id)
+        public async Task<ActionResult<PlayerDto>> GetById(Guid id)
         {
             var cat = await _service.GetByIdAsync(new PlayerId(id));
+
+            if (cat == null)
+            {
+                return NotFound();
+            }
+
+            return cat;
+        }
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<PlayerDto>> GetByEmail(string email)
+        {
+            var cat = await _service.GetByEmailAsync(Email.ValueOf(email));
 
             if (cat == null)
             {
@@ -45,7 +58,7 @@ namespace SocialNetwork.core.controller.players
             try
             {
                 var con = await _service.AddAsync(dto);
-                return CreatedAtAction(nameof(GetGetById), new {id = con.id}, con);
+                return CreatedAtAction(nameof(GetByEmail), new {email = con.email}, con);
             }
             catch (BusinessRuleValidationException ex)
             {
