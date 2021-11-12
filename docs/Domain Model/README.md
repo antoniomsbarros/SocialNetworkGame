@@ -64,3 +64,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 ### 11/11/2021 - Daniel Reis (1200608) / Pedro Vieira (1190948)
 
 * Removemos a Entidade "Profile", uma vez que verificamos que o mesmo só servia como um "banco" de dados específicos (Estado emocional e nome) que pertenciam à Entidade "Player". No agregado das "Relationships" intermos a ligação que existia  do "Player" para o "Relationships", com isto tendo esta entidade DUAS ligações com os DOIS "Players" envolvidos (Origem e destino).
+
+### 12/11/2021 - Pedro Vieira (1190948) / António Barros (1200606)
+
+* Adicionamos um Value object "RelationshipPreConfiguration" para armazenar a configuração da relação que o utilizador que cria pedido quer que a sua relação tenha, caso o utilizador "receiver" aceite o pedido do mesmo.
