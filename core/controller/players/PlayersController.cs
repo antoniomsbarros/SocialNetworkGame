@@ -1,36 +1,35 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Threading.Tasks;
-using SocialNetwork.DTO;
-using SocialNetwork.core.model.relationships.domain;
+using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
-using SocialNetwork.core.model.relationships.dto;
-using SocialNetwork.core.services.relationships;
+using SocialNetwork.core.services.players;
 
-namespace SocialNetwork.core.controller.relationships
+namespace SocialNetwork.core.controller.players
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RelationshipsController : ControllerBase
+    public class PlayersController : ControllerBase
     {
-        private readonly RelationshipService _service;
+        private readonly PlayerService _service;
 
-        public RelationshipsController(RelationshipService service)
+        public PlayersController(PlayerService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RelationshipDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PlayerDto>>> GetAll()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RelationshipDto>> GetGetById(Guid id)
+        public async Task<ActionResult<PlayerDto>> GetGetById(Guid id)
         {
-            var cat = await _service.GetByIdAsync(new RelationshipId(id));
+            var cat = await _service.GetByIdAsync(new PlayerId(id));
 
             if (cat == null)
             {
@@ -41,7 +40,7 @@ namespace SocialNetwork.core.controller.relationships
         }
 
         [HttpPost]
-        public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
+        public async Task<ActionResult<PlayerDto>> Create(RegisterPlayerDto dto) //TODO To test
         {
             try
             {
@@ -54,9 +53,9 @@ namespace SocialNetwork.core.controller.relationships
             }
         }
 
-
+/* 
         [HttpPut("{id}")]
-        public async Task<ActionResult<RelationshipDto>> Update(string id, RelationshipDto dto)
+        public async Task<ActionResult<PlayerDto>> Update(string id, PlayerDto dto)
         {
             if (id != dto.id)
             {
@@ -82,7 +81,7 @@ namespace SocialNetwork.core.controller.relationships
 
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<RelationshipDto>> SoftDelete(Guid id)
+        public async Task<ActionResult<PlayerDto>> SoftDelete(Guid id)
         {
             var cat = await _service.InactivateAsync(new RelationshipId(id));
 
@@ -95,7 +94,7 @@ namespace SocialNetwork.core.controller.relationships
         }
 
         [HttpDelete("{id}/hard")]
-        public async Task<ActionResult<RelationshipDto>> HardDelete(string id)
+        public async Task<ActionResult<PlayerDto>> HardDelete(string id)
         {
             try
             {
@@ -113,5 +112,6 @@ namespace SocialNetwork.core.controller.relationships
                 return BadRequest(new {Message = ex.Message});
             }
         }
+        */
     }
 }
