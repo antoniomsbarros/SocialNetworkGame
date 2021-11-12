@@ -52,20 +52,6 @@ namespace SocialNetwork.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profile",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name_ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Name_FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmotionalStatus_CurrentEmotionalStatus = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profile", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Relationship",
                 columns: table => new
                 {
@@ -178,35 +164,31 @@ namespace SocialNetwork.Migrations
                     FacebookProfile_FacebookProfileLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LinkedinProfile_LinkedinProfileLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth_Date = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ProfileId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Name_ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name_FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmotionalStatus_CurrentEmotionalStatus = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Player", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Player_Profile_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profile",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Profile_TagsList",
+                name: "Player_TagsList",
                 columns: table => new
                 {
-                    ProfileId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PlayerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Profile_TagsList", x => new { x.ProfileId, x.Id });
+                    table.PrimaryKey("PK_Player_TagsList", x => new { x.PlayerId, x.Id });
                     table.ForeignKey(
-                        name: "FK_Profile_TagsList_Profile_ProfileId",
-                        column: x => x.ProfileId,
-                        principalTable: "Profile",
+                        name: "FK_Player_TagsList_Player_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Player",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -303,11 +285,6 @@ namespace SocialNetwork.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Player_ProfileId",
-                table: "Player",
-                column: "ProfileId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reaction_CommentId",
                 table: "Reaction",
                 column: "CommentId");
@@ -336,9 +313,6 @@ namespace SocialNetwork.Migrations
                 name: "Post_Tags");
 
             migrationBuilder.DropTable(
-                name: "Profile_TagsList");
-
-            migrationBuilder.DropTable(
                 name: "Reaction");
 
             migrationBuilder.DropTable(
@@ -364,9 +338,7 @@ namespace SocialNetwork.Migrations
 
             migrationBuilder.DropTable(
                 name: "Post");
-
-            migrationBuilder.DropTable(
-                name: "Profile");
+            
         }
     }
 }

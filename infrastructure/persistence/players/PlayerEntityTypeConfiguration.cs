@@ -47,6 +47,21 @@ namespace SocialNetwork.infrastructure.persistence.players
                 facebookProfile.Property("LinkedinProfileLink");
             });
 
+            builder.OwnsOne(player => player.Name, name =>
+            {
+                name.Property("ShortName");
+                name.Property("FullName");
+            });
+
+            builder.OwnsOne(player => player.EmotionalStatus, emotionalStatus =>
+            {
+                emotionalStatus.Property("CurrentEmotionalStatus");
+            });
+            
+            builder.OwnsMany(player => player.TagsList, tagsList =>
+            {
+                tagsList.Property("Id");
+            });
 
         }
     }

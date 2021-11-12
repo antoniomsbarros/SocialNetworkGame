@@ -10,9 +10,11 @@ using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.persistence.Shared;
-using lapr5_3dg.Services;
 using SocialNetwork.infrastructure.relationships;
-using lapr5_3dg.infrastructure.relationships;
+using SocialNetwork.core.model.players.repository;
+using SocialNetwork.core.model.relationships.repository;
+using SocialNetwork.core.services.players;
+using SocialNetwork.core.services.relationships;
 
 namespace SocialNetwork
 {
@@ -35,8 +37,8 @@ namespace SocialNetwork
 
             services.AddDbContext<SocialNetworkDbContext>(options =>
                 options
-                .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
-                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    .ReplaceService<IValueConverterSelector, StronglyEntityIdValueConverterSelector>()
+                    .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             ConfigureMyServices(services);
 
@@ -63,23 +65,22 @@ namespace SocialNetwork
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
 
         public void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            
+
             services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
             services.AddTransient<IntroductionRequestService>();
 
             services.AddTransient<RelationshipService>();
             services.AddTransient<IRelationshipRepository, RelationshipRepository>();
-        }
 
+            services.AddTransient<PlayerService>();
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+        }
     }
 }

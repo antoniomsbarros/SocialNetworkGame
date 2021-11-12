@@ -24,11 +24,8 @@ namespace SocialNetwork
                 try
                 {
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
-                    if (!context.Database.EnsureCreated())
-                        DbInit(context); // Para teste
+                    context.Database.EnsureCreated();
                     DbInit(context); // Para teste
-
-                    //Console.WriteLine(context.Players.Find()); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -47,9 +44,9 @@ namespace SocialNetwork
 
         public static void DbInit(SocialNetworkDbContext context)
         {
-            Player playerA = new Player(Email.ValueOf("1190948@isep.ipp.opt"), PhoneNumber.ValueOf("911111111"),
-                DateOfBirth.ValueOf(1994, 10, 2),
-                new Profile(Name.ValueOf("Pedro Vieira", "Pedro F S Vieira")).Name);
+            Player playerA = new Player(Email.ValueOf("109456@isep.ipp.opt"), PhoneNumber.ValueOf("912345678"),
+                DateOfBirth.ValueOf(1994, 10, 2));
+            playerA.SetNameTo(Name.ValueOf("Zé Manuel", "Zé Sá Pinto Manuel"));
 
             List<Tag> tags = new List<Tag>();
             tags.Add(Tag.ValueOf("tag1"));
@@ -62,8 +59,10 @@ namespace SocialNetwork
                 new ConnectionRequest(new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), playerA, playerA, new TextBox("ola"));
             context.ConnectionRequests.Add(connectionRequest);*/
 
-            IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.OnHold), 
-                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+            IntroductionRequest introductionRequest = new IntroductionRequest(
+                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),
+                playerA, playerA, new TextBox("ola"), new TextBox("ola1"), playerA,
+                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
             context.IntroductionRequests.Add(introductionRequest);
             context.SaveChanges();
         }

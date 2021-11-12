@@ -24,7 +24,6 @@
 	<ItemGroup>
 		<Folder Include="core\*" />
 		<Folder Include="core\controller\missions" />
-		<Folder Include="core\controller\players" />
 		<Folder Include="core\controller\posts" />
 		<Folder Include="core\controller\relationships" />
 		<Folder Include="core\services\connectionRequests" />
