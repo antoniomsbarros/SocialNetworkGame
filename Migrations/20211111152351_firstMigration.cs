@@ -171,6 +171,7 @@ namespace SocialNetwork.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Player", x => x.Id);
+                    table.UniqueConstraint("Email_EmailAddress", x => x.Email_EmailAddress);
                 });
 
             migrationBuilder.CreateTable(

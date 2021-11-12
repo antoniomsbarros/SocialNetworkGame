@@ -25,7 +25,7 @@ namespace SocialNetwork
                 {
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     context.Database.EnsureCreated();
-                    DbInit(context); // Para teste
+                    // DbInit(context); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -41,10 +41,9 @@ namespace SocialNetwork
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-
         public static void DbInit(SocialNetworkDbContext context)
         {
-            Player playerA = new Player(Email.ValueOf("109456@isep.ipp.opt"), PhoneNumber.ValueOf("912345678"),
+            Player playerA = new Player(Email.ValueOf("1019456@isep.ipp.pt"), PhoneNumber.ValueOf("912345678"),
                 DateOfBirth.ValueOf(1994, 10, 2));
             playerA.SetNameTo(Name.ValueOf("Zé Manuel", "Zé Sá Pinto Manuel"));
 

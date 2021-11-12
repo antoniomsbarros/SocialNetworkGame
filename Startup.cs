@@ -72,7 +72,6 @@ namespace SocialNetwork
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-
             services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
             services.AddTransient<IntroductionRequestService>();
 
