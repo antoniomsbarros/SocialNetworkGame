@@ -103,9 +103,13 @@ namespace SocialNetwork.core.model.players.domain
         {
             this.EmotionalStatus = emotionalStatus;
         }
-
+        //TODO FACEBOOK AND LINKEDIN API IMPLEMENTATION MISSING
         public PlayerDto ToDto()
         {
+            if(FacebookProfile == null)
+                FacebookProfile = new FacebookProfile("until no facebook api");
+            if (LinkedinProfile == null)
+                LinkedinProfile = new LinkedinProfile("until no linkedin api");
             return new PlayerDto(this.Id.Value, this.Email.EmailAddress, this.PhoneNumber.Number,
                 this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
                 this.DateOfBirth.Date, this.Name.ShortName, this.Name.FullName,

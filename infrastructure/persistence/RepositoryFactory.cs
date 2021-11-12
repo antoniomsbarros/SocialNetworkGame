@@ -40,9 +40,9 @@ namespace SocialNetwork.infrastructure.persistence
             return new MissionRepository(_context);
         }
 
-        public RelationshipsRepository RelationshipsRepository()
+        public RelationshipRepository RelationshipsRepository()
         {
-            return new RelationshipsRepository(_context);
+            return new RelationshipRepository(_context);
         }
 
         public PostRepository PostRepository()
