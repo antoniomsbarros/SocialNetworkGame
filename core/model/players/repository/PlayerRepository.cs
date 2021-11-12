@@ -1,48 +1,23 @@
-﻿using SocialNetwork.core.model.players.domain;
-using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using SocialNetwork.core.model.connectionRequests.domain;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.infrastructure;
-using System.Linq;
+using SocialNetwork.infrastructure.persistence.Shared;
+
 namespace SocialNetwork.core.model.players.repository
 {
-    public class PlayerRepository
+    public class PlayerRepository : BaseRepository<Player, PlayerId>, IPlayerRepository
     {
-        private SocialNetworkDbContext _socialNetworkDbContext;
+        public PlayerRepository(SocialNetworkDbContext context) : base(context.Players)
+        {
+        }
 
-        public PlayerRepository(SocialNetworkDbContext socialNetworkDbContext)
+        public async Task<Player> GetByEmailAsync(Email email)
         {
-            _socialNetworkDbContext = socialNetworkDbContext;
-        }
-        
-        public async Task Save(Player player)
-        {
-            _socialNetworkDbContext.Players.Add(player);
-            await _socialNetworkDbContext.SaveChangesAsync();
-        }
-        public List<Player> FindAll()
-        {
-            return (from VAR in _socialNetworkDbContext.Players select VAR).ToList();
-        }
-        public Player FindbyId(PlayerId playerId)
-        {
-            Player player= (from VAR in _socialNetworkDbContext.Players
-                where VAR.Id == playerId
-                select VAR).SingleOrDefault();
-            if (player==null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            return player;
-        }
-        
-        public async Task RemoveIntroductionRequest(PlayerId player)
-        {
-            _socialNetworkDbContext.Players.Remove(this.FindbyId(player));
-            await _socialNetworkDbContext.SaveChangesAsync();
+            return await this._objs
+                .Where(x => x.Email.Equals(email))
+                .FirstOrDefaultAsync();
         }
     }
 }

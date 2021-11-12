@@ -4,9 +4,9 @@ using System;
 
 namespace SocialNetwork.core.model.missions.domain
 {
-
     public class Mission : Entity<MissionId>
     {
+        public PlayerId Player { get; private set; }
         public MissionStatus Status { get; private set; }
 
         public MissionDifficulty Difficulty { get; private set; }
@@ -18,25 +18,29 @@ namespace SocialNetwork.core.model.missions.domain
             // for ORM
         }
 
-        protected Mission(MissionId id, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
+        protected Mission(MissionId id, PlayerId player, MissionStatus status, MissionDifficulty difficulty,
+            Player objectivePlayer)
         {
             this.Id = id;
+            this.Player = player;
             this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer.Id;
         }
 
-        public Mission(MissionDifficulty difficulty, Player objectivePlayer)
+        public Mission(PlayerId player, MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = new MissionId(Guid.NewGuid());
+            this.Player = player;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer.Id;
             this.Status = new(MissionStatusEnum.In_progress); // status for omission
         }
 
-        public Mission(MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
+        public Mission(PlayerId player, MissionStatus status, MissionDifficulty difficulty, Player objectivePlayer)
         {
             this.Id = new MissionId(Guid.NewGuid());
+            this.Player = player;
             this.Status = status;
             this.Difficulty = difficulty;
             this.ObjectivePlayer = objectivePlayer.Id;
@@ -55,7 +59,7 @@ namespace SocialNetwork.core.model.missions.domain
             if (obj.GetType() != typeof(Mission))
                 return false;
 
-            Mission otherMission = (Mission)obj;
+            Mission otherMission = (Mission) obj;
 
             return otherMission.Id.Equals(this.Id);
         }

@@ -13,7 +13,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
     public class ConnectionRequestStatus : IValueObject
     {
 
-        public ConnectionRequestStatusEnum CurrentStatus { get; }
+        public ConnectionRequestStatusEnum CurrentStatus { get; set; }
 
         protected ConnectionRequestStatus()
         {

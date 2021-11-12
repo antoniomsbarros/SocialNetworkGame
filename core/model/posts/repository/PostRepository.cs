@@ -1,15 +1,11 @@
-﻿using SocialNetwork.core.model.missions.domain;
-using SocialNetwork.core.model.players.domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SocialNetwork.core.model.connectionRequests.domain;
-using SocialNetwork.core.model.players.domain;
 using SocialNetwork.infrastructure;
 using System.Linq;
 using SocialNetwork.core.model.posts.domain.post;
-using SocialNetwork.core.model.relationships.domain;
-namespace SocialNetwork.core.model.posts.dto.repository
+
+namespace SocialNetwork.core.model.posts.repository
 {
     public class PostRepository
     {

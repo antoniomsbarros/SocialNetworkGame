@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
-using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.relationships;
 
@@ -38,9 +37,9 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public PlayerDto GetByIdAsyncDaniel(PlayerId id)
+        public async Task<PlayerDto> GetByEmailAsync(Email email)
         {
-            var player =  this._repo.GetPlayerId(id);
+            var player = await this._repo.GetByEmailAsync(email);
 
             if (player == null)
                 return null;
@@ -48,41 +47,17 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<List<PlayerEmailDto>> GetPlayerFriends(List<string> relationship)
+        public async Task<PlayerDto> AddAsync(RegisterPlayerDto playerDto)
         {
+            Player player = new Player(Email.ValueOf(playerDto.email), PhoneNumber.ValueOf(playerDto.phoneNumber),
+                FacebookProfile.ValueOf(playerDto.facebookProfile), LinkedinProfile.ValueOf(playerDto.linkedinProfile),
+                DateOfBirth.ValueOf(playerDto.dateOfBirth), Name.ValueOf(playerDto.shortName, playerDto.fullName),
+                EmotionalStatus.ValueOf(playerDto.emotionalStatus));
 
-            List<Relationship> relations = new List<Relationship>();
-            List<Player> friends = new List<Player>();
-            List<PlayerEmailDto> friendsdto = new List<PlayerEmailDto>();
+            await this._repo.AddAsync(player);
+            await this._unitOfWork.CommitAsync();
 
-            foreach(var r in relationship)
-            {
-                relations.Add(_repoRela.GetByIdAsync(new RelationshipId(r)).Result);
-            }
-
-            foreach(var r in relations)
-            {
-                friends.Add(_repo.GetByIdAsync(r.PlayerDest).Result);
-            }
-
-            foreach(var r in friends)
-            {
-                friendsdto.Add(new PlayerEmailDto(r.Email.EmailAddress, r.Profile.Name.FullName));
-            }
-
-            return friendsdto;
+            return player.ToDto();
         }
-
-        // To continue
-
-        /*
-        public async Task<PlayerDto> AddPlayer(PlayerDto player)
-        {
-            
-            
-            
-            this._repo.AddAsync()
-        }
-        */
     }
 }

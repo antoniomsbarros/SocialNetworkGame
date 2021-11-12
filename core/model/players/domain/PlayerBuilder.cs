@@ -1,7 +1,5 @@
 ﻿using SocialNetwork.core.model.shared;
 using System.Collections.Generic;
-using SocialNetwork.core.model.missions.domain;
-using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.core.model.players.domain
 {
@@ -12,12 +10,12 @@ namespace SocialNetwork.core.model.players.domain
         private Email _email;
         private PhoneNumber _phoneNumber;
         private DateOfBirth _dateOfBirth;
-        private Profile _profile;
-        private List<MissionId> _missions;
-        private List<RelationshipId> _relationships;
+        private Name _name;
+        private EmotionalStatus _emotionalStatus;
 
         private FacebookProfile _facebookProfile;
         private LinkedinProfile _linkedinProfile;
+        private List<Tag> _tagsList;
 
         public PlayerBuilder()
         {
@@ -42,9 +40,15 @@ namespace SocialNetwork.core.model.players.domain
             return this;
         }
 
-        public PlayerBuilder WithProfile(Profile profile)
+        public PlayerBuilder WithName(Name name)
         {
-            this._profile = profile;
+            this._name = name;
+            return this;
+        }
+
+        public PlayerBuilder WithEmotionalStatus(EmotionalStatus emotionalStatus)
+        {
+            this._emotionalStatus = emotionalStatus;
             return this;
         }
 
@@ -60,27 +64,17 @@ namespace SocialNetwork.core.model.players.domain
             return this;
         }
 
-        public PlayerBuilder WithMissions()
+        public PlayerBuilder AssociateTags()
         {
-            this._missions = new();
+            this._tagsList = new();
             return this;
         }
 
-        public PlayerBuilder AddMission(MissionId mission)
+        public PlayerBuilder AddTag(Tag tag)
         {
-            this._missions.Add(mission);
-            return this;
-        }
+            if (!this._tagsList.Contains(tag))
+                this._tagsList.Add(tag);
 
-        public PlayerBuilder WithRelationships(Relationship relationShip)
-        {
-            _relationships = new();
-            return this;
-        }
-
-        public PlayerBuilder AddRelationship(RelationshipId relationShip)
-        {
-            _relationships.Add(relationShip);
             return this;
         }
 
@@ -97,7 +91,7 @@ namespace SocialNetwork.core.model.players.domain
                 return this._player;
             else
             {
-                this._player = new(_email, _phoneNumber, _dateOfBirth, _profile.Name);
+                this._player = new(_email, _phoneNumber, _dateOfBirth);
 
                 if (this._facebookProfile != null)
                     this._player.LinkFacebook(_facebookProfile);
@@ -105,11 +99,14 @@ namespace SocialNetwork.core.model.players.domain
                 if (this._linkedinProfile != null)
                     this._player.LinkLinkedin(_linkedinProfile);
 
-                foreach (var nMission in _missions)
-                    this._player.GiveMission(nMission);
+                if (this._name != null)
+                    this._player.SetNameTo(_name);
 
-                foreach (var nRelationship in _relationships)
-                    this._player.StablishRelationShip(nRelationship);
+                if (this._emotionalStatus != null)
+                    this._player.SetEmotionalStatusTo(_emotionalStatus);
+
+                foreach (Tag nTag in this._tagsList)
+                    this._player.AssignTag(nTag);
 
                 return this._player;
             }

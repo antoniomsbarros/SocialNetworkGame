@@ -10,44 +10,34 @@ namespace SocialNetwork.infrastructure.persistence.players
         {
             builder.ToTable("Player");
 
-
-            builder.OwnsMany(player => player.Missions, mission =>
-            {
-                mission.Property("Id");
-            });
-
-            builder.OwnsMany(player => player.Relationships, relationship =>
-            {
-                relationship.Property("Id");
-            });
-
-
             builder.HasKey(b => b.Id);
+
             builder.OwnsOne(player => player.Email, email =>
             {
-                email.Property("EmailAddress");
+                email.Property("EmailAddress").IsRequired();
+                email.HasIndex("EmailAddress").IsUnique();
             });
-            builder.OwnsOne(player => player.PhoneNumber, number =>
+
+            builder.OwnsOne(player => player.PhoneNumber, number => { number.Property("Number"); });
+
+            builder.OwnsOne(player => player.DateOfBirth, dateOfBirth => { dateOfBirth.Property("Date"); });
+
+            builder.OwnsOne(player => player.FacebookProfile,
+                facebookProfile => { facebookProfile.Property("FacebookProfileLink"); });
+
+            builder.OwnsOne(player => player.LinkedinProfile,
+                facebookProfile => { facebookProfile.Property("LinkedinProfileLink"); });
+
+            builder.OwnsOne(player => player.Name, name =>
             {
-                number.Property("Number");
+                name.Property("ShortName");
+                name.Property("FullName");
             });
 
-            builder.OwnsOne(player => player.DateOfBirth, dateOfBirth =>
-            {
-                dateOfBirth.Property("Date");
-            });
+            builder.OwnsOne(player => player.EmotionalStatus,
+                emotionalStatus => { emotionalStatus.Property("CurrentEmotionalStatus"); });
 
-            builder.OwnsOne(player => player.FacebookProfile, facebookProfile =>
-            {
-                facebookProfile.Property("FacebookProfileLink");
-            });
-
-            builder.OwnsOne(player => player.LinkedinProfile, facebookProfile =>
-            {
-                facebookProfile.Property("LinkedinProfileLink");
-            });
-
-
+            builder.OwnsMany(player => player.TagsList, tagsList => { tagsList.Property("Id"); });
         }
     }
 }

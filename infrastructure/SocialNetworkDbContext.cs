@@ -35,7 +35,6 @@ namespace SocialNetwork.infrastructure
 
             modelBuilder.ApplyConfiguration(new MissionEntityTypeConfiguration());
 
-            modelBuilder.ApplyConfiguration(new ProfileEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PlayerEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());

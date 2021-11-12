@@ -1,9 +1,7 @@
-﻿using SocialNetwork.core.model.connectionRequests.domain;
-using SocialNetwork.core.model.connectionRequests.repository;
+﻿using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.missions.MissionRepository;
 using SocialNetwork.core.model.players.repository;
-using SocialNetwork.core.model.posts.dto.repository;
-using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.posts.repository;
 using SocialNetwork.core.model.relationships.repository;
 
 namespace SocialNetwork.infrastructure.persistence
@@ -26,7 +24,7 @@ namespace SocialNetwork.infrastructure.persistence
         {
             return new DirectRepository(_context);
         }
-        
+
         public IntroductionRequestRepository IntroductionRequest()
         {
             return new IntroductionRequestRepository(_context);
@@ -42,9 +40,9 @@ namespace SocialNetwork.infrastructure.persistence
             return new MissionRepository(_context);
         }
 
-        public relationshipsRepository RelationshipsRepository()
+        public RelationshipsRepository RelationshipsRepository()
         {
-            return new relationshipsRepository(_context);
+            return new RelationshipsRepository(_context);
         }
 
         public PostRepository PostRepository()

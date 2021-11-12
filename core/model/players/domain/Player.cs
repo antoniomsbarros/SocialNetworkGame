@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SocialNetwork.core.model.missions.domain;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using SocialNetwork.core.model.players.dto;
-using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
@@ -19,21 +18,20 @@ namespace SocialNetwork.core.model.players.domain
 
         public DateOfBirth DateOfBirth { get; private set; }
 
-        public Profile Profile { get; private set; }
+        public Name Name { get; private set; }
 
-        public List<MissionId> Missions { get; private set; }
+        public EmotionalStatus EmotionalStatus { get; private set; }
 
-        public List<RelationshipId> Relationships { get; private set; }
+        public List<Tag> TagsList { get; private set; }
 
-        //TODO Enquanto nao tiver o PlayerDTO completo
         protected Player()
         {
             // for ORM
         }
 
         protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
-            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            List<MissionId> missions, List<RelationshipId> relationships, Profile profile)
+            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus,
+            List<Tag> tagsList)
         {
             this.Id = id;
             this.Email = email;
@@ -41,14 +39,13 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = new(missions);
-            this.Relationships = new(relationships);
-            this.Profile = profile;
+            this.Name = name;
+            this.EmotionalStatus = emotionalStatus;
+            this.TagsList = new(tagsList);
         }
 
-
-        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            Name name)
+        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
+            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus)
         {
             this.Id = new PlayerId(Guid.NewGuid());
             this.Email = email;
@@ -56,21 +53,21 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = new();
-            this.Relationships = new();
-            CreateProfile(name);
+            this.Name = name;
+            this.EmotionalStatus = emotionalStatus;
+            this.TagsList = new();
         }
 
-        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
+        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth)
         {
             this.Id = new PlayerId(Guid.NewGuid());
             this.Email = email;
             this.PhoneNumber = phoneNumber;
             this.DateOfBirth = dateOfBirth;
-            this.Missions = new();
-            this.Relationships = new();
-            CreateProfile(name);
-            this.Relationships = new();
+            this.FacebookProfile = new();
+            this.LinkedinProfile = new();
+            this.EmotionalStatus = new(EmotionalStatusEnum.NotSpecified);
+            this.TagsList = new();
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
@@ -83,58 +80,37 @@ namespace SocialNetwork.core.model.players.domain
             this.LinkedinProfile = linkedinProfile;
         }
 
-        private void CreateProfile(Name name)
-        {
-            this.Profile = new(name);
-        }
-
         public bool AssignTag(Tag newTag)
         {
-            return this.Profile.AddTag(newTag);
+            if (TagsList.Contains(newTag))
+                return false;
+
+            TagsList.Add(newTag);
+            return true;
         }
 
         public bool RemoveTag(Tag tagToRemove)
         {
-            return this.Profile.RemoveTag(tagToRemove);
+            return TagsList.Remove(tagToRemove);
         }
 
-        public bool GiveMission(MissionId mission)
+        public void SetNameTo(Name newName)
         {
-            if (this.Missions.Contains(mission))
-                return false;
-
-            this.Missions.Add(mission);
-            return true;
+            this.Name = newName;
         }
 
-        public bool RemoveMission(MissionId mission)
+        public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)
         {
-            return this.Missions.Remove(mission);
-        }
-
-        public bool StablishRelationShip(RelationshipId relationshipId)
-        {
-            if (this.Relationships.Contains(relationshipId))
-                return false;
-
-            this.Relationships.Add(relationshipId);
-
-            return true;
+            this.EmotionalStatus = emotionalStatus;
         }
 
         public PlayerDto ToDto()
         {
-            List<string> missions = new();
-            foreach (MissionId nMission in Missions)
-                missions.Add(nMission.Value);
-
-            List<string> relationships = new();
-            foreach (RelationshipId nRelationship in Relationships)
-                relationships.Add(nRelationship.Value);
-
-            return new PlayerDto(this.Email.EmailAddress, this.PhoneNumber.Number,
+            return new PlayerDto(this.Id.Value, this.Email.EmailAddress, this.PhoneNumber.Number,
                 this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
-                this.DateOfBirth.Date, this.Profile.ToDto(), missions, relationships);
+                this.DateOfBirth.Date, this.Name.ShortName, this.Name.FullName,
+                this.EmotionalStatus.CurrentEmotionalStatus,
+                this.TagsList.ConvertAll(tag => tag.Name));
         }
 
         public override bool Equals(object obj)
