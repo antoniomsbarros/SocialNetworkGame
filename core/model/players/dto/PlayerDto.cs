@@ -16,12 +16,10 @@ namespace SocialNetwork.core.model.players.dto
         public string fullName; // Name
         public EmotionalStatusEnum emotionalStatus;
         public List<string> tags;
-        public List<string> missions;
-        public List<string> relationships;
 
         public PlayerDto(string id, string email, string phoneNumber, string facebookProfile, string linkedinProfile,
-            DateTime dateOfBirth, List<string> missions, List<string> relationships,
-            string shortName, string fullName, EmotionalStatusEnum emotionalStatus)
+            DateTime dateOfBirth, string shortName, string fullName, EmotionalStatusEnum emotionalStatus,
+            List<string> tags)
         {
             this.id = id;
             this.email = email;
@@ -32,8 +30,7 @@ namespace SocialNetwork.core.model.players.dto
             this.emotionalStatus = emotionalStatus;
             this.shortName = shortName;
             this.fullName = fullName;
-            this.missions = missions;
-            this.relationships = relationships;
+            this.tags = new(tags);
         }
 
         public PlayerDto()
