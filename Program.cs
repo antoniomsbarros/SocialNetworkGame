@@ -25,7 +25,7 @@ namespace SocialNetwork
                 {
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     context.Database.EnsureCreated();
-                    // DbInit(context); // Para teste
+                    //DbInit(context); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -43,14 +43,15 @@ namespace SocialNetwork
 
         public static void DbInit(SocialNetworkDbContext context)
         {
-            Player playerA = new Player(Email.ValueOf("1019456@isep.ipp.pt"), PhoneNumber.ValueOf("912345678"),
+            Player playerA = new Player(Email.ValueOf(
+                    String.Format("123456789@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("912345678"),
                 DateOfBirth.ValueOf(1994, 10, 2));
-            playerA.SetNameTo(Name.ValueOf("Zé Manuel", "Zé Sá Pinto Manuel"));
+            playerA.SetNameTo(Name.ValueOf("Zé", "Zé Miguel"));
 
             List<Tag> tags = new List<Tag>();
             tags.Add(Tag.ValueOf("tag1"));
             tags.Add(Tag.ValueOf("tag2"));
-            Post post = new Post(TextBox.ValueOf("abc"), playerA, tags);
+            Post post = new Post(TextBox.ValueOf("text box test"), playerA, tags);
             context.Posts.Add(post);
 
             context.Players.Add(playerA);
@@ -59,8 +60,10 @@ namespace SocialNetwork
             context.ConnectionRequests.Add(connectionRequest);*/
 
 
-            IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.Approved), 
-                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
+            IntroductionRequest introductionRequest = new IntroductionRequest(
+                new ConnectionRequestStatus(ConnectionRequestStatusEnum.Approved),
+                playerA, playerA, new TextBox("ola"), new TextBox("ola1"), playerA,
+                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold));
 
             context.IntroductionRequests.Add(introductionRequest);
             context.SaveChanges();
