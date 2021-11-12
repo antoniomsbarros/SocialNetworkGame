@@ -8,14 +8,21 @@ namespace SocialNetwork.core.model.players.domain
     {
         public string LinkedinProfileLink { get; }
 
-        protected LinkedinProfile()
+        private const string Default = "Not specified";
+
+        public LinkedinProfile()
         {
-            // for ORM
+            this.LinkedinProfileLink = Default;
         }
 
         public LinkedinProfile(string link)
         {
             this.LinkedinProfileLink = link;
+        }
+
+        public static LinkedinProfile ValueOf(string link)
+        {
+            return new(link);
         }
     }
 }

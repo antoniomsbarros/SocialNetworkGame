@@ -19,7 +19,11 @@ namespace SocialNetwork.core.model.players.domain
 
         public DateOfBirth DateOfBirth { get; private set; }
 
-        public Profile Profile { get; private set; }
+        public Name Name { get; private set; }
+
+        public EmotionalStatus EmotionalStatus { get; private set; }
+
+        public List<Tag> TagsList { get; private set; }
 
         public List<MissionId> Missions { get; private set; }
 
@@ -32,8 +36,8 @@ namespace SocialNetwork.core.model.players.domain
         }
 
         protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
-            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            List<MissionId> missions, List<RelationshipId> relationships, Profile profile)
+            LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus,
+            List<MissionId> missions, List<RelationshipId> relationships)
         {
             this.Id = id;
             this.Email = email;
@@ -41,14 +45,15 @@ namespace SocialNetwork.core.model.players.domain
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
             this.DateOfBirth = dateOfBirth;
+            this.Name = name;
+            this.EmotionalStatus = emotionalStatus;
             this.Missions = new(missions);
             this.Relationships = new(relationships);
-            this.Profile = profile;
         }
 
-
-        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile, LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth,
-            Name name)
+        public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
+            LinkedinProfile linkedinProfile,
+            DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus)
         {
             this.Id = new PlayerId(Guid.NewGuid());
             this.Email = email;
@@ -58,10 +63,11 @@ namespace SocialNetwork.core.model.players.domain
             this.DateOfBirth = dateOfBirth;
             this.Missions = new();
             this.Relationships = new();
-            CreateProfile(name);
+            this.Name = name;
+            this.EmotionalStatus = emotionalStatus;
         }
 
-        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth, Name name)
+        public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth)
         {
             this.Id = new PlayerId(Guid.NewGuid());
             this.Email = email;
@@ -69,8 +75,10 @@ namespace SocialNetwork.core.model.players.domain
             this.DateOfBirth = dateOfBirth;
             this.Missions = new();
             this.Relationships = new();
-            CreateProfile(name);
-            this.Relationships = new();
+
+            this.FacebookProfile = new();
+            this.LinkedinProfile = new();
+            this.EmotionalStatus = new(EmotionalStatusEnum.NotSpecified);
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
@@ -81,21 +89,6 @@ namespace SocialNetwork.core.model.players.domain
         public void LinkLinkedin(LinkedinProfile linkedinProfile)
         {
             this.LinkedinProfile = linkedinProfile;
-        }
-
-        private void CreateProfile(Name name)
-        {
-            this.Profile = new(name);
-        }
-
-        public bool AssignTag(Tag newTag)
-        {
-            return this.Profile.AddTag(newTag);
-        }
-
-        public bool RemoveTag(Tag tagToRemove)
-        {
-            return this.Profile.RemoveTag(tagToRemove);
         }
 
         public bool GiveMission(MissionId mission)
@@ -122,19 +115,38 @@ namespace SocialNetwork.core.model.players.domain
             return true;
         }
 
+        public bool AssignTag(Tag newTag)
+        {
+            if (TagsList.Contains(newTag))
+                return false;
+
+            TagsList.Add(newTag);
+            return true;
+        }
+
+        public bool RemoveTag(Tag tagToRemove)
+        {
+            return TagsList.Remove(tagToRemove);
+        }
+
+        public void SetNameTo(Name newName)
+        {
+            this.Name = newName;
+        }
+
+        public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)
+        {
+            this.EmotionalStatus = emotionalStatus;
+        }
+
         public PlayerDto ToDto()
         {
-            List<string> missions = new();
-            foreach (MissionId nMission in Missions)
-                missions.Add(nMission.Value);
-
-            List<string> relationships = new();
-            foreach (RelationshipId nRelationship in Relationships)
-                relationships.Add(nRelationship.Value);
-
-            return new PlayerDto(this.Email.EmailAddress, this.PhoneNumber.Number,
+            return new PlayerDto(this.Id.Value, this.Email.EmailAddress, this.PhoneNumber.Number,
                 this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
-                this.DateOfBirth.Date, this.Profile.ToDto(), missions, relationships);
+                this.DateOfBirth.Date, Missions.ConvertAll(mission => mission.Value),
+                Relationships.ConvertAll(relationship => relationship.Value)
+                , this.Name.ShortName, this.Name.FullName,
+                this.EmotionalStatus.CurrentEmotionalStatus);
         }
 
         public override bool Equals(object obj)

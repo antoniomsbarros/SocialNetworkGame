@@ -8,14 +8,21 @@ namespace SocialNetwork.core.model.players.domain
     {
         public string FacebookProfileLink { get; }
 
-        protected FacebookProfile()
+        private const string Default = "Not specified";
+
+        public FacebookProfile()
         {
-            // for ORM
+            this.FacebookProfileLink = Default;
         }
 
         public FacebookProfile(string link)
         {
             this.FacebookProfileLink = link; // for now there's no validation for this
+        }
+
+        public static FacebookProfile ValueOf(string link)
+        {
+            return new(link);
         }
     }
 }

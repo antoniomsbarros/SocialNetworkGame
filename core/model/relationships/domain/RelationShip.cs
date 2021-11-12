@@ -21,7 +21,8 @@ namespace SocialNetwork.core.model.relationships.domain
             // for ORM
         }
 
-        protected Relationship(RelationshipId id, PlayerId playerDest, ConnectionStrenght connectionStrenght, List<Tag> tagList)
+        protected Relationship(RelationshipId id, PlayerId playerDest, ConnectionStrenght connectionStrenght,
+            List<Tag> tagList)
         {
             this.Id = id;
             this.PlayerDest = playerDest;
@@ -44,7 +45,7 @@ namespace SocialNetwork.core.model.relationships.domain
             this.ConnectionStrenght = connectionStrenght;
             this.TagsList = new(tags);
         }
-        
+
         public bool AssignTag(Tag newTag)
         {
             if (this.TagsList.Contains(newTag))
@@ -77,7 +78,7 @@ namespace SocialNetwork.core.model.relationships.domain
             if (obj.GetType() != typeof(Relationship))
                 return false;
 
-            Relationship otherRelationShip = (Relationship)obj;
+            Relationship otherRelationShip = (Relationship) obj;
 
             return otherRelationShip.Id.Equals(this.Id);
         }
@@ -87,23 +88,22 @@ namespace SocialNetwork.core.model.relationships.domain
             return HashCode.Combine(this.Id);
         }
 
-        public void ChangeConnectionStrenght(int connectionStrenght) 
+        public void ChangeConnectionStrenght(int connectionStrenght)
         {
-            if(connectionStrenght > 0)
+            if (connectionStrenght > 0)
                 ConnectionStrenght = new ConnectionStrenght(connectionStrenght);
         }
 
-        public void ChangeTags(List<string> tags ) 
+        public void ChangeTags(List<string> tags)
         {
-            if(tags != null || tags.Count > 0)
+            if (tags != null || tags.Count > 0)
             {
                 TagsList = new List<Tag>();
                 tags.ForEach(tag => TagsList.Add(new Tag(tag)));
             }
-            
         }
 
-        public void ChangePlayer(String player) 
+        public void ChangePlayer(String player)
         {
             if (!string.IsNullOrEmpty(player))
                 PlayerDest = new PlayerId(player);
@@ -113,9 +113,8 @@ namespace SocialNetwork.core.model.relationships.domain
         {
             List<string> tagToDto = new List<string>();
             TagsList.ForEach(tag => tagToDto.Add(tag.Name));
-            return new RelationshipDto(this.Id.Value, PlayerDest.Value, 
+            return new RelationshipDto(this.Id.Value, PlayerDest.Value,
                 ConnectionStrenght.Strenght, tagToDto);
         }
-
     }
 }

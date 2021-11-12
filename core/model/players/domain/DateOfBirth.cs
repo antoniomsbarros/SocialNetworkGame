@@ -22,6 +22,11 @@ namespace SocialNetwork.core.model.players.domain
                 throw new BusinessRuleValidationException("Minimum age not respected");
         }
 
+        public DateOfBirth(DateTime date)
+        {
+            this.Date = date;
+        }
+
         public static bool IsValid(int year)
         {
             return (DateTime.Now.Year - year >= minimumAge);
@@ -32,6 +37,11 @@ namespace SocialNetwork.core.model.players.domain
             return new(year, month, day);
         }
 
+        public static DateOfBirth ValueOf(DateTime date)
+        {
+            return new(date);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == this)
@@ -40,7 +50,7 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(DateOfBirth))
                 return false;
 
-            DateOfBirth otherDateOfBirth = (DateOfBirth)obj;
+            DateOfBirth otherDateOfBirth = (DateOfBirth) obj;
 
             return otherDateOfBirth.Date.Equals(this.Date);
         }

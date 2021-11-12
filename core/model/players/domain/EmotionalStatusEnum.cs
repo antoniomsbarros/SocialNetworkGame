@@ -2,6 +2,8 @@
 {
     public enum EmotionalStatusEnum
     {
+        NotSpecified,
+
         // excited
         Astonishment,
         Eagerness,

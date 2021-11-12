@@ -1,28 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using SocialNetwork.core.model.players.domain;
 
 namespace SocialNetwork.core.model.players.dto
 {
     public class PlayerDto
     {
+        public string id;
         public string email;
         public string phoneNumber;
         public string facebookProfile;
         public string linkedinProfile;
         public DateTime dateOfBirth;
-        public ProfileDto profile;
+        public string shortName; // Name
+        public string fullName; // Name
+        public EmotionalStatusEnum emotionalStatus;
+        public List<string> tags;
         public List<string> missions;
         public List<string> relationships;
 
-        public PlayerDto(string email, string phoneNumber, string facebookProfile, string linkedinProfile,
-            DateTime dateOfBirth,
-            ProfileDto profile, List<string> missions, List<string> relationships)
+        public PlayerDto(string id, string email, string phoneNumber, string facebookProfile, string linkedinProfile,
+            DateTime dateOfBirth, List<string> missions, List<string> relationships,
+            string shortName, string fullName, EmotionalStatusEnum emotionalStatus)
         {
+            this.id = id;
             this.email = email;
             this.phoneNumber = phoneNumber;
             this.facebookProfile = facebookProfile;
             this.linkedinProfile = linkedinProfile;
-            this.profile = profile;
+            this.dateOfBirth = dateOfBirth;
+            this.emotionalStatus = emotionalStatus;
+            this.shortName = shortName;
+            this.fullName = fullName;
             this.missions = missions;
             this.relationships = relationships;
         }

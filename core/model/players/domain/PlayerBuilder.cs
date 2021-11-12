@@ -12,7 +12,8 @@ namespace SocialNetwork.core.model.players.domain
         private Email _email;
         private PhoneNumber _phoneNumber;
         private DateOfBirth _dateOfBirth;
-        private Profile _profile;
+        private Name _name;
+        private EmotionalStatus _emotionalStatus;
         private List<MissionId> _missions;
         private List<RelationshipId> _relationships;
 
@@ -42,9 +43,15 @@ namespace SocialNetwork.core.model.players.domain
             return this;
         }
 
-        public PlayerBuilder WithProfile(Profile profile)
+        public PlayerBuilder WithName(Name name)
         {
-            this._profile = profile;
+            this._name = name;
+            return this;
+        }
+
+        public PlayerBuilder WithEmotionalStatus(EmotionalStatus emotionalStatus)
+        {
+            this._emotionalStatus = emotionalStatus;
             return this;
         }
 
@@ -97,13 +104,19 @@ namespace SocialNetwork.core.model.players.domain
                 return this._player;
             else
             {
-                this._player = new(_email, _phoneNumber, _dateOfBirth, _profile.Name);
+                this._player = new(_email, _phoneNumber, _dateOfBirth);
 
                 if (this._facebookProfile != null)
                     this._player.LinkFacebook(_facebookProfile);
 
                 if (this._linkedinProfile != null)
                     this._player.LinkLinkedin(_linkedinProfile);
+
+                if (this._name != null)
+                    this._player.SetNameTo(_name);
+
+                if (this._emotionalStatus != null)
+                    this._player.SetEmotionalStatusTo(_emotionalStatus);
 
                 foreach (var nMission in _missions)
                     this._player.GiveMission(nMission);
