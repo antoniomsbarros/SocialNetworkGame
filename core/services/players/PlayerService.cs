@@ -4,6 +4,7 @@ using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.core.services.players
 {
@@ -11,11 +12,13 @@ namespace SocialNetwork.core.services.players
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
+        private readonly IRelationshipRepository _repoRela;
 
-        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
+        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo, IRelationshipRepository repoRela)
         {
-            this._unitOfWork = unitOfWork;
-            this._repo = repo;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
+            _repoRela = repoRela;
         }
 
         public async Task<List<PlayerDto>> GetAllAsync()

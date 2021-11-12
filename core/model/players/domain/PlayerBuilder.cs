@@ -1,7 +1,5 @@
 ﻿using SocialNetwork.core.model.shared;
 using System.Collections.Generic;
-using SocialNetwork.core.model.missions.domain;
-using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.core.model.players.domain
 {
@@ -14,11 +12,10 @@ namespace SocialNetwork.core.model.players.domain
         private DateOfBirth _dateOfBirth;
         private Name _name;
         private EmotionalStatus _emotionalStatus;
-        private List<MissionId> _missions;
-        private List<RelationshipId> _relationships;
 
         private FacebookProfile _facebookProfile;
         private LinkedinProfile _linkedinProfile;
+        private List<Tag> _tagsList;
 
         public PlayerBuilder()
         {
@@ -67,27 +64,17 @@ namespace SocialNetwork.core.model.players.domain
             return this;
         }
 
-        public PlayerBuilder WithMissions()
+        public PlayerBuilder AssociateTags()
         {
-            this._missions = new();
+            this._tagsList = new();
             return this;
         }
 
-        public PlayerBuilder AddMission(MissionId mission)
+        public PlayerBuilder AddTag(Tag tag)
         {
-            this._missions.Add(mission);
-            return this;
-        }
+            if (!this._tagsList.Contains(tag))
+                this._tagsList.Add(tag);
 
-        public PlayerBuilder WithRelationships(Relationship relationShip)
-        {
-            _relationships = new();
-            return this;
-        }
-
-        public PlayerBuilder AddRelationship(RelationshipId relationShip)
-        {
-            _relationships.Add(relationShip);
             return this;
         }
 
@@ -118,11 +105,8 @@ namespace SocialNetwork.core.model.players.domain
                 if (this._emotionalStatus != null)
                     this._player.SetEmotionalStatusTo(_emotionalStatus);
 
-                foreach (var nMission in _missions)
-                    this._player.GiveMission(nMission);
-
-                foreach (var nRelationship in _relationships)
-                    this._player.StablishRelationShip(nRelationship);
+                foreach (Tag nTag in this._tagsList)
+                    this._player.AssignTag(nTag);
 
                 return this._player;
             }

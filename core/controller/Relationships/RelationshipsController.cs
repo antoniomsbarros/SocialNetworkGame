@@ -7,6 +7,7 @@ using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.services.relationships;
+using SocialNetwork.core.model.players.dto;
 
 namespace SocialNetwork.core.controller.relationships
 {
@@ -38,6 +39,13 @@ namespace SocialNetwork.core.controller.relationships
             }
 
             return cat;
+        }
+
+        [HttpGet("friends/{email}")]
+        public async Task<ActionResult<List<PlayerEmailDto>>> GetFriendsByEmail(string email)
+        {
+            return await _service.GetRelationByEmail(email);
+
         }
 
         [HttpPost]
@@ -113,5 +121,8 @@ namespace SocialNetwork.core.controller.relationships
                 return BadRequest(new {Message = ex.Message});
             }
         }
+
+
+
     }
 }

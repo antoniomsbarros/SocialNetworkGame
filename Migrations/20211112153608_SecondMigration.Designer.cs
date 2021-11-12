@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.infrastructure;
 
 namespace SocialNetwork.Migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
-    partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211112153608_SecondMigration")]
+    partial class SecondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +55,24 @@ namespace SocialNetwork.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ProfileId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ProfileId");
+
                     b.ToTable("Player");
+                });
+
+            modelBuilder.Entity("SocialNetwork.core.model.players.domain.Profile", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profile");
                 });
 
             modelBuilder.Entity("SocialNetwork.core.model.posts.domain.comment.Comment", b =>
@@ -250,6 +267,10 @@ namespace SocialNetwork.Migrations
 
             modelBuilder.Entity("SocialNetwork.core.model.players.domain.Player", b =>
                 {
+                    b.HasOne("SocialNetwork.core.model.players.domain.Profile", "Profile")
+                        .WithMany()
+                        .HasForeignKey("ProfileId");
+
                     b.OwnsMany("SocialNetwork.core.model.missions.domain.MissionId", "Missions", b1 =>
                         {
                             b1.Property<string>("PlayerId")

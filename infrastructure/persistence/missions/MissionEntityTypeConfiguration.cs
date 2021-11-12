@@ -18,9 +18,6 @@ namespace SocialNetwork.infrastructure.persistence.missions
             {
                 d.Property("CurrentStatus");
             });
-
-
-
         }
     }
 }
