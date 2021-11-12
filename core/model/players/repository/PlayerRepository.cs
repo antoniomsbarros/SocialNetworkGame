@@ -16,7 +16,8 @@ namespace SocialNetwork.core.model.players.repository
         public async Task<Player> GetByEmailAsync(Email email)
         {
             return await this._objs
-                .Where(x => email.Equals(x.Email)).FirstOrDefaultAsync();
+                .Where(x => x.Email.Equals(email))
+                .FirstOrDefaultAsync();
         }
     }
 }
