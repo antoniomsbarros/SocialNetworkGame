@@ -49,7 +49,7 @@ namespace SocialNetwork
             Player playerA = new Player(Email.ValueOf(
                     String.Format("123456789@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("912345678"),
                 DateOfBirth.ValueOf(1994, 10, 2));
-            playerA.SetNameTo(Name.ValueOf("Zé", "Zé Miguel"));
+            playerA.ChangeName(Name.ValueOf("Zé", "Zé Miguel"));
 
             List<Tag> tags = new List<Tag>();
             tags.Add(Tag.ValueOf("tag1"));
@@ -65,12 +65,12 @@ namespace SocialNetwork
             Player playerB = new Player(Email.ValueOf(
                     String.Format("1200606@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("914391980"),
                 DateOfBirth.ValueOf(1994, 10, 2));
-            playerB.SetNameTo(Name.ValueOf("Antonio", "Antonio Barros"));
+            playerB.ChangeName(Name.ValueOf("Antonio", "Antonio Barros"));
             context.Players.Add(playerB);
             Player playerC = new Player(Email.ValueOf(
                     String.Format("1200608@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("914391981"),
                 DateOfBirth.ValueOf(1994, 10, 2));
-            playerC.SetNameTo(Name.ValueOf("Daniel", "Daniel Reis"));
+            playerC.ChangeName(Name.ValueOf("Daniel", "Daniel Reis"));
             context.Players.Add(playerC);
 
             IntroductionRequest introductionRequest = new IntroductionRequest(

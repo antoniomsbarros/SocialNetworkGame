@@ -94,9 +94,32 @@ namespace SocialNetwork.core.model.players.domain
             return TagsList.Remove(tagToRemove);
         }
 
-        public void SetNameTo(Name newName)
+        public void ChangeName(Name newName)
         {
             this.Name = newName;
+        }
+
+        public void ChangeDateOfBirth(DateOfBirth dateOfBirth)
+        {
+            this.DateOfBirth = dateOfBirth;
+        }
+        public void ChangeFacebookProfile(FacebookProfile facebookProfile)
+        {
+            this.FacebookProfile = facebookProfile;
+        }
+        public void ChangeLinkedinProfile(LinkedinProfile linkedinProfile)
+        {
+            this.LinkedinProfile = linkedinProfile;
+        }
+        public void ChangePhoneNumber(PhoneNumber phoneNumber)
+        {
+            this.PhoneNumber = phoneNumber;
+        }
+ 
+        public void ChangeTags(List<Tag> newTagsList)
+        {
+            TagsList.Clear();
+            TagsList.AddRange(newTagsList);
         }
 
         public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)

@@ -100,7 +100,7 @@ namespace SocialNetwork.core.model.players.domain
                     this._player.LinkLinkedin(_linkedinProfile);
 
                 if (this._name != null)
-                    this._player.SetNameTo(_name);
+                    this._player.ChangeName(_name);
 
                 if (this._emotionalStatus != null)
                     this._player.SetEmotionalStatusTo(_emotionalStatus);
