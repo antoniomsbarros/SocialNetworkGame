@@ -3,9 +3,10 @@ using SocialNetwork.core.model.players.domain;
 
 namespace SocialNetwork.core.model.players.dto
 {
-    public class RegisterPlayerDto
+    public class RegisterUserAsPlayerDto
     {
         public string email;
+        public string password;
         public string phoneNumber;
         public string facebookProfile;
         public string linkedinProfile;
@@ -14,11 +15,12 @@ namespace SocialNetwork.core.model.players.dto
         public string fullName;
         public EmotionalStatusEnum emotionalStatus;
 
-        public RegisterPlayerDto(string email, string phoneNumber, string facebookProfile,
+        public RegisterUserAsPlayerDto(string email, string password, string phoneNumber, string facebookProfile,
             string linkedinProfile,
             DateTime dateOfBirth, string shortName, string fullName, EmotionalStatusEnum emotionalStatus)
         {
             this.email = email;
+            this.password = password;
             this.phoneNumber = phoneNumber;
             this.facebookProfile = facebookProfile;
             this.linkedinProfile = linkedinProfile;
@@ -28,7 +30,7 @@ namespace SocialNetwork.core.model.players.dto
             this.emotionalStatus = emotionalStatus;
         }
 
-        public RegisterPlayerDto()
+        public RegisterUserAsPlayerDto()
         {
             // empty
         }

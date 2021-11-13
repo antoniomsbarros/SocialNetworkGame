@@ -73,11 +73,11 @@ namespace SocialNetwork
             playerC.SetNameTo(Name.ValueOf("Daniel", "Daniel Reis"));
             context.Players.Add(playerC);
 
-            IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.Approved), 
-                playerA, playerB, new TextBox("ola"),new TextBox("ola1"),
-                playerC,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),new ConnectionStrenght(10),tags);
-
-
+            IntroductionRequest introductionRequest = new IntroductionRequest(
+                new ConnectionRequestStatus(ConnectionRequestStatusEnum.Approved),
+                playerA, playerB, new TextBox("ola"), new TextBox("ola1"),
+                playerC, new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), new ConnectionStrenght(10),
+                tags);
 
 
             context.IntroductionRequests.Add(introductionRequest);

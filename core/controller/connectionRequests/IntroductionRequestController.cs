@@ -11,7 +11,6 @@ using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.model.relationships.dto;
-using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
 
