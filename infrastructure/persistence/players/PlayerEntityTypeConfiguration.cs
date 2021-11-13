@@ -37,7 +37,9 @@ namespace SocialNetwork.infrastructure.persistence.players
             builder.OwnsOne(player => player.EmotionalStatus,
                 emotionalStatus => { emotionalStatus.Property("CurrentEmotionalStatus"); });
 
-            builder.OwnsMany(player => player.TagsList, tagsList => { tagsList.Property("Id"); });
+            builder.OwnsMany(player => player.TagsList, tagsList => { 
+                tagsList.Property("Name");
+            });
         }
     }
 }
