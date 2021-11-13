@@ -53,6 +53,26 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(cat);
         }
 
+        
+        [HttpPost]
+        public async Task<ActionResult<ConnectionIntroductionDTO>> CreateIntroductionRequest(CreatConnectionIntroductionDTO infoReceived)
+        {
+            try
+            {
+                infoReceived.PlayerIntroduction = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerIntroduction)).Result.id;
+                infoReceived.PlayerReceiver = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerReceiver)).Result.id;
+                infoReceived.PlayerSender = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerSender)).Result.id;
+                var opt = await _service.AddIntroduction(infoReceived);
+
+                return CreatedAtAction(nameof(CreateIntroductionRequest),opt);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+
+        }
+        
 
        [HttpPut("{id}")]
        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>),200)]

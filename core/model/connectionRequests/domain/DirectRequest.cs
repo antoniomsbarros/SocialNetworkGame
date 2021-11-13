@@ -14,12 +14,12 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         }
 
         protected DirectRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
             : base(id, status, playerSender, playerReceiver, text, creationDate,connectionStrenghtsender, tags)
         {
         }
 
-        public DirectRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, Player playerRecever, 
+        public DirectRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, PlayerId playerRecever, 
             TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
             : base(connectionRequestStatus, playerSender, playerRecever, text,connectionStrenghtsender, tags)
         {

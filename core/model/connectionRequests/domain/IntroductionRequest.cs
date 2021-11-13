@@ -19,22 +19,22 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         }
 
         public IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, Player playerIntroduction,
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, PlayerId playerIntroduction,
             ConnectionRequestStatus introductionStatus,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
              : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrenghtsender, tags)
         {
             this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction.Id;
+            this.PlayerIntroduction = playerIntroduction;
             this.IntroductionStatus = introductionStatus;
         }
 
         public IntroductionRequest(ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, TextBox textIntroduction, Player playerIntroduction,
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, TextBox textIntroduction, PlayerId playerIntroduction,
             ConnectionRequestStatus introductionStatus,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
              : base(status, playerSender, playerReceiver, text, connectionStrenghtsender, tags)
         {
             this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction.Id;
+            this.PlayerIntroduction = playerIntroduction;
             this.IntroductionStatus = introductionStatus;
         }
 
@@ -70,7 +70,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         {
             PlayerIntroduction = playerId;
         }
-        public ConnectionIntroductionDTO Dto()
+        public ConnectionIntroductionDTO ToDto()
         {
            /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
                 this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),

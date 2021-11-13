@@ -28,32 +28,20 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         }
 
         protected ConnectionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            Player playerSender, Player playerReceiver, TextBox text, CreationDate creationDate,
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,
             ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
         {
             this.Id = id;
             this.ConnectionRequestStatus = status;
-            this.PlayerSender = playerSender.Id;
-            this.PlayerReceiver = playerReceiver.Id;
+            this.PlayerSender = playerSender;
+            this.PlayerReceiver = playerReceiver;
             this.Text = text;
             this.CreationDate = creationDate;
             this.ConnectionStrenghtsender = connectionStrenghtsender;
             Tags = tags;
         }
 
-        protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, Player playerSender, 
-            Player playerRecever, TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
-        {
-            this.Id = new ConnectionRequestId(Guid.NewGuid());
-            this.ConnectionRequestStatus = connectionRequestStatus;
-            this.PlayerSender = playerSender.Id;
-            this.PlayerReceiver = playerRecever.Id;
-            this.Text = text;
-            this.CreationDate = new();
-            this.ConnectionStrenghtsender = connectionStrenghtsender;
-            Tags = tags;
-        }
-        public ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender, 
+        protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender,
             PlayerId playerRecever, TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
         {
             this.Id = new ConnectionRequestId(Guid.NewGuid());
