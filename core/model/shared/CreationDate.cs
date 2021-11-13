@@ -16,6 +16,10 @@ namespace SocialNetwork.core.model.shared
         {
             this.Date = new DateTime(year, month, day);
         }
+        public CreationDate(string dateddMMyyyy)
+        {
+            Date = Convert.ToDateTime(dateddMMyyyy);
+        }
 
         public static CreationDate ValueOf(int year, int month, int day)
         {

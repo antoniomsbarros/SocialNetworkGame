@@ -61,6 +61,15 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.IntroductionStatus = connectionRequestStatus;
         }
 
+        public void ChangeTextIntroduction(TextBox textBox)
+        {
+            TextIntroduction = textBox;
+        }
+
+        public void ChangePlayerIntroduction(PlayerId playerId)
+        {
+            PlayerIntroduction = playerId;
+        }
         public ConnectionIntroductionDTO Dto()
         {
            /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),

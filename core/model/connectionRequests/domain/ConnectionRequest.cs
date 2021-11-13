@@ -16,11 +16,11 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public TextBox Text { get; set; }
 
-        public CreationDate CreationDate { get; }
+        public CreationDate CreationDate { get; set; }
 
-       public ConnectionStrenght ConnectionStrenghtsender { get; }
+       public ConnectionStrenght ConnectionStrenghtsender { get; set; }
 
-       public List<Tag> Tags;
+       public List<Tag> Tags{ get; set; }
 
         protected ConnectionRequest()
         {
@@ -71,6 +71,39 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.ConnectionRequestStatus = connectionRequestStatus;
         }
 
+        public void ChangePlayerSender(PlayerId senderid)
+        {
+            PlayerSender = senderid;
+        }
+
+        public void ChangePLayerRecever(PlayerId recever)
+        {
+            PlayerReceiver=recever;
+        }
+
+        public void ChangeText(TextBox textBox)
+        {
+            Text = textBox;
+        }
+
+        public void ChangeCreationDate(CreationDate creationDate)
+        {
+            CreationDate = creationDate;
+        }
+
+        public void ChangeConnectionStrenght(ConnectionStrenght connectionStrenght)
+        {
+            ConnectionStrenghtsender = connectionStrenght;
+        }
+
+        public void ChangeTags(List<string> tags)
+        {
+            if (tags != null || tags.Count > 0)
+            {
+                Tags = new List<Tag>();
+                tags.ForEach(tag => Tags.Add(new Tag(tag)));
+            }
+        }
         public abstract override bool Equals(object obj);
 
         public abstract override int GetHashCode();
