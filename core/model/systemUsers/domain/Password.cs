@@ -1,0 +1,51 @@
+﻿using SocialNetwork.core.model.shared;
+using SocialNetwork.infrastructure.authz.domain.application;
+
+namespace SocialNetwork.core.model.systemUsers.domain
+{
+    public class Password : IValueObject
+    {
+        public string Pass { get; }
+
+        protected Password()
+        {
+            //for ORM
+        }
+
+        public Password(string pass, IPasswordPolicy passwordPolicy)
+        {
+            if (!IsValid(pass, passwordPolicy))
+                this.Pass = pass;
+            else
+                throw new BusinessRuleValidationException("The password doesn't meet the requirements");
+        }
+
+        public static bool IsValid(string pass, IPasswordPolicy passwordPolicy)
+        {
+            return passwordPolicy.IsSatisfiedBy(pass);
+        }
+
+        public static Password ValueOf(string password, IPasswordPolicy passwordPolicy)
+        {
+            return new Password(password, passwordPolicy);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Password))
+                return false;
+
+            Password otherPass = (Password) obj;
+
+            return otherPass.Pass.Equals(this.Pass);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Pass != null ? Pass.GetHashCode() : 0);
+        }
+    }
+}
