@@ -43,8 +43,8 @@ namespace SocialNetwork.core.controller.players
             return cat;
         }
 
-        [HttpGet("{email}")]
-        public async Task<ActionResult<PlayerDto>> GetByEmail([FromQuery] string email)
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<PlayerDto>> GetByEmail(string email)
         {
             var cat = await _userService.GetByEmailAsync(Email.ValueOf(email));
 
