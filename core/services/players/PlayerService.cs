@@ -4,7 +4,6 @@ using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.shared;
-using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.core.services.players
 {
@@ -13,7 +12,7 @@ namespace SocialNetwork.core.services.players
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
 
-        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo, IRelationshipRepository repoRela)
+        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
@@ -45,12 +44,15 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<PlayerDto> AddAsync(RegisterPlayerDto playerDto)
+        public async Task<PlayerDto> AddAsync(RegisterPlayerDto playerAsPlayerDto)
         {
-            Player player = new Player(Email.ValueOf(playerDto.email), PhoneNumber.ValueOf(playerDto.phoneNumber),
-                FacebookProfile.ValueOf(playerDto.facebookProfile), LinkedinProfile.ValueOf(playerDto.linkedinProfile),
-                DateOfBirth.ValueOf(playerDto.dateOfBirth), Name.ValueOf(playerDto.shortName, playerDto.fullName),
-                EmotionalStatus.ValueOf(playerDto.emotionalStatus));
+            Player player = new Player(Email.ValueOf(playerAsPlayerDto.email),
+                PhoneNumber.ValueOf(playerAsPlayerDto.phoneNumber),
+                FacebookProfile.ValueOf(playerAsPlayerDto.facebookProfile),
+                LinkedinProfile.ValueOf(playerAsPlayerDto.linkedinProfile),
+                DateOfBirth.ValueOf(playerAsPlayerDto.dateOfBirth),
+                Name.ValueOf(playerAsPlayerDto.shortName, playerAsPlayerDto.fullName),
+                EmotionalStatus.ValueOf(playerAsPlayerDto.emotionalStatus));
 
             await this._repo.AddAsync(player);
             await this._unitOfWork.CommitAsync();

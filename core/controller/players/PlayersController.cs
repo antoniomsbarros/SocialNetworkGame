@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SocialNetwork.core.model.players.application;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.systemUsers.dto;
 using SocialNetwork.core.services.players;
+using SocialNetwork.core.services.systemUsers;
 
 namespace SocialNetwork.core.controller.players
 {
@@ -13,23 +16,24 @@ namespace SocialNetwork.core.controller.players
     [ApiController]
     public class PlayersController : ControllerBase
     {
-        private readonly PlayerService _service;
+        private readonly SystemUserService _systemUserService;
+        private readonly PlayerService _userService;
 
-        public PlayersController(PlayerService service)
+        public PlayersController(PlayerService userService)
         {
-            _service = service;
+            _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<ActionResult<IEnumerable<PlayerDto>>> GetAll()
         {
-            return await _service.GetAllAsync();
+            return await _userService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlayerDto>> GetById(Guid id)
+        public async Task<ActionResult<PlayerDto>> GetById([FromQuery] Guid id)
         {
-            var cat = await _service.GetByIdAsync(new PlayerId(id));
+            var cat = await _userService.GetByIdAsync(new PlayerId(id));
 
             if (cat == null)
             {
@@ -42,7 +46,7 @@ namespace SocialNetwork.core.controller.players
         [HttpGet("{email}")]
         public async Task<ActionResult<PlayerDto>> GetByEmail([FromQuery] string email)
         {
-            var cat = await _service.GetByEmailAsync(Email.ValueOf(email));
+            var cat = await _userService.GetByEmailAsync(Email.ValueOf(email));
 
             if (cat == null)
             {
@@ -53,12 +57,18 @@ namespace SocialNetwork.core.controller.players
         }
 
         [HttpPost]
-        public async Task<ActionResult<PlayerDto>> Create(RegisterPlayerDto dto) //TODO To test
+        public async Task<ActionResult<PlayerDto>> Create(RegisterUserAsPlayerDto dto) //TODO To test
         {
             try
             {
-                var con = await _service.AddAsync(dto);
-                return CreatedAtAction(nameof(GetByEmail), new {email = con.email}, con);
+                var user = await _systemUserService.AddAsync(new SystemUserDto(dto.email,
+                    dto.password), new PlayerPasswordPolicy());
+
+                var con = await _userService.AddAsync(new RegisterPlayerDto(dto.email,
+                    dto.phoneNumber, dto.facebookProfile, dto.linkedinProfile, dto.dateOfBirth,
+                    dto.shortName, dto.fullName, dto.emotionalStatus));
+
+                return CreatedAtAction(nameof(Create), new {email = con.email}, con);
             }
             catch (BusinessRuleValidationException ex)
             {
