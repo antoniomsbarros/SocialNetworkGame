@@ -102,14 +102,7 @@ namespace SocialNetwork.core.model.players.domain
         {
             this.DateOfBirth = dateOfBirth;
         }
-        public void ChangeFacebookProfile(FacebookProfile facebookProfile)
-        {
-            this.FacebookProfile = facebookProfile;
-        }
-        public void ChangeLinkedinProfile(LinkedinProfile linkedinProfile)
-        {
-            this.LinkedinProfile = linkedinProfile;
-        }
+
         public void ChangePhoneNumber(PhoneNumber phoneNumber)
         {
             this.PhoneNumber = phoneNumber;

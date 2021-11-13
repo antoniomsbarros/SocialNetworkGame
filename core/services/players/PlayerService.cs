@@ -70,8 +70,8 @@ namespace SocialNetwork.core.services.players
 
             player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
             player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
-            player.ChangeFacebookProfile(FacebookProfile.ValueOf(playerDto.facebookProfile));
-            player.ChangeLinkedinProfile(LinkedinProfile.ValueOf(playerDto.linkedinProfile));
+            player.LinkFacebook(FacebookProfile.ValueOf(playerDto.facebookProfile));
+            player.LinkLinkedin(LinkedinProfile.ValueOf(playerDto.linkedinProfile));
             player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
             player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
 
