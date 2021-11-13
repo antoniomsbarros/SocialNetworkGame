@@ -34,7 +34,7 @@ namespace SocialNetwork.core.model.players.domain
             List<Tag> tagsList)
         {
             this.Id = id;
-            this.Email = email;
+            this.Email = email; // SystemUserId
             this.PhoneNumber = phoneNumber;
             this.FacebookProfile = facebookProfile;
             this.LinkedinProfile = linkedinProfile;
@@ -103,10 +103,11 @@ namespace SocialNetwork.core.model.players.domain
         {
             this.EmotionalStatus = emotionalStatus;
         }
+
         //TODO FACEBOOK AND LINKEDIN API IMPLEMENTATION MISSING
         public PlayerDto ToDto()
         {
-            if(FacebookProfile == null)
+            if (FacebookProfile == null)
                 FacebookProfile = new FacebookProfile("until no facebook api");
             if (LinkedinProfile == null)
                 LinkedinProfile = new LinkedinProfile("until no linkedin api");

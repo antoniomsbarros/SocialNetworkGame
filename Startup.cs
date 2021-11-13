@@ -6,15 +6,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.core.model.connectionRequests.repository;
-using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.persistence.Shared;
 using SocialNetwork.infrastructure.relationships;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.relationships.repository;
+using SocialNetwork.core.model.systemUsers.repository;
+using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
 using SocialNetwork.core.services.relationships;
+using SocialNetwork.core.services.systemUsers;
 
 namespace SocialNetwork
 {
@@ -78,9 +80,11 @@ namespace SocialNetwork
             services.AddTransient<RelationshipService>();
             services.AddTransient<IRelationshipRepository, RelationshipRepository>();
 
+            services.AddTransient<SystemUserService>();
+            services.AddTransient<ISystemUserRepository, SystemUserRepository>();
+
             services.AddTransient<PlayerService>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
-            
         }
     }
 }

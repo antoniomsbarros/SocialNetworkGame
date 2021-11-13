@@ -4,12 +4,9 @@ using SocialNetwork.core.model.missions.domain;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.posts.domain.post;
 using SocialNetwork.core.model.relationships.domain;
-
+using SocialNetwork.core.model.systemUsers.domain;
 using SocialNetwork.infrastructure.persistence;
-
-using SocialNetwork.infrastructure.authz.domain.model;
 using SocialNetwork.infrastructure.persistence.authz;
-
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.missions;
 using SocialNetwork.infrastructure.persistence.players;
@@ -49,8 +46,9 @@ namespace SocialNetwork.infrastructure
 
         public DbSet<SystemUser> Users { get; set; }
         public DbSet<Player> Players { get; set; }
-       
+
         public DbSet<Relationship> Relationships { get; set; }
+
         public DbSet<Post> Posts { get; set; }
 
         public DbSet<Mission> Missions { get; set; }
@@ -58,10 +56,10 @@ namespace SocialNetwork.infrastructure
         public DbSet<DirectRequest> DirectRequests { get; set; }
 
         public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
-        
+
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
-        
-        public RepositoryFactory repositories()
+
+        public RepositoryFactory Repositories()
         {
             return new RepositoryFactory(this);
         }

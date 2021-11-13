@@ -7,9 +7,12 @@ namespace SocialNetwork.core.model.missions.domain
     public class Mission : Entity<MissionId>
     {
         public PlayerId Player { get; private set; }
+
         public MissionStatus Status { get; private set; }
 
         public MissionDifficulty Difficulty { get; private set; }
+
+        public MissionPoints Points { get; private set; }
 
         public PlayerId ObjectivePlayer { get; private set; }
 
@@ -25,6 +28,7 @@ namespace SocialNetwork.core.model.missions.domain
             this.Player = player;
             this.Status = status;
             this.Difficulty = difficulty;
+            this.Points = new();
             this.ObjectivePlayer = objectivePlayer.Id;
         }
 
@@ -49,6 +53,16 @@ namespace SocialNetwork.core.model.missions.domain
         public void ChangeStatusTo(MissionStatus newStatus)
         {
             this.Status = newStatus;
+        }
+
+        public void IncrementPoints(int points)
+        {
+            this.Points = this.Points.IncrementPoints(points);
+        }
+
+        public void DecrementPoints(int points)
+        {
+            this.Points = this.Points.DecrementPoints(points);
         }
 
         public override bool Equals(object obj)

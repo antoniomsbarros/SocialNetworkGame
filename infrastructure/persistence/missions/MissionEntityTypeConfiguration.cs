@@ -18,6 +18,11 @@ namespace SocialNetwork.infrastructure.persistence.missions
             {
                 d.Property("CurrentStatus");
             });
+            builder.OwnsOne(b => b.Points, missionPoints =>
+            {
+                missionPoints.Property("Points");
+            });
+            
         }
     }
 }

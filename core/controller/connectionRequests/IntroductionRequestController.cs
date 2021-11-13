@@ -1,32 +1,31 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.connectionRequests.domain;
-using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.players.domain;
-using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using Microsoft.AspNetCore.Cors;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.model.relationships.dto;
+using SocialNetwork.core.model.shared;
+using SocialNetwork.core.services.connectionRequests;
 
-namespace SocialNetwork.core.controller
+namespace SocialNetwork.core.controller.connectionRequests
 {
     [Route("api/[controller]")]
     [ApiController]
     public class IntroductionRequestController : ControllerBase
     {
-        
         private readonly IntroductionRequestService _service;
         private readonly RelationshipService _relationshipService;
         public IntroductionRequestController( IntroductionRequestService service,RelationshipService relationshipService )
         {
             _relationshipService = relationshipService;
-            _service = service;
+                _service=service;
+                
         }
 
         [HttpGet]
@@ -34,9 +33,10 @@ namespace SocialNetwork.core.controller
         {
             return await _service.GetAllAsync();
         }
+
         
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ConnectionIntroductionDTO),200)]
+        [ProducesResponseType(typeof(ConnectionIntroductionDTO), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetGetById(string id)
         {
@@ -49,22 +49,7 @@ namespace SocialNetwork.core.controller
 
             return Ok(cat);
         }
-        
-       
-       [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
-       [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>),200)]
-       [ProducesResponseType(400)]
-       public  async Task<IActionResult> GetPendingIntroductions(Guid PlayerIntroduction)
-       {
-           
-           var cat= await _service.GetAllPendingIntroduction(new PlayerId(PlayerIntroduction));
-           if (cat.Count==0)
-           {
-               return NotFound($"the Player does not have pending introduction");
-           }
 
-           return Ok(cat);
-       }
 
        [HttpPut("{id}")]
        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>),200)]
@@ -134,6 +119,20 @@ namespace SocialNetwork.core.controller
        }
        
        
-       
+        [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
+        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetPendingIntroductions(Guid PlayerIntroduction)
+        {
+            var cat = await _service.GetAllPendingIntroduction(new PlayerId(PlayerIntroduction));
+            if (cat.Count == 0)
+            {
+                return NotFound($"the Player does not have pending introduction");
+            }
+
+            return Ok(cat);
+        }
+
+
     }
 }
