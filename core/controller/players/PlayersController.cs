@@ -77,25 +77,25 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-/* 
+
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlayerDto>> Update(string id, PlayerDto dto)
+        public async Task<ActionResult<PlayerDto>> Update(Guid id, PlayerDto dto)
         {
-            if (id != dto.id)
+            if (!id.Equals(Guid.Parse(dto.id)))
             {
                 return BadRequest();
             }
 
             try
             {
-                var cat = await _service.UpdateAsync(dto);
+                var player = await _userService.UpdateAsync(dto);
 
-                if (cat == null)
+                if (player == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(cat);
+                return Ok(player);
             }
             catch (BusinessRuleValidationException ex)
             {
@@ -103,7 +103,7 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-
+        /* 
         [HttpDelete("{id}")]
         public async Task<ActionResult<PlayerDto>> SoftDelete(Guid id)
         {

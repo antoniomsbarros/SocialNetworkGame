@@ -59,5 +59,27 @@ namespace SocialNetwork.core.services.players
 
             return player.ToDto();
         }
+
+        public async Task<PlayerDto> UpdateAsync(PlayerDto playerDto)
+        {
+            var player = await this._repo.GetByEmailAsync(Email.ValueOf(playerDto.email));
+
+            if (player == null)
+                return null;
+
+
+            player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
+            player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
+            player.ChangeFacebookProfile(FacebookProfile.ValueOf(playerDto.facebookProfile));
+            player.ChangeLinkedinProfile(LinkedinProfile.ValueOf(playerDto.linkedinProfile));
+            player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
+            player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
+
+
+            await this._unitOfWork.CommitAsync();
+
+
+            return player.ToDto();
+        }
     }
 }
