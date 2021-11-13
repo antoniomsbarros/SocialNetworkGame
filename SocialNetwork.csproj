@@ -24,17 +24,8 @@
 
 	<ItemGroup>
 		<Folder Include="core\*" />
-		<Folder Include="core\controller\missions" />
-		<Folder Include="core\controller\posts" />
-		<Folder Include="core\controller\relationships" />
-		<Folder Include="core\services\missions" />
-		<Folder Include="core\services\relationships" />
-	
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Remove="core\connectionRequests\domain\DirectRequestId.cs" />
-	  <Compile Remove="core\connectionRequests\domain\IntroductionRequestId.cs" />
+		<Folder Include="infrastructure\*" />
+		<Folder Include="migrations\*" />
 	</ItemGroup>
 
 </Project>

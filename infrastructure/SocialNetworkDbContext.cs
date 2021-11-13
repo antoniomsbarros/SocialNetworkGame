@@ -6,7 +6,6 @@ using SocialNetwork.core.model.posts.domain.post;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.systemUsers.domain;
 using SocialNetwork.infrastructure.persistence;
-using SocialNetwork.infrastructure.persistence.authz;
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.missions;
 using SocialNetwork.infrastructure.persistence.players;
@@ -14,6 +13,7 @@ using SocialNetwork.infrastructure.persistence.posts.comment;
 using SocialNetwork.infrastructure.persistence.posts.post;
 using SocialNetwork.infrastructure.persistence.posts.reaction;
 using SocialNetwork.infrastructure.persistence.relationships;
+using SocialNetwork.infrastructure.persistence.systemUsers;
 
 namespace SocialNetwork.infrastructure
 {

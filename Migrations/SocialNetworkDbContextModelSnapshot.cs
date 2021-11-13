@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.infrastructure;
 
-namespace SocialNetwork.Migrations
+namespace SocialNetwork.migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
     partial class SocialNetworkDbContextModelSnapshot : ModelSnapshot

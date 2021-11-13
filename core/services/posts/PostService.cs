@@ -1,5 +1,5 @@
 using SocialNetwork.core.model.shared;
-using SocialNetwork.core.model.posts.dto.repository;
+using SocialNetwork.core.model.posts.repository;
 
 namespace SocialNetwork.core.services.posts
 {
