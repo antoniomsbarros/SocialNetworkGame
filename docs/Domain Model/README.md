@@ -67,4 +67,8 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 
 ### 12/11/2021 - Pedro Vieira (1190948) / António Barros (1200606)
 
-* Adicionamos um Value object "RelationshipPreConfiguration" para armazenar a configuração da relação que o utilizador que cria pedido quer que a sua relação tenha, caso o utilizador "receiver" aceite o pedido do mesmo.
+* Adicionamos um Value object "RelationshipPreConfiguration" para armazenar a configuração da relação que o utilizador que cria pedido quer que a sua relação tenha, caso o utilizador "receiver" aceite o pedido do mesmo (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11379).
+
+### 12/11/2021 - Pedro Vieira (1190948)
+
+* Adicionei o conceito "SystemUser" como *Root* do agregado e ainda um *Value object* "MissionPoints" para contablizar os pontos que o "Player" pontua na "Mission" (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11305#p14642).
