@@ -26,7 +26,7 @@ namespace SocialNetwork.core.model.shared
         protected EntityId(Object value)
         {
             if (value.GetType() == typeof(String))
-                this.ObjValue = createFromString((String)value);
+                this.ObjValue = (String)value;
             else
                 this.ObjValue = value;
         }
