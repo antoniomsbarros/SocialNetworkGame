@@ -19,9 +19,10 @@ namespace SocialNetwork.core.controller.players
         private readonly SystemUserService _systemUserService;
         private readonly PlayerService _userService;
 
-        public PlayersController(PlayerService userService)
+        public PlayersController(PlayerService userService, SystemUserService systemUserService)
         {
             _userService = userService;
+            _systemUserService = systemUserService;
         }
 
         [HttpGet()]

@@ -4,13 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.players.domain;
-using SocialNetwork.infrastructure;
-using Microsoft.AspNetCore.Cors;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.model.relationships.dto;
-using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.connectionRequests;
 
 namespace SocialNetwork.core.controller.connectionRequests

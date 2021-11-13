@@ -11,6 +11,7 @@ namespace SocialNetwork.core.model.players.repository
     {
         public PlayerRepository(SocialNetworkDbContext context) : base(context.Players)
         {
+            
         }
 
         public async Task<Player> GetByEmailAsync(Email email)
