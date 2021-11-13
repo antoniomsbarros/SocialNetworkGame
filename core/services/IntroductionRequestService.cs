@@ -70,9 +70,13 @@ namespace SocialNetwork.core.model.posts.application
                     connectionIntroductionDto.IntroductionStatus);
             cat.ChangeIntroductionStatus(new ConnectionRequestStatus(statusEnum));
             await _unitOfWork.CommitAsync();
+            
+
             return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
                 cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
                 cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
+            
+            
         }
         /*
         public async Task<ConnectionIntroductionDTO> AddAsync(CreatingIntroductionConnectionDTO dto)

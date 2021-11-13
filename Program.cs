@@ -62,11 +62,20 @@ namespace SocialNetwork
                 new ConnectionRequest(new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), playerA, playerA, new TextBox("ola"));
             context.ConnectionRequests.Add(connectionRequest);*/
 
-
+            Player playerB = new Player(Email.ValueOf(
+                    String.Format("1200606@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("914391980"),
+                DateOfBirth.ValueOf(1994, 10, 2));
+            playerB.SetNameTo(Name.ValueOf("Antonio", "Antonio Barros"));
+            context.Players.Add(playerB);
+            Player playerC = new Player(Email.ValueOf(
+                    String.Format("1200608@isep.ipp.pt", new Guid())), PhoneNumber.ValueOf("914391981"),
+                DateOfBirth.ValueOf(1994, 10, 2));
+            playerC.SetNameTo(Name.ValueOf("Daniel", "Daniel Reis"));
+            context.Players.Add(playerC);
 
             IntroductionRequest introductionRequest = new IntroductionRequest(new ConnectionRequestStatus( ConnectionRequestStatusEnum.Approved), 
-                playerA, playerA, new TextBox("ola"),new TextBox("ola1"),
-                playerA,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),new ConnectionStrenght(10),tags);
+                playerA, playerB, new TextBox("ola"),new TextBox("ola1"),
+                playerC,  new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold),new ConnectionStrenght(10),tags);
 
 
 

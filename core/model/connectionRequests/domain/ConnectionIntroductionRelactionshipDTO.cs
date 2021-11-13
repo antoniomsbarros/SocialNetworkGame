@@ -23,13 +23,13 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public string IntroductionStatus;
 
-        public int ConnectionStrenght;
+        public int ConnectionStrenghtAproval;
 
         public List<string> Tags;
 
         public ConnectionIntroductionRelactionshipDTO(string id, string connectionRequestStatus, string playerSender, 
             string playerReceiver, string text, string creationDate, string textIntroduction, string playerIntroduction,
-            string introductionStatus, int connectionStrenght, List<string> tags)
+            string introductionStatus, int connectionStrenghtAproval, List<string> tags)
         {
             Id = id;
             ConnectionRequestStatus = connectionRequestStatus;
@@ -40,7 +40,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             TextIntroduction = textIntroduction;
             PlayerIntroduction = playerIntroduction;
             IntroductionStatus = introductionStatus;
-            ConnectionStrenght = connectionStrenght;
+            ConnectionStrenghtAproval = connectionStrenghtAproval;
             Tags = tags;
         }
     }

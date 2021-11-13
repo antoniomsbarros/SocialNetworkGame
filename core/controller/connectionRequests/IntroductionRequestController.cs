@@ -9,7 +9,10 @@ using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.posts.application;
 using SocialNetwork.infrastructure;
 using Microsoft.AspNetCore.Cors;
+using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.services.relationships;
+using SocialNetwork.core.model.relationships.dto;
 
 namespace SocialNetwork.core.controller
 {
@@ -19,10 +22,10 @@ namespace SocialNetwork.core.controller
     {
         
         private readonly IntroductionRequestService _service;
-        
-        public IntroductionRequestController( IntroductionRequestService service)
+        private readonly RelationshipService _relationshipService;
+        public IntroductionRequestController( IntroductionRequestService service,RelationshipService relationshipService )
         {
-           
+            _relationshipService = relationshipService;
             _service = service;
         }
 
@@ -32,22 +35,6 @@ namespace SocialNetwork.core.controller
             return await _service.GetAllAsync();
         }
         
-        /*[HttpGet("PlayerIntroduction={PlayerIntroduction}")]
-        public async Task<ActionResult<IEnumerable<ConnectionIntroductionDTO>>> GetAllPendingIntroductions(string playerId)
-        {
-            try
-            {
-                PlayerId playerId1 = new PlayerId(playerId);
-                List<IntroductionRequest> op = await Task.Run((() => this.introductionRequestRepository.FindbyPlayerIntroductionIdThatAreOnHold(playerId1)));
-                List<ConnectionIntroductionDTO> requestDtos = new List<ConnectionIntroductionDTO>();
-                op.ForEach(o=> requestDtos.Add(o.Dto()));
-                return requestDtos;
-            }
-            catch (ArgumentNullException)
-            {
-                return NotFound();
-            }
-        }*/
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ConnectionIntroductionDTO),200)]
         [ProducesResponseType(400)]
@@ -80,12 +67,14 @@ namespace SocialNetwork.core.controller
        }
 
        [HttpPut("{id}")]
-       public async Task<ActionResult<ConnectionIntroductionDTO>> UpdateIntroductionStatus( Guid id,
+       [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>),200)]
+       [ProducesResponseType(400)]
+       public async Task<IActionResult> UpdateIntroductionStatus( string id,
            ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
        {
-           if (!id.ToString().Equals(connectionIntroductionRelactionshipDto.Id))
+           if (!id.Equals(connectionIntroductionRelactionshipDto.Id))
            {
-               return BadRequest();
+               return BadRequest($"id introction {id} and {connectionIntroductionRelactionshipDto.Id}");
            }
 
            try
@@ -100,18 +89,43 @@ namespace SocialNetwork.core.controller
                    connectionIntroductionRelactionshipDto.PlayerSender,
                    connectionIntroductionRelactionshipDto.PlayerReceiver,
                    connectionIntroductionRelactionshipDto.Text, connectionIntroductionRelactionshipDto.CreationDate,
-                   connectionIntroductionRelactionshipDto.ConnectionStrenght,
+                   connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval,
                    connectionIntroductionRelactionshipDto.Tags);
                
-               var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
                
+               
+               var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
+               if (connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval>100 && 
+                   connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval<0)
+               {
+                   return NotFound($"The connection strenght's value must be between 0 and 100.");
+               }
+
+               ConnectionStrenght connectionStrenght =
+                   new ConnectionStrenght(connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval);
                
                if (cat==null)
                {
-                   return NotFound();
+                   return NotFound($"could not change the introduction status");
                }
-
-               return Ok(cat);
+               if (connectionIntroductionRelactionshipDto.IntroductionStatus.Equals(ConnectionRequestStatusEnum.Approved.ToString()))
+               {
+                   var cat1 = await _service.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto1.Id));
+                   RelationshipPostDto sender = new RelationshipPostDto(
+                       
+                       connectionIntroductionDto1.PlayerSender,connectionIntroductionDto1.PlayerIntroduction,
+                       cat1.ConnectionStrenght,
+                       cat1.Tags);
+                   await _relationshipService.AddAsync(sender);
+                   RelationshipPostDto introduction = new RelationshipPostDto(
+                       connectionIntroductionDto1.PlayerIntroduction,
+                       connectionIntroductionDto1.PlayerSender,
+                       connectionIntroductionDto1.ConnectionStrenght,
+                       connectionIntroductionDto1.Tags);
+                   await _relationshipService.AddAsync(introduction);
+                   return Ok(cat);
+               }
+               return NotFound("aqui");
            }
            catch (BusinessRuleValidationException exception)
            {
