@@ -5,22 +5,18 @@ using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.shared;
-using SocialNetwork.infrastructure;
 
-namespace SocialNetwork.core.model.posts.application
+namespace SocialNetwork.core.services.connectionRequests
 {
     public class IntroductionRequestService
     {
-        
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIntroductionRequestRepository _repository;
-        
-        public IntroductionRequestService(IUnitOfWork _unitOfWork1, IIntroductionRequestRepository _repository1 )
+
+        public IntroductionRequestService(IUnitOfWork _unitOfWork1, IIntroductionRequestRepository _repository1)
         {
-            
             _unitOfWork = _unitOfWork1;
             _repository = _repository1;
-           
         }
 
         public async Task<List<ConnectionIntroductionDTO>> GetAllAsync()
@@ -28,39 +24,47 @@ namespace SocialNetwork.core.model.posts.application
             var list = await _repository.GetAllAsync();
 
 
-            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat => new ConnectionIntroductionDTO(
-                    cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
-                    cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                    cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
+            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat =>
+                new ConnectionIntroductionDTO(
+                    cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+                    cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
+                    cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
+                    cat.PlayerReceiver.AsString(),
+                    cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
             return dtos;
         }
 
         public async Task<List<ConnectionIntroductionDTO>> GetAllPendingIntroduction(PlayerId playerIntroductionId)
         {
             var list = await Task.Run(() => _repository.GetAllPendingIntroductionAsync(playerIntroductionId));
-            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat => new ConnectionIntroductionDTO(
-                cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
-                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
+            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat =>
+                new ConnectionIntroductionDTO(
+                    cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+                    cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
+                    cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
+                    cat.PlayerReceiver.AsString(),
+                    cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags));
             return dtos;
         }
+
         public async Task<ConnectionIntroductionDTO> GetByIdAsync(ConnectionRequestId connectionRequestId)
         {
-            
             var cat = await this._repository.GetByIdAsync(connectionRequestId);
-            if(cat == null )
+            if (cat == null)
                 return null;
 
-            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), 
-                cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
-                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
+            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+                cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
+                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
+                cat.PlayerReceiver.AsString(),
+                cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
         }
 
-        public async Task<ConnectionIntroductionDTO> UpdateIntroductionStatus(ConnectionIntroductionDTO connectionIntroductionDto)
+        public async Task<ConnectionIntroductionDTO> UpdateIntroductionStatus(
+            ConnectionIntroductionDTO connectionIntroductionDto)
         {
             var cat = await _repository.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
-            if (cat==null)
+            if (cat == null)
             {
                 return null;
             }
@@ -70,9 +74,11 @@ namespace SocialNetwork.core.model.posts.application
                     connectionIntroductionDto.IntroductionStatus);
             cat.ChangeIntroductionStatus(new ConnectionRequestStatus(statusEnum));
             await _unitOfWork.CommitAsync();
-            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(), cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(), 
-                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(), cat.PlayerReceiver.AsString(), 
-                cat.Text.Text, cat.CreationDate.ToString(),cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
+            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+                cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
+                cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
+                cat.PlayerReceiver.AsString(),
+                cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrenghtsender.Strenght, cat.Dto().Tags);
         }
         /*
         public async Task<ConnectionIntroductionDTO> AddAsync(CreatingIntroductionConnectionDTO dto)
@@ -92,7 +98,5 @@ namespace SocialNetwork.core.model.posts.application
 
             return new CategoryDto { Id = category.Id.AsGuid(), Description = category.Description };
         }*/
-        
-        
     }
 }

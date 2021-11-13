@@ -12,13 +12,11 @@ namespace SocialNetwork.core.services.players
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
-        private readonly IRelationshipRepository _repoRela;
 
         public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo, IRelationshipRepository repoRela)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
-            _repoRela = repoRela;
         }
 
         public async Task<List<PlayerDto>> GetAllAsync()
