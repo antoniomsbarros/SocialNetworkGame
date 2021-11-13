@@ -11,12 +11,15 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.infrastructure.persistence.Shared;
 using SocialNetwork.infrastructure.relationships;
 using SocialNetwork.core.model.players.repository;
-using SocialNetwork.core.model.relationships.repository;
 using SocialNetwork.core.model.systemUsers.repository;
 using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.services.systemUsers;
+using SocialNetwork.infrastructure.persistence.connectionRequests;
+using SocialNetwork.infrastructure.persistence.players;
+using SocialNetwork.infrastructure.persistence.relationships;
+using SocialNetwork.infrastructure.persistence.systemUsers;
 
 namespace SocialNetwork
 {

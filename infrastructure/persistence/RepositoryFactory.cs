@@ -1,8 +1,8 @@
-﻿using SocialNetwork.core.model.connectionRequests.repository;
-using SocialNetwork.core.model.missions.MissionRepository;
-using SocialNetwork.core.model.players.repository;
-using SocialNetwork.core.model.posts.repository;
-using SocialNetwork.core.model.relationships.repository;
+﻿using SocialNetwork.infrastructure.persistence.connectionRequests;
+using SocialNetwork.infrastructure.persistence.missions;
+using SocialNetwork.infrastructure.persistence.players;
+using SocialNetwork.infrastructure.persistence.posts;
+using SocialNetwork.infrastructure.persistence.relationships;
 
 namespace SocialNetwork.infrastructure.persistence
 {

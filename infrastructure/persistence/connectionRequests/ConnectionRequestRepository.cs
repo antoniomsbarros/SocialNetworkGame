@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.infrastructure;
 
-namespace SocialNetwork.core.model.connectionRequests.repository
+namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {
     public class ConnectionRequestRepository
     {

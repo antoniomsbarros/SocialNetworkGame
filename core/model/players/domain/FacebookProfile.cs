@@ -17,7 +17,10 @@ namespace SocialNetwork.core.model.players.domain
 
         public FacebookProfile(string link)
         {
-            this.FacebookProfileLink = link; // for now there's no validation for this
+            if (link == null || link.Trim().Length == 0)
+                this.FacebookProfileLink = Default;
+            else
+                this.FacebookProfileLink = link; // for now there's no validation for this
         }
 
         public static FacebookProfile ValueOf(string link)

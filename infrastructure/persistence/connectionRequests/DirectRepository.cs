@@ -1,6 +1,6 @@
 ﻿using SocialNetwork.infrastructure;
 
-namespace SocialNetwork.core.model.connectionRequests.repository
+namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {
     public class DirectRepository
     {

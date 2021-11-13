@@ -17,7 +17,10 @@ namespace SocialNetwork.core.model.players.domain
 
         public LinkedinProfile(string link)
         {
-            this.LinkedinProfileLink = link;
+            if (link == null || link.Trim().Length == 0)
+                this.LinkedinProfileLink = Default;
+            else
+                this.LinkedinProfileLink = link;
         }
 
         public static LinkedinProfile ValueOf(string link)

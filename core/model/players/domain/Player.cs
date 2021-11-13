@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
 
@@ -36,8 +35,8 @@ namespace SocialNetwork.core.model.players.domain
             this.Id = id;
             this.Email = email; // SystemUserId
             this.PhoneNumber = phoneNumber;
-            this.FacebookProfile = facebookProfile;
-            this.LinkedinProfile = linkedinProfile;
+            LinkFacebook(facebookProfile);
+            LinkLinkedin(linkedinProfile);
             this.DateOfBirth = dateOfBirth;
             this.Name = name;
             this.EmotionalStatus = emotionalStatus;
@@ -72,12 +71,12 @@ namespace SocialNetwork.core.model.players.domain
 
         public void LinkFacebook(FacebookProfile facebookProfile)
         {
-            this.FacebookProfile = facebookProfile;
+            this.FacebookProfile = facebookProfile ?? new();
         }
 
         public void LinkLinkedin(LinkedinProfile linkedinProfile)
         {
-            this.LinkedinProfile = linkedinProfile;
+            this.LinkedinProfile = linkedinProfile ?? new();
         }
 
         public bool AssignTag(Tag newTag)

@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.model.relationships.domain;
-using SocialNetwork.infrastructure;
 using SocialNetwork.infrastructure.persistence.Shared;
 using SocialNetwork.infrastructure.relationships;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using SocialNetwork.core.model.players.domain;
 
-namespace SocialNetwork.core.model.relationships.repository
+namespace SocialNetwork.infrastructure.persistence.relationships
 {
     public class RelationshipRepository : BaseRepository<Relationship, RelationshipId>, IRelationshipRepository
     {

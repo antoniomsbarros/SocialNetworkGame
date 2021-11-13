@@ -58,7 +58,7 @@ namespace SocialNetwork.core.controller.players
         }
 
         [HttpPost]
-        public async Task<ActionResult<PlayerDto>> Create(RegisterUserAsPlayerDto dto) //TODO To test
+        public async Task<ActionResult<PlayerDto>> Create(RegisterUserAsPlayerDto dto)
         {
             try
             {
