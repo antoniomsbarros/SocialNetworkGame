@@ -1,28 +1,22 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.connectionRequests.domain;
-using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.players.domain;
-using SocialNetwork.core.model.posts.application;
-using SocialNetwork.infrastructure;
-using Microsoft.AspNetCore.Cors;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.services.connectionRequests;
 
-namespace SocialNetwork.core.controller
+namespace SocialNetwork.core.controller.connectionRequests
 {
     [Route("api/[controller]")]
     [ApiController]
     public class IntroductionRequestController : ControllerBase
     {
-        
         private readonly IntroductionRequestService _service;
-        
-        public IntroductionRequestController( IntroductionRequestService service)
+
+        public IntroductionRequestController(IntroductionRequestService service)
         {
-           
             _service = service;
         }
 
@@ -31,7 +25,7 @@ namespace SocialNetwork.core.controller
         {
             return await _service.GetAllAsync();
         }
-        
+
         /*[HttpGet("PlayerIntroduction={PlayerIntroduction}")]
         public async Task<ActionResult<IEnumerable<ConnectionIntroductionDTO>>> GetAllPendingIntroductions(string playerId)
         {
@@ -49,7 +43,7 @@ namespace SocialNetwork.core.controller
             }
         }*/
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ConnectionIntroductionDTO),200)]
+        [ProducesResponseType(typeof(ConnectionIntroductionDTO), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetGetById(string id)
         {
@@ -62,64 +56,59 @@ namespace SocialNetwork.core.controller
 
             return Ok(cat);
         }
-        
-       
-       [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
-       [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>),200)]
-       [ProducesResponseType(400)]
-       public  async Task<IActionResult> GetPendingIntroductions(Guid PlayerIntroduction)
-       {
-           
-           var cat= await _service.GetAllPendingIntroduction(new PlayerId(PlayerIntroduction));
-           if (cat.Count==0)
-           {
-               return NotFound($"the Player does not have pending introduction");
-           }
 
-           return Ok(cat);
-       }
 
-       [HttpPut("{id}")]
-       public async Task<ActionResult<ConnectionIntroductionDTO>> UpdateIntroductionStatus( Guid id,
-           ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
-       {
-           if (!id.ToString().Equals(connectionIntroductionRelactionshipDto.Id))
-           {
-               return BadRequest();
-           }
+        [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
+        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetPendingIntroductions(Guid PlayerIntroduction)
+        {
+            var cat = await _service.GetAllPendingIntroduction(new PlayerId(PlayerIntroduction));
+            if (cat.Count == 0)
+            {
+                return NotFound($"the Player does not have pending introduction");
+            }
 
-           try
-           {
-               
-               ConnectionIntroductionDTO connectionIntroductionDto1 = new ConnectionIntroductionDTO(
-                   connectionIntroductionRelactionshipDto.TextIntroduction,
-                   connectionIntroductionRelactionshipDto.PlayerIntroduction,
-                   connectionIntroductionRelactionshipDto.IntroductionStatus,
-                   connectionIntroductionRelactionshipDto.Id,
-                   connectionIntroductionRelactionshipDto.ConnectionRequestStatus,
-                   connectionIntroductionRelactionshipDto.PlayerSender,
-                   connectionIntroductionRelactionshipDto.PlayerReceiver,
-                   connectionIntroductionRelactionshipDto.Text, connectionIntroductionRelactionshipDto.CreationDate,
-                   connectionIntroductionRelactionshipDto.ConnectionStrenght,
-                   connectionIntroductionRelactionshipDto.Tags);
-               
-               var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
-               
-               
-               if (cat==null)
-               {
-                   return NotFound();
-               }
+            return Ok(cat);
+        }
 
-               return Ok(cat);
-           }
-           catch (BusinessRuleValidationException exception)
-           {
-               return BadRequest(new {Message = exception.Message});
-           }
-       }
-       
-       
-       
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ConnectionIntroductionDTO>> UpdateIntroductionStatus(Guid id,
+            ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
+        {
+            if (!id.ToString().Equals(connectionIntroductionRelactionshipDto.Id))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                ConnectionIntroductionDTO connectionIntroductionDto1 = new ConnectionIntroductionDTO(
+                    connectionIntroductionRelactionshipDto.TextIntroduction,
+                    connectionIntroductionRelactionshipDto.PlayerIntroduction,
+                    connectionIntroductionRelactionshipDto.IntroductionStatus,
+                    connectionIntroductionRelactionshipDto.Id,
+                    connectionIntroductionRelactionshipDto.ConnectionRequestStatus,
+                    connectionIntroductionRelactionshipDto.PlayerSender,
+                    connectionIntroductionRelactionshipDto.PlayerReceiver,
+                    connectionIntroductionRelactionshipDto.Text, connectionIntroductionRelactionshipDto.CreationDate,
+                    connectionIntroductionRelactionshipDto.ConnectionStrenght,
+                    connectionIntroductionRelactionshipDto.Tags);
+
+                var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
+
+
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cat);
+            }
+            catch (BusinessRuleValidationException exception)
+            {
+                return BadRequest(new {Message = exception.Message});
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SocialNetwork.infrastructure.authz.domain.model;
+using SocialNetwork.core.model.systemUsers.domain;
 
 namespace SocialNetwork.infrastructure.persistence.authz
 {
@@ -8,7 +8,13 @@ namespace SocialNetwork.infrastructure.persistence.authz
     {
         public void Configure(EntityTypeBuilder<SystemUser> builder)
         {
-            builder.HasKey(b => b.Username);
+            builder.ToTable("SystemUser");
+            builder.HasKey(b => b.Id);
+
+            builder.OwnsOne(b => b.Password, p =>
+            {
+                p.Property("Pass");
+            });
         }
     }
 }
