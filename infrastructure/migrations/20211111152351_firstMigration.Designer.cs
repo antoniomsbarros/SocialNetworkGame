@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SocialNetwork.infrastructure;
 
-namespace SocialNetwork.migrations
+namespace SocialNetwork.infrastructure.migrations
 {
     [DbContext(typeof(SocialNetworkDbContext))]
     [Migration("20211111152351_firstMigration")]

@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using SocialNetwork.infrastructure.authz.domain.application;
+using SocialNetwork.core.model.systemUsers.application;
 
 namespace SocialNetwork.core.model.players.application
 {

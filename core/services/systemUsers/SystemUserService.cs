@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
+using SocialNetwork.core.model.players.application;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.systemUsers.domain;
 using SocialNetwork.core.model.systemUsers.dto;
 using SocialNetwork.core.model.systemUsers.repository;
-using SocialNetwork.infrastructure.authz.domain.application;
 
 namespace SocialNetwork.core.services.systemUsers
 {
@@ -18,7 +18,8 @@ namespace SocialNetwork.core.services.systemUsers
             this._repo = repo;
         }
 
-        public async Task<SystemUserCreatedDto> AddAsync(SystemUserDto systemUserDto, IPasswordPolicy passwordPolicy)
+        public async Task<SystemUserCreatedDto> AddAsync(SystemUserDto systemUserDto,
+            PlayerPasswordPolicy passwordPolicy)
         {
             SystemUser user = new SystemUser(new Username(systemUserDto.username),
                 Password.ValueOf(systemUserDto.password, passwordPolicy));

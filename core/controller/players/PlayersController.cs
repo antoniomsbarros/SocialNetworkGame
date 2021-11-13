@@ -25,7 +25,7 @@ namespace SocialNetwork.core.controller.players
             _systemUserService = systemUserService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDto>>> GetAll()
         {
             return await _userService.GetAllAsync();

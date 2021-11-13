@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace SocialNetwork.migrations
+namespace SocialNetwork.infrastructure.migrations
 {
     public partial class SecondMigration : Migration
     {

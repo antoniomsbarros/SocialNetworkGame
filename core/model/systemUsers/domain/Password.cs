@@ -1,5 +1,5 @@
 ﻿using SocialNetwork.core.model.shared;
-using SocialNetwork.infrastructure.authz.domain.application;
+using SocialNetwork.core.model.systemUsers.application;
 
 namespace SocialNetwork.core.model.systemUsers.domain
 {

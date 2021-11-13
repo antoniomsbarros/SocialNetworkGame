@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.infrastructure.authz.domain.application
+﻿namespace SocialNetwork.core.model.systemUsers.application
 {
     public interface IPasswordPolicy
     {
