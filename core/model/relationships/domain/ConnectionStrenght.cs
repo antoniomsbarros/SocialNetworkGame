@@ -5,7 +5,7 @@ namespace SocialNetwork.core.model.relationships.domain
 {
     public class ConnectionStrenght : IValueObject
     {
-        private static readonly int minStrenght = 0;
+        private static readonly int minStrenght = 1;
 
         private static readonly int maxStrenght = 100;
 

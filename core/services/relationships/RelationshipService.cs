@@ -196,5 +196,32 @@ namespace SocialNetwork.core.services.relationships
 
             return Relationship.toDTO();
         }
+        
+        public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(String relationshipId, List<String> relationTag, int connectionStrength)
+        {
+            var relationship = await this._repo.GetByIdAsync(new RelationshipId(relationshipId));
+            
+            if(relationship ==null)
+            {
+                return null;
+            }
+            
+            relationship.ChangeConnectionStrenght(connectionStrength);
+            relationship.ChangeTags(relationTag);
+
+            
+            var tag = new List<String>();
+            
+            foreach (var e in relationship.TagsList)
+            {
+                tag.Add(e.ToString());
+            }
+
+            this._repo.UpdateRelationship(relationshipId, relationTag, connectionStrength);
+
+            return new RelationshipDto(relationship.Id.AsString(), relationship.PlayerDest.AsString(),
+                relationship.PlayerOrig.AsString(),
+                relationship.ConnectionStrenght.Strenght, tag);
+        }
     }
 }
