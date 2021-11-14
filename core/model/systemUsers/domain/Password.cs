@@ -14,7 +14,7 @@ namespace SocialNetwork.core.model.systemUsers.domain
 
         public Password(string pass, IPasswordPolicy passwordPolicy)
         {
-            if (!IsValid(pass, passwordPolicy))
+            if (IsValid(pass, passwordPolicy))
                 this.Pass = pass;
             else
                 throw new BusinessRuleValidationException("The password doesn't meet the requirements");

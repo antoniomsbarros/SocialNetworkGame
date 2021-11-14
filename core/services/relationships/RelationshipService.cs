@@ -45,9 +45,9 @@ namespace SocialNetwork.core.services.relationships
 
         public async Task<List<PlayerEmailDto>> GetRelationByEmail(string email)
         {
-            var player = await _playerService.GetByEmailAsync(new Email (email));
+            var player = await _playerService.GetByEmailAsync(new Email(email));
 
-            var relationships = await this._repo.GetRelationshipsFriendsById(new PlayerId (player.id));
+            var relationships = await this._repo.GetRelationshipsFriendsById(new PlayerId(player.id));
 
             List<PlayerId> friends = new List<PlayerId>();
 
@@ -116,13 +116,13 @@ namespace SocialNetwork.core.services.relationships
 
         public async Task<RelationshipDto> DeleteAsync(RelationshipId id)
         {
-            var Relationship = await this._repo.GetByIdAsync(id);
+            var Relationship = await _repo.GetByIdAsync(id);
 
             if (Relationship == null)
                 return null;
 
-            this._repo.Remove(Relationship);
-            await this._unitOfWork.CommitAsync();
+            _repo.Remove(Relationship);
+            await _unitOfWork.CommitAsync();
 
             return Relationship.toDTO();
         }

@@ -26,7 +26,7 @@ namespace SocialNetwork.core.services.players
 
         public async Task<PlayerDto> GetByIdAsync(PlayerId id)
         {
-            var player = await this._repo.GetByIdAsync(id);
+            var player = await _repo.GetByIdAsync(id);
 
             if (player == null)
                 return null;
@@ -36,7 +36,7 @@ namespace SocialNetwork.core.services.players
 
         public async Task<PlayerDto> GetByEmailAsync(Email email)
         {
-            var player = await this._repo.GetByEmailAsync(email);
+            var player = await _repo.GetByEmailAsync(email);
 
             if (player == null)
                 return null;
@@ -54,15 +54,15 @@ namespace SocialNetwork.core.services.players
                 Name.ValueOf(playerAsPlayerDto.shortName, playerAsPlayerDto.fullName),
                 EmotionalStatus.ValueOf(playerAsPlayerDto.emotionalStatus));
 
-            await this._repo.AddAsync(player);
-            await this._unitOfWork.CommitAsync();
+            await _repo.AddAsync(player);
+            await _unitOfWork.CommitAsync();
 
             return player.ToDto();
         }
 
         public async Task<PlayerDto> UpdateAsync(PlayerDto playerDto)
         {
-            var player = await this._repo.GetByEmailAsync(Email.ValueOf(playerDto.email));
+            var player = await _repo.GetByEmailAsync(Email.ValueOf(playerDto.email));
 
             if (player == null)
                 return null;
@@ -76,8 +76,21 @@ namespace SocialNetwork.core.services.players
             player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
 
 
-            await this._unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
+
+            return player.ToDto();
+        }
+
+        public async Task<PlayerDto> DeleteAsync(PlayerId id)
+        {
+            var player = await _repo.GetByIdAsync(id);
+
+            if (player == null)
+                return null;
+
+            _repo.Remove(player);
+            await _unitOfWork.CommitAsync();
 
             return player.ToDto();
         }

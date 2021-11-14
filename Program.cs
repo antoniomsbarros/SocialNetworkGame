@@ -74,8 +74,8 @@ namespace SocialNetwork
 
             IntroductionRequest introductionRequest = new IntroductionRequest(
                 new ConnectionRequestStatus(ConnectionRequestStatusEnum.Approved),
-                playerA, playerB, new TextBox("ola"), new TextBox("ola1"),
-                playerC, new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), new ConnectionStrenght(10),
+                playerA.Id, playerB.Id, new TextBox("ola"), new TextBox("ola1"),
+                playerC.Id, new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold), new ConnectionStrenght(10),
                 tags);
 
 

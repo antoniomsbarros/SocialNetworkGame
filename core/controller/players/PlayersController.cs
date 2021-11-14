@@ -17,24 +17,24 @@ namespace SocialNetwork.core.controller.players
     public class PlayersController : ControllerBase
     {
         private readonly SystemUserService _systemUserService;
-        private readonly PlayerService _userService;
+        private readonly PlayerService _playerService;
 
-        public PlayersController(PlayerService userService, SystemUserService systemUserService)
+        public PlayersController(PlayerService playerService, SystemUserService systemUserService)
         {
-            _userService = userService;
+            _playerService = playerService;
             _systemUserService = systemUserService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDto>>> GetAll()
         {
-            return await _userService.GetAllAsync();
+            return await _playerService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlayerDto>> GetById([FromQuery] Guid id)
+        public async Task<ActionResult<PlayerDto>> GetById(Guid id)
         {
-            var cat = await _userService.GetByIdAsync(new PlayerId(id));
+            var cat = await _playerService.GetByIdAsync(new PlayerId(id));
 
             if (cat == null)
             {
@@ -44,10 +44,10 @@ namespace SocialNetwork.core.controller.players
             return cat;
         }
 
-        [HttpGet("email/{email}")]
+        [HttpGet("email={email}")]
         public async Task<ActionResult<PlayerDto>> GetByEmail(string email)
         {
-            var cat = await _userService.GetByEmailAsync(Email.ValueOf(email));
+            var cat = await _playerService.GetByEmailAsync(Email.ValueOf(email));
 
             if (cat == null)
             {
@@ -65,7 +65,7 @@ namespace SocialNetwork.core.controller.players
                 var user = await _systemUserService.AddAsync(new SystemUserDto(dto.email,
                     dto.password), new PlayerPasswordPolicy());
 
-                var con = await _userService.AddAsync(new RegisterPlayerDto(dto.email,
+                var con = await _playerService.AddAsync(new RegisterPlayerDto(dto.email,
                     dto.phoneNumber, dto.facebookProfile, dto.linkedinProfile, dto.dateOfBirth,
                     dto.shortName, dto.fullName, dto.emotionalStatus));
 
@@ -88,7 +88,7 @@ namespace SocialNetwork.core.controller.players
 
             try
             {
-                var player = await _userService.UpdateAsync(dto);
+                var player = await _playerService.UpdateAsync(dto);
 
                 if (player == null)
                 {
@@ -117,12 +117,13 @@ namespace SocialNetwork.core.controller.players
             return Ok(cat);
         }
 
+*/
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<PlayerDto>> HardDelete(string id)
         {
             try
             {
-                var cat = await _service.DeleteAsync(new RelationshipId(id));
+                var cat = await _playerService.DeleteAsync(new PlayerId(id));
 
                 if (cat == null)
                 {
@@ -136,6 +137,5 @@ namespace SocialNetwork.core.controller.players
                 return BadRequest(new {Message = ex.Message});
             }
         }
-        */
     }
 }
