@@ -1,0 +1,119 @@
+﻿@startuml
+
+actor "Player" as P
+
+participant "<<C4 Container>>\nVisualization" as V
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<API Controller>>\nPlayerController" as PC
+participant "<<API Controller>>\nDirectRequestController" as DRC
+participant "<<Domain Service>>\nPlayerService" as PS
+participant "<<Persistence>>\nPlayerRepository" as PR
+participant "<<DTO>>\nPlayerDto" as PDTO
+participant "<<Domain Service>>\nDirectRequestService" as DRS
+participant "<<Domain>>\nDirectRequest" as DR
+participant "<<Persistence>>\nDirectRequestRepository" as DRR
+participant "<<DbContext>>\nUnitOfWork" as UW
+
+activate P
+
+P -> V : show a list of players
+
+activate V
+
+V -> API: GET Players
+
+activate API
+
+API -> PC: GetAll()
+
+deactivate API
+
+activate PC 
+
+PC -> PS : GetAllAsync()
+
+activate PS
+
+PS -> PR : GetAllAsync()
+
+activate PR
+
+PR --> PS : returns all players
+
+deactivate PR
+
+loop for every player
+
+PS --> PDTO : create
+
+end
+
+PS --> PC : returns all players (dto)
+
+deactivate PS
+
+PC --> V : response JSON 
+
+deactivate PC 
+
+V --> P : show a list of players
+
+P -> V : select a player
+
+V -> DRC : POST DirectRequest
+
+activate DRC 
+
+DRC -> PS : GetByEmailAsync(emailPlayerSender)
+
+activate PS
+
+PS -> PR : GetByEmailAsync(emailPlayerSender)
+
+activate PR 
+
+PR --> PS : returns Player
+
+PS --> DRC
+
+DRC -> PS : GetByEmailAsync(emailPlayerSender)
+
+PS -> PR : GetByEmailAsync(emailPlayerReceiver)
+
+PR --> PS : returns Player
+
+PS --> DRC
+
+deactivate PR
+
+DRC -> DRS : AddAsync(CreateDirectRequestDto)
+
+activate DRS 
+
+DRS --> DR : directRequest = create()
+
+DRS -> DRR : AddAsync(directRequest)
+
+activate DRR
+deactivate DRR
+
+DRS -> UW : CommitAsync()
+
+activate UW 
+deactivate UW
+ 
+DRS --> DRC 
+
+deactivate DRS
+
+DRC --> V : response JSON
+
+deactivate DRC 
+
+V --> P : confirms the request
+
+deactivate V 
+
+deactivate P
+
+@enduml
