@@ -79,7 +79,7 @@ namespace SocialNetwork.core.controller.players
 
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<PlayerDto>> Update(Guid id, PlayerDto dto)
+        public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(Guid id, UpdatePlayerDto dto)
         {
             if (!id.Equals(Guid.Parse(dto.id)))
             {

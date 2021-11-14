@@ -60,20 +60,30 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<PlayerDto> UpdateAsync(PlayerDto playerDto)
+        public async Task<PlayerDto> UpdateAsync(UpdatePlayerDto playerDto)
         {
             var player = await _repo.GetByEmailAsync(Email.ValueOf(playerDto.email));
 
             if (player == null)
                 return null;
 
+            if (playerDto.shortName != null)
+                player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
+            
+            if (playerDto.dateOfBirth != null)
+                player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
 
-            player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
-            player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
-            player.LinkFacebook(FacebookProfile.ValueOf(playerDto.facebookProfile));
-            player.LinkLinkedin(LinkedinProfile.ValueOf(playerDto.linkedinProfile));
-            player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
-            player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
+            if (playerDto.facebookProfile != null)
+                player.LinkFacebook(FacebookProfile.ValueOf(playerDto.facebookProfile));
+
+            if (playerDto.linkedinProfile != null)
+                player.LinkLinkedin(LinkedinProfile.ValueOf(playerDto.linkedinProfile));
+
+            if (playerDto.phoneNumber != null)
+                player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
+
+            if (playerDto.tags != null)
+                player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
 
 
             await _unitOfWork.CommitAsync();

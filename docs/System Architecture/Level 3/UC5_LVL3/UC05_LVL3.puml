@@ -1,0 +1,65 @@
+﻿@startuml
+
+actor "Registered User" as UNU
+participant "<<REST>>\nAPI" as API
+participant "<<API Controller>>\nPlayerController" as PC
+participant "<<Domain Service>>\nPlayerService" as PS
+participant "<<Domain>>\nPlayer" as P
+participant "<<DTO>>\nUpdatePlayerDto" as PDTO
+participant "<<Persistence>>\nPlayerRepository" as PR
+participant "<<DbContext>>\nUnitOfWork" as UW
+
+activate UNU
+UNU -> API: PUT Player
+
+activate API
+API -> PC: UpdateProfile(UpdatePlayerDto)
+deactivate API
+
+activate PC
+
+
+
+
+
+
+PC -> PS : UpdateAsync(UpdatePlayerDto)
+
+activate PS 
+PS -> PR : player = GetByEmailAsync(email)
+activate PR 
+deactivate PR
+
+
+PS -> P: ChangeName(fullName)
+PS -> P: ChangeDateOfBirth(dateOfBirth)
+PS -> P: LinkFacebook(facebookProfile)
+PS -> P: LinkLinkedin(linkedinProfile)
+PS -> P: ChangePhoneNumber(phoneNumber)
+PS -> P: ChangeTags(tags)
+
+
+
+PS -> UW : CommitAsync()
+
+activate UW
+deactivate UW
+
+
+PS -> P: response = ToDto()
+activate P
+P --> PDTO: create(email, phoneNumber, ...)
+
+deactivate P
+
+
+
+
+
+deactivate PS
+
+
+PC --> UNU : response JSON
+deactivate PC
+
+@enduml

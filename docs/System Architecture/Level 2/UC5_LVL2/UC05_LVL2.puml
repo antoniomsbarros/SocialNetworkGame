@@ -1,0 +1,18 @@
+@startuml
+
+actor "Registered User" as UNU
+participant "<<REST>>\nAPI" as API
+participant "<<C4 Container>>\nSocialNetwork" as SN
+
+activate UNU
+UNU -> API: PUT Player
+
+activate API
+API -> SN: UpdateProfile(id, UpdatePlayerDto)
+deactivate API
+
+activate SN
+SN --> UNU : response JSON
+deactivate SN
+
+@enduml
