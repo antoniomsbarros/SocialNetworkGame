@@ -70,6 +70,8 @@ namespace SocialNetwork.core.services.relationships
             int depth)
         {
             PlayerDto currentPlayerDto = await _playerService.GetByEmailAsync(email);
+            if (currentPlayerDto == null)
+                return null;   
 
             NetworkFromPlayerPerspectiveDto network = new()
             {
