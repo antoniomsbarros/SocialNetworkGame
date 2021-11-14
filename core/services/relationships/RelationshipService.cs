@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
@@ -62,6 +63,75 @@ namespace SocialNetwork.core.services.relationships
             }
 
             return listToReturnFriends;
+        }
+
+
+
+
+        public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email, int depth)
+        {
+            PlayerDto currentPlayerDto = await _playerService.GetByEmailAsync(email);
+
+            NetworkFromPlayerPerspectiveDto network = new()
+            {
+                PlayerId = currentPlayerDto.id,
+                PlayerName = currentPlayerDto.fullName,
+                PlayerTags = currentPlayerDto.tags,
+                Relationships = new()
+            };
+            
+            List<NetworkFromPlayerPerspectiveDto> notVisitedPlayers = new(), nextDepthPlayers = new();
+            
+            List<Relationship> visitedRelationships = new();
+            notVisitedPlayers.Add(network);
+
+            for (int currentDepth = 1; currentDepth <= depth; currentDepth++)
+            {
+                if (nextDepthPlayers.Count != 0)
+                {
+                    notVisitedPlayers.AddRange(nextDepthPlayers);
+                    nextDepthPlayers.Clear();
+                }
+                else if (notVisitedPlayers.Count == 0)
+                    break;
+
+                while (notVisitedPlayers.Count != 0)
+                {
+                    NetworkFromPlayerPerspectiveDto nextPlayer = notVisitedPlayers[0];
+                    foreach (var relationship in await this._repo.GetRelationshipsFriendsById(new PlayerId(nextPlayer.PlayerId)))
+                    {
+                        if (visitedRelationships.Contains(relationship) || 
+                            relationship.PlayerDest.Value.Equals(currentPlayerDto.id))
+                            continue;
+                        visitedRelationships.Add(relationship);
+                        
+                        var playerTo = await _playerService.GetByIdAsync(relationship.PlayerDest);
+                        var playerToNetwork = new NetworkFromPlayerPerspectiveDto
+                        {
+                            PlayerId = playerTo.id,
+                            PlayerName = playerTo.fullName,
+                            RelationshipId = relationship.Id.Value,
+                        };
+
+                        nextPlayer.Relationships ??= new();
+                        nextPlayer.Relationships.Add(playerToNetwork);
+
+                        if (nextPlayer.PlayerId.Equals(currentPlayerDto.id))
+                        {
+                            playerToNetwork.RelationshipTags = relationship.TagsList.ConvertAll<string>(t => t.Name);
+                            playerToNetwork.PlayerTags = playerTo.tags;
+                            playerToNetwork.RelationshipStrength = relationship.ConnectionStrenght.Strenght;
+                        }
+                        else
+                            playerToNetwork.RelationshipStrength = null;
+
+                        if (!nextDepthPlayers.Contains(playerToNetwork))
+                            nextDepthPlayers.Add(playerToNetwork);
+                    }
+                    notVisitedPlayers.RemoveAt(0);
+                }   
+            }
+            return network;
         }
 
         public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
