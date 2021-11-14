@@ -83,10 +83,10 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
             List<string> tagToDto = new List<string>();
             Tags.ForEach(tag => tagToDto.Add(tag.Name));
-            return new ConnectionIntroductionDTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(),
-                this.IntroductionStatus.ToString(),
-                this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(),
-                this.PlayerReceiver.ToString(), this.Text.ToString(),
+            return new ConnectionIntroductionDTO(this.TextIntroduction.Text, this.PlayerIntroduction.AsString(),
+                this.IntroductionStatus.CurrentStatus.ToString(),
+                this.Id.AsString(), this.ConnectionRequestStatus.CurrentStatus.ToString(), this.PlayerSender.AsString(),
+                this.PlayerReceiver.AsString(), this.Text.Text,
                 this.CreationDate.ToString(), ConnectionStrengthSender.Strenght, tagToDto);
         }
     }
