@@ -6,6 +6,7 @@ namespace SocialNetwork.core.model.players.domain
     public class EmotionalStatus : IValueObject
     {
         public EmotionalStatusEnum CurrentEmotionalStatus { get; }
+        public DateTime lastUpdate {get; private set;}
 
         // protected 
         protected EmotionalStatus()
@@ -16,6 +17,7 @@ namespace SocialNetwork.core.model.players.domain
         public EmotionalStatus(EmotionalStatusEnum emotionalStatus)
         {
             this.CurrentEmotionalStatus = emotionalStatus;
+            this.lastUpdate = DateTime.Now;
         }
 
         public static EmotionalStatus ValueOf(EmotionalStatusEnum emotionalStatus)
@@ -40,5 +42,10 @@ namespace SocialNetwork.core.model.players.domain
         {
             return HashCode.Combine(this.CurrentEmotionalStatus);
         }
+        
+        public String ToString(){
+            return this.CurrentEmotionalStatus + " - Last updated: " + this.lastUpdate.ToString();
+        }
+        
     }
 }

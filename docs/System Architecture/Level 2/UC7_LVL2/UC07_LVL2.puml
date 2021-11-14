@@ -1,18 +1,25 @@
 @startuml
 
 actor "Registered User" as UNU
+participant "<<C4 Container>>\nVisualization" as V
 participant "<<REST>>\nAPI" as API
 participant "<<C4 Container>>\nSocialNetwork" as SN
 
+activate SN
+
 activate UNU
-UNU -> API: GET Relationships
+
+UNU->V:asks for the network
+
+activate V
+V -> API: GET Relationships
 
 activate API
 API -> SN: GetNetwork(email, depth)
-deactivate API
 
-activate SN
-SN --> UNU : response JSON
-deactivate SN
+SN --> API : response JSON
+deactivate API
+deactivate V
+deactivate UNU
 
 @enduml
