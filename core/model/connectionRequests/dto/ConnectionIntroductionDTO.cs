@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-namespace SocialNetwork.core.model.connectionRequests.domain
+﻿using System.Collections.Generic;
+
+namespace SocialNetwork.core.model.connectionRequests.dto
 {
     public class ConnectionIntroductionDTO
     {
@@ -15,18 +15,19 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public string Text;
 
         public string CreationDate;
-        
+
         public string TextIntroduction;
 
         public string PlayerIntroduction;
 
         public string IntroductionStatus;
 
-        public int ConnectionStrenght;
+        public int ConnectionStrength;
         public List<string> Tags { get; set; }
-        public ConnectionIntroductionDTO(string textIntroduction, string playerIntroduction, string introductionStatus, 
-            string id, string connectionRequestStatus, string playerSender, string playerReceiver, string text, 
-            string creationDate,int connectionStrenght, List<string> tags)
+
+        public ConnectionIntroductionDTO(string textIntroduction, string playerIntroduction, string introductionStatus,
+            string id, string connectionRequestStatus, string playerSender, string playerReceiver, string text,
+            string creationDate, int connectionStrength, List<string> tags)
         {
             TextIntroduction = textIntroduction;
             PlayerIntroduction = playerIntroduction;
@@ -37,7 +38,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             PlayerReceiver = playerReceiver;
             Text = text;
             CreationDate = creationDate;
-            ConnectionStrenght = connectionStrenght;
+            ConnectionStrength = connectionStrength;
             Tags = tags;
         }
     }

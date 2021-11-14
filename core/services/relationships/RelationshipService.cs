@@ -66,9 +66,8 @@ namespace SocialNetwork.core.services.relationships
         }
 
 
-
-
-        public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email, int depth)
+        public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email,
+            int depth)
         {
             PlayerDto currentPlayerDto = await _playerService.GetByEmailAsync(email);
 
@@ -79,9 +78,9 @@ namespace SocialNetwork.core.services.relationships
                 PlayerTags = currentPlayerDto.tags,
                 Relationships = new()
             };
-            
+
             List<NetworkFromPlayerPerspectiveDto> notVisitedPlayers = new(), nextDepthPlayers = new();
-            
+
             List<Relationship> visitedRelationships = new();
             notVisitedPlayers.Add(network);
 
@@ -98,13 +97,14 @@ namespace SocialNetwork.core.services.relationships
                 while (notVisitedPlayers.Count != 0)
                 {
                     NetworkFromPlayerPerspectiveDto nextPlayer = notVisitedPlayers[0];
-                    foreach (var relationship in await this._repo.GetRelationshipsFriendsById(new PlayerId(nextPlayer.PlayerId)))
+                    foreach (var relationship in await this._repo.GetRelationshipsFriendsById(
+                        new PlayerId(nextPlayer.PlayerId)))
                     {
-                        if (visitedRelationships.Contains(relationship) || 
+                        if (visitedRelationships.Contains(relationship) ||
                             relationship.PlayerDest.Value.Equals(currentPlayerDto.id))
                             continue;
                         visitedRelationships.Add(relationship);
-                        
+
                         var playerTo = await _playerService.GetByIdAsync(relationship.PlayerDest);
                         var playerToNetwork = new NetworkFromPlayerPerspectiveDto
                         {
@@ -128,9 +128,11 @@ namespace SocialNetwork.core.services.relationships
                         if (!nextDepthPlayers.Contains(playerToNetwork))
                             nextDepthPlayers.Add(playerToNetwork);
                     }
+
                     notVisitedPlayers.RemoveAt(0);
-                }   
+                }
             }
+
             return network;
         }
 
@@ -196,28 +198,29 @@ namespace SocialNetwork.core.services.relationships
 
             return Relationship.toDTO();
         }
-        
-        public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(String relationshipId, List<String> relationTag, int connectionStrength)
+
+        public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(String relationshipId,
+            List<String> relationTag, int connectionStrength)
         {
             var relationship = await this._repo.GetByIdAsync(new RelationshipId(relationshipId));
-            
-            if(relationship ==null)
+
+            if (relationship == null)
             {
                 return null;
             }
-            
+
             relationship.ChangeConnectionStrenght(connectionStrength);
             relationship.ChangeTags(relationTag);
 
-            
+
             var tag = new List<String>();
-            
+
             foreach (var e in relationship.TagsList)
             {
                 tag.Add(e.ToString());
             }
 
-            this._repo.UpdateRelationship(relationshipId, relationTag, connectionStrength);
+            await this._repo.UpdateRelationship(relationshipId, relationTag, connectionStrength);
 
             return new RelationshipDto(relationship.Id.AsString(), relationship.PlayerDest.AsString(),
                 relationship.PlayerOrig.AsString(),

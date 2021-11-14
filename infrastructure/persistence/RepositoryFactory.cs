@@ -20,9 +20,9 @@ namespace SocialNetwork.infrastructure.persistence
             return new ConnectionRequestRepository(_context);
         }
 
-        public DirectRepository DirectRepository()
+        public DirectRequestRepository DirectRepository()
         {
-            return new DirectRepository(_context);
+            return new DirectRequestRepository(_context);
         }
 
         public IntroductionRequestRepository IntroductionRequest()

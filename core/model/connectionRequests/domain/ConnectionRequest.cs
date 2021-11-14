@@ -18,9 +18,9 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public CreationDate CreationDate { get; set; }
 
-       public ConnectionStrenght ConnectionStrenghtsender { get; set; }
+        public ConnectionStrenght ConnectionStrengthSender { get; set; }
 
-       public List<Tag> Tags{ get; set; }
+        public List<Tag> Tags { get; set; }
 
         protected ConnectionRequest()
         {
@@ -29,7 +29,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         protected ConnectionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,
-            ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
+            ConnectionStrenght connectionStrengthSender, List<Tag> tags)
         {
             this.Id = id;
             this.ConnectionRequestStatus = status;
@@ -37,20 +37,33 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.PlayerReceiver = playerReceiver;
             this.Text = text;
             this.CreationDate = creationDate;
-            this.ConnectionStrenghtsender = connectionStrenghtsender;
+            this.ConnectionStrengthSender = connectionStrengthSender;
             Tags = tags;
         }
 
         protected ConnectionRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender,
-            PlayerId playerRecever, TextBox text,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
+            PlayerId playerReceiver, TextBox text, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
         {
             this.Id = new ConnectionRequestId(Guid.NewGuid());
             this.ConnectionRequestStatus = connectionRequestStatus;
             this.PlayerSender = playerSender;
-            this.PlayerReceiver = playerRecever;
+            this.PlayerReceiver = playerReceiver;
             this.Text = text;
             this.CreationDate = new();
-            this.ConnectionStrenghtsender = connectionStrenghtsender;
+            this.ConnectionStrengthSender = connectionStrengthSender;
+            Tags = tags;
+        }
+
+        protected ConnectionRequest(PlayerId playerSender,
+            PlayerId playerReceiver, TextBox text, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
+        {
+            this.Id = new ConnectionRequestId(Guid.NewGuid());
+            this.ConnectionRequestStatus = new(ConnectionRequestStatusEnum.OnHold);
+            this.PlayerSender = playerSender;
+            this.PlayerReceiver = playerReceiver;
+            this.Text = text;
+            this.CreationDate = new();
+            this.ConnectionStrengthSender = connectionStrengthSender;
             Tags = tags;
         }
 
@@ -59,14 +72,14 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             this.ConnectionRequestStatus = connectionRequestStatus;
         }
 
-        public void ChangePlayerSender(PlayerId senderid)
+        public void ChangePlayerSender(PlayerId playerSenderId)
         {
-            PlayerSender = senderid;
+            PlayerSender = playerSenderId;
         }
 
-        public void ChangePLayerRecever(PlayerId recever)
+        public void ChangePLayerReceiver(PlayerId playerReceiverId)
         {
-            PlayerReceiver=recever;
+            PlayerReceiver = playerReceiverId;
         }
 
         public void ChangeText(TextBox textBox)
@@ -81,7 +94,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public void ChangeConnectionStrenght(ConnectionStrenght connectionStrenght)
         {
-            ConnectionStrenghtsender = connectionStrenght;
+            ConnectionStrengthSender = connectionStrenght;
         }
 
         public void ChangeTags(List<string> tags)
@@ -92,6 +105,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
                 tags.ForEach(tag => Tags.Add(new Tag(tag)));
             }
         }
+
         public abstract override bool Equals(object obj);
 
         public abstract override int GetHashCode();
