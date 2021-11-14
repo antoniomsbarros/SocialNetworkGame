@@ -8,6 +8,7 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.model.players.dto;
+using SocialNetwork.core.model.players.domain;
 
 namespace SocialNetwork.core.controller.relationships
 {
@@ -47,6 +48,19 @@ namespace SocialNetwork.core.controller.relationships
             return await _service.GetRelationByEmail(email);
 
         }
+
+        [HttpGet("network/{email}/{depth}")]
+        public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetwork(string email, int depth)
+        {
+            if (depth < 0 || email == null)
+            {
+                return BadRequest();
+            }
+
+            return await _service.GetNetworkAtDepthByEmail(Email.ValueOf(email), depth);
+        }
+
+
 
         [HttpPost]
         public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
