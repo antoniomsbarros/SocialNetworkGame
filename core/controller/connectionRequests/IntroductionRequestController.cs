@@ -219,5 +219,23 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
         */
+
+        [HttpDelete("{id}/hard")]
+        public async Task<ActionResult<ConnectionIntroductionDTO>> hardDelete(string id)
+        {
+            try
+            {
+                var cat = await _service.DeleteAsync(id);
+                if (cat==null)
+                {
+                    return NotFound("Could not delete the introduction Request");
+                }
+
+                return Ok(cat);
+            }catch(BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {Message = ex.Message});
+            }
+        }
     }
 }

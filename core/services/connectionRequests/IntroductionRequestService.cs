@@ -145,6 +145,17 @@ namespace SocialNetwork.core.services.connectionRequests
 
             return introductionRequest.ToDto();
         }
-        
+
+        public async Task<object> DeleteAsync(string introductionRequestId)
+        {
+            var introductionRequest = await _repository1.GetByIdAsync(new ConnectionRequestId(introductionRequestId));
+            if (introductionRequest==null)
+            {
+                return null;
+            }
+            _repository1.Remove(introductionRequest);
+            await _unitOfWork.CommitAsync();
+            return introductionRequest.ToDto();
+        }
     }
 }

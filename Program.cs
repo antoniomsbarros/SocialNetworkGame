@@ -27,7 +27,7 @@ namespace SocialNetwork
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     context.Database.EnsureCreated();
 
-                    //DbInit(context); // Para teste
+                   // DbInit(context); // Para teste
                 }
                 catch (Exception ex)
                 {
