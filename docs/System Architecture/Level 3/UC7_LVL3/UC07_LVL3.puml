@@ -1,0 +1,61 @@
+﻿@startuml
+
+actor "Registered User" as UNU
+participant "<<REST>>\nAPI" as API
+participant "<<API Controller>>\nRelationshipsController" as RC
+participant "<<Domain Service>>\nRelationshipService" as RS
+participant "<<Domain>>\nPlayer" as P
+participant "<<Domain>>\nRelationship" as R
+participant "<<DTO>>\nNetworkFromPlayerPerspectiveDto" as NFPLDTO
+participant "<<DTO>>\nPlayerDto" as PDTo
+participant "<<Persistence>>\nPlayerRepository" as PR
+participant "<<Persistence>>\nRelationshipRepository" as RR
+participant "<<DbContext>>\nUnitOfWork" as UW
+
+activate UNU
+UNU -> API: PUT Player
+
+activate API
+API -> RC: GetNetwork(email,depth)
+deactivate API
+activate RC
+
+RC->RS:GetNetworkAtDepthByEmail(email,depth)
+activate RS
+
+RS->PR:player=GetByEmailAsync(email)
+
+RS-->NFPLDTO:network=create(player.email,...)
+
+loop until selected depth is achieved
+RS->RR:relationships=GetRelationshipsFriendsById(playerId)
+activate RR
+deactivate RR
+
+loop for every player's relationship
+RS->PR:playerDest=GetByIdAsync(relationship.PlayerDest)
+
+note over RS: this DTO only contains the basic data\n(user's email, name and relationship ID)
+RS-->NFPLDTO:subnetwork=create(playerDest.email,playerDest.name,relationship.id)
+
+alt current relationship includes selected player
+note over RS: in this case we add the remaining\nrelationship data (relationship strength, tags...)
+RS->NFPLDTO:network.Tags = relationship.tags
+RS->NFPLDTO:network.Strength = relationship.strength
+
+end
+
+note over RS: the resulting DTO is appended to the output network
+RS->NFPLDTO:network.Relationships.Append(subnetwork)
+
+end
+end
+RS-->RC:network
+
+deactivate RS
+
+
+RC --> UNU : response JSON
+deactivate RC
+
+@enduml
