@@ -1,0 +1,65 @@
+﻿@startuml
+
+actor "Unregistered User" as UNU
+participant "<<REST>>\nAPI" as API
+participant "<<API Controller>>\nPlayerController" as PC
+participant "<<DTO>>\nSystemUserDTO" as SUDTO
+participant "<<Domain Service>>\nSystemUserService" as SUS
+participant "<<Domain>>\nSystemUser" as SU
+participant "<<Persistence>>\nSystemUserRepository" as SUR
+participant "<<DTO>>\nPlayerDto" as PDTO
+participant "<<Domain Service>>\nPlayerService" as PS
+participant "<<Domain>>\nPlayer" as P
+participant "<<Persistence>>\nPlayerRepository" as PR
+participant "<<DbContext>>\nUnitOfWork" as UW
+
+activate UNU
+UNU -> API: POST Player
+
+activate API
+API -> PC: Create(CreateUserAsPlayerDto)
+deactivate API
+
+activate PC
+
+PC --> SUDTO : sysuserDto = create(username, password)
+PC -> SUS : AddSync(sysuserDto)
+
+activate SUS 
+
+SUS --> SU : sysuser = create(username, password)
+SUS -> SUR : AddAsync(sysuser)
+
+activate SUR
+deactivate SUR
+
+SUS -> UW : CommitAsync()
+
+activate UW
+deactivate UW
+
+deactivate SUS
+
+PC --> PDTO : playerDto = create(email, phoneNumber, ...)
+PC -> PS : AddAsync(playerDto)
+
+activate PS 
+PS --> P : player = create(email,phoneNumber,...)
+PS -> PR : AddAsync(player)
+
+activate PR 
+deactivate PR
+
+PS -> UW : CommitAsync()
+
+activate UW
+deactivate UW
+
+deactivate PS
+
+deactivate SUS
+
+PC --> UNU : response JSON
+deactivate PC
+
+@enduml
