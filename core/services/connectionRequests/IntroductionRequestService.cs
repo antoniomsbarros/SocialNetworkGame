@@ -16,15 +16,13 @@ namespace SocialNetwork.core.services.connectionRequests
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIntroductionRequestRepository _repository1;
         private readonly PlayerService _playerService;
-        private readonly IConnectionRequestRepository _connectionRequestRepository;
 
         public IntroductionRequestService(IUnitOfWork unitOfWork1, IIntroductionRequestRepository repository1,
-            PlayerService playerService, IConnectionRequestRepository connectionRequestRepository)
+            PlayerService playerService)
         {
             _unitOfWork = unitOfWork1;
             _repository1 = repository1;
             _playerService = playerService;
-           _connectionRequestRepository = connectionRequestRepository;
         }
 
         public async Task<List<ConnectionIntroductionDTO>> GetAllAsync()
@@ -142,18 +140,16 @@ namespace SocialNetwork.core.services.connectionRequests
 
 
         public async Task<ConnectionIntroductionDTO> AddIntroduction(
-                    CreateConnectionIntroductionDTO connectionIntroductionDto)
+            CreateConnectionIntroductionDTO connectionIntroductionDto)
         {
-            ConnectionRequestStatus connectionRequestStatus =
-                new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold);
-
             IntroductionRequest introductionRequest = new IntroductionRequest(
-                connectionRequestStatus,
+                ConnectionRequestStatus.ValueOf(ConnectionRequestStatusEnum.OnHold),
                 new PlayerId(connectionIntroductionDto.PlayerSender),
                 new PlayerId(connectionIntroductionDto.PlayerReceiver),
                 TextBox.ValueOf(connectionIntroductionDto.Text),
                 TextBox.ValueOf(connectionIntroductionDto.TextIntroduction),
-                new PlayerId(connectionIntroductionDto.PlayerIntroduction), connectionRequestStatus,
+                new PlayerId(connectionIntroductionDto.PlayerIntroduction),
+                ConnectionRequestStatus.ValueOf(ConnectionRequestStatusEnum.OnHold),
                 ConnectionStrenght.ValueOf(connectionIntroductionDto.ConnectionStrenght),
                 connectionIntroductionDto.Tags.ConvertAll(tag => Tag.ValueOf(tag)));
 
@@ -185,10 +181,10 @@ namespace SocialNetwork.core.services.connectionRequests
             {
                 return null;
             }
+
             _repository1.Remove(introductionRequest);
             await _unitOfWork.CommitAsync();
             return introductionRequest.ToDto();
         }
-
     }
 }

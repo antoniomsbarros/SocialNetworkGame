@@ -12,7 +12,6 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
     public class ConnectionRequestStatus : IValueObject
     {
-
         public ConnectionRequestStatusEnum CurrentStatus { get; set; }
 
         protected ConnectionRequestStatus()
@@ -38,15 +37,14 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             if (obj.GetType() != typeof(ConnectionRequestStatus))
                 return false;
 
-            ConnectionRequestStatus otherStatus = (ConnectionRequestStatus)obj;
+            ConnectionRequestStatus otherStatus = (ConnectionRequestStatus) obj;
 
             return otherStatus.CurrentStatus.Equals(this.CurrentStatus);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.CurrentStatus);
+            return HashCode.Combine(new Guid());
         }
     }
-
 }

@@ -6,6 +6,7 @@ using SocialNetwork.core.model.players.application;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.systemUsers.domain;
 using SocialNetwork.core.model.systemUsers.dto;
 using SocialNetwork.core.services.players;
 using SocialNetwork.core.services.systemUsers;
@@ -129,6 +130,8 @@ namespace SocialNetwork.core.controller.players
                 {
                     return NotFound();
                 }
+
+                await _systemUserService.DeleteAsync(new Username(cat.email));
 
                 return Ok(cat);
             }

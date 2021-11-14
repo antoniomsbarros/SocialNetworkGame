@@ -29,5 +29,18 @@ namespace SocialNetwork.core.services.systemUsers
 
             return new SystemUserCreatedDto(user.Id.Value);
         }
+
+        public async Task<SystemUserDto> DeleteAsync(Username username)
+        {
+            var user = await _repo.GetByIdAsync(username);
+
+            if (user == null)
+                return null;
+
+            _repo.Remove(user);
+            await _unitOfWork.CommitAsync();
+
+            return user.ToDto();
+        }
     }
 }

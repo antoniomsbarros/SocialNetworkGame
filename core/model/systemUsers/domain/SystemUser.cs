@@ -1,9 +1,10 @@
 ﻿using System;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.systemUsers.dto;
 
 namespace SocialNetwork.core.model.systemUsers.domain
 {
-    public class SystemUser : Entity<Username>
+    public class SystemUser : Entity<Username>, IDTOable<SystemUserDto>
     {
         public Password Password { get; set; }
 
@@ -16,6 +17,11 @@ namespace SocialNetwork.core.model.systemUsers.domain
         {
             this.Id = username;
             this.Password = password;
+        }
+
+        public SystemUserDto ToDto()
+        {
+            return new SystemUserDto(Id.Value, Password.Pass);
         }
 
         public override bool Equals(object obj)
