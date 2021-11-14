@@ -1,18 +1,25 @@
 @startuml
 
 actor "Registered User" as UNU
+participant "<<C4 Container>>\nVisualization" as V
 participant "<<REST>>\nAPI" as API
 participant "<<C4 Container>>\nSocialNetwork" as SN
 
+activate SN
+
 activate UNU
-UNU -> API: PUT Player
+UNU->V:submits profile update
+activate V
+
+V -> API: PUT Player
 
 activate API
 API -> SN: UpdateProfile(id, UpdatePlayerDto)
 deactivate API
 
-activate SN
-SN --> UNU : response JSON
-deactivate SN
+
+SN --> V : response JSON
+deactivate V
+
 
 @enduml
