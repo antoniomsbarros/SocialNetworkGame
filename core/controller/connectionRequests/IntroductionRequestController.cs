@@ -26,7 +26,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             RelationshipService relationshipService, PlayerService playerService)
         {
             _relationshipService = relationshipService;
-            _service = service;
+            _service=service;
             _playerService = playerService;
         }
 
@@ -52,19 +52,16 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(cat);
         }
 
-
+        
         [HttpPost]
         public async Task<ActionResult<ConnectionIntroductionDTO>> CreateIntroductionRequest(
             CreateConnectionIntroductionDTO infoReceived)
         {
             try
             {
-                infoReceived.PlayerIntroduction = _playerService
-                    .GetByEmailAsync(Email.ValueOf(infoReceived.PlayerIntroduction)).Result.id;
-                infoReceived.PlayerReceiver = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerReceiver))
-                    .Result.id;
-                infoReceived.PlayerSender =
-                    _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerSender)).Result.id;
+                infoReceived.PlayerIntroduction = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerIntroduction)).Result.id;
+                infoReceived.PlayerReceiver = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerReceiver)).Result.id;
+                infoReceived.PlayerSender = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerSender)).Result.id;
                 var opt = await _service.AddIntroduction(infoReceived);
 
                 return CreatedAtAction(nameof(CreateIntroductionRequest), opt);
