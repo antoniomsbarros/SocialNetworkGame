@@ -31,7 +31,7 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
                     connectionRequestStatus.Property("CurrentStatus");
                 });
             
-            builder.OwnsOne(request => request.ConnectionStrenghtsender,
+            builder.OwnsOne(request => request.ConnectionStrengthSender,
                 ConnectionStrenghtsender =>
                 {
                     ConnectionStrenghtsender.Property(c=> c.Strenght);

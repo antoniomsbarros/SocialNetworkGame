@@ -1,27 +1,30 @@
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.shared;
 using System;
-using SocialNetwork.core.model.relationships;
 using System.Collections.Generic;
+using SocialNetwork.core.model.connectionRequests.dto;
 using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
-    public class IntroductionRequest : ConnectionRequest
+    public class IntroductionRequest : ConnectionRequest, IDTOable<ConnectionIntroductionDTO>
     {
         public TextBox TextIntroduction { get; private set; }
 
         public PlayerId PlayerIntroduction { get; private set; }
-        public ConnectionRequestStatus IntroductionStatus { get;  set; }
+
+        public ConnectionRequestStatus IntroductionStatus { get; private set; }
+
         protected IntroductionRequest() : base()
         {
             // for ORM
         }
 
         public IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
-            PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate, TextBox textIntroduction, PlayerId playerIntroduction,
-            ConnectionRequestStatus introductionStatus,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
-             : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrenghtsender, tags)
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,
+            TextBox textIntroduction, PlayerId playerIntroduction,
+            ConnectionRequestStatus introductionStatus, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
+            : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrengthSender, tags)
         {
             this.TextIntroduction = textIntroduction;
             this.PlayerIntroduction = playerIntroduction;
@@ -29,9 +32,10 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         }
 
         public IntroductionRequest(ConnectionRequestStatus status,
-            PlayerId playerSender, PlayerId playerReceiver, TextBox text, TextBox textIntroduction, PlayerId playerIntroduction,
-            ConnectionRequestStatus introductionStatus,ConnectionStrenght connectionStrenghtsender, List<Tag> tags)
-             : base(status, playerSender, playerReceiver, text, connectionStrenghtsender, tags)
+            PlayerId playerSender, PlayerId playerReceiver, TextBox text, TextBox textIntroduction,
+            PlayerId playerIntroduction,
+            ConnectionRequestStatus introductionStatus, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
+            : base(status, playerSender, playerReceiver, text, connectionStrengthSender, tags)
         {
             this.TextIntroduction = textIntroduction;
             this.PlayerIntroduction = playerIntroduction;
@@ -46,7 +50,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             if (obj.GetType() != typeof(IntroductionRequest))
                 return false;
 
-            IntroductionRequest otherIntroductionRequest = (IntroductionRequest)obj;
+            IntroductionRequest otherIntroductionRequest = (IntroductionRequest) obj;
 
             return otherIntroductionRequest.Id.Equals(this.Id);
         }
@@ -70,16 +74,20 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         {
             PlayerIntroduction = playerId;
         }
+
         public ConnectionIntroductionDTO ToDto()
         {
-           /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
-                this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
-                this.CreationDate.ToString());*/
-           List<string> tagToDto = new List<string>();
-           Tags.ForEach(tag =>tagToDto.Add(tag.Name) );
-           return new ConnectionIntroductionDTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
-               this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
-               this.CreationDate.ToString(),ConnectionStrenghtsender.Strenght, tagToDto );
+            /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
+                 this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
+                 this.CreationDate.ToString());*/
+
+            List<string> tagToDto = new List<string>();
+            Tags.ForEach(tag => tagToDto.Add(tag.Name));
+            return new ConnectionIntroductionDTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(),
+                this.IntroductionStatus.ToString(),
+                this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(),
+                this.PlayerReceiver.ToString(), this.Text.ToString(),
+                this.CreationDate.ToString(), ConnectionStrengthSender.Strenght, tagToDto);
         }
     }
 }

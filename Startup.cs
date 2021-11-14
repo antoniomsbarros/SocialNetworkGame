@@ -83,14 +83,17 @@ namespace SocialNetwork
             services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
             services.AddTransient<IntroductionRequestService>();
 
-            services.AddTransient<RelationshipService>();
+            services.AddTransient<IDirectRequestRepository, DirectRequestRepository>();
+            services.AddTransient<DirectRequestService>();
+
             services.AddTransient<IRelationshipRepository, RelationshipRepository>();
+            services.AddTransient<RelationshipService>();
 
-            services.AddTransient<SystemUserService>();
             services.AddTransient<ISystemUserRepository, SystemUserRepository>();
+            services.AddTransient<SystemUserService>();
 
-            services.AddTransient<PlayerService>();
             services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<PlayerService>();
         }
     }
 }

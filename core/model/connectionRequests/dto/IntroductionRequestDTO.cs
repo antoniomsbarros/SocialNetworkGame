@@ -1,19 +1,16 @@
-﻿using SocialNetwork.core.model.players.domain;
-using SocialNetwork.core.model.shared;
-using System;
-
-namespace SocialNetwork.core.model.connectionRequests.domain
+﻿namespace SocialNetwork.core.model.connectionRequests.dto
 {
-    public class IntroductionRequest_DTO
+    public class IntroductionRequestDTO //TODO MISSING Information about the abstract class ConnectionRequest 
     {
         public string Id;
+
         public string TextIntroduction;
 
         public string PlayerIntroduction;
 
         public string IntroductionStatus;
 
-        public IntroductionRequest_DTO(string id,string textIntroduction, string playerIntroduction, 
+        public IntroductionRequestDTO(string id, string textIntroduction, string playerIntroduction,
             string introductionStatus)
         {
             Id = id;
@@ -21,7 +18,5 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             PlayerIntroduction = playerIntroduction;
             IntroductionStatus = introductionStatus;
         }
-        
-        
     }
 }
