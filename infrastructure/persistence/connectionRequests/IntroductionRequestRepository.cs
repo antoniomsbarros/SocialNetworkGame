@@ -27,5 +27,17 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
                 .Where(x => x.IntroductionStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
                     .OnHold)).ToList();
         }
+
+        public List<IntroductionRequest> GetIntrosById(PlayerId id)
+        {
+            return _introductionRequests.Where(x => x.PlayerReceiver.Equals(id)).ToList();
+        }
+
+        public List<IntroductionRequest> GetALLPendingAprovalAsync(PlayerId playerRecever)
+        {
+            return _introductionRequests.Where(x => x.PlayerReceiver.Equals(playerRecever)).Where(x =>
+                x.ConnectionRequestStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
+                    .OnHold)).ToList();
+        }
     }
 }

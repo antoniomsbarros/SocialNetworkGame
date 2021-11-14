@@ -14,6 +14,7 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
         {
             builder.HasBaseType<ConnectionRequest>();
             builder.ToTable("IntroductionRequest");
+            
 
             builder.OwnsOne(request => request.TextIntroduction, textIntroduction =>
             {

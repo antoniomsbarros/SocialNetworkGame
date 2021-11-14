@@ -8,5 +8,9 @@ namespace SocialNetwork.core.model.connectionRequests.repository
     public interface IIntroductionRequestRepository : IRepository<IntroductionRequest, ConnectionRequestId>
     {
         List<IntroductionRequest> GetAllPendingIntroductionAsync(PlayerId playerIntroductionId);
+
+        List<IntroductionRequest> GetIntrosById(PlayerId id);
+
+        List<IntroductionRequest> GetALLPendingAprovalAsync(PlayerId playerRecever);
     }
 }
