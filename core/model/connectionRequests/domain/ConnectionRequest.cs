@@ -3,6 +3,7 @@ using SocialNetwork.core.model.shared;
 using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.connectionRequests.dto;
 
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
@@ -109,5 +110,6 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public abstract override bool Equals(object obj);
 
         public abstract override int GetHashCode();
+
     }
 }

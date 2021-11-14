@@ -10,7 +10,6 @@ namespace SocialNetwork.core.model.connectionRequests.domain
     public class IntroductionRequest : ConnectionRequest, IDTOable<ConnectionIntroductionDTO>
     {
         public TextBox TextIntroduction { get; private set; }
-
         public PlayerId PlayerIntroduction { get; private set; }
 
         public ConnectionRequestStatus IntroductionStatus { get; private set; }
@@ -74,6 +73,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         {
             PlayerIntroduction = playerId;
         }
+
 
         public ConnectionIntroductionDTO ToDto()
         {

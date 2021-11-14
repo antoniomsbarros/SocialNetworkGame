@@ -16,13 +16,15 @@ namespace SocialNetwork.core.services.connectionRequests
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIntroductionRequestRepository _repository1;
         private readonly PlayerService _playerService;
+        private readonly IConnectionRequestRepository _connectionRequestRepository;
 
         public IntroductionRequestService(IUnitOfWork unitOfWork1, IIntroductionRequestRepository repository1,
-            PlayerService playerService)
+            PlayerService playerService, IConnectionRequestRepository connectionRequestRepository)
         {
             _unitOfWork = unitOfWork1;
             _repository1 = repository1;
             _playerService = playerService;
+           _connectionRequestRepository = connectionRequestRepository;
         }
 
         public async Task<List<ConnectionIntroductionDTO>> GetAllAsync()
@@ -140,7 +142,7 @@ namespace SocialNetwork.core.services.connectionRequests
 
 
         public async Task<ConnectionIntroductionDTO> AddIntroduction(
-            CreateConnectionIntroductionDTO connectionIntroductionDto)
+                    CreateConnectionIntroductionDTO connectionIntroductionDto)
         {
             ConnectionRequestStatus connectionRequestStatus =
                 new ConnectionRequestStatus(ConnectionRequestStatusEnum.OnHold);
@@ -163,10 +165,23 @@ namespace SocialNetwork.core.services.connectionRequests
         }
 
 
+        public async Task<List<ConnectionIntroductionDTO>> getALLPendingAproval(string playeremail)
+        {
+            var playerRecever = await _playerService.GetByEmailAsync(new Email(playeremail));
+            if (playerRecever == null)
+            {
+                return null;
+            }
+
+            var list = await Task.Run(() => _repository1.GetALLPendingAprovalAsync(new PlayerId(playerRecever.id)));
+            List<ConnectionIntroductionDTO> dtos = list.ConvertAll(cat => cat.ToDto());
+            return dtos;
+        }
+
         public async Task<object> DeleteAsync(string introductionRequestId)
         {
             var introductionRequest = await _repository1.GetByIdAsync(new ConnectionRequestId(introductionRequestId));
-            if (introductionRequest==null)
+            if (introductionRequest == null)
             {
                 return null;
             }
