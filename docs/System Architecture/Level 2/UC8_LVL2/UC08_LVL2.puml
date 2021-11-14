@@ -1,18 +1,32 @@
 @startuml
 
 actor "Unregistered User" as UNU
-participant "<<REST>>\nAPI" as API
+participant "<<C4 Container>>\nVisualization" as V
+participant "<<REST API>>\nAPI WebApp Visual" as API
 participant "<<C4 Container>>\nSocialNetwork" as SN
 
+activate SN
+
 activate UNU
-UNU -> API: POST Player
+
+UNU -> V : register as a player 
+
+activate V
+
+V -> API: POST Player
 
 activate API
 API -> SN: Create(CreateUserAsPlayerDto)
 deactivate API
 
-activate SN
-SN --> UNU : response JSON
+SN --> V : response JSON
+
+V --> UNU : confirms the registration
+
+deactivate V 
+
+deactivate UNU
+
 deactivate SN
 
 @enduml

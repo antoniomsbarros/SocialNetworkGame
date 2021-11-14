@@ -1,0 +1,48 @@
+﻿@startuml
+
+actor "Player" as P
+participant "<<C4 Container>>\nVisualization" as V
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SN
+
+activate SN
+
+activate P
+
+P -> V : ask for a list of players 
+
+activate V
+
+V -> API : GET Players
+
+activate API
+
+API -> SN: GetAll()
+
+deactivate API
+
+SN --> V : response JSON
+
+V --> P : show a list of players
+
+P -> V : select a player
+
+V -> API : POST DirectRequest
+
+activate API 
+
+API -> SN : Create(CreateDirectRequestDto)
+
+deactivate API
+
+SN --> V : response JSON
+
+V --> P : confirms the request
+
+deactivate V
+
+deactivate P
+
+deactivate SN
+
+@enduml

@@ -27,7 +27,7 @@ namespace SocialNetwork
                     var context = services.GetRequiredService<SocialNetworkDbContext>();
                     context.Database.EnsureCreated();
 
-                   // DbInit(context); // Para teste
+                  // DbInit(context); // Para teste
                 }
                 catch (Exception ex)
                 {
@@ -92,7 +92,7 @@ namespace SocialNetwork
             context.SaveChanges();
 
 
-            Relationship connectionAB = new Relationship(new PlayerId(playerB.Id.AsString()), new PlayerId(playerA.Id.AsString()), ConnectionStrenght.ValueOf(10),new List<string> { "a1", "a2" }.ConvertAll<Tag>(l => Tag.ValueOf(l)));
+           /* Relationship connectionAB = new Relationship(new PlayerId(playerB.Id.AsString()), new PlayerId(playerA.Id.AsString()), ConnectionStrenght.ValueOf(10),new List<string> { "a1", "a2" }.ConvertAll<Tag>(l => Tag.ValueOf(l)));
             Relationship connectionBA = new Relationship(new PlayerId(playerA.Id.AsString()), new PlayerId(playerB.Id.AsString()), ConnectionStrenght.ValueOf(10),new List<string> { "b1", "b2" }.ConvertAll<Tag>(l => Tag.ValueOf(l)));
             Relationship connectionBC = new Relationship(new PlayerId(playerC.Id.AsString()), new PlayerId(playerB.Id.AsString()), ConnectionStrenght.ValueOf(10),new List<string> { "b1" }.ConvertAll<Tag>(l => Tag.ValueOf(l)));
             Relationship connectionCB = new Relationship(new PlayerId(playerB.Id.AsString()), new PlayerId(playerC.Id.AsString()), ConnectionStrenght.ValueOf(10),new List<string> { "c3" }.ConvertAll<Tag>(l => Tag.ValueOf(l)));
@@ -115,7 +115,7 @@ namespace SocialNetwork
             context.Relationships.Add(connectionAD);
             context.Relationships.Add(connectionDA);
             context.Relationships.Add(connectionBE);
-            context.Relationships.Add(connectionEB);
+            context.Relationships.Add(connectionEB);*/
             context.SaveChanges();
 
 

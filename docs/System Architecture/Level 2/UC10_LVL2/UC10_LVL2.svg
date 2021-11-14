@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="498px" preserveAspectRatio="none" style="width:635px;height:498px;background:#FFFFFF;" version="1.1" viewBox="0 0 635 498" width="635px" zoomAndPan="magnify"><defs><filter height="300%" id="fh9az77u7o5cl" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="295.5156" style="stroke:#A80036;stroke-width:1.0;" width="10" x="23" y="99.6094"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="273.1641" style="stroke:#A80036;stroke-width:1.0;" width="10" x="183" y="121.9609"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="30.3516" style="stroke:#A80036;stroke-width:1.0;" width="10" x="333" y="152.3125"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="30.3516" style="stroke:#A80036;stroke-width:1.0;" width="10" x="333" y="304.0703"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="295.5156" style="stroke:#A80036;stroke-width:1.0;" width="10" x="553" y="99.6094"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="28" x2="28" y1="89.6094" y2="413.125"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="188" x2="188" y1="89.6094" y2="413.125"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="337.5" x2="337.5" y1="89.6094" y2="413.125"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:5.0,5.0;" x1="558" x2="558" y1="89.6094" y2="413.125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="5" y="86.5332">Player</text><ellipse cx="28" cy="15" fill="#FEFECE" filter="url(#fh9az77u7o5cl)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"/><path d="M28,23 L28,50 M15,31 L41,31 M28,50 L15,65 M28,50 L41,65 " fill="none" filter="url(#fh9az77u7o5cl)" style="stroke:#A80036;stroke-width:2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40" x="5" y="426.6582">Player</text><ellipse cx="28" cy="439.7344" fill="#FEFECE" filter="url(#fh9az77u7o5cl)" rx="8" ry="8" style="stroke:#A80036;stroke-width:2.0;"/><path d="M28,447.7344 L28,474.7344 M15,455.7344 L41,455.7344 M28,474.7344 L15,489.7344 M28,474.7344 L41,489.7344 " fill="none" filter="url(#fh9az77u7o5cl)" style="stroke:#A80036;stroke-width:2.0;"/><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="130" x="121" y="35.3906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="128" y="56.9238">&lt;&lt;C4 Container&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="147" y="74.5332">Visualization</text><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="130" x="121" y="412.125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="128" y="433.6582">&lt;&lt;C4 Container&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="78" x="147" y="451.2676">Visualization</text><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="135" x="268.5" y="35.3906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="289" y="56.9238">&lt;&lt;REST API&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="275.5" y="74.5332">API WebApp Visual</text><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="135" x="268.5" y="412.125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="94" x="289" y="433.6582">&lt;&lt;REST API&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="121" x="275.5" y="451.2676">API WebApp Visual</text><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="130" x="491" y="35.3906"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="498" y="56.9238">&lt;&lt;C4 Container&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="512" y="74.5332">SocialNetwork</text><rect fill="#FEFECE" filter="url(#fh9az77u7o5cl)" height="49.2188" style="stroke:#A80036;stroke-width:1.5;" width="130" x="491" y="412.125"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="116" x="498" y="433.6582">&lt;&lt;C4 Container&gt;&gt;</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="88" x="512" y="451.2676">SocialNetwork</text><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="295.5156" style="stroke:#A80036;stroke-width:1.0;" width="10" x="23" y="99.6094"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="273.1641" style="stroke:#A80036;stroke-width:1.0;" width="10" x="183" y="121.9609"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="30.3516" style="stroke:#A80036;stroke-width:1.0;" width="10" x="333" y="152.3125"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="30.3516" style="stroke:#A80036;stroke-width:1.0;" width="10" x="333" y="304.0703"/><rect fill="#FFFFFF" filter="url(#fh9az77u7o5cl)" height="295.5156" style="stroke:#A80036;stroke-width:1.0;" width="10" x="553" y="99.6094"/><polygon fill="#A80036" points="171,117.9609,181,121.9609,171,125.9609,175,121.9609" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="33" x2="177" y1="121.9609" y2="121.9609"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="131" x="40" y="117.1045">ask for a list of players</text><polygon fill="#A80036" points="321,148.3125,331,152.3125,321,156.3125,325,152.3125" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="193" x2="327" y1="152.3125" y2="152.3125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="74" x="200" y="147.4561">GET Players</text><polygon fill="#A80036" points="541,178.6641,551,182.6641,541,186.6641,545,182.6641" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="338" x2="547" y1="182.6641" y2="182.6641"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="44" x="345" y="177.8076">GetAll()</text><polygon fill="#A80036" points="204,209.0156,194,213.0156,204,217.0156,200,213.0156" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="198" x2="552" y1="213.0156" y2="213.0156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91" x="210" y="208.1592">response JSON</text><polygon fill="#A80036" points="44,239.3672,34,243.3672,44,247.3672,40,243.3672" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="38" x2="182" y1="243.3672" y2="243.3672"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="122" x="50" y="238.5107">show a list of players</text><polygon fill="#A80036" points="171,269.7188,181,273.7188,171,277.7188,175,273.7188" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="33" x2="177" y1="273.7188" y2="273.7188"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="85" x="40" y="268.8623">select a player</text><polygon fill="#A80036" points="321,300.0703,331,304.0703,321,308.0703,325,304.0703" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="193" x2="327" y1="304.0703" y2="304.0703"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="121" x="200" y="299.2139">POST DirectRequest</text><polygon fill="#A80036" points="541,330.4219,551,334.4219,541,338.4219,545,334.4219" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;" x1="338" x2="547" y1="334.4219" y2="334.4219"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="186" x="345" y="329.5654">Create(CreateDirectRequestDto)</text><polygon fill="#A80036" points="204,360.7734,194,364.7734,204,368.7734,200,364.7734" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="198" x2="552" y1="364.7734" y2="364.7734"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="91" x="210" y="359.917">response JSON</text><polygon fill="#A80036" points="39,391.125,29,395.125,39,399.125,35,395.125" style="stroke:#A80036;stroke-width:1.0;"/><line style="stroke:#A80036;stroke-width:1.0;stroke-dasharray:2.0,2.0;" x1="33" x2="187" y1="395.125" y2="395.125"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="118" x="45" y="390.2686">confirms the request</text><!--MD5=[3de23adc46495e1347b4a96b9ee060d5]
+@startuml
+
+actor "Player" as P
+participant "<<C4 Container>>\nVisualization" as V
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SN
+
+activate SN
+
+activate P
+
+P -> V : ask for a list of players 
+
+activate V
+
+V -> API : GET Players
+
+activate API
+
+API -> SN: GetAll()
+
+deactivate API
+
+SN - -> V : response JSON
+
+V - -> P : show a list of players
+
+P -> V : select a player
+
+V -> API : POST DirectRequest
+
+activate API 
+
+API -> SN : Create(CreateDirectRequestDto)
+
+deactivate API
+
+SN - -> V : response JSON
+
+V - -> P : confirms the request
+
+deactivate V
+
+deactivate P
+
+deactivate SN
+
+@enduml
+
+PlantUML version 1.2021.11(Sat Oct 02 14:26:11 BST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: Dynamic Code Evolution 64-Bit Server VM
+Default Encoding: Cp1252
+Language: pt
+Country: PT
+--></g></svg>

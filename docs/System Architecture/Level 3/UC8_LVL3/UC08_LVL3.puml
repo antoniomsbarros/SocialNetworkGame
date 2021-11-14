@@ -1,7 +1,8 @@
 ﻿@startuml
 
 actor "Unregistered User" as UNU
-participant "<<REST>>\nAPI" as API
+participant "<<C4 Container>>\nVisualization" as V
+participant "<<REST API>>\nAPI WebApp Visual" as API
 participant "<<API Controller>>\nPlayerController" as PC
 participant "<<DTO>>\nSystemUserDTO" as SUDTO
 participant "<<Domain Service>>\nSystemUserService" as SUS
@@ -14,7 +15,12 @@ participant "<<Persistence>>\nPlayerRepository" as PR
 participant "<<DbContext>>\nUnitOfWork" as UW
 
 activate UNU
-UNU -> API: POST Player
+
+UNU -> V : register as a player 
+
+activate V
+
+V -> API: POST Player
 
 activate API
 API -> PC: Create(CreateUserAsPlayerDto)
@@ -59,7 +65,10 @@ deactivate PS
 
 deactivate SUS
 
-PC --> UNU : response JSON
+PC --> V : response JSON
+
+V --> UNU : confirms the registration
+
 deactivate PC
 
 @enduml

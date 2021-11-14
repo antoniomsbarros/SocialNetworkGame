@@ -166,6 +166,7 @@ namespace SocialNetwork.core.controller.connectionRequests
 
                     cat.PlayerIntroduction = pLayerIntroduction.email;
                     cat.PlayerSender = playersender.email;
+                    cat.PlayerReceiver = playerRecever.email;
                     return Ok(cat);
                 }
 
