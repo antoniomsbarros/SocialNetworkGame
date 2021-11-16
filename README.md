@@ -14,7 +14,9 @@
 
 
 
-Polythecnic of Porto, School of Engineering
+Polythecnic of Porto, School of Engineering (ISEP)
+
+2020-2021
 
 Logo created via https://www.kammerl.de/ascii/AsciiSignature.php
 
@@ -27,7 +29,7 @@ start a game/mission at any time by choosing the desired difficulty level.
 ### Who do I talk to? ###
 
 * Pedro Vieira - 1190948@isep.ipp.pt
-* Daniel Reis - 12006908@isep.ipp.pt
+* Daniel Reis - 1200608@isep.ipp.pt
 * António Barros - 12000606@isep.ipp.pt
 * Mykhaylo Kharlamov - 1190906@isep.ipp.pt
 * Luís Laranjeira - 1191495@isep.ipp.pt
