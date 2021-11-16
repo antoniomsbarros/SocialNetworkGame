@@ -22,7 +22,7 @@ namespace SocialNetwork.core.model.systemUsers.domain
 
         public static bool IsValid(string pass, IPasswordPolicy passwordPolicy)
         {
-            return passwordPolicy.IsSatisfiedBy(pass);
+            return passwordPolicy.IsValidPassword(pass);
         }
 
         public static Password ValueOf(string password, IPasswordPolicy passwordPolicy)

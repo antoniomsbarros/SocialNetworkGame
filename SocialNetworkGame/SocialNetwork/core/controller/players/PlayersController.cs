@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SocialNetwork.core.model.players.application;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
@@ -17,13 +18,17 @@ namespace SocialNetwork.core.controller.players
     [ApiController]
     public class PlayersController : ControllerBase
     {
+        private readonly IConfiguration _config;
+
         private readonly SystemUserService _systemUserService;
         private readonly PlayerService _playerService;
 
-        public PlayersController(PlayerService playerService, SystemUserService systemUserService)
+        public PlayersController(PlayerService playerService, SystemUserService systemUserService,
+            IConfiguration config)
         {
             _playerService = playerService;
             _systemUserService = systemUserService;
+            _config = config;
         }
 
         [HttpGet]
@@ -64,7 +69,7 @@ namespace SocialNetwork.core.controller.players
             try
             {
                 var user = await _systemUserService.AddAsync(new SystemUserDto(dto.email,
-                    dto.password), new PlayerPasswordPolicy());
+                    dto.password), new PlayerPasswordPolicy(_config));
 
                 var con = await _playerService.AddAsync(new RegisterPlayerDto(dto.email,
                     dto.phoneNumber, dto.facebookProfile, dto.linkedinProfile, dto.dateOfBirth,

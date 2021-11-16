@@ -27,8 +27,8 @@ start a game/mission at any time by choosing the desired difficulty level.
 ### Who do I talk to? ###
 
 * Pedro Vieira - 1190948@isep.ipp.pt
-* Daniel Reis - 12000908@isep.ipp.pt
-* António Barros - 12000906@isep.ipp.pt
+* Daniel Reis - 12006908@isep.ipp.pt
+* António Barros - 12000606@isep.ipp.pt
 * Mykhaylo Kharlamov - 1190906@isep.ipp.pt
 * Luís Laranjeira - 1191495@isep.ipp.pt
 
