@@ -12,9 +12,9 @@ pipelines:
               - dotnetcore
             script:
               - REPORTS_PATH=./test-reports/build_${BITBUCKET_BUILD_NUMBER}
-              - dotnet restore SocialNetworkGameSystem.sln
-              - dotnet build SocialNetworkGameSystem.sln --no-restore --configuration Release
-              - dotnet test SocialNetworkGameSystem.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
+              - dotnet restore ./SocialNetworkGame/SocialNetworkGameSystem.sln
+              - dotnet build ./SocialNetworkGame/SocialNetworkGameSystem.sln --no-restore --configuration Release
+              - dotnet test ./SocialNetworkGame/SocialNetworkGameSystem.sln --no-build --configuration Release --test-adapter-path:. --logger:"junit;LogFilePath=$REPORTS_PATH/junit.xml"
         - step:
             name: Lint the code
             caches:
