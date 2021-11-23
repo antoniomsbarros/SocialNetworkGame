@@ -21,11 +21,11 @@ namespace SocialNetwork.core.controller.connectionRequests
         //Put: api/EditTagConnectionStrength/id
         [HttpPut("{id}/{newTag}/{conStrength}")]
 
-        public async Task<ActionResult<RelationshipDto>> ChangeRelationshipTag(string id, List<String> newTag, int conStrength)
+        public async Task<ActionResult<RelationshipDto>> ChangeRelationshipTag(RelationshipDto dto)
         {
             try
             {
-                var relationship2 = await _relationshipService.ChangeRelationshipTagConnectionStrength(id, newTag, conStrength);
+                var relationship2 = await _relationshipService.ChangeRelationshipTagConnectionStrength(dto);
                 if(relationship2 ==null)
                 {
                     return NotFound();
