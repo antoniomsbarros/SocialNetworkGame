@@ -107,6 +107,27 @@ namespace SocialNetwork.core.controller.players
                 return BadRequest(new {Message = ex.Message});
             }
         }
+        
+        [HttpPut("{id}")]
+        public async Task<ActionResult<PlayerDto>> ChangeHumorState(Email email, String state)
+        {
+
+            try
+            {
+                var player = await _playerService.ChangeHumorState(state,email);
+
+                if (player == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(player);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {Message = ex.Message});
+            }
+        }
 
         /* 
         [HttpDelete("{id}")]
