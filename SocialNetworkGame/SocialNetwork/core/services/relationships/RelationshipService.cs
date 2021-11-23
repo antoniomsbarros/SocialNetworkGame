@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
+using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
@@ -201,19 +202,19 @@ namespace SocialNetwork.core.services.relationships
             return Relationship.toDTO();
         }
 
-        public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(String relationshipId,
-            List<String> relationTag, int connectionStrength)
+        public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(RelationshipDto dto)
         {
-            var relationship = await this._repo.GetByIdAsync(new RelationshipId(relationshipId));
+            var relationship = await this._repo.GetRelationshipOfPlayerFromTo(Email.ValueOf(dto.playerOrig), Email.ValueOf(dto.playerDest));
 
             if (relationship == null)
             {
                 return null;
             }
 
-            relationship.ChangeConnectionStrenght(connectionStrength);
-            relationship.ChangeTags(relationTag);
-
+            relationship.ChangeConnectionStrenght(dto.connection);
+            relationship.ChangeTags(dto.tags);
+            
+            await this._unitOfWork.CommitAsync();
 
             var tag = new List<String>();
 
@@ -221,8 +222,6 @@ namespace SocialNetwork.core.services.relationships
             {
                 tag.Add(e.ToString());
             }
-
-            await this._repo.UpdateRelationship(relationshipId, relationTag, connectionStrength);
 
             return new RelationshipDto(relationship.Id.AsString(), relationship.PlayerDest.AsString(),
                 relationship.PlayerOrig.AsString(),

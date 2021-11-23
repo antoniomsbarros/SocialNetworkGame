@@ -13,5 +13,7 @@ namespace SocialNetwork.infrastructure.relationships
         public Task<List<Relationship>> GetRelationshipsFriendsById(PlayerId id);
 
         public Task UpdateRelationship(String relationshipId, List<String> relationTag, int connectionStrength);
+        
+        Task<Relationship> GetRelationshipOfPlayerFromTo(Email playerFrom, Email playerDest);
     }
 }
