@@ -12,6 +12,7 @@ namespace SocialNetwork.infrastructure.persistence.relationships
     public class RelationshipRepository : BaseRepository<Relationship, RelationshipId>, IRelationshipRepository
     {
         
+        
         private SocialNetworkDbContext _socialNetworkDbContext;
         public RelationshipRepository(SocialNetworkDbContext context) : base(context.Relationships)
         {
@@ -26,6 +27,18 @@ namespace SocialNetwork.infrastructure.persistence.relationships
         public async Task UpdateRelationship(string relationshipId, List<string> relationTag, int connectionStrength)
         {
             await _socialNetworkDbContext.SaveChangesAsync();
+        }
+        
+        public async Task<Relationship> GetRelationshipOfPlayerFromTo(Email playerFrom, Email playerDest)
+        {
+
+            var rela = await this._socialNetworkDbContext.Set<Relationship>()
+                .Where(x => playerFrom.Equals(x.PlayerOrig))
+                .Where(y=>playerDest.Equals(y.PlayerDest))
+                .FirstOrDefaultAsync(); 
+            
+            return rela;
+
         }
     }
 }

@@ -136,7 +136,27 @@ namespace SocialNetwork.core.controller.relationships
             }
         }
 
+        
+        [HttpPut]
+        public async Task<ActionResult<RelationshipDto>> Update(RelationshipDto dto)
+        {
+            try
+            {
+                var cat = await _service.ChangeRelationshipTagConnectionStrength(dto);
 
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cat);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {Message = ex.Message});
+            }
+        }
+        
 
     }
 }
