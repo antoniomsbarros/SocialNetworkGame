@@ -5,7 +5,7 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class DateOfBirth : IValueObject
     {
-        private static readonly int minimumAge = 16; // In years
+        private const int MinimumAge = 16; // In years
 
         public DateTime Date { get; }
 
@@ -16,20 +16,20 @@ namespace SocialNetwork.core.model.players.domain
 
         public DateOfBirth(int year, int month, int day)
         {
-            if (IsValid(year))
-                this.Date = new DateTime(year, month, day);
+            if (HasMinimumAge(year))
+                Date = new DateTime(year, month, day);
             else
                 throw new BusinessRuleValidationException("Minimum age not respected");
         }
 
         public DateOfBirth(DateTime date)
         {
-            this.Date = date;
+            Date = date;
         }
 
-        public static bool IsValid(int year)
+        public static bool HasMinimumAge(int year)
         {
-            return (DateTime.Now.Year - year >= minimumAge);
+            return DateTime.Now.Year - year >= MinimumAge;
         }
 
         public static DateOfBirth ValueOf(int year, int month, int day)
@@ -52,12 +52,12 @@ namespace SocialNetwork.core.model.players.domain
 
             DateOfBirth otherDateOfBirth = (DateOfBirth) obj;
 
-            return otherDateOfBirth.Date.Equals(this.Date);
+            return otherDateOfBirth.Date.Equals(Date);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Date);
+            return HashCode.Combine(Date);
         }
     }
 }

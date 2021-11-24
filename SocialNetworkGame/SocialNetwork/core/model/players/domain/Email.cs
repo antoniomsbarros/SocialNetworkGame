@@ -6,26 +6,26 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class Email : IValueObject
     {
-        public string EmailAddress { get; }
+        public string Address { get; }
 
         protected Email()
         {
             // for ORM
         }
 
-        public Email(string emailAddress)
+        public Email(string address)
         {
-            if (IsValid(emailAddress))
-                this.EmailAddress = emailAddress;
+            if (IsValid(address))
+                Address = address;
             else
-                throw new BusinessRuleValidationException("Email address invalid");
+                throw new BusinessRuleValidationException("Invalid Email Address");
         }
 
-        public static bool IsValid(string emailaddress)
+        public static bool IsValid(string emailAddress)
         {
             try
             {
-                MailAddress email = new MailAddress(emailaddress);
+                MailAddress email = new MailAddress(emailAddress);
                 return true;
             }
             catch (FormatException)
@@ -49,12 +49,12 @@ namespace SocialNetwork.core.model.players.domain
 
             Email otherEmail = (Email) obj;
 
-            return otherEmail.EmailAddress.Equals(this.EmailAddress);
+            return otherEmail.Address.Equals(Address);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.EmailAddress);
+            return HashCode.Combine(Address);
         }
     }
 }

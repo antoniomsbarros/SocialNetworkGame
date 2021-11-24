@@ -8,7 +8,7 @@ namespace SocialNetwork.core.model.players.domain
     {
         public string Number { get; }
 
-        private static readonly string PHONE_NUMBER_REGEX_RULE = "[0-9]*";
+        private const string PhoneNumberRegex = "[0-9]*";
 
         protected PhoneNumber()
         {
@@ -18,15 +18,14 @@ namespace SocialNetwork.core.model.players.domain
         public PhoneNumber(string number)
         {
             if (IsValid(number))
-                this.Number = number;
+                Number = number;
             else
                 throw new BusinessRuleValidationException("Phone number invalid");
         }
 
         public static bool IsValid(string number)
         {
-            Regex regex = new(PHONE_NUMBER_REGEX_RULE);
-            return regex.IsMatch(number);
+            return new Regex(PhoneNumberRegex).IsMatch(number);
         }
 
         public static PhoneNumber ValueOf(string number)
@@ -42,14 +41,13 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(PhoneNumber))
                 return false;
 
-            PhoneNumber otherPhoneNumber = (PhoneNumber)obj;
-
-            return otherPhoneNumber.Number.Equals(this.Number);
+            PhoneNumber otherPhoneNumber = (PhoneNumber) obj;
+            return otherPhoneNumber.Number.Equals(Number);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Number);
+            return HashCode.Combine(Number);
         }
     }
 }

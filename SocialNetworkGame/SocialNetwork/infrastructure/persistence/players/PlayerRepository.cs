@@ -21,7 +21,7 @@ namespace SocialNetwork.infrastructure.persistence.players
         public async Task<Player> GetByEmailAsync(Email email)
         {
             return await this._objs
-                .Where(x => x.Email.EmailAddress.Equals(email.EmailAddress))
+                .Where(x => x.Email.Address.Equals(email.Address))
                 .FirstOrDefaultAsync();
         }
 

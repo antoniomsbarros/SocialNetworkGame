@@ -1,11 +1,17 @@
 ﻿using SocialNetwork.core.model.shared;
 using System;
+using System.Text.RegularExpressions;
 
 namespace SocialNetwork.core.model.players.domain
 {
     public class Name : IValueObject
     {
+        private const string ShortNameRegex = "^[a-zA-Z0-9 ]*$";
+
+        private const string FullNameRegex = "^[a-zA-Z0-9 ]*$";
+
         public string ShortName { get; }
+
         public string FullName { get; }
 
         protected Name()
@@ -17,8 +23,8 @@ namespace SocialNetwork.core.model.players.domain
         {
             if (IsFullNameValid(fullName) && IsShortNameValid(shortName))
             {
-                this.ShortName = shortName;
-                this.FullName = fullName;
+                ShortName = shortName.Trim(); // To remove unnecessary empty spaces 
+                FullName = fullName.Trim();
             }
             else if (IsFullNameValid(fullName))
                 throw new BusinessRuleValidationException("Short name invalid");
@@ -30,12 +36,14 @@ namespace SocialNetwork.core.model.players.domain
 
         public static bool IsShortNameValid(string shortName)
         {
-            return shortName.Length > 0;
+            return new Regex(ShortNameRegex).IsMatch(shortName)
+                   && shortName.Length > 0;
         }
 
         public static bool IsFullNameValid(string fullName)
         {
-            return fullName.Length > 0;
+            return new Regex(FullNameRegex).IsMatch(fullName)
+                   && fullName.Length > 0;
         }
 
         public static Name ValueOf(string shortName, string fullName)
@@ -51,15 +59,13 @@ namespace SocialNetwork.core.model.players.domain
             if (obj.GetType() != typeof(Name))
                 return false;
 
-            Name otherName = (Name)obj;
-
-            return otherName.FullName.Trim().ToLower().Equals(
-                this.FullName.Trim().ToLower());
+            Name otherName = (Name) obj;
+            return otherName.FullName.ToLower().Equals(FullName.ToLower());
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.FullName, this.ShortName);
+            return HashCode.Combine(FullName, ShortName);
         }
     }
 }

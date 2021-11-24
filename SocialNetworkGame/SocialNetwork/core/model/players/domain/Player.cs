@@ -5,9 +5,10 @@ using SocialNetwork.core.model.shared;
 
 namespace SocialNetwork.core.model.players.domain
 {
+    //TODO FACEBOOK AND LINKEDIN API IMPLEMENTATION MISSING
     public class Player : Entity<PlayerId>, IAggregateRoot, IDTOable<PlayerDto>
     {
-        public Email Email { get; private set; } // SystemUserId
+        public Email Email { get; private set; } // Email represents also his "System User Id"
 
         public PhoneNumber PhoneNumber { get; private set; }
 
@@ -32,51 +33,51 @@ namespace SocialNetwork.core.model.players.domain
             LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus,
             List<Tag> tagsList)
         {
-            this.Id = id;
-            this.Email = email; // SystemUserId
-            this.PhoneNumber = phoneNumber;
+            Id = id;
+            Email = email;
+            PhoneNumber = phoneNumber;
             LinkFacebook(facebookProfile);
             LinkLinkedin(linkedinProfile);
-            this.DateOfBirth = dateOfBirth;
-            this.Name = name;
-            this.EmotionalStatus = emotionalStatus;
-            this.TagsList = new(tagsList);
+            DateOfBirth = dateOfBirth;
+            Name = name;
+            EmotionalStatus = emotionalStatus;
+            TagsList = new(tagsList);
         }
 
         public Player(Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
             LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus)
         {
-            this.Id = new PlayerId(Guid.NewGuid());
-            this.Email = email;
-            this.PhoneNumber = phoneNumber;
-            this.FacebookProfile = facebookProfile;
-            this.LinkedinProfile = linkedinProfile;
-            this.DateOfBirth = dateOfBirth;
-            this.Name = name;
-            this.EmotionalStatus = emotionalStatus;
-            this.TagsList = new();
+            Id = new PlayerId(Guid.NewGuid());
+            Email = email;
+            PhoneNumber = phoneNumber;
+            FacebookProfile = facebookProfile;
+            LinkedinProfile = linkedinProfile;
+            DateOfBirth = dateOfBirth;
+            Name = name;
+            EmotionalStatus = emotionalStatus;
+            TagsList = new();
         }
 
         public Player(Email email, PhoneNumber phoneNumber, DateOfBirth dateOfBirth)
         {
-            this.Id = new PlayerId(Guid.NewGuid());
-            this.Email = email;
-            this.PhoneNumber = phoneNumber;
-            this.DateOfBirth = dateOfBirth;
-            this.FacebookProfile = new();
-            this.LinkedinProfile = new();
-            this.EmotionalStatus = new(EmotionalStatusEnum.NotSpecified);
-            this.TagsList = new();
+            Id = new PlayerId(Guid.NewGuid());
+            Email = email;
+            PhoneNumber = phoneNumber;
+            DateOfBirth = dateOfBirth;
+            FacebookProfile = new();
+            LinkedinProfile = new();
+            EmotionalStatus = new(EmotionalStatusEnum.NotSpecified);
+            TagsList = new();
         }
 
         public void LinkFacebook(FacebookProfile facebookProfile)
         {
-            this.FacebookProfile = facebookProfile ?? new();
+            FacebookProfile = facebookProfile ?? new();
         }
 
         public void LinkLinkedin(LinkedinProfile linkedinProfile)
         {
-            this.LinkedinProfile = linkedinProfile ?? new();
+            LinkedinProfile = linkedinProfile ?? new();
         }
 
         public bool AssignTag(Tag newTag)
@@ -107,7 +108,7 @@ namespace SocialNetwork.core.model.players.domain
         {
             this.PhoneNumber = phoneNumber;
         }
- 
+
         public void ChangeTags(List<Tag> newTagsList)
         {
             TagsList.Clear();
@@ -116,21 +117,16 @@ namespace SocialNetwork.core.model.players.domain
 
         public void SetEmotionalStatusTo(EmotionalStatus emotionalStatus)
         {
-            this.EmotionalStatus = emotionalStatus;
+            EmotionalStatus = emotionalStatus;
         }
 
-        //TODO FACEBOOK AND LINKEDIN API IMPLEMENTATION MISSING
         public PlayerDto ToDto()
         {
-            if (FacebookProfile == null)
-                FacebookProfile = new FacebookProfile("until no facebook api");
-            if (LinkedinProfile == null)
-                LinkedinProfile = new LinkedinProfile("until no linkedin api");
-            return new PlayerDto(this.Id.Value, this.Email.EmailAddress, this.PhoneNumber.Number,
-                this.FacebookProfile.FacebookProfileLink, this.LinkedinProfile.LinkedinProfileLink,
-                this.DateOfBirth.Date, this.Name.ShortName, this.Name.FullName,
-                this.EmotionalStatus.CurrentEmotionalStatus,
-                this.TagsList.ConvertAll(tag => tag.Name));
+            return new PlayerDto(Id.Value, Email.Address, PhoneNumber.Number,
+                FacebookProfile.FacebookProfileLink, LinkedinProfile.LinkedinProfileLink,
+                DateOfBirth.Date, Name.ShortName, Name.FullName,
+                EmotionalStatus.CurrentEmotionalStatus,
+                TagsList.ConvertAll(tag => tag.Name));
         }
 
         public override bool Equals(object obj)
@@ -148,7 +144,7 @@ namespace SocialNetwork.core.model.players.domain
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id);
+            return HashCode.Combine(Id);
         }
     }
 }

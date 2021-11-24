@@ -14,8 +14,8 @@ namespace SocialNetwork.infrastructure.persistence.players
 
             builder.OwnsOne(player => player.Email, email =>
             {
-                email.Property("EmailAddress").IsRequired();
-                email.HasIndex("EmailAddress").IsUnique();
+                email.Property("Address").IsRequired();
+                email.HasIndex("Address").IsUnique();
             });
 
             builder.OwnsOne(player => player.PhoneNumber, number => { number.Property("Number"); });
@@ -37,9 +37,7 @@ namespace SocialNetwork.infrastructure.persistence.players
             builder.OwnsOne(player => player.EmotionalStatus,
                 emotionalStatus => { emotionalStatus.Property("CurrentEmotionalStatus"); });
 
-            builder.OwnsMany(player => player.TagsList, tagsList => { 
-                tagsList.Property("Name");
-            });
+            builder.OwnsMany(player => player.TagsList, tagsList => { tagsList.Property("Name"); });
         }
     }
 }
