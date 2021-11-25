@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocialNetwork.core.model.players.domain;
 
 namespace SocialNetwork.core.model.players.dto
 {
@@ -14,7 +13,7 @@ namespace SocialNetwork.core.model.players.dto
         public DateTime dateOfBirth;
         public string shortName; // Name
         public string fullName; // Name
-        public List<string> ?tags;
+        public List<string> tags;
 
         public UpdatePlayerDto()
         {

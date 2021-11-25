@@ -83,7 +83,7 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("profile/{id}")]
         public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(Guid id, UpdatePlayerDto dto)
         {
             if (!id.Equals(Guid.Parse(dto.id)))
@@ -107,14 +107,20 @@ namespace SocialNetwork.core.controller.players
                 return BadRequest(new {Message = ex.Message});
             }
         }
-        
-        [HttpPut("{id}")]
-        public async Task<ActionResult<PlayerDto>> ChangeHumorState(Email email, String state)
+
+        [HttpPut("humor/{id}")]
+        public async Task<ActionResult<UpdateEmotionalStatusDto>> ChangeEmotionalStatus(Guid id,
+            UpdateEmotionalStatusDto dto)
         {
+            if (!id.Equals(Guid.Parse(dto.id)))
+            {
+                return BadRequest();
+            }
 
             try
             {
-                var player = await _playerService.ChangeHumorState(state,email);
+                var player =
+                    await _playerService.ChangeEmotionalStatus(dto);
 
                 if (player == null)
                 {
@@ -129,21 +135,8 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-        /* 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<PlayerDto>> SoftDelete(Guid id)
-        {
-            var cat = await _service.InactivateAsync(new RelationshipId(id));
 
-            if (cat == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cat);
-        }
-
-*/
+        // For tests
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<PlayerDto>> HardDelete(string id)
         {

@@ -12,17 +12,19 @@ namespace SocialNetwork.core.services.players
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
+        private readonly PlayerBuilder _playerBuilder;
 
         public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
+            _playerBuilder = new PlayerBuilder();
         }
 
         public async Task<List<PlayerDto>> GetAllAsync()
         {
-            var list = await this._repo.GetAllAsync();
-            return list.ConvertAll<PlayerDto>(player => player.ToDto());
+            var list = await _repo.GetAllAsync();
+            return list.ConvertAll(player => player.ToDto());
         }
 
         public async Task<PlayerDto> GetByIdAsync(PlayerId id)
@@ -45,20 +47,34 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<PlayerDto> AddAsync(RegisterPlayerDto playerAsPlayerDto)
+        public async Task<PlayerDto> AddAsync(RegisterPlayerDto dto)
         {
-            Player player = new Player(Email.ValueOf(playerAsPlayerDto.email),
-                PhoneNumber.ValueOf(playerAsPlayerDto.phoneNumber),
-                FacebookProfile.ValueOf(playerAsPlayerDto.facebookProfile),
-                LinkedinProfile.ValueOf(playerAsPlayerDto.linkedinProfile),
-                DateOfBirth.ValueOf(playerAsPlayerDto.dateOfBirth),
-                Name.ValueOf(playerAsPlayerDto.shortName, playerAsPlayerDto.fullName),
-                EmotionalStatus.ValueOf(playerAsPlayerDto.emotionalStatus));
+            Player player = CreatePlayer(dto);
 
             await _repo.AddAsync(player);
             await _unitOfWork.CommitAsync();
 
             return player.ToDto();
+        }
+
+        private Player CreatePlayer(RegisterPlayerDto dto)
+        {
+            _playerBuilder
+                .WithEmail(Email.ValueOf(dto.email))
+                .WithDateOfBirth(DateOfBirth.ValueOf(dto.dateOfBirth))
+                .WithPhoneNumber(PhoneNumber.ValueOf(dto.phoneNumber))
+                .WithEmotionalStatus(EmotionalStatus.ValueOf(dto.emotionalStatus));
+
+            if (dto.fullName != null && dto.shortName != null)
+                _playerBuilder.WithName(Name.ValueOf(dto.shortName, dto.fullName));
+
+            if (dto.facebookProfile != null)
+                _playerBuilder.WithFacebookProfile(FacebookProfile.ValueOf(dto.facebookProfile));
+
+            if (dto.linkedinProfile != null)
+                _playerBuilder.WithLinkedinProfile(LinkedinProfile.ValueOf(dto.linkedinProfile));
+
+            return _playerBuilder.Build();
         }
 
         public async Task<PlayerDto> UpdateAsync(UpdatePlayerDto playerDto)
@@ -84,7 +100,7 @@ namespace SocialNetwork.core.services.players
                 player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
 
             if (playerDto.tags != null)
-                player.ChangeTags(playerDto.tags.ConvertAll<Tag>(t => Tag.ValueOf(t)));
+                player.ChangeTags(playerDto.tags.ConvertAll(t => Tag.ValueOf(t)));
 
 
             await _unitOfWork.CommitAsync();
@@ -106,64 +122,16 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<PlayerDto> ChangeHumorState(String state, Email email)
+        public async Task<PlayerDto> ChangeEmotionalStatus(UpdateEmotionalStatusDto dto)
         {
-            var player = await _repo.GetByEmailAsync(email);
+            var player = await _repo.GetByIdAsync(new PlayerId(dto.id));
 
             if (player == null)
                 return null;
-            if (state.Equals(EmotionalStatusEnum.Astonishment.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Astonishment));
-            else if (state.Equals(EmotionalStatusEnum.Eagerness.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Eagerness));
-            else if (state.Equals(EmotionalStatusEnum.Curiosity.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Curiosity));
-            else if (state.Equals(EmotionalStatusEnum.Inspiration.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Inspiration));
-            else if (state.Equals(EmotionalStatusEnum.Desire.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Desire));
-            else if (state.Equals(EmotionalStatusEnum.Love.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Love));
-            else if (state.Equals(EmotionalStatusEnum.Fascination.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Fascination));
-            else if (state.Equals(EmotionalStatusEnum.Admiration.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Admiration));
-            else if (state.Equals(EmotionalStatusEnum.Joyfulness.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Joyfulness));
-            else if (state.Equals(EmotionalStatusEnum.Satisfaction.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Satisfaction));
-            else if (state.Equals(EmotionalStatusEnum.Softened.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Softened));
-            else if (state.Equals(EmotionalStatusEnum.Relaxed.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Relaxed));
-            else if (state.Equals(EmotionalStatusEnum.Awaiting.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Awaiting));
-            else if (state.Equals(EmotionalStatusEnum.Deferent.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Deferent));
-            else if (state.Equals(EmotionalStatusEnum.Calm.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Calm));
-            else if (state.Equals(EmotionalStatusEnum.Boredom.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Boredom));
-            else if (state.Equals(EmotionalStatusEnum.Sadness.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Sadness));
-            else if (state.Equals(EmotionalStatusEnum.Isolation.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Isolation));
-            else if (state.Equals(EmotionalStatusEnum.Disappointment.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Disappointment));
-            else if (state.Equals(EmotionalStatusEnum.Contempt.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Contempt));
-            else if (state.Equals(EmotionalStatusEnum.Jealousy.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Jealousy));
-            else if (state.Equals(EmotionalStatusEnum.Irritation.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Irritation));
-            else if (state.Equals(EmotionalStatusEnum.Disgust.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Disgust));
-            else if (state.Equals(EmotionalStatusEnum.Alarm.ToString()))
-                player.SetEmotionalStatusTo(new EmotionalStatus(EmotionalStatusEnum.Alarm));
 
+            player.SetEmotionalStatusTo(EmotionalStatus.ValueOf(dto.newEmotionalStatus));
 
             await _unitOfWork.CommitAsync();
-
 
             return player.ToDto();
         }
