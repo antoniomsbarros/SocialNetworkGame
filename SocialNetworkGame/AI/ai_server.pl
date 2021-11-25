@@ -12,6 +12,14 @@
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
 
+% Primary knowledge base
+
+
+
+% Secundary knowledge base
+:- dynamic relationship/2.
+
+
 % HTTP Server setup at 'Port'                           
 startServer(Port) :-   
     http_server(http_dispatch, [port(Port)]),
