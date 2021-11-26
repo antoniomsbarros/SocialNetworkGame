@@ -11,6 +11,6 @@ namespace SocialNetwork.core.model.connectionRequests.repository
 
         List<IntroductionRequest> GetIntrosById(PlayerId id);
 
-        List<IntroductionRequest> GetALLPendingAprovalAsync(PlayerId playerRecever);
+        List<IntroductionRequest> GetAllPendingApprovalAsync(PlayerId playerReceiver);
     }
 }

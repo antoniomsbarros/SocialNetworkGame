@@ -4,30 +4,30 @@ namespace SocialNetwork.core.model.shared
 {
     public class TextBox : IValueObject
     {
-
-        public string Text { get; }
+        private const int CharacterLimit = 10000;
+        public string Content { get; }
 
         protected TextBox()
         {
             // for ORM
         }
 
-        public TextBox(string text)
+        public TextBox(string content)
         {
-            if (IsValid(text))
-                this.Text = text;
+            if (IsValid(content))
+                Content = content;
             else
-                throw new BusinessRuleValidationException("Text of TextBox invalid");
+                throw new BusinessRuleValidationException("Content of the Text box invalid");
         }
 
         public static bool IsValid(string text)
         {
-            return text.Trim().Length > 0;
+            return text.Trim().Length is > 0 and <= CharacterLimit;
         }
 
-        public static TextBox ValueOf(string text)
+        public static TextBox ValueOf(string content)
         {
-            return new(text);
+            return new(content);
         }
 
         public override bool Equals(object obj)
@@ -38,15 +38,15 @@ namespace SocialNetwork.core.model.shared
             if (obj.GetType() != typeof(TextBox))
                 return false;
 
-            TextBox otherTextBox = (TextBox)obj;
+            TextBox otherTextBox = (TextBox) obj;
 
-            return otherTextBox.Text.Trim().ToLower().Equals(
-                this.Text.Trim().ToLower());
+            return otherTextBox.Content.Trim().ToLower().Equals(
+                Content.Trim().ToLower());
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Text);
+            return HashCode.Combine(Content);
         }
     }
 }

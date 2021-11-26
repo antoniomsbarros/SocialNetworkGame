@@ -12,7 +12,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
     public class ConnectionRequestStatus : IValueObject
     {
-        public ConnectionRequestStatusEnum CurrentStatus { get; set; }
+        public ConnectionRequestStatusEnum CurrentStatus { get; }
 
         protected ConnectionRequestStatus()
         {
@@ -21,7 +21,7 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
         public ConnectionRequestStatus(ConnectionRequestStatusEnum status)
         {
-            this.CurrentStatus = status;
+            CurrentStatus = status;
         }
 
         public static ConnectionRequestStatus ValueOf(ConnectionRequestStatusEnum status)
@@ -39,12 +39,12 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
             ConnectionRequestStatus otherStatus = (ConnectionRequestStatus) obj;
 
-            return otherStatus.CurrentStatus.Equals(this.CurrentStatus);
+            return otherStatus.CurrentStatus.Equals(CurrentStatus);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(new Guid());
+            return HashCode.Combine(CurrentStatus);
         }
     }
 }
