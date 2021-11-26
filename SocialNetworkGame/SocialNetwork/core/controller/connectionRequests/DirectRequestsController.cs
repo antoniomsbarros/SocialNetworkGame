@@ -23,13 +23,13 @@ namespace SocialNetwork.core.controller.connectionRequests
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DirectRequestDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DirectRequestDto>>> GetAll()
         {
             return await _service.GetAllAsync();
         }
 
         [HttpPost]
-        public async Task<ActionResult<DirectRequestDTO>> Create(CreateDirectRequestDto
+        public async Task<ActionResult<DirectRequestDto>> Create(CreateDirectRequestDto
             createDirectRequestDto)
         {
             try
