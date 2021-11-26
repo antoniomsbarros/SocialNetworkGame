@@ -15,10 +15,10 @@ namespace SocialNetwork.infrastructure.persistence.relationships
                 tag.Property("Name");
             });
 
-            builder.OwnsOne(relationship => relationship.ConnectionStrenght,
+            builder.OwnsOne(relationship => relationship.ConnectionStrength,
                 connectionStrength =>
                 {
-                    connectionStrength.Property(c => c.Strenght);
+                    connectionStrength.Property(c => c.Strength);
                 });
             builder.OwnsOne(relationship => relationship.PlayerDest,
                 playerDest =>
