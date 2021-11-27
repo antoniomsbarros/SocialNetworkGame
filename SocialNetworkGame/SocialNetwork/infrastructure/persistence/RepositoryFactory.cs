@@ -3,6 +3,7 @@ using SocialNetwork.infrastructure.persistence.missions;
 using SocialNetwork.infrastructure.persistence.players;
 using SocialNetwork.infrastructure.persistence.posts;
 using SocialNetwork.infrastructure.persistence.relationships;
+using SocialNetwork.infrastructure.persistence.tags;
 
 namespace SocialNetwork.infrastructure.persistence
 {
@@ -48,6 +49,11 @@ namespace SocialNetwork.infrastructure.persistence
         public PostRepository PostRepository()
         {
             return new PostRepository(_context);
+        }
+
+        public TagRepository Tagsepository()
+        {
+            return new TagRepository(_context);
         }
     }
 }
