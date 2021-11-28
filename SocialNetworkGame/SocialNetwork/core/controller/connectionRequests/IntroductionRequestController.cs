@@ -52,6 +52,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(cat);
         }
 
+        /*
         
         [HttpPost]
         public async Task<ActionResult<ConnectionIntroductionDTO>> CreateIntroductionRequest(
@@ -119,8 +120,8 @@ namespace SocialNetwork.core.controller.connectionRequests
                 connectionIntroductionDto1.PlayerIntroduction = pLayerIntroduction.id;
                 connectionIntroductionDto1.PlayerSender = playersender.id;
                 connectionIntroductionDto1.PlayerReceiver = playerRecever.id;
-                ConnectionStrenght connectionStrenght =
-                    new ConnectionStrenght(connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval);
+                ConnectionStrength otherConnectionStrength =
+                    new ConnectionStrength(connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval);
                 var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
                 if (cat == null)
                 {
@@ -177,7 +178,7 @@ namespace SocialNetwork.core.controller.connectionRequests
                 return BadRequest(new {Message = exception.Message});
             }
         }
-
+*/
 
         [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
         [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]

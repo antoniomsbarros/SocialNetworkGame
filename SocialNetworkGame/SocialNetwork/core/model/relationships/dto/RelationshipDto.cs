@@ -1,17 +1,15 @@
-using System;
 using System.Collections.Generic;
-using lapr5_3dg.DTO;
-using SocialNetwork.core.model.players.dto;
 
-namespace SocialNetwork.DTO
+namespace SocialNetwork.core.model.relationships.dto
 {
     public class RelationshipDto
     {
-        public string id {get; set; }
+        public string id { get; set; }
         public string playerDest { get; set; }
         public string playerOrig { get; set; }
         public int connection { get; set; }
         public List<string> tags { get; set; }
+
         public RelationshipDto(string id, string playerDest, string playerOrig, int connection, List<string> tags)
         {
             this.id = id;

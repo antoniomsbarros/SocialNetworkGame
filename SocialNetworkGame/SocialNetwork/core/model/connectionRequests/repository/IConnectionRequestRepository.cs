@@ -5,6 +5,5 @@ namespace SocialNetwork.core.model.connectionRequests.repository
 {
     public interface IConnectionRequestRepository : IRepository<ConnectionRequest, ConnectionRequestId>
     {
-
     }
 }

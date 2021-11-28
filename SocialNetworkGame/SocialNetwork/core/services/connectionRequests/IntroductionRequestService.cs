@@ -14,31 +14,31 @@ namespace SocialNetwork.core.services.connectionRequests
     public class IntroductionRequestService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IIntroductionRequestRepository _repository1;
+        private readonly IIntroductionRequestRepository _repository;
         private readonly PlayerService _playerService;
 
-        public IntroductionRequestService(IUnitOfWork unitOfWork1, IIntroductionRequestRepository repository1,
+        public IntroductionRequestService(IUnitOfWork unitOfWork1, IIntroductionRequestRepository repository,
             PlayerService playerService)
         {
             _unitOfWork = unitOfWork1;
-            _repository1 = repository1;
+            _repository = repository;
             _playerService = playerService;
         }
 
         public async Task<List<ConnectionIntroductionDTO>> GetAllAsync()
         {
-            var list = await _repository1.GetAllAsync();
+            var list = await _repository.GetAllAsync();
 
 
-            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat =>
+            List<ConnectionIntroductionDTO> dtos = list.ConvertAll(cat =>
                 new ConnectionIntroductionDTO(
-                    cat.TextIntroduction.Text,
+                    cat.TextIntroduction.Content,
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerIntroduction.AsString())).Result.email,
                     cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
                     cat.ConnectionRequestStatus.CurrentStatus.ToString(),
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerSender.AsString())).Result.email,
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerReceiver.AsString())).Result.email,
-                    cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrengthSender.Strenght,
+                    cat.Text.Content, cat.CreationDate.ToString(), cat.ConnectionStrengthConf.Strength,
                     cat.ToDto().Tags));
             return dtos;
         }
@@ -53,38 +53,38 @@ namespace SocialNetwork.core.services.connectionRequests
             }
 
             var list = await Task.Run(() =>
-                _repository1.GetAllPendingIntroductionAsync(new PlayerId(playerIntroduction.id)));
+                _repository.GetAllPendingIntroductionAsync(new PlayerId(playerIntroduction.id)));
 
-            List<ConnectionIntroductionDTO> dtos = list.ConvertAll<ConnectionIntroductionDTO>(cat =>
+            List<ConnectionIntroductionDTO> dtos = list.ConvertAll(cat =>
                 new ConnectionIntroductionDTO(
-                    cat.TextIntroduction.Text,
+                    cat.TextIntroduction.Content,
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerIntroduction.AsString())).Result.email,
                     cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
                     cat.ConnectionRequestStatus.CurrentStatus.ToString(),
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerSender.AsString())).Result.email,
                     _playerService.GetByIdAsync(new PlayerId(cat.PlayerReceiver.AsString())).Result.email,
-                    cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrengthSender.Strenght,
+                    cat.Text.Content, cat.CreationDate.ToString(), cat.ConnectionStrengthConf.Strength,
                     cat.ToDto().Tags));
             return dtos;
         }
 
         public async Task<ConnectionIntroductionDTO> GetByIdAsync(ConnectionRequestId connectionRequestId)
         {
-            var cat = await this._repository1.GetByIdAsync(connectionRequestId);
+            var cat = await this._repository.GetByIdAsync(connectionRequestId);
             if (cat == null)
                 return null;
 
-            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+            return new ConnectionIntroductionDTO(cat.TextIntroduction.Content, cat.PlayerIntroduction.AsString(),
                 cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
                 cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
                 cat.PlayerReceiver.AsString(),
-                cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrengthSender.Strenght, cat.ToDto().Tags);
+                cat.Text.Content, cat.CreationDate.ToString(), cat.ConnectionStrengthConf.Strength, cat.ToDto().Tags);
         }
 
         public async Task<ConnectionIntroductionDTO> UpdateIntroductionStatus(
             ConnectionIntroductionDTO connectionIntroductionDto)
         {
-            var cat = await _repository1.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
+            var cat = await _repository.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
             if (cat == null)
             {
                 return null;
@@ -96,17 +96,17 @@ namespace SocialNetwork.core.services.connectionRequests
             cat.ChangeIntroductionStatus(new ConnectionRequestStatus(statusEnum));
             await _unitOfWork.CommitAsync();
 
-            return new ConnectionIntroductionDTO(cat.TextIntroduction.Text, cat.PlayerIntroduction.AsString(),
+            return new ConnectionIntroductionDTO(cat.TextIntroduction.Content, cat.PlayerIntroduction.AsString(),
                 cat.IntroductionStatus.CurrentStatus.ToString(), cat.Id.AsString(),
                 cat.ConnectionRequestStatus.CurrentStatus.ToString(), cat.PlayerSender.AsString(),
                 cat.PlayerReceiver.AsString(),
-                cat.Text.Text, cat.CreationDate.ToString(), cat.ConnectionStrengthSender.Strenght, cat.ToDto().Tags);
+                cat.Text.Content, cat.CreationDate.ToString(), cat.ConnectionStrengthConf.Strength, cat.ToDto().Tags);
         }
 
-        public async Task<ConnectionIntroductionDTO> UpdateAsync(ConnectionIntroductionDTO connectionIntroductionDto)
+        public async Task<IntroductionRequestDto> UpdateAsync(ConnectionIntroductionDTO connectionIntroductionDto)
         {
             var introductionRequest =
-                await _repository1.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
+                await _repository.GetByIdAsync(new ConnectionRequestId(connectionIntroductionDto.Id));
 
             if (introductionRequest == null)
             {
@@ -125,10 +125,10 @@ namespace SocialNetwork.core.services.connectionRequests
             introductionRequest.ChangePlayerIntroduction(new PlayerId(connectionIntroductionDto.PlayerIntroduction));
             introductionRequest.ChangeTextIntroduction(new TextBox(connectionIntroductionDto.TextIntroduction));
             introductionRequest.ChangeStatus(new ConnectionRequestStatus(statusEnum1));
-            introductionRequest.ChangeTags(connectionIntroductionDto.Tags);
+            //introductionRequest.ChangeTags(connectionIntroductionDto.Tags);
             introductionRequest.ChangeText(new TextBox(connectionIntroductionDto.Text));
-            introductionRequest.ChangeConnectionStrenght(
-                new ConnectionStrenght(connectionIntroductionDto.ConnectionStrength));
+            introductionRequest.ChangeConnectionStrength(
+                new ConnectionStrength(connectionIntroductionDto.ConnectionStrength));
             introductionRequest.ChangeCreationDate(new CreationDate(connectionIntroductionDto.CreationDate));
             introductionRequest.ChangePlayerSender(new PlayerId(connectionIntroductionDto.PlayerSender));
             introductionRequest.ChangePLayerReceiver(new PlayerId(connectionIntroductionDto.PlayerReceiver));
@@ -138,51 +138,51 @@ namespace SocialNetwork.core.services.connectionRequests
             return introductionRequest.ToDto();
         }
 
-
-        public async Task<ConnectionIntroductionDTO> AddIntroduction(
-            CreateConnectionIntroductionDTO connectionIntroductionDto)
+/*
+        public async Task<IntroductionRequestDto> AddIntroduction(
+            CreateConnectionIntroductionDTO dto)
         {
             IntroductionRequest introductionRequest = new IntroductionRequest(
                 ConnectionRequestStatus.ValueOf(ConnectionRequestStatusEnum.OnHold),
-                new PlayerId(connectionIntroductionDto.PlayerSender),
-                new PlayerId(connectionIntroductionDto.PlayerReceiver),
-                TextBox.ValueOf(connectionIntroductionDto.Text),
-                TextBox.ValueOf(connectionIntroductionDto.TextIntroduction),
-                new PlayerId(connectionIntroductionDto.PlayerIntroduction),
+                new PlayerId(dto.PlayerSender),
+                new PlayerId(dto.PlayerReceiver),
+                TextBox.ValueOf(dto.Text),
+                TextBox.ValueOf(dto.TextIntroduction),
+                new PlayerId(dto.PlayerIntroduction),
                 ConnectionRequestStatus.ValueOf(ConnectionRequestStatusEnum.OnHold),
-                ConnectionStrenght.ValueOf(connectionIntroductionDto.ConnectionStrenght),
-                connectionIntroductionDto.Tags.ConvertAll(tag => Tag.ValueOf(tag)));
+                ConnectionStrength.ValueOf(dto.ConnectionStrength),
+                dto.Tags.ConvertAll(tag => Tag.ValueOf(tag)));
 
 
-            await this._repository1.AddAsync(introductionRequest);
-            await this._unitOfWork.CommitAsync();
+            await _repository.AddAsync(introductionRequest);
+            await _unitOfWork.CommitAsync();
 
             return introductionRequest.ToDto();
         }
+        */
 
-
-        public async Task<List<ConnectionIntroductionDTO>> getALLPendingAproval(string playeremail)
+        public async Task<List<IntroductionRequestDto>> GetAllPendingApproval(string playerEmail)
         {
-            var playerRecever = await _playerService.GetByEmailAsync(new Email(playeremail));
-            if (playerRecever == null)
+            var playerReceiver = await _playerService.GetByEmailAsync(Email.ValueOf(playerEmail));
+
+            if (playerReceiver == null)
             {
                 return null;
             }
 
-            var list = await Task.Run(() => _repository1.GetALLPendingAprovalAsync(new PlayerId(playerRecever.id)));
-            List<ConnectionIntroductionDTO> dtos = list.ConvertAll(cat => cat.ToDto());
-            return dtos;
+            var list = _repository.GetAllPendingApprovalAsync(new PlayerId(playerReceiver.id));
+            return list.ConvertAll(introRequest => introRequest.ToDto());
         }
 
         public async Task<object> DeleteAsync(string introductionRequestId)
         {
-            var introductionRequest = await _repository1.GetByIdAsync(new ConnectionRequestId(introductionRequestId));
+            var introductionRequest = await _repository.GetByIdAsync(new ConnectionRequestId(introductionRequestId));
             if (introductionRequest == null)
             {
                 return null;
             }
 
-            _repository1.Remove(introductionRequest);
+            _repository.Remove(introductionRequest);
             await _unitOfWork.CommitAsync();
             return introductionRequest.ToDto();
         }

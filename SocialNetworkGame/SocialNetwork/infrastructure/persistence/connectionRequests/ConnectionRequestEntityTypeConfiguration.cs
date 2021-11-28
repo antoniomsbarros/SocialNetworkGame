@@ -31,13 +31,13 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
                     connectionRequestStatus.Property("CurrentStatus");
                 });
             
-            builder.OwnsOne(request => request.ConnectionStrengthSender,
+            builder.OwnsOne(request => request.ConnectionStrengthConf,
                 ConnectionStrenghtsender =>
                 {
-                    ConnectionStrenghtsender.Property(c=> c.Strenght);
+                    ConnectionStrenghtsender.Property(c=> c.Strength);
                 });
            
-            builder.OwnsMany(request => request.Tags, tag =>
+            builder.OwnsMany(request => request.TagsConf, tag =>
             {
                 tag.Property("Name");
             });

@@ -33,9 +33,9 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
             return _introductionRequests.Where(x => x.PlayerReceiver.Equals(id)).ToList();
         }
 
-        public List<IntroductionRequest> GetALLPendingAprovalAsync(PlayerId playerRecever)
+        public List<IntroductionRequest> GetAllPendingApprovalAsync(PlayerId playerReceiver)
         {
-            return _introductionRequests.Where(x => x.PlayerReceiver.Equals(playerRecever)).Where(x =>
+            return _introductionRequests.Where(x => x.PlayerReceiver.Equals(playerReceiver)).Where(x =>
                 x.ConnectionRequestStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
                     .OnHold)).ToList();
         }

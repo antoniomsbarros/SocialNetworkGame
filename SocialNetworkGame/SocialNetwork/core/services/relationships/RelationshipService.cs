@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
-using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
@@ -22,8 +21,8 @@ namespace SocialNetwork.core.services.relationships
 
         public RelationshipService(IUnitOfWork unitOfWork, IRelationshipRepository repo, PlayerService playerService)
         {
-            this._unitOfWork = unitOfWork;
-            this._repo = repo;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
             _playerService = playerService;
         }
 
@@ -72,7 +71,7 @@ namespace SocialNetwork.core.services.relationships
         {
             PlayerDto currentPlayerDto = await _playerService.GetByEmailAsync(email);
             if (currentPlayerDto == null)
-                return null;   
+                return null;
 
             NetworkFromPlayerPerspectiveDto network = new()
             {
@@ -123,7 +122,7 @@ namespace SocialNetwork.core.services.relationships
                         {
                             playerToNetwork.RelationshipTags = relationship.TagsList.ConvertAll<string>(t => t.Name);
                             playerToNetwork.PlayerTags = playerTo.tags;
-                            playerToNetwork.RelationshipStrength = relationship.ConnectionStrenght.Strenght;
+                            playerToNetwork.RelationshipStrength = relationship.ConnectionStrength.Strength;
                         }
                         else
                             playerToNetwork.RelationshipStrength = null;
@@ -144,10 +143,10 @@ namespace SocialNetwork.core.services.relationships
             Guid guid = Guid.NewGuid();
             PlayerId playerDest = new PlayerId(dto.playerDest);
             PlayerId playerOrig = new PlayerId(dto.playerOrig);
-            ConnectionStrenght connectionStrenght = new ConnectionStrenght(dto.connection);
+            ConnectionStrength otherConnectionStrength = new ConnectionStrength(dto.connection);
             List<Tag> tagList = new List<Tag>();
             dto.tags.ForEach(tag => tagList.Add(new Tag(tag)));
-            var Relationship = new Relationship(playerDest, playerOrig, connectionStrenght, tagList);
+            var Relationship = new Relationship(playerDest, playerOrig, otherConnectionStrength, tagList);
 
             await this._repo.AddAsync(Relationship);
 
@@ -204,7 +203,9 @@ namespace SocialNetwork.core.services.relationships
 
         public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(RelationshipDto dto)
         {
-            var relationship = await this._repo.GetRelationshipOfPlayerFromTo(Email.ValueOf(dto.playerOrig), Email.ValueOf(dto.playerDest));
+            var relationship =
+                await this._repo.GetRelationshipOfPlayerFromTo(Email.ValueOf(dto.playerOrig),
+                    Email.ValueOf(dto.playerDest));
 
             if (relationship == null)
             {
@@ -213,7 +214,7 @@ namespace SocialNetwork.core.services.relationships
 
             relationship.ChangeConnectionStrenght(dto.connection);
             relationship.ChangeTags(dto.tags);
-            
+
             await this._unitOfWork.CommitAsync();
 
             var tag = new List<String>();
@@ -225,7 +226,7 @@ namespace SocialNetwork.core.services.relationships
 
             return new RelationshipDto(relationship.Id.AsString(), relationship.PlayerDest.AsString(),
                 relationship.PlayerOrig.AsString(),
-                relationship.ConnectionStrenght.Strenght, tag);
+                relationship.ConnectionStrength.Strength, tag);
         }
     }
 }

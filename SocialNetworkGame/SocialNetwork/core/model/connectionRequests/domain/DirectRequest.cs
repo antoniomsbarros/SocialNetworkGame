@@ -4,41 +4,35 @@ using System;
 using SocialNetwork.core.model.relationships.domain;
 using System.Collections.Generic;
 using SocialNetwork.core.model.connectionRequests.dto;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
-    public class DirectRequest : ConnectionRequest, IDTOable<DirectRequestDTO>
+    public class DirectRequest : ConnectionRequest, IDTOable<DirectRequestDto>
     {
-        protected DirectRequest() : base()
+        protected DirectRequest()
         {
             // for ORM
         }
 
         protected DirectRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,
-            ConnectionStrenght connectionStrengthSender, List<Tag> tags)
-            : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrengthSender, tags)
+            ConnectionStrength connectionStrengthConf, List<TagId> tagsConf)
+            : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrengthConf, tagsConf)
         {
         }
 
-        public DirectRequest(ConnectionRequestStatus connectionRequestStatus, PlayerId playerSender,
-            PlayerId playerReceiver,
-            TextBox text, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
-            : base(connectionRequestStatus, playerSender, playerReceiver, text, connectionStrengthSender, tags)
-        {
-        }
-        
-        public DirectRequest(PlayerId playerSender, PlayerId playerReceiver, TextBox text, 
-            ConnectionStrenght connectionStrengthSender, List<Tag> tags)
-            : base(playerSender, playerReceiver, text, connectionStrengthSender, tags)
+        public DirectRequest(PlayerId playerSender, PlayerId playerReceiver, TextBox text,
+            ConnectionStrength connectionStrengthConf, List<TagId> tagsConf)
+            : base(playerSender, playerReceiver, text, connectionStrengthConf, tagsConf)
         {
         }
 
-        public DirectRequestDTO ToDto()
+        public DirectRequestDto ToDto()
         {
-            return new DirectRequestDTO(
+            return new DirectRequestDto(
                 Id.Value, ConnectionRequestStatus.CurrentStatus, PlayerSender.Value, PlayerReceiver.Value,
-                Text.Text, CreationDate.Date);
+                Text.Content, CreationDate.Date, TagsConf.ConvertAll(tag => tag.Value));
         }
 
         public override bool Equals(object obj)
@@ -51,12 +45,12 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
             DirectRequest otherDirectRequest = (DirectRequest) obj;
 
-            return otherDirectRequest.Id.Equals(this.Id);
+            return otherDirectRequest.Id.Equals(Id);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id);
+            return HashCode.Combine(Id);
         }
     }
 }

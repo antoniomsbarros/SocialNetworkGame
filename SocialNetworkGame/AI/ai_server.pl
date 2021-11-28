@@ -22,39 +22,55 @@
 
 % HTTP Server setup at 'Port'                           
 startServer(Port) :-   
-    http_server(http_dispatch, [port(Port)]),
-    asserta(port(Port)).
-
-stopServer:-
-    retract(port(Port)),
-    http_stop_server(Port,_).
+        http_server(http_dispatch, [port(Port)]),
+        asserta(port(Port)).
 
 % Server startup
 start_server:-
-    startServer(4999),
-    consult(ai_server_config). % Loads server's configuration
+    consult(ai_server_config),  % Loads server's configuration
+    server_port(Port),
+    startServer(Port).
 
+% Shutdown server
+stopServer:-
+        retract(port(Port)),
+        http_stop_server(Port,_).
+
+% Server init
 :- start_server.
 
 % HTTP Requests
-:- http_handler('/network/size', compute_socialnetwork_size, []).
+:- http_handler('/api/network/size', compute_socialnetwork_size, []).
 
 % Methods
 
 %======== Size of a Player's Social Network ========%
 
-compute_socialnetwork_size(Request) :-
-   http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
-   socialnetwork_api(Api),
-   atom_concat('/network',Email,X),atom_concat(X,Depth,Path),
-   get_player_socialnetwork(Request).
+computeSocialnetworkSize(Request) :-
+    getPlayerSocialNetwork(Request, Data),
+    setPlayerSocialnetworkTerms(Data).
 
+getPlayerSocialNetwork(Request, Data) :-
+    http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
+    getSocialNetworkHostPort(Host, Port),
+    atom_concat('/api/Relationships/network/',Email,X),
+    atom_concat(X, '/',Y),
+    atom_concat(Y,Depth,Path),
+    http_open([host(Host), port(Port), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
+    json_read_dict(Stream, Data).
 
-get_player_socialnetwork() :-
-        http_open([host(Api), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
-        json_read_dict(Stream, Json).
-        % Create facts 
+getSocialNetworkHostPort(Host, Port) :-
+    module_socialnetwork_host(Host),
+    module_socialnetwork_port(Port).
 
+createSocialnetworkTerms(Data) :-
+    setPlayerSocialnetworkTerms(Data.PlayerId, Data.Relationships).
+
+%setPlayerSocialnetworkTerms(Player, []). To review
+
+%setPlayerSocialnetworkTerms(Player, Relationships) :-
+%    setPlayerSocialnetworkTerms()
+    
 connection(PlayerX, PlayerY) :-
     relationship(PlayerX, PlayerY);
     relationship(PlayerY, PlayerX).
@@ -65,12 +81,12 @@ level1_connections(Player, All_Friends) :-
 append_new([], X, X).
 
 append_new([X|Y],Z,[X|W]):-
-     append_new(Y,Z,W),
-     \+ member(X,W),
-     !.
+    append_new(Y,Z,W),
+    \+ member(X,W),
+    !.
 
 append_new([_|Y],Z,W):-
-     append_new(Y,Z,W).
+    append_new(Y,Z,W).
 
 add_all_level1_connections([],[]).
 
@@ -95,3 +111,5 @@ compute_network_size1(_,_,V,N) :-
         !.      
 
 %===================================================% 
+
+

@@ -72,3 +72,7 @@ Neste ficheiro README devem documentar/justificar decisões tomadas relativament
 ### 12/11/2021 - Pedro Vieira (1190948)
 
 * Adicionei o conceito "SystemUser" como *Root* do agregado e ainda um *Value object* "MissionPoints" para contablizar os pontos que o "Player" pontua na "Mission" (https://moodle.isep.ipp.pt/mod/forum/discuss.php?d=11305#p14642).
+
+### 25/11/2021 - Pedro Vieira (1190948) / Daniel Reis (1200608)
+
+* Alteramos a Tag de um "Value Object" para uma "Entity", establecendo assim um novo agregado relativos às Tags existentes no sistema. A mudança é relativos aos novos casos de usos do Sprint B que establecem um *entidade* à tag dentro do negócio do nosso sistema.

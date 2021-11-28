@@ -20,7 +20,7 @@ namespace SocialNetwork.core.model.shared
                 this.Name = tagName;
             else
                 throw new BusinessRuleValidationException(
-                    string.Format("The name of the Tag must have between {0} and {1} characters", minCaract, maxCaract));
+                    $"The name of the Tag must have between {minCaract} and {maxCaract} characters");
         }
 
         public static bool IsValid(string tagName)
@@ -41,7 +41,7 @@ namespace SocialNetwork.core.model.shared
             if (obj.GetType() != typeof(Tag))
                 return false;
 
-            Tag otherTag = (Tag)obj;
+            Tag otherTag = (Tag) obj;
 
             return otherTag.Name.Trim().ToLower().Equals(this.Name.Trim().ToLower());
         }

@@ -13,7 +13,7 @@ namespace SocialNetwork.core.model.relationships.domain
 
         private PlayerId playerOrig;
 
-        private ConnectionStrenght connectionStrenght;
+        private ConnectionStrength _connectionStrength;
 
         private readonly List<Tag> tagsList = new();
 
@@ -35,9 +35,9 @@ namespace SocialNetwork.core.model.relationships.domain
             return this;
         }
 
-        public RelationshipBuilder WithConnectionStrenght(ConnectionStrenght connectionStrenght)
+        public RelationshipBuilder WithConnectionStrenght(ConnectionStrength connectionStrength)
         {
-            this.connectionStrenght = connectionStrenght;
+            this._connectionStrength = connectionStrength;
             return this;
         }
 
@@ -45,11 +45,11 @@ namespace SocialNetwork.core.model.relationships.domain
         {
             if (this.relationship != null)
                 return this.relationship;
-            else if (this.connectionStrenght != null && this.tagsList.Count > 0)
-                this.relationship = new(this.playerDest, this.playerOrig,this.connectionStrenght, this.tagsList);
-            else if (this.connectionStrenght != null)
+            else if (this._connectionStrength != null && this.tagsList.Count > 0)
+                this.relationship = new(this.playerDest, this.playerOrig,this._connectionStrength, this.tagsList);
+            else if (this._connectionStrength != null)
             //TODO checkar se lista de tags pode ir vazia
-                this.relationship = new(this.playerDest, this.playerOrig,this.connectionStrenght, new List<Tag>());
+                this.relationship = new(this.playerDest, this.playerOrig,this._connectionStrength, new List<Tag>());
             else
             {
                 throw new System.InvalidOperationException();

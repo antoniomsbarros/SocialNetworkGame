@@ -5,6 +5,7 @@ using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.posts.domain.post;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.systemUsers.domain;
+using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.infrastructure.persistence;
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.missions;
@@ -14,6 +15,7 @@ using SocialNetwork.infrastructure.persistence.posts.post;
 using SocialNetwork.infrastructure.persistence.posts.reaction;
 using SocialNetwork.infrastructure.persistence.relationships;
 using SocialNetwork.infrastructure.persistence.systemUsers;
+using SocialNetwork.infrastructure.persistence.tags;
 
 namespace SocialNetwork.infrastructure
 {
@@ -40,6 +42,8 @@ namespace SocialNetwork.infrastructure
             modelBuilder.ApplyConfiguration(new RelationShipEntityTypeConfiguration());
 
             modelBuilder.ApplyConfiguration(new SystemUserEntityTypeConfiguration());
+
+            modelBuilder.ApplyConfiguration(new TagEntityTypeConfiguration());
         }
 
         // DB Entities 
@@ -58,6 +62,8 @@ namespace SocialNetwork.infrastructure
         public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
 
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
+
+        public DbSet<Tag> Tag { get; set; }
 
         public RepositoryFactory Repositories()
         {

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using SocialNetwork.core.model.connectionRequests.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.dto
 {
-    public abstract class ConnectionRequestDTO
+    public abstract class ConnectionRequestDto
     {
         public string Id { get; set; }
 
@@ -17,8 +18,10 @@ namespace SocialNetwork.core.model.connectionRequests.dto
 
         public DateTime CreationDate { get; set; }
 
-        public ConnectionRequestDTO(string id, ConnectionRequestStatusEnum connectionRequestStatus, string playerSender,
-            string playerReceiver, string text, DateTime creationDate)
+        public List<string> Tags { get; set; }
+
+        public ConnectionRequestDto(string id, ConnectionRequestStatusEnum connectionRequestStatus, string playerSender,
+            string playerReceiver, string text, DateTime creationDate, List<string> tags)
         {
             Id = id;
             ConnectionRequestStatus = connectionRequestStatus;
@@ -26,6 +29,7 @@ namespace SocialNetwork.core.model.connectionRequests.dto
             PlayerReceiver = playerReceiver;
             Text = text;
             CreationDate = creationDate;
+            Tags = tags;
         }
     }
 }

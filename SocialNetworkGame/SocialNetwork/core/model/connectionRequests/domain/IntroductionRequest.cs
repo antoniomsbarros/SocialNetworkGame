@@ -4,41 +4,42 @@ using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.connectionRequests.dto;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.domain
 {
-    public class IntroductionRequest : ConnectionRequest, IDTOable<ConnectionIntroductionDTO>
+    public class IntroductionRequest : ConnectionRequest, IDTOable<IntroductionRequestDto>
     {
         public TextBox TextIntroduction { get; private set; }
         public PlayerId PlayerIntroduction { get; private set; }
 
         public ConnectionRequestStatus IntroductionStatus { get; private set; }
 
-        protected IntroductionRequest() : base()
+        protected IntroductionRequest()
         {
             // for ORM
         }
 
-        public IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
+        protected IntroductionRequest(ConnectionRequestId id, ConnectionRequestStatus status,
             PlayerId playerSender, PlayerId playerReceiver, TextBox text, CreationDate creationDate,
-            TextBox textIntroduction, PlayerId playerIntroduction,
-            ConnectionRequestStatus introductionStatus, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
-            : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrengthSender, tags)
+            TextBox textIntroduction, PlayerId playerIntroduction, ConnectionRequestStatus introductionStatus,
+            ConnectionStrength connectionStrengthConf, List<TagId> tagsConf)
+            : base(id, status, playerSender, playerReceiver, text, creationDate, connectionStrengthConf, tagsConf)
         {
-            this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction;
-            this.IntroductionStatus = introductionStatus;
+            PlayerIntroduction = playerIntroduction;
+            IntroductionStatus = introductionStatus;
+            TextIntroduction = textIntroduction;
         }
 
-        public IntroductionRequest(ConnectionRequestStatus status,
-            PlayerId playerSender, PlayerId playerReceiver, TextBox text, TextBox textIntroduction,
-            PlayerId playerIntroduction,
-            ConnectionRequestStatus introductionStatus, ConnectionStrenght connectionStrengthSender, List<Tag> tags)
-            : base(status, playerSender, playerReceiver, text, connectionStrengthSender, tags)
+        public IntroductionRequest(ConnectionRequestStatus status, PlayerId playerSender, PlayerId playerReceiver,
+            TextBox text, TextBox textIntroduction, PlayerId playerIntroduction,
+            ConnectionRequestStatus introductionStatus,
+            ConnectionStrength connectionStrengthConf, List<TagId> tagsConf)
+            : base(status, playerSender, playerReceiver, text, connectionStrengthConf, tagsConf)
         {
-            this.TextIntroduction = textIntroduction;
-            this.PlayerIntroduction = playerIntroduction;
-            this.IntroductionStatus = introductionStatus;
+            PlayerIntroduction = playerIntroduction;
+            IntroductionStatus = introductionStatus;
+            TextIntroduction = textIntroduction;
         }
 
         public override bool Equals(object obj)
@@ -51,17 +52,17 @@ namespace SocialNetwork.core.model.connectionRequests.domain
 
             IntroductionRequest otherIntroductionRequest = (IntroductionRequest) obj;
 
-            return otherIntroductionRequest.Id.Equals(this.Id);
+            return otherIntroductionRequest.Id.Equals(Id);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id);
+            return HashCode.Combine(Id);
         }
 
         public void ChangeIntroductionStatus(ConnectionRequestStatus connectionRequestStatus)
         {
-            this.IntroductionStatus = connectionRequestStatus;
+            IntroductionStatus = connectionRequestStatus;
         }
 
         public void ChangeTextIntroduction(TextBox textBox)
@@ -74,20 +75,11 @@ namespace SocialNetwork.core.model.connectionRequests.domain
             PlayerIntroduction = playerId;
         }
 
-
-        public ConnectionIntroductionDTO ToDto()
+        public IntroductionRequestDto ToDto()
         {
-            /* return new IntroductionRequest_DTO(this.TextIntroduction.ToString(), this.PlayerIntroduction.AsString(), this.IntroductionStatus.ToString(),
-                 this.Id.AsString(), this.ConnectionRequestStatus.ToString(), this.PlayerSender.ToString(), this.PlayerReceiver.ToString(), this.Text.ToString(),
-                 this.CreationDate.ToString());*/
-
-            List<string> tagToDto = new List<string>();
-            Tags.ForEach(tag => tagToDto.Add(tag.Name));
-            return new ConnectionIntroductionDTO(this.TextIntroduction.Text, this.PlayerIntroduction.AsString(),
-                this.IntroductionStatus.CurrentStatus.ToString(),
-                this.Id.AsString(), this.ConnectionRequestStatus.CurrentStatus.ToString(), this.PlayerSender.AsString(),
-                this.PlayerReceiver.AsString(), this.Text.Text,
-                this.CreationDate.ToString(), ConnectionStrengthSender.Strenght, tagToDto);
+            return new IntroductionRequestDto(Id.Value, ConnectionRequestStatus.CurrentStatus, PlayerSender.Value,
+                PlayerReceiver.Value, Text.Content, CreationDate.Date, PlayerIntroduction.Value,
+                TextIntroduction.Content, IntroductionStatus.CurrentStatus, TagsConf.ConvertAll(tag => tag.Value));
         }
     }
 }
