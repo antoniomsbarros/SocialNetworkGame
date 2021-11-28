@@ -9,7 +9,6 @@ using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.services.players;
-using SocialNetwork.DTO;
 using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.core.services.relationships
