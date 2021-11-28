@@ -7,6 +7,10 @@ using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
+using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.services.tags;
+using SocialNetwork.core.model.tags.dto;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.controller.connectionRequests
 {
@@ -17,13 +21,15 @@ namespace SocialNetwork.core.controller.connectionRequests
         private readonly IntroductionRequestService _service;
         private readonly RelationshipService _relationshipService;
         private readonly PlayerService _playerService;
+        private readonly TagsService _tagsService;
 
         public IntroductionRequestController(IntroductionRequestService service,
-            RelationshipService relationshipService, PlayerService playerService)
+            RelationshipService relationshipService, PlayerService playerService, TagsService tagsService)
         {
             _relationshipService = relationshipService;
             _service = service;
             _playerService = playerService;
+            _tagsService = tagsService;
         }
 
         [HttpGet]
@@ -48,20 +54,38 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(cat);
         }
 
-        /*
+
         
         [HttpPost]
-        public async Task<ActionResult<ConnectionIntroductionDTO>> CreateIntroductionRequest(
-            CreateConnectionIntroductionDTO infoReceived)
+        public async Task<ActionResult<IntroductionRequestDto>> CreateIntroductionRequest(
+            CreateIntroductionRequestDto dto)
         {
             try
             {
-                infoReceived.PlayerIntroduction = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerIntroduction)).Result.id;
-                infoReceived.PlayerReceiver = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerReceiver)).Result.id;
-                infoReceived.PlayerSender = _playerService.GetByEmailAsync(Email.ValueOf(infoReceived.PlayerSender)).Result.id;
-                var opt = await _service.AddIntroduction(infoReceived);
+                dto.PlayerIntroduction = _playerService.GetByEmailAsync(Email.ValueOf(dto.PlayerIntroduction)).Result.id;
+                dto.PlayerReceiver = _playerService.GetByEmailAsync(Email.ValueOf(dto.PlayerReceiver)).Result.id;
+                dto.PlayerSender = _playerService.GetByEmailAsync(Email.ValueOf(dto.PlayerSender)).Result.id;
+                var tagsNameList = new List<string>(dto.Tags);
 
-                return CreatedAtAction(nameof(CreateIntroductionRequest), opt);
+                var nTag = 0;
+                while (nTag < dto.Tags.Count)
+                {
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(dto.Tags[nTag])).Result;
+                    if (tag != null)
+                        dto.Tags[nTag] = tag.id;
+                    else
+                    {
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(dto.Tags[nTag])).Result;
+                        dto.Tags[nTag] = newTag.id;
+                    }
+
+                    ++nTag;
+                }
+
+                var introRequestDto = await _service.AddIntroduction(dto);
+                introRequestDto.Tags = tagsNameList;
+
+                return CreatedAtAction(nameof(CreateIntroductionRequest), introRequestDto);
             }
             catch (BusinessRuleValidationException ex)
             {
@@ -69,7 +93,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
 
-
+        /*
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
         [ProducesResponseType(400)]
@@ -174,7 +198,8 @@ namespace SocialNetwork.core.controller.connectionRequests
                 return BadRequest(new {Message = exception.Message});
             }
         }
-*/
+        */
+
 
         [HttpGet("PlayerIntroduction={playerIntroduction}")]
         [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]

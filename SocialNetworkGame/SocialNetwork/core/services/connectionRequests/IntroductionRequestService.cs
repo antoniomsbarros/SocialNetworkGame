@@ -61,7 +61,7 @@ namespace SocialNetwork.core.services.connectionRequests
                 IntroductionRequestDto introductionRequestDto = new IntroductionRequestDto(VARIABLE.Id, 
                     VARIABLE.ConnectionRequestStatus, VARIABLE.PlayerSender, VARIABLE.PlayerReceiver, VARIABLE.Text, 
                     VARIABLE.CreationDate, VARIABLE.TextIntroduction, VARIABLE.PlayerIntroduction, 
-                    VARIABLE.IntroductionStatus,tags);
+                    VARIABLE.IntroductionStatus,tags,VARIABLE.ConnectionStrength);
                 list2.Add(introductionRequestDto);
             }
             return list2;
