@@ -9,6 +9,9 @@ using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.tags.domain;
+using SocialNetwork.core.model.tags.dto;
+using SocialNetwork.core.services.tags;
 
 namespace SocialNetwork.core.controller.relationships
 {
@@ -17,10 +20,12 @@ namespace SocialNetwork.core.controller.relationships
     public class RelationshipsController : ControllerBase
     {
         private readonly RelationshipService _service;
+        private readonly TagsService _tagsService;
 
-        public RelationshipsController(RelationshipService service)
+        public RelationshipsController(RelationshipService service, TagsService tagsService)
         {
             _service = service;
+            _tagsService = tagsService;
         }
 
         [HttpGet]
@@ -30,7 +35,7 @@ namespace SocialNetwork.core.controller.relationships
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<RelationshipDto>> GetGetById(Guid id)
+        public async Task<ActionResult<RelationshipDto>> GetById(Guid id)
         {
             var cat = await _service.GetByIdAsync(new RelationshipId(id));
 
@@ -59,21 +64,35 @@ namespace SocialNetwork.core.controller.relationships
             return await _service.GetNetworkAtDepthByEmail(Email.ValueOf(email), depth);
         }
 
-
         [HttpPost]
         public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
         {
             try
             {
+                var tags = dto.tags.ToArray();
+                var nTag = 0;
+                while (nTag < tags.Length)
+                {
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(tags[nTag])).Result;
+                    if (tag != null)
+                        tags[nTag] = tag.id;
+                    else
+                    {
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(tags[nTag])).Result;
+                        tags[nTag] = newTag.id;
+                    }
+
+                    ++nTag;
+                }
+
                 var con = await _service.AddAsync(dto);
-                return CreatedAtAction(nameof(GetGetById), new {id = con.id}, con);
+                return CreatedAtAction(nameof(GetById), new {con.id}, con);
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
-
 
         [HttpPut("{id}")]
         public async Task<ActionResult<RelationshipDto>> Update(string id, RelationshipDto dto)

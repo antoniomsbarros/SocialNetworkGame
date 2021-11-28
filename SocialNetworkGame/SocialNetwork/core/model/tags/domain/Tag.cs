@@ -37,7 +37,7 @@ namespace SocialNetwork.core.model.tags.domain
 
         public TagDto ToDto()
         {
-            return new TagDto(TagName.Value, CreationDate.Date);
+            return new TagDto(Id.Value, TagName.Value, CreationDate.Date);
         }
 
         public override bool Equals(object obj)

@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.core.model.tags.domain;
@@ -17,11 +16,10 @@ namespace SocialNetwork.infrastructure.persistence.tags
             this.context = context;
         }
 
-
         public async Task<Tag> GetByNameAsync(TagName name)
         {
             return await _objs
-                .Where(tag => tag.TagName.Equals(name))
+                .Where(tag => tag.TagName.Value.Equals(name.Value))
                 .FirstOrDefaultAsync();
         }
     }

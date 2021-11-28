@@ -4,6 +4,7 @@ namespace SocialNetwork.core.model.tags.dto
 {
     public class TagDto
     {
+        public string id;
         public string name;
         public DateTime creationDate;
 
@@ -12,8 +13,9 @@ namespace SocialNetwork.core.model.tags.dto
             // empty
         }
 
-        public TagDto(string name, DateTime creationDate)
+        public TagDto(string id, string name, DateTime creationDate)
         {
+            this.id = id;
             this.name = name;
             this.creationDate = creationDate;
         }
