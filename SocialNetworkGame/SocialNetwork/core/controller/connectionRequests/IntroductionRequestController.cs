@@ -196,12 +196,14 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(introRequest);
         }
 
+
         /*
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateIntroductionConnection(string id,
+
+        [HttpPut("/playerapproval/{idrequest}")]
+        public async Task<IActionResult> UpdateIntroductionConnection(string idrequest,
             ConnectionIntroductionDTO connectionIntroductionRelactionshipDto)
         {
-            if (!id.Equals(connectionIntroductionRelactionshipDto.Id))
+            if (!idrequest.Equals(connectionIntroductionRelactionshipDto.Id))
             {
                 return BadRequest();
             }
@@ -221,6 +223,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
         */
+
 
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<IntroductionRequestDto>> HardDelete(string id)
