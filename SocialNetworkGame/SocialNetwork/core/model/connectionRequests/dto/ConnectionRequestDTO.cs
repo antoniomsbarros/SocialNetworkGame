@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.connectionRequests.domain;
+using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.dto
 {
@@ -20,8 +21,10 @@ namespace SocialNetwork.core.model.connectionRequests.dto
 
         public List<string> Tags { get; set; }
 
+        public int ConnectionStrength { get; set; }
+
         public ConnectionRequestDto(string id, ConnectionRequestStatusEnum connectionRequestStatus, string playerSender,
-            string playerReceiver, string text, DateTime creationDate, List<string> tags)
+            string playerReceiver, string text, DateTime creationDate, List<string> tags, int connectionStrength)
         {
             Id = id;
             ConnectionRequestStatus = connectionRequestStatus;
@@ -30,6 +33,7 @@ namespace SocialNetwork.core.model.connectionRequests.dto
             Text = text;
             CreationDate = creationDate;
             Tags = tags;
+            ConnectionStrength = connectionStrength;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace SocialNetwork.core.model.connectionRequests.dto
 
         public IntroductionRequestDto(string id, ConnectionRequestStatusEnum connectionRequestStatus,
             string playerSender, string playerReceiver, string text, DateTime creationDate, string textIntroduction,
-            string playerIntroduction, ConnectionRequestStatusEnum introductionStatus, List<string> tags)
-            : base(id, connectionRequestStatus, playerSender, playerReceiver, text, creationDate, tags)
+            string playerIntroduction, ConnectionRequestStatusEnum introductionStatus, List<string> tags, int connectionStrength)
+            : base(id, connectionRequestStatus, playerSender, playerReceiver, text, creationDate, tags, connectionStrength)
         {
             TextIntroduction = textIntroduction;
             PlayerIntroduction = playerIntroduction;
