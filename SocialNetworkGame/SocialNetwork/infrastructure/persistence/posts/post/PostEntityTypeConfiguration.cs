@@ -17,12 +17,12 @@ namespace SocialNetwork.infrastructure.persistence.posts.post
 
             builder.OwnsMany(post => post.Tags, tag =>
             {
-                tag.Property("Name");
+                tag.Property("Value");
             });
 
             builder.OwnsOne(post => post.PostText, postText =>
             {
-                postText.Property("Text");
+                postText.Property("Content");
             });
 
 

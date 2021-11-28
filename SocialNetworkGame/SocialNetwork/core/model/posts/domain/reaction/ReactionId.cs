@@ -12,17 +12,9 @@ namespace SocialNetwork.core.model.posts.domain.reaction
         public ReactionId(Guid guid) : base(guid)
         {
         }
+
         public ReactionId(String value) : base(value)
         {
-        }
-        protected override Object createFromString(String text)
-        {
-            return text;
-        }
-
-        public override String AsString()
-        {
-            return base.Value;
         }
     }
 }

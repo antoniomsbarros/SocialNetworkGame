@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.model.players.domain
 {
@@ -22,7 +23,7 @@ namespace SocialNetwork.core.model.players.domain
 
         public EmotionalStatus EmotionalStatus { get; private set; }
 
-        public List<Tag> TagsList { get; private set; }
+        public List<TagId> TagsList { get; private set; }
 
         protected Player()
         {
@@ -31,7 +32,7 @@ namespace SocialNetwork.core.model.players.domain
 
         protected Player(PlayerId id, Email email, PhoneNumber phoneNumber, FacebookProfile facebookProfile,
             LinkedinProfile linkedinProfile, DateOfBirth dateOfBirth, Name name, EmotionalStatus emotionalStatus,
-            List<Tag> tagsList)
+            List<TagId> tagsList)
         {
             Id = id;
             Email = email;
@@ -80,7 +81,7 @@ namespace SocialNetwork.core.model.players.domain
             LinkedinProfile = linkedinProfile ?? new();
         }
 
-        public bool AssignTag(Tag newTag)
+        public bool AssignTag(TagId newTag)
         {
             if (TagsList.Contains(newTag))
                 return false;
@@ -89,27 +90,27 @@ namespace SocialNetwork.core.model.players.domain
             return true;
         }
 
-        public bool RemoveTag(Tag tagToRemove)
+        public bool RemoveTag(TagId tagToRemove)
         {
             return TagsList.Remove(tagToRemove);
         }
 
         public void ChangeName(Name newName)
         {
-            this.Name = newName;
+            Name = newName;
         }
 
         public void ChangeDateOfBirth(DateOfBirth dateOfBirth)
         {
-            this.DateOfBirth = dateOfBirth;
+            DateOfBirth = dateOfBirth;
         }
 
         public void ChangePhoneNumber(PhoneNumber phoneNumber)
         {
-            this.PhoneNumber = phoneNumber;
+            PhoneNumber = phoneNumber;
         }
 
-        public void ChangeTags(List<Tag> newTagsList)
+        public void ChangeTags(List<TagId> newTagsList)
         {
             TagsList.Clear();
             TagsList.AddRange(newTagsList);
@@ -126,7 +127,7 @@ namespace SocialNetwork.core.model.players.domain
                 FacebookProfile.FacebookProfileLink, LinkedinProfile.LinkedinProfileLink,
                 DateOfBirth.Date, Name.ShortName, Name.FullName,
                 EmotionalStatus.CurrentEmotionalStatus,
-                TagsList.ConvertAll(tag => tag.Name));
+                TagsList.ConvertAll(tag => tag.Value));
         }
 
         public override bool Equals(object obj)
@@ -139,7 +140,7 @@ namespace SocialNetwork.core.model.players.domain
 
             Player otherPlayer = (Player) obj;
 
-            return otherPlayer.Email.Equals(this.Email);
+            return otherPlayer.Email.Equals(Email);
         }
 
         public override int GetHashCode()

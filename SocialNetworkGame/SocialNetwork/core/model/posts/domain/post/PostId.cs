@@ -12,17 +12,9 @@ namespace SocialNetwork.core.model.posts.domain.post
         public PostId(Guid guid) : base(guid)
         {
         }
+
         public PostId(String value) : base(value)
         {
-        }
-        protected override Object createFromString(String text)
-        {
-            return text;
-        }
-
-        public override String AsString()
-        {
-            return base.Value;
         }
     }
 }

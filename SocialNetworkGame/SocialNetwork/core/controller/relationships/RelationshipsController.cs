@@ -46,7 +46,6 @@ namespace SocialNetwork.core.controller.relationships
         public async Task<ActionResult<List<PlayerEmailDto>>> GetFriendsByEmail(string email)
         {
             return await _service.GetRelationByEmail(email);
-
         }
 
         [HttpGet("network/{email}/{depth}")]
@@ -59,7 +58,6 @@ namespace SocialNetwork.core.controller.relationships
 
             return await _service.GetNetworkAtDepthByEmail(Email.ValueOf(email), depth);
         }
-
 
 
         [HttpPost]
@@ -102,41 +100,6 @@ namespace SocialNetwork.core.controller.relationships
             }
         }
 
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<RelationshipDto>> SoftDelete(Guid id)
-        {
-            var cat = await _service.InactivateAsync(new RelationshipId(id));
-
-            if (cat == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cat);
-        }
-
-        [HttpDelete("{id}/hard")]
-        public async Task<ActionResult<RelationshipDto>> HardDelete(string id)
-        {
-            try
-            {
-                var cat = await _service.DeleteAsync(new RelationshipId(id));
-
-                if (cat == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(cat);
-            }
-            catch (BusinessRuleValidationException ex)
-            {
-                return BadRequest(new {Message = ex.Message});
-            }
-        }
-
-        
         [HttpPut]
         public async Task<ActionResult<RelationshipDto>> Update(RelationshipDto dto)
         {
@@ -156,7 +119,27 @@ namespace SocialNetwork.core.controller.relationships
                 return BadRequest(new {Message = ex.Message});
             }
         }
-        
 
+
+        // For testing
+        [HttpDelete("{id}/hard")]
+        public async Task<ActionResult<RelationshipDto>> HardDelete(string id)
+        {
+            try
+            {
+                var cat = await _service.DeleteAsync(new RelationshipId(id));
+
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(cat);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {Message = ex.Message});
+            }
+        }
     }
 }

@@ -8,18 +8,9 @@ namespace SocialNetwork.core.model.players.domain
         public PlayerId(Guid guid) : base(guid)
         {
         }
+
         public PlayerId(String value) : base(value)
         {
         }
-        protected override Object createFromString(String text)
-        {
-            return text;
-        }
-
-        public override String AsString()
-        {
-            return base.Value;
-        }
-
     }
 }

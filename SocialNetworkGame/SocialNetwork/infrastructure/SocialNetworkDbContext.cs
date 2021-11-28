@@ -27,28 +27,23 @@ namespace SocialNetwork.infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Add here Db configuration
+            modelBuilder.ApplyConfiguration(new SystemUserEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PlayerEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new TagEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ConnectionRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new DirectRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new IntroductionRequestEntityTypeConfiguration());
-
             modelBuilder.ApplyConfiguration(new MissionEntityTypeConfiguration());
-
-            modelBuilder.ApplyConfiguration(new PlayerEntityTypeConfiguration());
-
-            modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PostEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ReactionEntityTypeConfiguration());
-
             modelBuilder.ApplyConfiguration(new RelationShipEntityTypeConfiguration());
-
-            modelBuilder.ApplyConfiguration(new SystemUserEntityTypeConfiguration());
-
-            modelBuilder.ApplyConfiguration(new TagEntityTypeConfiguration());
         }
 
-        // DB Entities 
-
+        // DB Entities
         public DbSet<SystemUser> Users { get; set; }
+
         public DbSet<Player> Players { get; set; }
 
         public DbSet<Relationship> Relationships { get; set; }
@@ -58,8 +53,6 @@ namespace SocialNetwork.infrastructure
         public DbSet<Mission> Missions { get; set; }
 
         public DbSet<DirectRequest> DirectRequests { get; set; }
-
-        public DbSet<ConnectionRequest> ConnectionRequests { get; set; }
 
         public DbSet<IntroductionRequest> IntroductionRequests { get; set; }
 

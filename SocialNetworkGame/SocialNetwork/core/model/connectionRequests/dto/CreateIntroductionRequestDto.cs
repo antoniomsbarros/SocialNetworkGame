@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SocialNetwork.core.model.connectionRequests.dto
 {
-    public class CreateConnectionIntroductionDTO
+    public class CreateIntroductionRequestDto
     {
         public string PlayerSender;
 
@@ -14,18 +14,23 @@ namespace SocialNetwork.core.model.connectionRequests.dto
 
         public string PlayerIntroduction;
 
-        public int ConnectionStrenght;
+        public int ConnectionStrength;
         public List<string> Tags { get; set; }
 
-        public CreateConnectionIntroductionDTO(string playerSender, string playerReceiver, string text,
-            string textIntroduction, string playerIntroduction, int connectionStrenght, List<string> tags)
+        public CreateIntroductionRequestDto()
+        {
+            // Empty
+        }
+
+        public CreateIntroductionRequestDto(string playerSender, string playerReceiver, string text,
+            string textIntroduction, string playerIntroduction, int connectionStrength, List<string> tags)
         {
             PlayerSender = playerSender;
             PlayerReceiver = playerReceiver;
             Text = text;
             TextIntroduction = textIntroduction;
             PlayerIntroduction = playerIntroduction;
-            ConnectionStrenght = connectionStrenght;
+            ConnectionStrength = connectionStrength;
             Tags = tags;
         }
     }

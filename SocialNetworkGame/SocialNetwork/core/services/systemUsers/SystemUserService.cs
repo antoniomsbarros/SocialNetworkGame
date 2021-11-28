@@ -14,8 +14,8 @@ namespace SocialNetwork.core.services.systemUsers
 
         public SystemUserService(IUnitOfWork unitOfWork, ISystemUserRepository repo)
         {
-            this._unitOfWork = unitOfWork;
-            this._repo = repo;
+            _unitOfWork = unitOfWork;
+            _repo = repo;
         }
 
         public async Task<SystemUserCreatedDto> AddAsync(SystemUserDto systemUserDto,
@@ -24,8 +24,8 @@ namespace SocialNetwork.core.services.systemUsers
             SystemUser user = new SystemUser(new Username(systemUserDto.username),
                 Password.ValueOf(systemUserDto.password, passwordPolicy));
 
-            await this._repo.AddAsync(user);
-            await this._unitOfWork.CommitAsync();
+            await _repo.AddAsync(user);
+            await _unitOfWork.CommitAsync();
 
             return new SystemUserCreatedDto(user.Id.Value);
         }

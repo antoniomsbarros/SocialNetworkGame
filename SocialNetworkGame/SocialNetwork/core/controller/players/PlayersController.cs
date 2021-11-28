@@ -68,18 +68,18 @@ namespace SocialNetwork.core.controller.players
         {
             try
             {
-                var user = await _systemUserService.AddAsync(new SystemUserDto(dto.email,
+                await _systemUserService.AddAsync(new SystemUserDto(dto.email,
                     dto.password), new PlayerPasswordPolicy(_config));
 
                 var con = await _playerService.AddAsync(new RegisterPlayerDto(dto.email,
                     dto.phoneNumber, dto.facebookProfile, dto.linkedinProfile, dto.dateOfBirth,
                     dto.shortName, dto.fullName, dto.emotionalStatus));
 
-                return CreatedAtAction(nameof(Create), new {email = con.email}, con);
+                return CreatedAtAction(nameof(Create), new {con.email}, con);
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
 
@@ -104,7 +104,7 @@ namespace SocialNetwork.core.controller.players
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
 
@@ -131,7 +131,7 @@ namespace SocialNetwork.core.controller.players
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
 
@@ -155,7 +155,7 @@ namespace SocialNetwork.core.controller.players
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
     }

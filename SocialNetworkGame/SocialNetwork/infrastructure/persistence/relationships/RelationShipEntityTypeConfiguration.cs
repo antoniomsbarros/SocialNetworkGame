@@ -12,7 +12,7 @@ namespace SocialNetwork.infrastructure.persistence.relationships
             builder.HasKey(b => b.Id);
             builder.OwnsMany(relationship => relationship.TagsList, tag =>
             {
-                tag.Property("Name");
+                tag.Property("Value");
             });
 
             builder.OwnsOne(relationship => relationship.ConnectionStrength,

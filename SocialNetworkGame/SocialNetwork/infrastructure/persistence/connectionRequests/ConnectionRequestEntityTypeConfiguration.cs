@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.core.model.connectionRequests.domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SocialNetwork.core.model.relationships.domain;
 
 namespace SocialNetwork.infrastructure.persistence.connectionRequests
 {
@@ -22,7 +17,7 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
 
             builder.OwnsOne(request => request.Text, text =>
             {
-                text.Property("Text");
+                text.Property("Content");
             });
 
             builder.OwnsOne(request => request.ConnectionRequestStatus,
@@ -32,14 +27,14 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
                 });
             
             builder.OwnsOne(request => request.ConnectionStrengthConf,
-                ConnectionStrenghtsender =>
+                connectionStrengthConf =>
                 {
-                    ConnectionStrenghtsender.Property(c=> c.Strength);
+                    connectionStrengthConf.Property(c=> c.Strength);
                 });
            
             builder.OwnsMany(request => request.TagsConf, tag =>
             {
-                tag.Property("Name");
+                tag.Property("Value");
             });
         }
     }

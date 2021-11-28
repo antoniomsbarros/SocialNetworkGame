@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.services.players
 {
@@ -87,8 +87,7 @@ namespace SocialNetwork.core.services.players
             if (playerDto.shortName != null)
                 player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
 
-            if (playerDto.dateOfBirth != null)
-                player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
+            player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
 
             if (playerDto.facebookProfile != null)
                 player.LinkFacebook(FacebookProfile.ValueOf(playerDto.facebookProfile));
@@ -100,7 +99,7 @@ namespace SocialNetwork.core.services.players
                 player.ChangePhoneNumber(PhoneNumber.ValueOf(playerDto.phoneNumber));
 
             if (playerDto.tags != null)
-                player.ChangeTags(playerDto.tags.ConvertAll(t => Tag.ValueOf(t)));
+                player.ChangeTags(playerDto.tags.ConvertAll(tags => new TagId(tags)));
 
 
             await _unitOfWork.CommitAsync();
