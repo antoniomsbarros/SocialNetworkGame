@@ -1,0 +1,10 @@
+<p>get-list-of-pending-connection-requests works!</p>
+<div *ngIf="listpendingIntroductions; else defined">
+  <h1>You dont have any Introductions Requests</h1>
+</div>
+<ng-template #defined>
+ <!--<a *ngFor="let i of listpendingIntroductions">
+   {{i.PlayerSender}}
+ </a>-->
+  </ng-template>
+<button (click)="goBack()">go back</button>
