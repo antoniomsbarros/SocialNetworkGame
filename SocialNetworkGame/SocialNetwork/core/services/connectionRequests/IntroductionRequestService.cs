@@ -42,29 +42,12 @@ namespace SocialNetwork.core.services.connectionRequests
             {
                 return null;
             }
-
-            
             var list = _repository.GetAllPendingIntroductionAsync(new PlayerId(playerIntro.id));
-
             
             List<IntroductionRequestDto> list1= list.ConvertAll(introRequest => introRequest.ToDto());
             List<IntroductionRequestDto> list2 = new List<IntroductionRequestDto>();
-            foreach (var VARIABLE in list1)
-            {
-                
-                List<string> tags = new List<string>();
-                foreach (var tag in VARIABLE.Tags)
-                {
-                    var tag1 = await _tagsService.GetByIdAsync(new TagId(tag));
-                    tags.Add(tag1.name);
-                }
-                IntroductionRequestDto introductionRequestDto = new IntroductionRequestDto(VARIABLE.Id, 
-                    VARIABLE.ConnectionRequestStatus, VARIABLE.PlayerSender, VARIABLE.PlayerReceiver, VARIABLE.Text, 
-                    VARIABLE.CreationDate, VARIABLE.TextIntroduction, VARIABLE.PlayerIntroduction, 
-                    VARIABLE.IntroductionStatus,tags);
-                list2.Add(introductionRequestDto);
-            }
-            return list2;
+            
+            return list1;
         }
 
         public async Task<IntroductionRequestDto> GetByIdAsync(ConnectionRequestId id)
