@@ -8,6 +8,7 @@ using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.services.players;
+using SocialNetwork.core.services.tags;
 
 namespace SocialNetwork.core.services.connectionRequests
 {
@@ -16,13 +17,14 @@ namespace SocialNetwork.core.services.connectionRequests
         private readonly IUnitOfWork _unitOfWork;
         private readonly IIntroductionRequestRepository _repository;
         private readonly PlayerService _playerService;
-
+        private readonly TagsService _tagsService;
         public IntroductionRequestService(IUnitOfWork unitOfWork, IIntroductionRequestRepository repository,
-            PlayerService playerService)
+            PlayerService playerService,TagsService tagsService)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
             _playerService = playerService;
+            _tagsService = tagsService;
         }
 
         public async Task<List<IntroductionRequestDto>> GetAllAsync()
@@ -35,15 +37,34 @@ namespace SocialNetwork.core.services.connectionRequests
         public async Task<List<IntroductionRequestDto>> GetAllPendingIntroduction(string playerIntroEmail)
         {
             var playerIntro = await _playerService.GetByEmailAsync(new Email(playerIntroEmail));
-
+            
             if (playerIntro == null)
             {
                 return null;
             }
 
+            
             var list = _repository.GetAllPendingIntroductionAsync(new PlayerId(playerIntro.id));
 
-            return list.ConvertAll(introRequest => introRequest.ToDto());
+            
+            List<IntroductionRequestDto> list1= list.ConvertAll(introRequest => introRequest.ToDto());
+            List<IntroductionRequestDto> list2 = new List<IntroductionRequestDto>();
+            foreach (var VARIABLE in list1)
+            {
+                
+                List<string> tags = new List<string>();
+                foreach (var tag in VARIABLE.Tags)
+                {
+                    var tag1 = await _tagsService.GetByIdAsync(new TagId(tag));
+                    tags.Add(tag1.name);
+                }
+                IntroductionRequestDto introductionRequestDto = new IntroductionRequestDto(VARIABLE.Id, 
+                    VARIABLE.ConnectionRequestStatus, VARIABLE.PlayerSender, VARIABLE.PlayerReceiver, VARIABLE.Text, 
+                    VARIABLE.CreationDate, VARIABLE.TextIntroduction, VARIABLE.PlayerIntroduction, 
+                    VARIABLE.IntroductionStatus,tags);
+                list2.Add(introductionRequestDto);
+            }
+            return list2;
         }
 
         public async Task<IntroductionRequestDto> GetByIdAsync(ConnectionRequestId id)
