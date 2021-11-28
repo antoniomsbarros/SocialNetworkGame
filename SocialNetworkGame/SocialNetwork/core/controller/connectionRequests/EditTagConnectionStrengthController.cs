@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
-using SocialNetwork.DTO;
 
 namespace SocialNetwork.core.controller.connectionRequests
 {
