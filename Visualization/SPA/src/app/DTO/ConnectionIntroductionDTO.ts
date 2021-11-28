@@ -9,5 +9,4 @@ export interface ConnectionIntroductionDTO{
     PlayerIntroduction:string;
     IntroductionStatus: string;
     ConnectionStrength : number;
-
 }
