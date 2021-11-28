@@ -68,17 +68,16 @@ namespace SocialNetwork.core.controller.relationships
         {
             try
             {
-                var tags = dto.tags.ToArray();
                 var nTag = 0;
-                while (nTag < tags.Length)
+                while (nTag < dto.tags.Count)
                 {
-                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(tags[nTag])).Result;
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(dto.tags[nTag])).Result;
                     if (tag != null)
-                        tags[nTag] = tag.id;
+                        dto.tags[nTag] = tag.id;
                     else
                     {
-                        var newTag = _tagsService.AddAsync(new CreateTagDto(tags[nTag])).Result;
-                        tags[nTag] = newTag.id;
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(dto.tags[nTag])).Result;
+                        dto.tags[nTag] = newTag.id;
                     }
 
                     ++nTag;
@@ -134,7 +133,7 @@ namespace SocialNetwork.core.controller.relationships
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
 
@@ -156,7 +155,7 @@ namespace SocialNetwork.core.controller.relationships
             }
             catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
     }
