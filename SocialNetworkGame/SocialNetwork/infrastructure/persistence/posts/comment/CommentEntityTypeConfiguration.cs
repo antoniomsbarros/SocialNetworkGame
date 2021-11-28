@@ -16,7 +16,7 @@ namespace SocialNetwork.infrastructure.persistence.posts.comment
             });
             builder.OwnsOne(comment => comment.CommentText, commentText =>
             {
-                commentText.Property("Text");
+                commentText.Property("Content");
             });
         }
     }

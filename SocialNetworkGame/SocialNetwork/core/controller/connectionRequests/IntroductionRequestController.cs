@@ -3,12 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.connectionRequests.dto;
-using SocialNetwork.core.model.players.domain;
-using SocialNetwork.core.model.players.dto;
-using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
-using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
 
@@ -26,27 +22,27 @@ namespace SocialNetwork.core.controller.connectionRequests
             RelationshipService relationshipService, PlayerService playerService)
         {
             _relationshipService = relationshipService;
-            _service=service;
+            _service = service;
             _playerService = playerService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ConnectionIntroductionDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<IntroductionRequestDto>>> GetAll()
         {
             return await _service.GetAllAsync();
         }
 
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ConnectionIntroductionDTO), 200)]
+        [ProducesResponseType(typeof(IntroductionRequestDto), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetGetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             var cat = await _service.GetByIdAsync(new ConnectionRequestId(id));
 
             if (cat == null)
             {
-                return NotFound($"the request with id:{id} does not exist");
+                return NotFound($"The request with id:{id} does not exist");
             }
 
             return Ok(cat);
@@ -180,24 +176,26 @@ namespace SocialNetwork.core.controller.connectionRequests
         }
 */
 
-        [HttpGet("PlayerIntroduction={PlayerIntroduction}")]
-        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
+        [HttpGet("PlayerIntroduction={playerIntroduction}")]
+        [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetPendingIntroductions(string PlayerIntroduction)
+        public async Task<IActionResult> GetPendingIntroductions(string playerIntroduction)
         {
-            var cat = await _service.GetAllPendingIntroduction(PlayerIntroduction);
-            if (cat == null)
+            var introRequest = await _service.GetAllPendingIntroduction(playerIntroduction);
+
+            if (introRequest == null)
             {
-                return NotFound($"the Player does not exist");
+                return NotFound($"The Player does not exist");
             }
 
-            if (cat.Count == 0)
+            if (introRequest.Count == 0)
             {
-                return NotFound($"the Player does not have pending introduction");
+                return NotFound($"The Player does not have any pending introduction requests");
             }
 
-            return Ok(cat);
+            return Ok(introRequest);
         }
+
         /*
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateIntroductionConnection(string id,
@@ -225,20 +223,21 @@ namespace SocialNetwork.core.controller.connectionRequests
         */
 
         [HttpDelete("{id}/hard")]
-        public async Task<ActionResult<ConnectionIntroductionDTO>> hardDelete(string id)
+        public async Task<ActionResult<IntroductionRequestDto>> HardDelete(string id)
         {
             try
             {
-                var cat = await _service.DeleteAsync(id);
-                if (cat==null)
+                var introRequest = await _service.DeleteAsync(id);
+                if (introRequest == null)
                 {
                     return NotFound("Could not delete the introduction Request");
                 }
 
-                return Ok(cat);
-            }catch(BusinessRuleValidationException ex)
+                return Ok(introRequest);
+            }
+            catch (BusinessRuleValidationException ex)
             {
-                return BadRequest(new {Message = ex.Message});
+                return BadRequest(new {ex.Message});
             }
         }
     }

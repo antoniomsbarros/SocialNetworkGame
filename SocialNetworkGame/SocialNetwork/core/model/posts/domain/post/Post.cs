@@ -4,6 +4,7 @@ using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.posts.domain.comment;
 using SocialNetwork.core.model.posts.domain.reaction;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.model.posts.domain.post
 {
@@ -13,7 +14,7 @@ namespace SocialNetwork.core.model.posts.domain.post
 
         public PlayerId PlayerCreator { get; private set; }
 
-        public List<Tag> Tags { get; private set; }
+        public List<TagId> Tags { get; private set; }
 
         public List<Reaction> Reactions { get; private set; }
 
@@ -26,80 +27,80 @@ namespace SocialNetwork.core.model.posts.domain.post
             // for ORM
         }
 
-        protected Post(PostId id, TextBox postText, Player playerCreator, List<Tag> tagsList, List<Reaction> reactionsList,
-            List<Comment> commentsList, CreationDate creationDate)
+        protected Post(PostId id, TextBox postText, PlayerId playerCreator, List<TagId> tagsList,
+            List<Reaction> reactionsList, List<Comment> commentsList, CreationDate creationDate)
         {
-            this.Id = id;
-            this.PostText = postText;
-            this.PlayerCreator = playerCreator.Id;
-            this.Tags = new(tagsList);
-            this.Reactions = new(reactionsList);
-            this.Comments = new(commentsList);
-            this.CreationDate = creationDate;
+            Id = id;
+            PostText = postText;
+            PlayerCreator = playerCreator;
+            Tags = new(tagsList);
+            Reactions = new(reactionsList);
+            Comments = new(commentsList);
+            CreationDate = creationDate;
         }
 
-        public Post(TextBox postText, Player playerCreator, List<Tag> tagsList)
+        public Post(TextBox postText, PlayerId playerCreator, List<TagId> tagsList)
         {
-            this.Id = new PostId(Guid.NewGuid());
-            this.PostText = postText;
-            this.PlayerCreator = playerCreator.Id;
-            this.Tags = new(tagsList);
-            this.Reactions = new();
-            this.Comments = new();
-            this.CreationDate = new();
+            Id = new PostId(Guid.NewGuid());
+            PostText = postText;
+            PlayerCreator = playerCreator;
+            Tags = new(tagsList);
+            Reactions = new();
+            Comments = new();
+            CreationDate = new();
         }
 
-        public Post(TextBox postText, Player playerCreator)
+        public Post(TextBox postText, PlayerId playerCreator)
         {
-            this.Id = new PostId(Guid.NewGuid());
-            this.PostText = postText;
-            this.PlayerCreator = playerCreator.Id;
-            this.Tags = new();
-            this.Reactions = new();
-            this.Comments = new();
-            this.CreationDate = new();
+            Id = new PostId(Guid.NewGuid());
+            PostText = postText;
+            PlayerCreator = playerCreator;
+            Tags = new();
+            Reactions = new();
+            Comments = new();
+            CreationDate = new();
         }
 
-        public bool AssignTag(Tag newTag)
+        public bool AssignTag(TagId newTag)
         {
-            if (this.Tags.Contains(newTag))
+            if (Tags.Contains(newTag))
                 return false;
 
-            this.Tags.Add(newTag);
+            Tags.Add(newTag);
             return true;
         }
 
-        public bool RemoveTag(Tag tagToRemove)
+        public bool RemoveTag(TagId tagToRemove)
         {
-            return this.Tags.Remove(tagToRemove);
+            return Tags.Remove(tagToRemove);
         }
 
         public bool AddReaction(Reaction reaction)
         {
-            if (this.Reactions.Contains(reaction))
+            if (Reactions.Contains(reaction))
                 return false;
 
-            this.Reactions.Add(reaction);
+            Reactions.Add(reaction);
             return true;
         }
 
         public bool RemoveReaction(Reaction reaction)
         {
-            return this.Reactions.Remove(reaction);
+            return Reactions.Remove(reaction);
         }
 
         public bool AddComment(Comment comment)
         {
-            if (this.Comments.Contains(comment))
+            if (Comments.Contains(comment))
                 return false;
 
-            this.Comments.Add(comment);
+            Comments.Add(comment);
             return true;
         }
 
         public bool RemoveComment(Comment comment)
         {
-            return this.Comments.Remove(comment);
+            return Comments.Remove(comment);
         }
 
         public override bool Equals(object obj)
@@ -110,15 +111,14 @@ namespace SocialNetwork.core.model.posts.domain.post
             if (obj.GetType() != typeof(Post))
                 return false;
 
-            Post otherPost = (Post)obj;
+            Post otherPost = (Post) obj;
 
-            return otherPost.Id.Equals(this.Id);
+            return otherPost.Id.Equals(Id);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id);
+            return HashCode.Combine(Id);
         }
     }
-
 }

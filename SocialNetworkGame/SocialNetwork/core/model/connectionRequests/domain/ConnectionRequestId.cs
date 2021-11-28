@@ -16,15 +16,5 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public ConnectionRequestId(String value) : base(value)
         {
         }
-
-        protected override Object createFromString(String text)
-        {
-            return text;
-        }
-
-        public override String AsString()
-        {
-            return Value;
-        }
     }
 }

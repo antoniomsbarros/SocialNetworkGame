@@ -4,18 +4,18 @@ namespace SocialNetwork.core.model.shared
 {
     public class CreationDate : IValueObject
     {
-
         public DateTime Date { get; }
 
         public CreationDate()
         {
-            this.Date = new DateTime();
+            Date = DateTime.Now;
         }
 
         public CreationDate(int year, int month, int day)
         {
-            this.Date = new DateTime(year, month, day);
+            Date = new DateTime(year, month, day);
         }
+
         public CreationDate(string dateddMMyyyy)
         {
             Date = Convert.ToDateTime(dateddMMyyyy);
@@ -39,14 +39,14 @@ namespace SocialNetwork.core.model.shared
             if (obj.GetType() != typeof(CreationDate))
                 return false;
 
-            CreationDate otherCreationDate = (CreationDate)obj;
+            CreationDate otherCreationDate = (CreationDate) obj;
 
-            return otherCreationDate.Date.Equals(this.Date);
+            return otherCreationDate.Date.Equals(Date);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Date);
+            return HashCode.Combine(Date);
         }
 
         public override string ToString()

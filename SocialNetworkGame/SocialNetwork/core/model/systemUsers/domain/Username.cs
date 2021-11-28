@@ -12,15 +12,5 @@ namespace SocialNetwork.core.model.systemUsers.domain
         public Username(string username) : base(username)
         {
         }
-
-        protected override Username createFromString(string text)
-        {
-            return new(text);
-        }
-
-        public override string AsString()
-        {
-            return base.Value;
-        }
     }
 }

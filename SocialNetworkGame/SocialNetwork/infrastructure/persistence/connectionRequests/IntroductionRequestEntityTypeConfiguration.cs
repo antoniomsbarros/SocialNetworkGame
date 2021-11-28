@@ -18,7 +18,7 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
 
             builder.OwnsOne(request => request.TextIntroduction, textIntroduction =>
             {
-                textIntroduction.Property("Text");
+                textIntroduction.Property("Content");
             });
 
             builder.OwnsOne(request => request.IntroductionStatus,

@@ -1,51 +1,60 @@
 ﻿using SocialNetwork.core.model.shared;
 using System;
-using System.Text.RegularExpressions;
 
 namespace SocialNetwork.core.model.tags.domain
 {
     public class TagName : IValueObject
     {
+        private static readonly int minCaract = 1;
+        private static readonly int maxCaract = 255;
 
-        private const string TagRegex = "^[a-zA-Z0-9 ]*$";
-
-        public string Name { get; }
+        public string Value { get; }
 
         protected TagName()
         {
             // for ORM
         }
 
-        public TagName(string Name)
+        public TagName(string tagValue)
         {
-            if (TagNameValid(Name))
-            {
-                this.Name = Name;
-            }
-            else if (TagNameValid(Name))
-                throw new BusinessRuleValidationException("Tag name invalid");
+            if (IsValid(tagValue))
+                this.Value = tagValue;
+            else
+                throw new BusinessRuleValidationException(
+                    $"The name of the Tag must have between {minCaract} and {maxCaract} characters");
         }
 
-        public static bool TagNameValid(string Name)
+        public static bool IsValid(string tagName)
         {
-            return new Regex(TagRegex).IsMatch(Name)
-                   && Name.Length > 0;
+            return (tagName.Length >= minCaract && tagName.Length <= maxCaract);
         }
 
-        public static TagName ValueOf(string Name)
+        public static TagName ValueOf(string name)
         {
-            return new(Name);
+            return new(name);
         }
 
         public override bool Equals(object obj)
         {
-            return obj is TagName name &&
-                   Name == name.Name;
+            if (obj == this)
+                return true;
+
+            if (obj.GetType() != typeof(Tag))
+                return false;
+
+            TagName otherTag = (TagName) obj;
+
+            return otherTag.Value.Trim().ToLower().Equals(Value.Trim().ToLower());
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name);
+            return HashCode.Combine(Value);
+        }
+
+        public override string ToString()
+        {
+            return Value;
         }
     }
 }

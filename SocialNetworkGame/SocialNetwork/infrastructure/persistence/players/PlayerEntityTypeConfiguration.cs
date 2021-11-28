@@ -26,7 +26,7 @@ namespace SocialNetwork.infrastructure.persistence.players
                 facebookProfile => { facebookProfile.Property("FacebookProfileLink"); });
 
             builder.OwnsOne(player => player.LinkedinProfile,
-                facebookProfile => { facebookProfile.Property("LinkedinProfileLink"); });
+                linkedinProfile => { linkedinProfile.Property("LinkedinProfileLink"); });
 
             builder.OwnsOne(player => player.Name, name =>
             {
@@ -37,7 +37,10 @@ namespace SocialNetwork.infrastructure.persistence.players
             builder.OwnsOne(player => player.EmotionalStatus,
                 emotionalStatus => { emotionalStatus.Property("CurrentEmotionalStatus"); });
 
-            builder.OwnsMany(player => player.TagsList, tagsList => { tagsList.Property("Name"); });
+            builder.OwnsMany(player => player.TagsList, tagsList =>
+            {
+                tagsList.Property("Value");
+            });
         }
     }
 }

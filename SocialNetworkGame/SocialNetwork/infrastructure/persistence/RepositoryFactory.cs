@@ -16,11 +16,6 @@ namespace SocialNetwork.infrastructure.persistence
             _context = context;
         }
 
-        public ConnectionRequestRepository ConnectionRequest()
-        {
-            return new ConnectionRequestRepository(_context);
-        }
-
         public DirectRequestRepository DirectRepository()
         {
             return new DirectRequestRepository(_context);

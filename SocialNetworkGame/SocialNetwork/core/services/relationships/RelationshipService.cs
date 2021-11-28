@@ -7,6 +7,7 @@ using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
+using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.services.players;
 using SocialNetwork.DTO;
 using SocialNetwork.infrastructure.relationships;
@@ -30,7 +31,7 @@ namespace SocialNetwork.core.services.relationships
         {
             var list = await this._repo.GetAllAsync();
             var listDto = new List<RelationshipDto>();
-            list.ForEach(r => listDto.Add(r.toDTO()));
+            list.ForEach(r => listDto.Add(r.ToDto()));
             return listDto;
         }
 
@@ -41,7 +42,7 @@ namespace SocialNetwork.core.services.relationships
             if (cat == null)
                 return null;
 
-            return cat.toDTO();
+            return cat.ToDto();
         }
 
         public async Task<List<PlayerEmailDto>> GetRelationByEmail(string email)
@@ -99,7 +100,7 @@ namespace SocialNetwork.core.services.relationships
                 while (notVisitedPlayers.Count != 0)
                 {
                     NetworkFromPlayerPerspectiveDto nextPlayer = notVisitedPlayers[0];
-                    foreach (var relationship in await this._repo.GetRelationshipsFriendsById(
+                    foreach (var relationship in await _repo.GetRelationshipsFriendsById(
                         new PlayerId(nextPlayer.PlayerId)))
                     {
                         if (visitedRelationships.Contains(relationship) ||
@@ -120,7 +121,7 @@ namespace SocialNetwork.core.services.relationships
 
                         if (nextPlayer.PlayerId.Equals(currentPlayerDto.id))
                         {
-                            playerToNetwork.RelationshipTags = relationship.TagsList.ConvertAll<string>(t => t.Name);
+                            playerToNetwork.RelationshipTags = relationship.TagsList.ConvertAll(t => t.Value);
                             playerToNetwork.PlayerTags = playerTo.tags;
                             playerToNetwork.RelationshipStrength = relationship.ConnectionStrength.Strength;
                         }
@@ -140,71 +141,50 @@ namespace SocialNetwork.core.services.relationships
 
         public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
         {
-            Guid guid = Guid.NewGuid();
-            PlayerId playerDest = new PlayerId(dto.playerDest);
-            PlayerId playerOrig = new PlayerId(dto.playerOrig);
-            ConnectionStrength otherConnectionStrength = new ConnectionStrength(dto.connection);
-            List<Tag> tagList = new List<Tag>();
-            dto.tags.ForEach(tag => tagList.Add(new Tag(tag)));
-            var Relationship = new Relationship(playerDest, playerOrig, otherConnectionStrength, tagList);
+            var relationship = new Relationship(new PlayerId(dto.playerDest), new PlayerId(dto.playerOrig),
+                ConnectionStrength.ValueOf(dto.connection), dto.tags.ConvertAll(tag => new TagId(tag)));
 
-            await this._repo.AddAsync(Relationship);
+            await _repo.AddAsync(relationship);
 
-            await this._unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
-            return Relationship.toDTO();
+            return relationship.ToDto();
         }
 
         public async Task<RelationshipDto> UpdateAsync(RelationshipDto dto)
         {
-            var Relationship = await this._repo.GetByIdAsync(new RelationshipId(dto.id));
+            var relationship = await _repo.GetByIdAsync(new RelationshipId(dto.id));
 
-            if (Relationship == null)
+            if (relationship == null)
                 return null;
 
-            Relationship.ChangePlayerDest(dto.playerDest);
-            Relationship.ChangePlayerOrig(dto.playerOrig);
-            Relationship.ChangeConnectionStrenght(dto.connection);
-            Relationship.ChangeTags(dto.tags);
+            relationship.ChangePlayerDest(dto.playerDest);
+            relationship.ChangePlayerOrig(dto.playerOrig);
+            relationship.ChangeConnectionStrength(dto.connection);
+            relationship.ChangeTags(dto.tags.ConvertAll(tag => new TagId(tag)));
 
-            await this._unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
-            return Relationship.toDTO();
-        }
-
-        public async Task<RelationshipDto> InactivateAsync(RelationshipId id)
-        {
-            var Relationship = await this._repo.GetByIdAsync(id);
-
-            if (Relationship == null)
-                return null;
-
-            // change all fields
-            //TODO inactive if necessary
-            //Relationship.MarkAsInative();
-
-            await this._unitOfWork.CommitAsync();
-
-            return Relationship.toDTO();
+            return relationship.ToDto();
         }
 
         public async Task<RelationshipDto> DeleteAsync(RelationshipId id)
         {
-            var Relationship = await _repo.GetByIdAsync(id);
+            var relationship = await _repo.GetByIdAsync(id);
 
-            if (Relationship == null)
+            if (relationship == null)
                 return null;
 
-            _repo.Remove(Relationship);
+            _repo.Remove(relationship);
             await _unitOfWork.CommitAsync();
 
-            return Relationship.toDTO();
+            return relationship.ToDto();
         }
 
         public async Task<RelationshipDto> ChangeRelationshipTagConnectionStrength(RelationshipDto dto)
         {
             var relationship =
-                await this._repo.GetRelationshipOfPlayerFromTo(Email.ValueOf(dto.playerOrig),
+                await _repo.GetRelationshipOfPlayerFromTo(Email.ValueOf(dto.playerOrig),
                     Email.ValueOf(dto.playerDest));
 
             if (relationship == null)
@@ -212,10 +192,10 @@ namespace SocialNetwork.core.services.relationships
                 return null;
             }
 
-            relationship.ChangeConnectionStrenght(dto.connection);
-            relationship.ChangeTags(dto.tags);
+            relationship.ChangeConnectionStrength(dto.connection);
+            relationship.ChangeTags(dto.tags.ConvertAll(tag => new TagId(tag)));
 
-            await this._unitOfWork.CommitAsync();
+            await _unitOfWork.CommitAsync();
 
             var tag = new List<String>();
 
@@ -224,9 +204,8 @@ namespace SocialNetwork.core.services.relationships
                 tag.Add(e.ToString());
             }
 
-            return new RelationshipDto(relationship.Id.AsString(), relationship.PlayerDest.AsString(),
-                relationship.PlayerOrig.AsString(),
-                relationship.ConnectionStrength.Strength, tag);
+            return new RelationshipDto(relationship.Id.Value, relationship.PlayerDest.Value,
+                relationship.PlayerOrig.Value, relationship.ConnectionStrength.Strength, tag);
         }
     }
 }

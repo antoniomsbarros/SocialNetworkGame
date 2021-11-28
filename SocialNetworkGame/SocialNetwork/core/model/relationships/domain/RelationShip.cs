@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.players.domain;
-using SocialNetwork.DTO;
-using lapr5_3dg.DTO;
-using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.dto;
+using SocialNetwork.core.model.tags.domain;
 
 namespace SocialNetwork.core.model.relationships.domain
 {
@@ -17,62 +15,60 @@ namespace SocialNetwork.core.model.relationships.domain
 
         public ConnectionStrength ConnectionStrength { get; private set; }
 
-        public List<Tag> TagsList { get; private set; }
+        public List<TagId> TagsList { get; private set; }
 
         protected Relationship()
         {
             // for ORM
         }
 
-        protected Relationship(RelationshipId id, PlayerId playerDest, PlayerId playerOrig, ConnectionStrength connectionStrength, List<Tag> tagList)
+        protected Relationship(RelationshipId id, PlayerId playerDest, PlayerId playerOrig,
+            ConnectionStrength connectionStrength, List<TagId> tagList)
         {
-            this.Id = id;
-            this.PlayerDest = playerDest;
-            this.PlayerOrig = playerOrig;
-            this.ConnectionStrength = connectionStrength;
-            this.TagsList = new(tagList);
+            Id = id;
+            PlayerDest = playerDest;
+            PlayerOrig = playerOrig;
+            ConnectionStrength = connectionStrength;
+            TagsList = new(tagList);
         }
 
-        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrength connectionStrength, List<Tag> tagsList)
+        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrength connectionStrength,
+            List<TagId> tagsList)
         {
-            this.Id = new RelationshipId(Guid.NewGuid());
-            this.PlayerDest = playerDest;
-            this.PlayerOrig= playerOrig;
-            this.ConnectionStrength = connectionStrength;
-            this.TagsList = new(tagsList);
+            Id = new RelationshipId(Guid.NewGuid());
+            PlayerDest = playerDest;
+            PlayerOrig = playerOrig;
+            ConnectionStrength = connectionStrength;
+            TagsList = new(tagsList);
         }
 
-        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrength connectionStrength, params Tag[] tags)
+        public Relationship(PlayerId playerDest, PlayerId playerOrig, ConnectionStrength connectionStrength,
+            params TagId[] tags)
         {
-            this.Id = new RelationshipId(Guid.NewGuid());
-            this.PlayerDest = playerDest;
-            this.PlayerOrig = playerOrig;
-            this.ConnectionStrength = connectionStrength;
-            this.TagsList = new(tags);
+            Id = new RelationshipId(Guid.NewGuid());
+            PlayerDest = playerDest;
+            PlayerOrig = playerOrig;
+            ConnectionStrength = connectionStrength;
+            TagsList = new(tags);
         }
 
-        public bool AssignTag(Tag newTag)
+        public bool AssignTag(TagId newTag)
         {
-            if (this.TagsList.Contains(newTag))
+            if (TagsList.Contains(newTag))
                 return false;
 
-            this.TagsList.Add(newTag);
+            TagsList.Add(newTag);
             return true;
         }
 
-        public bool RemoveTag(Tag tagToRemove)
+        public bool RemoveTag(TagId tagToRemove)
         {
-            return this.TagsList.Remove(tagToRemove);
+            return TagsList.Remove(tagToRemove);
         }
 
-        public void AssignConnectionStrenght(ConnectionStrength connectionStrength)
+        public void AssignConnectionStrength(ConnectionStrength connectionStrength)
         {
-            this.ConnectionStrength = connectionStrength;
-        }
-
-        public int ComputeRelationStrenght()
-        {
-            throw new NotImplementedException("not implemented yet");
+            ConnectionStrength = connectionStrength;
         }
 
         public override bool Equals(object obj)
@@ -85,30 +81,30 @@ namespace SocialNetwork.core.model.relationships.domain
 
             Relationship otherRelationShip = (Relationship) obj;
 
-            return otherRelationShip.Id.Equals(this.Id);
+            return otherRelationShip.Id.Equals(Id);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(this.Id);
+            return HashCode.Combine(Id);
         }
 
-        public void ChangeConnectionStrenght(int connectionStrenght)
+        public void ChangeConnectionStrength(int connectionStrength)
         {
-            if (connectionStrenght > 0)
-                ConnectionStrength = new ConnectionStrength(connectionStrenght);
+            if (connectionStrength > 0)
+                ConnectionStrength = new ConnectionStrength(connectionStrength);
         }
 
-        public void ChangeTags(List<string> tags)
+        public void ChangeTags(List<TagId> tags)
         {
-            if (tags != null || tags.Count > 0)
+            if (tags is {Count: > 0})
             {
-                TagsList = new List<Tag>();
-                tags.ForEach(tag => TagsList.Add(new Tag(tag)));
+                TagsList.Clear();
+                TagsList.AddRange(tags);
             }
         }
 
-        public void ChangePlayerDest(String playerDest) 
+        public void ChangePlayerDest(String playerDest)
         {
             if (!string.IsNullOrEmpty(playerDest))
                 PlayerDest = new PlayerId(playerDest);
@@ -120,12 +116,10 @@ namespace SocialNetwork.core.model.relationships.domain
                 PlayerOrig = new PlayerId(playerOrig);
         }
 
-        public RelationshipDto toDTO()
+        public RelationshipDto ToDto()
         {
-            List<string> tagToDto = new List<string>();
-            TagsList.ForEach(tag => tagToDto.Add(tag.Name));
-            return new RelationshipDto(this.Id.Value, PlayerDest.Value, PlayerOrig.Value, 
-                ConnectionStrength.Strength, tagToDto);
+            return new RelationshipDto(Id.Value, PlayerDest.Value, PlayerOrig.Value,
+                ConnectionStrength.Strength, TagsList.ConvertAll(tag => tag.Value));
         }
     }
 }

@@ -8,32 +8,25 @@ namespace SocialNetwork.core.model.shared
     public abstract class EntityId : IEquatable<EntityId>, IComparable<EntityId>
     {
         protected Object ObjValue { get; }
-        public String Value
-        {
-            get
-            {
-                if (this.ObjValue.GetType() == typeof(String))
-                    return (String)this.ObjValue;
-                else
-                    return this.ObjValue.ToString();
-            }
-        }
+
+        public String Value { get; set; }
 
         protected EntityId()
         {
             // for ORM
         }
+
         protected EntityId(Object value)
         {
-            if (value.GetType() == typeof(String))
-                this.ObjValue = (String)value;
+            if (value is string otherValue)
+
+                ObjValue = otherValue;
+
             else
-                this.ObjValue = value;
+                ObjValue = value;
+
+            Value = ObjValue.ToString();
         }
-        protected abstract Object createFromString(String text);
-
-        public abstract String AsString();
-
 
         public override bool Equals(object obj)
         {
@@ -43,7 +36,7 @@ namespace SocialNetwork.core.model.shared
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return HashCode.Combine(Value);
         }
 
         public bool Equals(EntityId other)
@@ -59,7 +52,8 @@ namespace SocialNetwork.core.model.shared
         {
             if (other == null)
                 return -1;
-            return this.Value.CompareTo(other.Value);
+
+            return String.Compare(Value, other.Value, StringComparison.Ordinal);
         }
 
         public static bool operator ==(EntityId obj1, EntityId obj2)
@@ -70,14 +64,16 @@ namespace SocialNetwork.core.model.shared
                 {
                     return true;
                 }
+
                 return false;
             }
+
             return obj1.Equals(obj2);
         }
+
         public static bool operator !=(EntityId x, EntityId y)
         {
             return !(x == y);
         }
     }
-
 }
