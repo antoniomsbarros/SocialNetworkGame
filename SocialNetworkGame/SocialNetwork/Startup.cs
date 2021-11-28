@@ -12,14 +12,17 @@ using SocialNetwork.infrastructure.persistence.Shared;
 using SocialNetwork.infrastructure.relationships;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.systemUsers.repository;
+using SocialNetwork.core.model.tags.repository;
 using SocialNetwork.core.services.connectionRequests;
 using SocialNetwork.core.services.players;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.services.systemUsers;
+using SocialNetwork.core.services.tags;
 using SocialNetwork.infrastructure.persistence.connectionRequests;
 using SocialNetwork.infrastructure.persistence.players;
 using SocialNetwork.infrastructure.persistence.relationships;
 using SocialNetwork.infrastructure.persistence.systemUsers;
+using SocialNetwork.infrastructure.persistence.tags;
 
 namespace SocialNetwork
 {
@@ -80,6 +83,15 @@ namespace SocialNetwork
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+            services.AddTransient<ISystemUserRepository, SystemUserRepository>();
+            services.AddTransient<SystemUserService>();
+
+            services.AddTransient<IPlayerRepository, PlayerRepository>();
+            services.AddTransient<PlayerService>();
+
+            services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<TagsService>();
+
             services.AddTransient<IIntroductionRequestRepository, IntroductionRequestRepository>();
             services.AddTransient<IntroductionRequestService>();
 
@@ -88,12 +100,6 @@ namespace SocialNetwork
 
             services.AddTransient<IRelationshipRepository, RelationshipRepository>();
             services.AddTransient<RelationshipService>();
-
-            services.AddTransient<ISystemUserRepository, SystemUserRepository>();
-            services.AddTransient<SystemUserService>();
-
-            services.AddTransient<IPlayerRepository, PlayerRepository>();
-            services.AddTransient<PlayerService>();
         }
     }
 }

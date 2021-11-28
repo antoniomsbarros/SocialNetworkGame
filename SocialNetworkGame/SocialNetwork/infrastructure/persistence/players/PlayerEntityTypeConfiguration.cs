@@ -18,15 +18,27 @@ namespace SocialNetwork.infrastructure.persistence.players
                 email.HasIndex("Address").IsUnique();
             });
 
-            builder.OwnsOne(player => player.PhoneNumber, number => { number.Property("Number"); });
+            builder.OwnsOne(player => player.PhoneNumber, number =>
+            {
+                number.Property("Number");
+            });
 
-            builder.OwnsOne(player => player.DateOfBirth, dateOfBirth => { dateOfBirth.Property("Date"); });
+            builder.OwnsOne(player => player.DateOfBirth, dateOfBirth =>
+            {
+                dateOfBirth.Property("Date");
+            });
 
             builder.OwnsOne(player => player.FacebookProfile,
-                facebookProfile => { facebookProfile.Property("FacebookProfileLink"); });
+                facebookProfile =>
+                {
+                    facebookProfile.Property("FacebookProfileLink");
+                });
 
             builder.OwnsOne(player => player.LinkedinProfile,
-                linkedinProfile => { linkedinProfile.Property("LinkedinProfileLink"); });
+                linkedinProfile =>
+                {
+                    linkedinProfile.Property("LinkedinProfileLink");
+                });
 
             builder.OwnsOne(player => player.Name, name =>
             {
@@ -35,7 +47,10 @@ namespace SocialNetwork.infrastructure.persistence.players
             });
 
             builder.OwnsOne(player => player.EmotionalStatus,
-                emotionalStatus => { emotionalStatus.Property("CurrentEmotionalStatus"); });
+                emotionalStatus =>
+                {
+                    emotionalStatus.Property("CurrentEmotionalStatus");
+                });
 
             builder.OwnsMany(player => player.TagsList, tagsList =>
             {

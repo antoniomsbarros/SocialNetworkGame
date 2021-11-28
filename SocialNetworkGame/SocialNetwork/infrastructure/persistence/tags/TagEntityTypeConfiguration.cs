@@ -11,11 +11,10 @@ namespace SocialNetwork.infrastructure.persistence.tags
             builder.ToTable("Tag");
 
             builder.HasKey(b => b.Id);
-
-
+            
             builder.OwnsOne(tag => tag.TagName, tagName =>
             {
-                tagName.Property("Value");
+                tagName.Property("Value").IsRequired();
                 tagName.HasIndex("Value").IsUnique();
             });
 

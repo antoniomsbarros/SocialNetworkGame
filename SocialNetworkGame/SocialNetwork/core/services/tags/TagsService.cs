@@ -37,11 +37,27 @@ namespace SocialNetwork.core.services.tags
         public async Task<TagDto> GetByNameAsync(TagName tagName)
         {
             var tag = await _repo.GetByNameAsync(tagName);
-
+            
+            
             if (tag == null)
                 return null;
 
             return tag.ToDto();
+        }
+
+        public async Task<TagDto> AddAsync(CreateTagDto dto)
+        {
+            var newTag = CreateTag(dto);
+
+            await _repo.AddAsync(newTag);
+            await _unitOfWork.CommitAsync();
+
+            return newTag.ToDto();
+        }
+
+        private Tag CreateTag(CreateTagDto dto)
+        {
+            return new(TagName.ValueOf(dto.tagName));
         }
     }
 }
