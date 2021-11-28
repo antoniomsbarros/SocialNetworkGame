@@ -54,7 +54,6 @@ namespace SocialNetwork.core.controller.connectionRequests
             return Ok(cat);
         }
 
-
         
         [HttpPost]
         public async Task<ActionResult<IntroductionRequestDto>> CreateIntroductionRequest(
@@ -93,7 +92,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
 
-        /*
+/*
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
         [ProducesResponseType(400)]

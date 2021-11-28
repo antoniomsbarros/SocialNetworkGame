@@ -113,6 +113,7 @@ namespace SocialNetwork.core.services.relationships
                             PlayerId = playerTo.id,
                             PlayerName = playerTo.fullName,
                             RelationshipId = relationship.Id.Value,
+                            Relationships = new()
                         };
 
                         nextPlayer.Relationships ??= new();

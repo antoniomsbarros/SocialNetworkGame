@@ -21,11 +21,11 @@ namespace SocialNetwork.infrastructure.persistence.connectionRequests
 
         public List<IntroductionRequest> GetAllPendingIntroductionAsync(PlayerId playerIntroductionId)
         {
-            return _introductionRequests.Where(x => x.PlayerIntroduction.Equals(playerIntroductionId))
-                .Where(x => x.ConnectionRequestStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
-                    .Approved))
-                .Where(x => x.IntroductionStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum
-                    .OnHold)).ToList();
+            return _introductionRequests.Where(x=>x.PlayerIntroduction.Equals(playerIntroductionId))
+                
+               .Where(x=> x.ConnectionRequestStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum.Approved))
+                .Where(x=> x.IntroductionStatus.CurrentStatus.Equals(ConnectionRequestStatusEnum.OnHold))
+                .ToList();
         }
 
         public List<IntroductionRequest> GetIntrosById(PlayerId id)
