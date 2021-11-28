@@ -67,17 +67,17 @@ getSocialNetworkHostPort(Host, Port) :-
     module_socialnetwork_port(Port).
 
 createSocialNetworkTerms(Data) :-
-    setPlayerSocialNetworkTerms(Data.PlayerId, Data.Relationships).
+    setPlayerSocialNetworkTerms(Data, Data.relationships).
 
 setPlayerSocialNetworkTerms(Player, []).
 
 setPlayerSocialNetworkTerms(Player, [PlayerX]) :-
-    setPlayerSocialNetworkTerms(PlayerX, PlayerX.Relationships),
-    asserta(relationship(Player, PlayerX.PlayerId)).
+    setPlayerSocialNetworkTerms(PlayerX, PlayerX.relationships),
+    asserta(relationship(Player.PlayerId, PlayerX.PlayerId)).
 
 setPlayerSocialNetworkTerms(Player, [PlayerX|Relationships]) :-
     setPlayerSocialNetworkTerms(Player, Relationships),
-    asserta(relationship(Player, PlayerX.PlayerId)).
+    asserta(relationship(Player.PlayerId, PlayerX.PlayerId)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
