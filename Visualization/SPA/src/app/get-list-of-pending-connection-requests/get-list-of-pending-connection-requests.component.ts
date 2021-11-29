@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ConnectionIntroductionDTO} from "../DTO/ConnectionIntroductionDTO";
+import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
 import { Location } from '@angular/common';
 import {IntroductionRequestService} from "../introduction-request.service";
 
