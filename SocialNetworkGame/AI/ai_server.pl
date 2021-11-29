@@ -17,7 +17,7 @@
 
 
 % Secundary knowledge base
-:- dynamic relationship/2.
+:- dynamic relationship1/2.
 
 
 % HTTP Server setup at 'Port'                           
@@ -44,6 +44,12 @@ stopServer:-
 
 % Methods
 
+%================== Geral Use ======================%
+
+getSocialNetworkHostPort(Host, Port) :-
+    module_socialnetwork_host(Host),
+    module_socialnetwork_port(Port).
+
 %======== Size of a Player's Social Network ========%
 
 computeSocialNetworkSize(Request) :-
@@ -60,11 +66,7 @@ getPlayerSocialNetwork(Request, Size) :-
     json_read_dict(Stream, Data),
     createSocialNetworkTerms(Data),
     compute_network_size(Data.PlayerId, Depth, Size),
-    retractall(relationship(_,_)). % Delete all relationships generated
-
-getSocialNetworkHostPort(Host, Port) :-
-    module_socialnetwork_host(Host),
-    module_socialnetwork_port(Port).
+    retractall(relationship1(_,_)). % Delete all relationships generated
 
 createSocialNetworkTerms(Data) :-
     setPlayerSocialNetworkTerms(Data, Data.relationships).
@@ -73,51 +75,51 @@ setPlayerSocialNetworkTerms(Player, []).
 
 setPlayerSocialNetworkTerms(Player, [PlayerX]) :-
     setPlayerSocialNetworkTerms(PlayerX, PlayerX.relationships),
-    asserta(relationship(Player.PlayerId, PlayerX.PlayerId)).
+    asserta(relationship1(Player.PlayerId, PlayerX.PlayerId)).
 
 setPlayerSocialNetworkTerms(Player, [PlayerX|Relationships]) :-
     setPlayerSocialNetworkTerms(Player, Relationships),
-    asserta(relationship(Player.PlayerId, PlayerX.PlayerId)).
+    asserta(relationship1(Player.PlayerId, PlayerX.PlayerId)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 connection(PlayerX, PlayerY) :-
-    relationship(PlayerX, PlayerY);
-    relationship(PlayerY, PlayerX).
+    relationship1(PlayerX, PlayerY);
+    relationship1(PlayerY, PlayerX).
 
-compute_network_size(Player,Level,Size) :-
-    compute_network_size1(1,Level,[Player],Size1),
+compute_network_size(Player, Level, Size) :-
+    compute_network_size1(1, Level, [Player], Size1),
     Size is Size1 - 1.
 
-compute_network_size1(CurrentLevel,LimitLevel,V,N) :-
-    LimitLevel >= CurrentLevel,
-    add_all_level1_connections(V,X),
+compute_network_size1(CurrentLevel, LimitLevel,AllPlayers,Size) :-
+    LimitLevel > CurrentLevel,
+    add_all_level1_connections(AllPlayers, AllPlayers1),
     CurrentLevel1 is CurrentLevel + 1,
-    compute_network_size1(CurrentLevel1,LimitLevel,X,N),
+    compute_network_size1(CurrentLevel1, LimitLevel, AllPlayers1, Size),
     !.
 
-compute_network_size1(_,_,V,N) :-
-        length(V,N),
+compute_network_size1(_, _, AllPlayers, Size) :-
+        length(AllPlayers, Size),
         !.
 
-level1_connections(Player, All_Friends) :-
-    findall(Friends, connection(Player, Friends), All_Friends).
+level1_connections(Player, AllFriends) :-
+    findall(Friends, connection(Player, Friends), AllFriends).
+
+add_all_level1_connections([], []).
+
+add_all_level1_connections([H|T], X) :-
+    add_all_level1_connections(T, K),
+    level1_connections(H, N),
+    append_new([H|N], K, X).
 
 append_new([], X, X).
 
-append_new([X|Y],Z,[X|W]):-
-    append_new(Y,Z,W),
-    \+ member(X,W),
+append_new([X|Y], Z, [X|W]):-
+    append_new(Y, Z, W),
+    \+ member(X, W),
     !.
 
-append_new([_|Y],Z,W):-
-    append_new(Y,Z,W).
-
-add_all_level1_connections([],[]).
-
-add_all_level1_connections([H|T],X) :-
-    add_all_level1_connections(T,K),
-    level1_connections(H,N),
-    append_new([H|N],K,X).    
+append_new([_|Y], Z, W):-
+    append_new(Y, Z, W).  
 
 %===================================================% 
