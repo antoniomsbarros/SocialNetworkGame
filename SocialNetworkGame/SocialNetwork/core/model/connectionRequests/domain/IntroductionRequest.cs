@@ -78,8 +78,8 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         public IntroductionRequestDto ToDto()
         {
             return new IntroductionRequestDto(Id.Value, ConnectionRequestStatus.CurrentStatus, PlayerSender.Value,
-                PlayerReceiver.Value, Text.Content, CreationDate.Date, PlayerIntroduction.Value,
-                TextIntroduction.Content, IntroductionStatus.CurrentStatus, TagsConf.ConvertAll(tag => tag.Value));
+                PlayerReceiver.Value, Text.Content, CreationDate.Date, 
+                TextIntroduction.Content, PlayerIntroduction.Value,IntroductionStatus.CurrentStatus,ConnectionStrengthConf.Strength, TagsConf.ConvertAll(tag => tag.Value));
         }
     }
 }

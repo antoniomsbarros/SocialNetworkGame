@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.connectionRequests.dto;
+using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.players.dto;
+using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.services.relationships;
 using SocialNetwork.core.services.connectionRequests;
@@ -71,7 +75,7 @@ namespace SocialNetwork.core.controller.connectionRequests
 */
 /*
         [HttpPut("{id}")]
-        [ProducesResponseType(typeof(IEnumerable<ConnectionIntroductionDTO>), 200)]
+        [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateIntroductionStatus(string id,
             ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
@@ -118,7 +122,9 @@ namespace SocialNetwork.core.controller.connectionRequests
                 connectionIntroductionDto1.PlayerReceiver = playerRecever.id;
                 ConnectionStrength otherConnectionStrength =
                     new ConnectionStrength(connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval);
-                var cat = await _service.UpdateIntroductionStatus(connectionIntroductionDto1);
+                UpdateIntroductionRequestStatus updateIntroductionRequestStatus=
+                    new UpdateIntroductionRequestStatus(connectionIntroductionDto1.Id, connectionIntroductionDto1.IntroductionStatus );
+                var cat = await _service.UpdateStatus(updateIntroductionRequestStatus);
                 if (cat == null)
                 {
                     return NotFound($"could not change the introduction status," +
@@ -143,7 +149,7 @@ namespace SocialNetwork.core.controller.connectionRequests
 
                     RelationshipPostDto sender = new RelationshipPostDto(
                         playersender.id, pLayerIntroduction.id,
-                        cat1.ConnectionStrength,
+                        cat1.,
                         cat1.Tags);
                     var relationshiptemp1 = await _relationshipService.AddAsync(sender);
                     if (relationshiptemp1 == null)
@@ -175,6 +181,86 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
 */
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> UpdateIntroductionStatus(string id,
+            ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
+        {
+            if (!id.Equals(connectionIntroductionRelactionshipDto.Id))
+            {
+                return NotFound($"id introction {id} and {connectionIntroductionRelactionshipDto.Id}");
+            }
+            PlayerDto playerSenderDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerSender)).Result;
+            PlayerDto playerReaceverDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerReceiver)).Result;
+            PlayerDto playerIntroductionDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerIntroduction)).Result;
+            if (playerSenderDto==null||playerReaceverDto==null|| playerIntroductionDto==null)
+            {
+                return StatusCode(409); 
+            }
+            
+            
+            IntroductionRequestDto introductionRequestDto =
+                await _service.UpdateStatus(new UpdateIntroductionRequestStatus(id, connectionIntroductionRelactionshipDto.IntroductionStatus));
+            if (introductionRequestDto==null)
+            {
+                return NotFound("The introduction Request Dont exist");
+            }
+            
+            if (introductionRequestDto.IntroductionStatus.Equals(ConnectionRequestStatusEnum.Approved))
+            {
+                if (checkifExistRelaction(playerSenderDto.email, playerIntroductionDto.email))
+                {
+                    return StatusCode(409);
+                }
+                RelationshipPostDto relationshipDto1 = new RelationshipPostDto(
+                    introductionRequestDto.PlayerSender, introductionRequestDto.PlayerIntroduction,
+                    connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval,
+                    connectionIntroductionRelactionshipDto.Tags);
+                
+                RelationshipDto relationshipDtoIntroduction = await _relationshipService.AddAsync(relationshipDto1);
+                
+                RelationshipPostDto relationshipDto2 = new RelationshipPostDto(
+                     introductionRequestDto.PlayerIntroduction,introductionRequestDto.PlayerSender,
+                     introductionRequestDto.ConnectionStrengthConf,
+                     introductionRequestDto.Tags);
+                RelationshipDto relationshipDtoSender = await _relationshipService.AddAsync(relationshipDto2);
+                if (relationshipDtoIntroduction==null || relationshipDtoSender==null)
+                {
+                    return StatusCode(500);
+                }
+                
+                return Ok(introductionRequestDto);
+            }
+            return Ok(introductionRequestDto);
+
+        }
+
+        private bool checkifExistRelaction(string playerSender, string playerIntroduction)
+        {
+            List<PlayerEmailDto> list=   _relationshipService.GetRelationByEmail(playerSender).Result;
+            if (list==null || list.Count==0)
+            {
+                return false;
+            }
+
+            foreach (var VARIABLE in list)
+            {
+                if (VARIABLE.Email.Equals(playerIntroduction))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool checkifPlayersExist(string playerSender, string playerReacever, string playerIntroduction)
+        {
+            
+
+            return true;
+        }
 
         [HttpGet("PlayerIntroduction={playerIntroduction}")]
         [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]

@@ -20,8 +20,9 @@ namespace SocialNetwork.core.model.connectionRequests.dto
 
         public List<string> Tags { get; set; }
 
+        public int ConnectionStrengthConf { get; set; }
         public ConnectionRequestDto(string id, ConnectionRequestStatusEnum connectionRequestStatus, string playerSender,
-            string playerReceiver, string text, DateTime creationDate, List<string> tags)
+            string playerReceiver, string text, DateTime creationDate,int connectionStrengthConf, List<string> tags)
         {
             Id = id;
             ConnectionRequestStatus = connectionRequestStatus;
@@ -29,6 +30,7 @@ namespace SocialNetwork.core.model.connectionRequests.dto
             PlayerReceiver = playerReceiver;
             Text = text;
             CreationDate = creationDate;
+            ConnectionStrengthConf = connectionStrengthConf;
             Tags = tags;
         }
     }

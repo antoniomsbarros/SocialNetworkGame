@@ -1,4 +1,5 @@
-﻿using SocialNetwork.core.model.connectionRequests.domain;
+﻿using System;
+using SocialNetwork.core.model.connectionRequests.domain;
 
 namespace SocialNetwork.core.model.connectionRequests.dto
 {
@@ -10,6 +11,15 @@ namespace SocialNetwork.core.model.connectionRequests.dto
         public UpdateIntroductionRequestStatus()
         {
             // empty
+        }
+
+        public UpdateIntroductionRequestStatus(string id1, string newStatus1)
+        {
+            ConnectionRequestStatusEnum statusEnum =
+                (ConnectionRequestStatusEnum) Enum.Parse(typeof(ConnectionRequestStatusEnum),
+                    newStatus1);
+            this.id = id1;
+            newStatus = new ConnectionRequestStatus(statusEnum).CurrentStatus;
         }
     }
 }
