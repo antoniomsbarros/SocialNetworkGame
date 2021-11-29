@@ -29,11 +29,17 @@ start a game/mission at any time by choosing the desired difficulty level.
 ### Who do I talk to? ###
 
 * Pedro Vieira - 1190948@isep.ipp.pt
-* Daniel Reis - 1200608@isep.ipp.pt
-* António Barros - 12000606@isep.ipp.pt
 * Mykhaylo Kharlamov - 1190906@isep.ipp.pt
+* Daniel Reis - 1200608@isep.ipp.pt
+* António Barros - 1200606@isep.ipp.pt
 * Luís Laranjeira - 1191495@isep.ipp.pt
 
 ### Postman Workspace (API Tests)
 
 * https://lapr5g041.postman.co/workspace/d7b4abbc-3b5f-4e50-8c6e-2e77ce85ab03
+
+### ALGAV Report
+
+* https://1drv.ms/w/s!BNjKhkoM_PZLnw19TqTuJXNP3D3U?e=hwbMSZ
+
+
