@@ -4,6 +4,7 @@ using SocialNetwork.core.model.connectionRequests.domain;
 using SocialNetwork.core.model.connectionRequests.dto;
 using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.players.domain;
+using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
@@ -46,8 +47,20 @@ namespace SocialNetwork.core.services.connectionRequests
             
             List<IntroductionRequestDto> list1= list.ConvertAll(introRequest => introRequest.ToDto());
             List<IntroductionRequestDto> list2 = new List<IntroductionRequestDto>();
-            
-            return list1;
+
+            foreach (var VARIABLE in list1)
+            {
+                IntroductionRequestDto introductionRequestDto = VARIABLE;
+                PlayerDto PlayerIntroduction=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerIntroduction));
+                PlayerDto PlayerReceiver=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerReceiver));
+                PlayerDto PlayerSender=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerSender));
+                introductionRequestDto.PlayerIntroduction = PlayerIntroduction.email;
+                introductionRequestDto.PlayerSender = PlayerSender.email;
+                introductionRequestDto.PlayerReceiver = PlayerReceiver.email;
+                list2.Add(introductionRequestDto);
+
+            }
+            return list2;
 
         }
 

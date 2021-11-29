@@ -104,9 +104,9 @@ namespace SocialNetwork.core.controller.connectionRequests
             {
                 return NotFound($"id introction {id} and {connectionIntroductionRelactionshipDto.Id}");
             }
-            PlayerDto playerSenderDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerSender)).Result;
-            PlayerDto playerReaceverDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerReceiver)).Result;
-            PlayerDto playerIntroductionDto =  _playerService.GetByIdAsync(new PlayerId(connectionIntroductionRelactionshipDto.PlayerIntroduction)).Result;
+            PlayerDto playerSenderDto =  _playerService.GetByEmailAsync(new Email(connectionIntroductionRelactionshipDto.PlayerSender)).Result;
+            PlayerDto playerReaceverDto =  _playerService.GetByEmailAsync(new Email(connectionIntroductionRelactionshipDto.PlayerReceiver)).Result;
+            PlayerDto playerIntroductionDto =  _playerService.GetByEmailAsync(new Email(connectionIntroductionRelactionshipDto.PlayerIntroduction)).Result;
             if (playerSenderDto==null||playerReaceverDto==null|| playerIntroductionDto==null)
             {
                 return StatusCode(409); 
@@ -142,9 +142,15 @@ namespace SocialNetwork.core.controller.connectionRequests
                 {
                     return StatusCode(500);
                 }
-                
+
+                introductionRequestDto.PlayerIntroduction = playerIntroductionDto.email;
+                introductionRequestDto.PlayerSender = playerSenderDto.email;
+                introductionRequestDto.PlayerReceiver = playerReaceverDto.email;
                 return Ok(introductionRequestDto);
             }
+            introductionRequestDto.PlayerIntroduction = playerIntroductionDto.email;
+            introductionRequestDto.PlayerSender = playerSenderDto.email;
+            introductionRequestDto.PlayerReceiver = playerReaceverDto.email;
             return Ok(introductionRequestDto);
 
         }
