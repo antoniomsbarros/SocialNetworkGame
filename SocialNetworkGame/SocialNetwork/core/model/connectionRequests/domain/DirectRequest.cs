@@ -32,7 +32,9 @@ namespace SocialNetwork.core.model.connectionRequests.domain
         {
             return new DirectRequestDto(
                 Id.Value, ConnectionRequestStatus.CurrentStatus, PlayerSender.Value, PlayerReceiver.Value,
+
                 Text.Content, CreationDate.Date,ConnectionStrengthConf.Strength, TagsConf.ConvertAll(tag => tag.Value));
+
         }
 
         public override bool Equals(object obj)

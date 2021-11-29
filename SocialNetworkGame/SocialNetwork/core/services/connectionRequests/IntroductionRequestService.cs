@@ -48,6 +48,7 @@ namespace SocialNetwork.core.services.connectionRequests
             List<IntroductionRequestDto> list2 = new List<IntroductionRequestDto>();
             
             return list1;
+
         }
 
         public async Task<IntroductionRequestDto> GetByIdAsync(ConnectionRequestId id)
