@@ -1,12 +1,14 @@
 export interface ConnectionIntroductionDTO{
-    Id: string;
-    ConnectionRequestStatus: string;
-    PlayerSender:string;
-    PlayerReceiver:string;
-    Text:string;
-    CreationDate:string;
-    TextIntroduction:string;
-    PlayerIntroduction:string;
-    IntroductionStatus: string;
-    ConnectionStrength : number;
+  id: string;
+  connectionRequestStatus: string;
+  playerSender:string;
+  playerReceiver:string;
+  text:string;
+  creationDate:string;
+  textIntroduction:string;
+  playerIntroduction:string;
+  introductionStatus: string;
+  connectionStrengthConf : number;
+  tags:string[];
+
 }
