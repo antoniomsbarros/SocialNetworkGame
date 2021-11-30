@@ -1,35 +1,60 @@
-<div class="modal-body">
-  <form [formGroup]="registerForm" (ngSubmit)="registerFormSubmit" class="row g-3">
+<div class="modal-body" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+  <form [formGroup]="registerPlayerForm" (ngSubmit)="registerFormSubmit" class="row g-3">
     <div class="col-md-12">
       <label for="id_email" class="form-label">Email address</label>
       <input formControlName="email" [class.is-invalid]="email.touched && email.invalid" type="email"
-             class="form-control" id="id_email">
+             class="form-control" id="id_email" placeholder="email@example.com">
       <div *ngIf="email.invalid && email.touched">
-        <div *ngIf="email.errors?.required" class="d-block invalid-feedback">Please
-          provide a Email.
-        </div>
+        <div *ngIf="email.errors?.required" class="d-block invalid-feedback">Please provide an Email.</div>
       </div>
     </div>
     <div class="col-md-12">
-      <label for="id_number" class="form-label">Mobile Number</label>
-      <input formControlName="number" [class.is-invalid]="number.touched && number.invalid"
-             type="password" class="form-control" id="id_number">
-      <div *ngIf="number.touched && number.errors?.required" class="d-block invalid-feedback">Provide your mobile
-        number.
+      <label for="id_number" class="form-label">Phone Number</label>
+      <input formControlName="phoneNumber" [class.is-invalid]="phoneNumber.touched && phoneNumber.invalid"
+             class="form-control" id="id_number" placeholder="+351" required>
+      <div *ngIf="phoneNumber.touched && phoneNumber.errors?.required" class="d-block invalid-feedback">Provide your
+        phone number.
       </div>
     </div>
     <div class="col-md-6">
-      <label for="id_firstName" class="form-label">First name</label>
-      <input formControlName="firstName" type="text" class="form-control" id="id_firstName" required>
-      <div *ngIf="firstName.touched && firstName.errors?.required" class="d-block invalid-feedback">Provide your
-        first name.
+      <label for="id_dateOfBirth" class="form-label">Date of birth</label>
+      <div class="input-group">
+        <input formControlName="dateOfBirth" [class.is-invalid]="dateOfBirth.touched && dateOfBirth.invalid"
+               class="form-control" id="id_dateOfBirth" placeholder="yyyy-mm-dd" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-light" (click)="d.toggle()" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 class="bi bi-calendar-date" viewBox="0 0 16 16">
+              <path
+                d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+              <path
+                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div class="col-md-6">
-      <label for="id_lastName" class="form-label">Last name</label>
-      <input type="text" class="form-control" formControlName="lastName" id="id_lastName" required>
-      <div *ngIf="lastName.touched && lastName.errors?.required" class="d-block invalid-feedback">Provide your
-        last name.
+      <label for="id_emotionalStatus" class="form-label">What's your emotional status?</label>
+      <select class="custom-select my-1 mr-sm-2" id="id_emotionalStatus">
+        <option [ngValue]="null">Select one...</option>
+        <option *ngFor="let status of rowEmotionalStatus()" [ngValue]="status">{{status}}</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="id_fullName" class="form-label">Full name</label>
+      <input formControlName="fullName" type="text" class="form-control" id="id_fullName"
+             placeholder="Alessandro Easton Jefferson Mccoy">
+      <div *ngIf="fullName.touched && fullName.errors?.required" class="d-block invalid-feedback">Provide your full
+        name.
+      </div>
+    </div>
+    <div class="col-md-6">
+      <label for="id_lastName" class="form-label">Short name</label>
+      <input type="text" class="form-control" formControlName="shortName" id="id_lastName"
+             placeholder="Alessandro Mccoy">
+      <div *ngIf="shortName.touched && shortName.errors?.required" class="d-block invalid-feedback">Provide your
+        short name.
       </div>
     </div>
     <div class="col-md-6">
@@ -42,14 +67,16 @@
     </div>
     <div class="col-md-6">
       <label for="id_Password" class="form-label">Confirm Password</label>
-      <input formControlName="password1" [class.is-invalid]="password1.touched && password1.invalid"
+      <input formControlName="passwordConfirmation"
+             [class.is-invalid]="passwordConfirmation.touched && passwordConfirmation.invalid"
              type="password1" class="form-control" id="id_Password1">
-      <div *ngIf="password1.touched && password1.errors?.required" class="d-block invalid-feedback">Please Enter
+      <div *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.required"
+           class="d-block invalid-feedback">Please Enter
         Conformation Password
       </div>
     </div>
     <div class="col-md-6 mt-4">
-      <button [disabled]="registerForm.invalid" type="submit" class="btn btn-primary px-5">Submit</button>
+      <button [disabled]="registerPlayerForm.invalid" type="submit" class="btn btn-primary px-5">Submit</button>
       <button type="button" class="btn btn-secondary px-3 ms-2">Cancel</button>
     </div>
   </form>

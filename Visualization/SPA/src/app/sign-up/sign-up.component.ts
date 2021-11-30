@@ -1,6 +1,45 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 
+export enum EmotionalStatus {
+  // excited
+  Astonishment,
+  Eagerness,
+  Curiosity,
+
+  Inspiration,
+  Desire,
+  Love,
+
+  // pleasant
+  Fascination,
+  Admiration,
+  Joyfulness,
+
+  Satisfaction,
+  Softened,
+  Relaxed,
+
+  // calm
+  Awaiting,
+  Deferent,
+  Calm,
+
+  Boredom,
+  Sadness,
+  Isolation,
+
+  // unpleasant
+  Disappointment,
+  Contempt,
+  Jealousy,
+
+  Irritation,
+  Disgust,
+  Alarm
+}
+
+
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -8,13 +47,15 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 })
 export class SignUpComponent implements OnInit {
 
-  registerForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+  registerPlayerForm = new FormGroup({
+    fullName: new FormControl(''),
+    shortName: new FormControl(''),
+    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/[0-9]{9}/)]),
+    dateOfBirth: new FormControl('', [Validators.required]),
+    emotionalStatus: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    number: new FormControl('', [Validators.required, Validators.minLength(10)]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
-    password1: new FormControl('', [Validators.required, Validators.minLength(8)])
+    password: new FormControl('', [Validators.required]),
+    passwordConfirmation: new FormControl('', [Validators.required])
   });
 
   constructor() {
@@ -23,35 +64,48 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get firstName(): any {
-    return this.registerForm.get('firstName');
+  get fullName(): any {
+    return this.registerPlayerForm.get('fullName');
   }
 
-  get lastName(): any {
-    return this.registerForm.get('lastName');
+  get shortName(): any {
+    return this.registerPlayerForm.get('shortName');
   }
 
   get email(): any {
-    return this.registerForm.get('email');
+    return this.registerPlayerForm.get('email');
   }
 
-  get number(): any {
-    return this.registerForm.get('number');
+  get phoneNumber(): any {
+    return this.registerPlayerForm.get('phoneNumber');
+  }
+
+  get dateOfBirth(): any {
+    return this.registerPlayerForm.get('dateOfBirth');
+  }
+
+  get emotionalStatus(): any {
+    return this.registerPlayerForm.get('emotionalStatus');
   }
 
   get password(): any {
-    return this.registerForm.get('password');
+    return this.registerPlayerForm.get('password');
   }
 
-  get password1(): any {
-    return this.registerForm.get('password1');
+  get passwordConfirmation(): any {
+    return this.registerPlayerForm.get('password1');
+  }
+
+  public rowEmotionalStatus(): Array<string> {
+    const keys = Object.keys(EmotionalStatus);
+    console.log(keys.slice(keys.length / 2));
+    return keys.slice(keys.length / 2);
   }
 
   registerFormSubmit(): void {
-    const formData = this.registerForm.value;
+    const formData = this.registerPlayerForm.value;
     delete formData.password1;
     console.log(formData);
     // Api Request Here
   }
-
 }
