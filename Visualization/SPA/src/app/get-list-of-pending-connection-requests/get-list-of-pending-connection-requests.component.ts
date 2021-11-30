@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
-import { Location } from '@angular/common';
-import {IntroductionRequestService} from "../introduction-request.service";
+import {Location} from '@angular/common';
+import {IntroductionRequestService} from '../services/introduction-request.service';
 
 @Component({
   selector: 'app-get-list-of-pending-connection-requests',
@@ -13,16 +12,19 @@ import {IntroductionRequestService} from "../introduction-request.service";
 export class GetListOfPendingConnectionRequestsComponent implements OnInit {
 
 
-   readonly ROOT_URL="http://localhost:5000/api/IntroductionRequest/";
-  constructor(private http: HttpClient,private location: Location,
-              private IntroductionRequestService: IntroductionRequestService) {}
+  readonly ROOT_URL = "http://localhost:5000/api/IntroductionRequest/";
 
-  introductionRequestPending:ConnectionIntroductionDTO[]=[];
-
-  getPendingIntroductions(){
-      this.IntroductionRequestService.getIntroductionsPending()
-        .subscribe(introductionRequestPending=>this.introductionRequestPending=introductionRequestPending);
+  constructor(private http: HttpClient, private location: Location,
+              private IntroductionRequestService: IntroductionRequestService) {
   }
+
+  introductionRequestPending: ConnectionIntroductionDTO[] = [];
+
+  getPendingIntroductions() {
+    this.IntroductionRequestService.getIntroductionsPending()
+      .subscribe(introductionRequestPending => this.introductionRequestPending = introductionRequestPending);
+  }
+
   ngOnInit(): void {
     this.getPendingIntroductions();
   }
