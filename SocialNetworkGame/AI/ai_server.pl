@@ -18,7 +18,7 @@
 
 % Secundary knowledge base
 :- dynamic relationship1/2.
-
+:-dynamic (caminho_minimo/2).
 
 % HTTP Server setup at 'Port'                           
 startServer(Port) :-   
@@ -121,5 +121,50 @@ append_new([X|Y], Z, [X|W]):-
 
 append_new([_|Y], Z, W):-
     append_new(Y, Z, W).  
+
+
+
+
+ %======== Shortest Path Between Two Users ========%
+
+:-consult(bc).
+
+
+
+plan_shortestPath(Orig, Dest, LCaminho_shortestway) :- 
+        get_time(Ti),
+        (melhor_caminho_minimo(Orig, Dest);true),        
+        retract(caminho_minimo(LCaminho_shortestway,_)),        
+        get_time(Tf),        
+        T is Tf-Ti,        
+        write('Generation Time Of The Solution:'),
+        write(T),
+        nl.
+        
+melhor_caminho_minimo(Orig, Dest):-
+        asserta(caminho_minimo(_,10000)),        
+        dfs(Orig, Dest,LCaminho),        
+        atualiza_melhor_caminho_minimo(LCaminho),        
+        fail.
+        
+atualiza_melhor_caminho_minimo(LCaminho):-
+        caminho_minimo(_,N),
+        length(LCaminho,C),    
+        C<N,
+        retract(caminho_minimo(_,_)),        
+        asserta(caminho_minimo(LCaminho,C)).
+
+
+dfs(Orig,Dest,Cam):-dfs2(Orig,Dest,[Orig],Cam).
+
+dfs2(Dest,Dest,LA,Cam):-!,
+        reverse(LA,Cam).
+
+dfs2(Act,Dest,LA,Cam):-
+        no(NAct,Act,_),
+        (ligacao(NAct,NX,L,F) ; ligacao(NX,NAct,L,F)),
+        no(NX,X,_),
+        \+ member(X,LA),
+        dfs2(X,Dest,[X|LA],Cam).   
 
 %===================================================% 

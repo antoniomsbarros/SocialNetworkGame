@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ConnectionIntroductionDTO} from "../DTO/ConnectionIntroductionDTO";
+
+import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
 import {Location} from '@angular/common';
-import {IntroductionRequestService} from "../introduction-request.service";
+import {IntroductionRequestService} from '../services/introduction-request.service';
+
 
 @Component({
   selector: 'app-get-list-of-pending-connection-requests',
@@ -10,6 +12,7 @@ import {IntroductionRequestService} from "../introduction-request.service";
   styleUrls: ['./get-list-of-pending-connection-requests.component.css']
 })
 export class GetListOfPendingConnectionRequestsComponent implements OnInit {
+
 
 
   introductionRequestPending:ConnectionIntroductionDTO[]=[];
@@ -34,6 +37,10 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
 
   constructor(private http: HttpClient,private location: Location,
               private IntroductionRequestService: IntroductionRequestService) {}
+
+
+
+  readonly ROOT_URL = "http://localhost:5000/api/IntroductionRequest/";
 
 
   ngOnInit(): void {
