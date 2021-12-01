@@ -13,6 +13,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {ToastrModule} from "ngx-toastr";
 
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -21,7 +22,6 @@ import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +29,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
     SignInComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,7 +47,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatButtonModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    NgbModule
+    ToastrModule.forRoot(),
+    NgbModule,
 
   ],
   providers: [],

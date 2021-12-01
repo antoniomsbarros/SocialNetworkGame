@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RegisterPlayerDto} from "../dto/players/RegisterPlayerDto";
 import {PlayersService} from "../services/players/players.service";
+import {ToastrService} from "ngx-toastr";
 import {PlayerDto} from "../dto/players/PlayerDto";
 
 export enum EmotionalStatus {
@@ -60,7 +61,7 @@ export class SignInComponent implements OnInit {
     passwordConfirmation: new FormControl('', [Validators.required])
   });
 
-  constructor(private playerService: PlayersService) {
+  constructor(private toastService: ToastrService, private playerService: PlayersService) {
   }
 
   ngOnInit(): void {
@@ -121,7 +122,7 @@ export class SignInComponent implements OnInit {
     this.playerService.registerPlayer(dto)
       .subscribe(dtoAnswer => playerDto = dtoAnswer);
 
-    // Add success "alert"
+
     // Add routing to Login view
   }
 
