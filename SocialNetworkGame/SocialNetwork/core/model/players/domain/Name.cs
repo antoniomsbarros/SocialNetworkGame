@@ -6,9 +6,9 @@ namespace SocialNetwork.core.model.players.domain
 {
     public class Name : IValueObject
     {
-        private const string ShortNameRegex = "^[a-zA-Z0-9 ]*$";
+        private const string ShortNameRegex = "^.*$";
 
-        private const string FullNameRegex = "^[a-zA-Z0-9 ]*$";
+        private const string FullNameRegex = "^.*$";
 
         public string ShortName { get; }
 
