@@ -18,7 +18,6 @@
 
 % Secundary knowledge base
 :- dynamic relationship1/2.
-:-dynamic (caminho_minimo/2).
 
 % HTTP Server setup at 'Port'                           
 startServer(Port) :-   
@@ -64,6 +63,7 @@ getPlayerSocialNetwork(Request, Size) :-
     atom_concat(Y,Depth,Path),
     http_open([host(Host), port(Port), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
     json_read_dict(Stream, Data),
+    close(Stream),
     createSocialNetworkTerms(Data),
     compute_network_size(Data.PlayerId, Depth, Size),
     retractall(relationship1(_,_)). % Delete all relationships generated
@@ -122,49 +122,3 @@ append_new([X|Y], Z, [X|W]):-
 append_new([_|Y], Z, W):-
     append_new(Y, Z, W).  
 
-
-
-
- %======== Shortest Path Between Two Users ========%
-
-:-consult(bc).
-
-
-
-plan_shortestPath(Orig, Dest, LCaminho_shortestway) :- 
-        get_time(Ti),
-        (melhor_caminho_minimo(Orig, Dest);true),        
-        retract(caminho_minimo(LCaminho_shortestway,_)),        
-        get_time(Tf),        
-        T is Tf-Ti,        
-        write('Generation Time Of The Solution:'),
-        write(T),
-        nl.
-        
-melhor_caminho_minimo(Orig, Dest):-
-        asserta(caminho_minimo(_,10000)),        
-        dfs(Orig, Dest,LCaminho),        
-        atualiza_melhor_caminho_minimo(LCaminho),        
-        fail.
-        
-atualiza_melhor_caminho_minimo(LCaminho):-
-        caminho_minimo(_,N),
-        length(LCaminho,C),    
-        C<N,
-        retract(caminho_minimo(_,_)),        
-        asserta(caminho_minimo(LCaminho,C)).
-
-
-dfs(Orig,Dest,Cam):-dfs2(Orig,Dest,[Orig],Cam).
-
-dfs2(Dest,Dest,LA,Cam):-!,
-        reverse(LA,Cam).
-
-dfs2(Act,Dest,LA,Cam):-
-        no(NAct,Act,_),
-        (ligacao(NAct,NX,L,F) ; ligacao(NX,NAct,L,F)),
-        no(NX,X,_),
-        \+ member(X,LA),
-        dfs2(X,Dest,[X|LA],Cam).   
-
-%===================================================% 
