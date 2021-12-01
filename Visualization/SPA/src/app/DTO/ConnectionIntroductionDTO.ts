@@ -10,5 +10,4 @@ export interface ConnectionIntroductionDTO{
   introductionStatus: string;
   connectionStrengthConf : number;
   tags:string[];
-
 }

@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {RegisterPlayerDto} from "../dto/players/RegisterPlayerDto";
+import {PlayersService} from "../services/players/players.service";
+import {PlayerDto} from "../dto/players/PlayerDto";
 
 export enum EmotionalStatus {
   // excited
@@ -39,13 +42,12 @@ export enum EmotionalStatus {
   Alarm
 }
 
-
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   registerPlayerForm = new FormGroup({
     fullName: new FormControl(''),
@@ -58,7 +60,7 @@ export class SignUpComponent implements OnInit {
     passwordConfirmation: new FormControl('', [Validators.required])
   });
 
-  constructor() {
+  constructor(private playerService: PlayersService) {
   }
 
   ngOnInit(): void {
@@ -93,19 +95,38 @@ export class SignUpComponent implements OnInit {
   }
 
   get passwordConfirmation(): any {
-    return this.registerPlayerForm.get('password1');
+    return this.registerPlayerForm.get('passwordConfirmation');
   }
 
   public rowEmotionalStatus(): Array<string> {
     const keys = Object.keys(EmotionalStatus);
-    console.log(keys.slice(keys.length / 2));
     return keys.slice(keys.length / 2);
   }
 
   registerFormSubmit(): void {
-    const formData = this.registerPlayerForm.value;
-    delete formData.password1;
-    console.log(formData);
-    // Api Request Here
+
+    const dto: RegisterPlayerDto =
+      {
+        email: this.email.value,
+        password: this.password.value,
+        phoneNumber: this.phoneNumber.value,
+        dateOfBirth: new Date(Date.UTC(this.dateOfBirth.value.year, this.dateOfBirth.value.month - 1, this.dateOfBirth.value.day)),
+        shortName: this.shortName.value,
+        fullName: this.fullName.value,
+        emotionalStatus: this.emotionalStatus.value,
+      };
+
+    let playerDto;
+
+    this.playerService.registerPlayer(dto)
+      .subscribe(dtoAnswer => playerDto = dtoAnswer);
+
+    // Add success "alert"
+    // Add routing to Login view
   }
+
+  clearForm(): void {
+    this.registerPlayerForm.reset();
+  }
+
 }
