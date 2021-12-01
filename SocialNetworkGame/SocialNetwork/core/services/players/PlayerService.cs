@@ -47,16 +47,6 @@ namespace SocialNetwork.core.services.players
             return player.ToDto();
         }
 
-        public async Task<PlayerDto> AddAsync(RegisterPlayerDto dto)
-        {
-            Player player = CreatePlayer(dto);
-
-            await _repo.AddAsync(player);
-            await _unitOfWork.CommitAsync();
-
-            return player.ToDto();
-        }
-
         private Player CreatePlayer(RegisterPlayerDto dto)
         {
             _playerBuilder
@@ -75,6 +65,23 @@ namespace SocialNetwork.core.services.players
                 _playerBuilder.WithLinkedinProfile(LinkedinProfile.ValueOf(dto.linkedinProfile));
 
             return _playerBuilder.Build();
+        }
+
+        public async Task<PlayerDto> AddAsync(RegisterPlayerDto dto)
+        {
+            var player = CreatePlayer(dto);
+            await _repo.AddAsync(player);
+            await _unitOfWork.CommitAsync();
+
+            return player.ToDto();
+        }
+
+        public async Task<PlayerDto> AddAsyncWithoutSave(RegisterPlayerDto dto)
+        {
+            var player = CreatePlayer(dto);
+            await _repo.AddAsync(player);
+
+            return player.ToDto();
         }
 
         public async Task<PlayerDto> UpdateAsync(UpdatePlayerDto playerDto)
@@ -133,6 +140,11 @@ namespace SocialNetwork.core.services.players
             await _unitOfWork.CommitAsync();
 
             return player.ToDto();
+        }
+
+        public async Task SaveChanges()
+        {
+            await _unitOfWork.CommitAsync();
         }
     }
 }

@@ -68,14 +68,17 @@ namespace SocialNetwork.core.controller.players
         {
             try
             {
-                await _systemUserService.AddAsync(new SystemUserDto(dto.email,
+                await _systemUserService.AddAsyncWithoutSave(new SystemUserDto(dto.email,
                     dto.password), new PlayerPasswordPolicy(_config));
 
-                var con = await _playerService.AddAsync(new RegisterPlayerDto(dto.email,
+                var playerDto = await _playerService.AddAsyncWithoutSave(new RegisterPlayerDto(dto.email,
                     dto.phoneNumber, dto.facebookProfile, dto.linkedinProfile, dto.dateOfBirth,
                     dto.shortName, dto.fullName, dto.emotionalStatus));
 
-                return CreatedAtAction(nameof(Create), new {con.email}, con);
+                await _systemUserService.SaveChanges();
+                await _playerService.SaveChanges();
+
+                return CreatedAtAction(nameof(Create), new {playerDto.email}, playerDto);
             }
             catch (BusinessRuleValidationException ex)
             {
