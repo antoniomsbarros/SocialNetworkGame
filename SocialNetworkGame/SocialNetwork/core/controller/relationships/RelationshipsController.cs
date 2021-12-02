@@ -20,6 +20,7 @@ namespace SocialNetwork.core.controller.relationships
     {
         private readonly RelationshipService _service;
         private readonly TagsService _tagsService;
+        
 
         public RelationshipsController(RelationshipService service, TagsService tagsService)
         {
@@ -153,6 +154,33 @@ namespace SocialNetwork.core.controller.relationships
 
                 return Ok(cat);
             }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {ex.Message});
+            }
+        }
+        
+        //Put: api/EditTagConnectionStrength/id
+        [HttpPut("{id}")]
+        public async Task<ActionResult<RelationshipDto>>  ChangeRelationshipTag(Guid id, RelationshipDto dto)
+        {
+            if (!id.Equals(Guid.Parse(dto.id)))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var relationship2 = await _service.ChangeRelationshipTagConnectionStrength(dto);
+
+                if (relationship2 == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(relationship2);
+            }
+
             catch (BusinessRuleValidationException ex)
             {
                 return BadRequest(new {ex.Message});
