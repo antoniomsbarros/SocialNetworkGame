@@ -6,7 +6,7 @@ namespace SocialNetwork.core.model.tags.dto
     {
         public string id;
         public string name;
-        public DateTime creationDate;
+        public string creationDate;
 
         public TagDto()
         {
@@ -17,7 +17,7 @@ namespace SocialNetwork.core.model.tags.dto
         {
             this.id = id;
             this.name = name;
-            this.creationDate = creationDate;
+            this.creationDate = creationDate.ToString();
         }
     }
 }

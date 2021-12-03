@@ -87,7 +87,20 @@ namespace SocialNetwork.core.services.connectionRequests
 
             return cat.ToDto();
         }
+        public async Task<IntroductionRequestDto> UpdateConnectionStatus(UpdateIntroductionRequestStatus dto)
+        {
+            var cat = await _repository.GetByIdAsync(new ConnectionRequestId(dto.id));
 
+            if (cat == null)
+            {
+                return null;
+            }
+
+            cat.ChangeStatus(ConnectionRequestStatus.ValueOf(dto.newStatus));
+            await _unitOfWork.CommitAsync();
+
+            return cat.ToDto();
+        }
         public async Task<IntroductionRequestDto> UpdateAsync(UpdateIntroductionRequestDto dto)
         {
             var introductionRequest =
@@ -141,7 +154,22 @@ namespace SocialNetwork.core.services.connectionRequests
             }
 
             var list = _repository.GetAllPendingApprovalAsync(new PlayerId(playerReceiver.id));
-            return list.ConvertAll(introRequest => introRequest.ToDto());
+            List<IntroductionRequestDto> list1= list.ConvertAll(introRequest => introRequest.ToDto());
+            List<IntroductionRequestDto> list2 = new List<IntroductionRequestDto>();
+
+            foreach (var VARIABLE in list1)
+            {
+                IntroductionRequestDto introductionRequestDto = VARIABLE;
+                PlayerDto PlayerIntroduction=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerIntroduction));
+                PlayerDto PlayerReceiver=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerReceiver));
+                PlayerDto PlayerSender=await _playerService.GetByIdAsync(new PlayerId(VARIABLE.PlayerSender));
+                introductionRequestDto.PlayerIntroduction = PlayerIntroduction.email;
+                introductionRequestDto.PlayerSender = PlayerSender.email;
+                introductionRequestDto.PlayerReceiver = PlayerReceiver.email;
+                list2.Add(introductionRequestDto);
+
+            }
+            return list2;
         }
 
         public async Task<object> DeleteAsync(string introductionRequestId)

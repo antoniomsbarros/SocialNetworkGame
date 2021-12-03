@@ -13,15 +13,19 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SignUpComponent} from './sign-up/sign-up.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { MatSelectSearchModule } from 'mat-select-search';
 
 
+import {MatSelectModule} from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,28 +33,30 @@ import {ReactiveFormsModule} from "@angular/forms";
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
     SignUpComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
+    MatFormFieldModule,
+    MatSelectModule,
     BrowserModule,
     HttpClientModule,
-
-    ReactiveFormsModule,
+    MatSelectSearchModule,
     BrowserAnimationsModule,
     FormsModule,
     MatExpansionModule,
     MatNativeDateModule,
-    ReactiveFormsModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     AppRoutingModule,
+    NgbModule,
+    MatSnackBarModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ReactiveFormsModule,
-    NgbModule
-
+    MatDialogModule
   ],
-  providers: [],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -94,11 +94,11 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
         
-        [HttpPut("{id}")]
+        [HttpPut("playerIntroduction/{id}")]
         [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateIntroductionStatus(string id,
-            ConnectionIntroductionRelactionshipDTO connectionIntroductionRelactionshipDto)
+            IntroductionRequestDto connectionIntroductionRelactionshipDto)
         {
             if (!id.Equals(connectionIntroductionRelactionshipDto.Id))
             {
@@ -114,7 +114,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             
             
             IntroductionRequestDto introductionRequestDto =
-                await _service.UpdateStatus(new UpdateIntroductionRequestStatus(id, connectionIntroductionRelactionshipDto.IntroductionStatus));
+                await _service.UpdateStatus(new UpdateIntroductionRequestStatus(id, connectionIntroductionRelactionshipDto.IntroductionStatus.ToString()));
             if (introductionRequestDto==null)
             {
                 return NotFound("The introduction Request Dont exist");
@@ -128,7 +128,7 @@ namespace SocialNetwork.core.controller.connectionRequests
                 }
                 RelationshipPostDto relationshipDto1 = new RelationshipPostDto(
                     introductionRequestDto.PlayerSender, introductionRequestDto.PlayerIntroduction,
-                    connectionIntroductionRelactionshipDto.ConnectionStrenghtAproval,
+                    connectionIntroductionRelactionshipDto.ConnectionStrengthConf,
                     connectionIntroductionRelactionshipDto.Tags);
                 
                 RelationshipDto relationshipDtoIntroduction = await _relationshipService.AddAsync(relationshipDto1);
@@ -194,13 +194,31 @@ namespace SocialNetwork.core.controller.connectionRequests
 
             return Ok(introRequest);
         }
+        
+        [HttpGet("PlayerAproval={PlayerAproval}")]
+        [ProducesResponseType(typeof(IEnumerable<IntroductionRequestDto>), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetPendingAprovolIntroductions(string PlayerAproval)
+        {
+            var introRequest = await _service.GetAllPendingApproval(new Email(PlayerAproval));
 
+            if (introRequest == null)
+            {
+                return NotFound($"The Player does not exist");
+            }
 
-        /*
+            if (introRequest.Count == 0)
+            {
+                return NotFound($"The Player does not have any pending introduction requests");
+            }
 
-        [HttpPut("/playerapproval/{idrequest}")]
-        public async Task<IActionResult> UpdateIntroductionConnection(string idrequest,
-            ConnectionIntroductionDTO connectionIntroductionRelactionshipDto)
+            return Ok(introRequest);
+        }
+        
+
+        [HttpPut("playerapproval/{idrequest}")]
+        public async Task<IActionResult> UpdateIntroductionConnectionApproval(string idrequest,
+            IntroductionRequestDto connectionIntroductionRelactionshipDto)
         {
             if (!idrequest.Equals(connectionIntroductionRelactionshipDto.Id))
             {
@@ -208,7 +226,7 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
             try
             {
-                var cat = await _service.UpdateIntroductionStatus(connectionIntroductionRelactionshipDto);
+                var cat = await _service.UpdateConnectionStatus(new UpdateIntroductionRequestStatus(idrequest, connectionIntroductionRelactionshipDto.ConnectionRequestStatus.ToString()));
                 
                 if (cat == null)
                 {
@@ -221,8 +239,8 @@ namespace SocialNetwork.core.controller.connectionRequests
                 return BadRequest(new {Message = ex.Message});
             }
         }
-        */
-
+        
+        
 
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<IntroductionRequestDto>> HardDelete(string id)
