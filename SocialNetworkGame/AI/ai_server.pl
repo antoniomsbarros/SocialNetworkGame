@@ -178,3 +178,33 @@ dfs2(Act,Dest,LA,Cam):-
         dfs2(X,Dest,[X|LA],Cam).
 
 %===================================================%
+
+%======== Strongest Path Between Two Users ========%
+
+stronger_path(Orig,Dest,LCaminho_forlig):-
+    get_time(Ti),
+    (best_path(Orig,Dest);true),
+    retract(best_solution(LCaminho_forlig,S)),
+    get_time(Tf),
+    T is Tf-Ti,
+    write('Time :'),write(T),nl,
+    write('Sum of Binding Forces :'),write(S),nl,
+    write('Solution :'),write(LCaminho_forlig),nl.
+
+best_path(Orig,Dest):-
+    asserta(best_solution(_,0)),
+    dfs_force(Orig,Dest,LCaminho,S),
+    best_new_path(LCaminho,S),
+    fail.
+
+best_new_path(LCaminho,S):-
+    best_solution(_,N),
+    S>N,retract(best_solution(_,_)),
+    asserta(best_solution(LCaminho,S)).
+
+dfs_force(Orig,Dest,Cam,S):-
+    dfs_2_force(Orig,Dest,[Orig],Cam,S).
+
+dfs_2_force(Dest,Dest,LA,Cam,0):-!,reverse(LA,Cam).
+dfs_2_force(Act,Dest,LA,Cam,S):-no(NAct,Act,_),(ligacao(NAct,NX,S1,S2);ligacao(NX,NAct,S1,S2)),
+no(NX,X,_),\+ member(X,LA),dfs_2_force(X,Dest,[X|LA],Cam,SX),S is (SX+S1+S2) .

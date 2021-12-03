@@ -17,16 +17,16 @@ describe('IntroductionRequestService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-/*
-  describe("#getIntroductionPending",()=>{
-    it('returned Observable should match the right data ',  ()=> {
+  /*
+    describe("#getIntroductionPending",()=>{
+      it('returned Observable should match the right data ',  ()=> {
 
-      const client="1200607@isep.ipp.pt";
-      service.getIntroductionsPending(client).subscribe(data=>{
-        console.log(data);
-        expect(data).toBe([])
-      })
+        const client="1200607@isep.ipp.pt";
+        service.getIntroductionsPending(client).subscribe(data=>{
+          console.log(data);
+          expect(data).toBe([])
+        })
 
-    });
-  })*/
+      });
+    })*/
 });
