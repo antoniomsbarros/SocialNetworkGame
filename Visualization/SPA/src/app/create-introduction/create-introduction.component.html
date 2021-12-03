@@ -1,0 +1,70 @@
+<div *ngIf="introductionRequestPending!=undefined; else defined">
+
+</div>
+<ng-template #defined class="my-center-text">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+  <main>
+
+    <h1 class="visually-hidden">Heroes examples</h1>
+
+    <div class="px-4 py-5 my-5 text-center">
+      <h1 class="display-5 fw-bold">Introduction Request</h1>
+      <div class="col-lg-6 mx-auto">
+        <form>
+          <mat-form-field appearance="fill" class="form-group col-md-6">
+            <mat-label>Friend</mat-label>
+            <mat-select (selectionChange) ="changeFriend($event)">
+              <mat-option *ngFor="let food of Friends"  [value]="food.email">
+                {{food.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="form-group col-md-6" >
+            <mat-label>friend you want to meet</mat-label>
+            <mat-select (selectionChange)="changefriendoffriend($event)" >
+              <mat-option *ngFor="let food of FriendsofFriends" [value]="food.email">
+                {{food.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+                    <div class="form-group">
+                      <label for="introductionText">Introduction Text</label>
+                      <textarea [(ngModel)]="textintroduction" class="form-control" id="introductionText" maxlength="1000" rows="3" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="aprovalText">Aproval Text</label>
+                      <textarea  class="form-control" id="aprovalText" maxlength="1000" rows="3" [(ngModel)]="textaproved" [ngModelOptions]="{standalone: true}"></textarea>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="ConnectionStrenght" class="col-sm-2 col-form-label"  >Connection Strenght</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" id="ConnectionStrenght" min="1" max="100" placeholder="Connection Strenght" [(ngModel)]="connectionStrenght"[ngModelOptions]="{standalone: true}">
+                      </div>
+                    </div>
+          <label style="margin-bottom: 20px; margin-top: 20px; " > Tags List:</label>
+          <mat-form-field appearance="fill">
+            <mat-label style="margin-right: 100px">Tags List</mat-label>
+            <mat-select [formControl]="toppings" multiple (selectionChange)="changeTags($event.value)">
+              <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+            <button mat-raised-button (click)="openDialog()" style="margin-left: 25px">Create Tag</button>
+
+        </form>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center" style="margin-top: 50px">
+          <button (click)="create()" type="button" class="btn btn-success btn-lg px-4 gap-3" style="  background-color: green; color: white; ">Create Introduction</button>
+          <button type="button" class=" btn-lg px-4 btn btn-dark"  >Go back</button>
+        </div>
+      </div>
+    </div>
+    <div class="b-example-divider mb-0"></div>
+  </main>
+</ng-template>

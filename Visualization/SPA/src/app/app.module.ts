@@ -31,6 +31,12 @@ import { MatSelectSearchModule } from 'mat-select-search';
 
 import { LoginComponent } from './login/login.component';
 
+import { ApproveDisapproveIntroductionRequestComponent } from './approve-disapprove-introduction-request/approve-disapprove-introduction-request.component';
+import {
+  CreateIntroductionComponent,
+  DialogOverviewExampleDialog
+} from './create-introduction/create-introduction.component';
+
 
 import {MatSelectModule} from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,7 +52,9 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
     SignInComponent,
     HeaderComponent,
     LoginComponent,
-
+    ApproveDisapproveIntroductionRequestComponent,
+    CreateIntroductionComponent,
+    DialogOverviewExampleDialog
   ],
   imports: [
     MatFormFieldModule,
@@ -72,8 +80,8 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
     NgbModule,
 
 
-  ],
-  providers: [HttpClient],
+  ], entryComponents: [ DialogOverviewExampleDialog],
+  providers: [HttpClient,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
