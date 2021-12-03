@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {GetListOfPendingConnectionRequestsComponent} from './get-list-of-pending-connection-requests/get-list-of-pending-connection-requests.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 import {AcceptOrRejectTheIntroductionComponent} from './accept-or-reject-the-introduction/accept-or-reject-the-introduction.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -73,7 +73,7 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
 
 
   ],
-
+  providers: [HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule {

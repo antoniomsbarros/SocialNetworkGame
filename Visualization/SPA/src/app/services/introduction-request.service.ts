@@ -19,10 +19,10 @@ export class IntroductionRequestService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  client = "1200607@isep.ipp.pt";
+
   client1="1200608@isep.ipp.pt";
-  getIntroductionsPending(): Observable<ConnectionIntroductionDTO[]> {
-    return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL + "playerIntroduction=" + this.client);
+  getIntroductionsPending(client:string): Observable<any[]> {
+    return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL + "playerIntroduction=" + client);
   }
 
   AcceptorrejectIntroduction(connectionIntroductionDTO: ConnectionIntroductionDTO): Observable<ConnectionIntroductionDTO> {

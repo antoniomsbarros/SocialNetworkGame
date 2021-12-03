@@ -28,6 +28,8 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   ola:number=1;
   ConnectionStringh: number | undefined;
   selectedTags: string[]=[];
+
+   client = "1200607@isep.ipp.pt";
   constructor(private http: HttpClient,private location: Location,
               private IntroductionRequestService: IntroductionRequestService,
               private TagService: TagsService,private _snackBar: MatSnackBar) {
@@ -37,9 +39,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   ngOnInit(): void {
 
     this.getPendingIntroductions();
-   // this.allTags=this.getAllTags();
-    console.log(this.allTags)
-    console.log(this.allTags.length);
+
 
     this.selectedItems = [];
     this.dropdownSettings = {
@@ -58,15 +58,12 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   }
 
   onItemSelect(item: any) {
-    console.log(item);
     this.selectedTags.push(item.item_text);
   }
   onSelectAll(items: any) {
     console.log(items);
   }
-   getRandom(){
-     return '#' + Math.floor(Math.random() * 16777215).toString(16);
-   }
+
 
   setStep(index: ConnectionIntroductionDTO) {
     this.introductionRequestSelected = index;
@@ -82,7 +79,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
         })
       });
 
-    this.IntroductionRequestService.getIntroductionsPending()
+    this.IntroductionRequestService.getIntroductionsPending(this.client)
       .subscribe(data=>this.introductionRequestPending=data);
 
   }
