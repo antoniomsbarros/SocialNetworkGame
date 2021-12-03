@@ -21,6 +21,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     HomeComponent,
     SignInComponent,
     HeaderComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
