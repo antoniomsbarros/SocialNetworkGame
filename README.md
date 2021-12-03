@@ -38,8 +38,8 @@ start a game/mission at any time by choosing the desired difficulty level.
 
 * https://lapr5g041.postman.co/workspace/d7b4abbc-3b5f-4e50-8c6e-2e77ce85ab03
 
-### ALGAV Report
+### Reports
 
-* https://1drv.ms/w/s!BNjKhkoM_PZLnw19TqTuJXNP3D3U?e=hwbMSZ
-
+* ALGAV: https://1drv.ms/w/s!BNjKhkoM_PZLnw19TqTuJXNP3D3U?e=hwbMSZ
+* ASIST: https://1drv.ms/w/s!BNjKhkoM_PZLh9obRH5wuxfKJiQcQg?e=VIASkh
 

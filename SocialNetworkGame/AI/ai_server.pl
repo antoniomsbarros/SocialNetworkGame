@@ -6,11 +6,13 @@
 :- use_module(library(http/http_cors)).
 :- use_module(library(date)).
 :- use_module(library(random)).
+:- use_module(library(http/http_client)).
 
 % JSON Libraries
 :- use_module(library(http/json_convert)).
 :- use_module(library(http/http_json)).
 :- use_module(library(http/json)).
+:- use_module(library(http/http_open)).
 
 % Primary knowledge base
 
@@ -18,7 +20,6 @@
 
 % Secundary knowledge base
 :- dynamic relationship1/2.
-:-dynamic (caminho_minimo/2).
 
 % HTTP Server setup at 'Port'                           
 startServer(Port) :-   
@@ -41,6 +42,8 @@ stopServer:-
 
 % HTTP Requests
 :- http_handler('/api/network/size', computeSocialNetworkSize, []).
+:- http_handler('/shortestPath', shortestPathRoute, []).
+
 
 % Methods
 
@@ -64,6 +67,7 @@ getPlayerSocialNetwork(Request, Size) :-
     atom_concat(Y,Depth,Path),
     http_open([host(Host), port(Port), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
     json_read_dict(Stream, Data),
+    close(Stream),
     createSocialNetworkTerms(Data),
     compute_network_size(Data.PlayerId, Depth, Size),
     retractall(relationship1(_,_)). % Delete all relationships generated
@@ -123,35 +127,41 @@ append_new([_|Y], Z, W):-
     append_new(Y, Z, W).  
 
 
+%======== Shortest Path Between Two Users ========%
 
 
- %======== Shortest Path Between Two Users ========%
+% define shortest path route %
+shortestPathRoute(Request):-
+    cors_enable,
+    http_parameters(Request, [ userFrom(From, []), userDest(Dest, [])]),
+    to_lowercase(From, NormalizedUserFrom),
+    to_lowercase(Dest, NormalizedUserDest),
+    plan_shortestPath(NormalizedUserFrom, NormalizedUserDest, LCaminho_shortestway),
+    R = json(["Path"=LCaminho_shortestway]),
+    reply_json_dict(R).
 
-:-consult(bc).
+% conversion to lowercase %
+to_lowercase(User, UserNormalized):-
+    string_lower(User, Low),
+    normalize_space(atom(UserNormalized),Low).
 
+plan_shortestPath(Orig, Dest, LCaminho_shortestway) :-
 
-
-plan_shortestPath(Orig, Dest, LCaminho_shortestway) :- 
-        get_time(Ti),
-        (melhor_caminho_minimo(Orig, Dest);true),        
-        retract(caminho_minimo(LCaminho_shortestway,_)),        
-        get_time(Tf),        
-        T is Tf-Ti,        
-        write('Generation Time Of The Solution:'),
-        write(T),
+        (melhor_caminho_minimo(Orig, Dest);true),
+        retract(caminho_minimo(LCaminho_shortestway,_)),
         nl.
-        
+
 melhor_caminho_minimo(Orig, Dest):-
-        asserta(caminho_minimo(_,10000)),        
-        dfs(Orig, Dest,LCaminho),        
-        atualiza_melhor_caminho_minimo(LCaminho),        
+        asserta(caminho_minimo(_,10000)),
+        dfs(Orig, Dest,LCaminho),
+        atualiza_melhor_caminho_minimo(LCaminho),
         fail.
-        
+
 atualiza_melhor_caminho_minimo(LCaminho):-
         caminho_minimo(_,N),
-        length(LCaminho,C),    
+        length(LCaminho,C),
         C<N,
-        retract(caminho_minimo(_,_)),        
+        retract(caminho_minimo(_,_)),
         asserta(caminho_minimo(LCaminho,C)).
 
 
@@ -162,9 +172,9 @@ dfs2(Dest,Dest,LA,Cam):-!,
 
 dfs2(Act,Dest,LA,Cam):-
         no(NAct,Act,_),
-        (ligacao(NAct,NX,L,F) ; ligacao(NX,NAct,L,F)),
+        (ligacao(NAct,NX,_,_) ; ligacao(NX,NAct,_,_)),
         no(NX,X,_),
         \+ member(X,LA),
-        dfs2(X,Dest,[X|LA],Cam).   
+        dfs2(X,Dest,[X|LA],Cam).
 
-%===================================================% 
+%===================================================%

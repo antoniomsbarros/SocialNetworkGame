@@ -1,0 +1,119 @@
+<div class="page-holder align-items-center py-4 vh-100">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-12 px-lg-2">
+        <div class="card">
+          <div class="card-header px-lg-5">
+            <div class="card-heading text-primary">Sign up</div>
+          </div>
+          <div class="card-body p-lg-5">
+            <h3 class="mb-4">Hi, join us!</h3>
+            <p class="text-muted text-sm mb-1">Did you hear about the claustrophobic astronaut? I heard that he just
+              needed a little more space.</p>
+            <form [formGroup]="registerPlayerForm" class="row g-3">
+              <div class="col-md-12 mt-5">
+                <label for="id_email" class="form-label">Email address</label>
+                <input formControlName="email" [class.is-invalid]="email.touched && email.invalid" type="email"
+                       class="form-control" id="id_email" placeholder="name@example.com">
+                <div *ngIf="email.invalid && email.touched">
+                  <div *ngIf="email.errors?.required" class="d-block invalid-feedback">Please provide an Email.</div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-4">
+                <label for="id_number" class="form-label">Phone Number</label>
+                <input formControlName="phoneNumber" [class.is-invalid]="phoneNumber.touched && phoneNumber.invalid"
+                       class="form-control" id="id_number" placeholder="+351" required>
+                <div *ngIf="phoneNumber.touched && phoneNumber.errors?.required" class="d-block invalid-feedback">
+                  Provide your phone number.
+                </div>
+              </div>
+              <div class="col-md-4 mt-4">
+                <label for="id_dateOfBirth" class="form-label">Date of birth</label>
+                <div class="input-group date" data-provide="datepicker">
+                  <input type="text" class="form-control" formControlName="dateOfBirth"
+                         [class.is-invalid]="dateOfBirth.touched && dateOfBirth.invalid"
+                         id="id_dateOfBirth" placeholder="yyyy-mm-dd" ngbDatepicker #d="ngbDatepicker">
+                  <div class="input-group-addon">
+          <span class="glyphicon glyphicon-th">
+                      <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 class="bi bi-calendar-date" viewBox="0 0 16 16">
+              <path
+                d="M6.445 11.688V6.354h-.633A12.6 12.6 0 0 0 4.5 7.16v.695c.375-.257.969-.62 1.258-.777h.012v4.61h.675zm1.188-1.305c.047.64.594 1.406 1.703 1.406 1.258 0 2-1.066 2-2.871 0-1.934-.781-2.668-1.953-2.668-.926 0-1.797.672-1.797 1.809 0 1.16.824 1.77 1.676 1.77.746 0 1.23-.376 1.383-.79h.027c-.004 1.316-.461 2.164-1.305 2.164-.664 0-1.008-.45-1.05-.82h-.684zm2.953-2.317c0 .696-.559 1.18-1.184 1.18-.601 0-1.144-.383-1.144-1.2 0-.823.582-1.21 1.168-1.21.633 0 1.16.398 1.16 1.23z"/>
+              <path
+                d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+          </button>
+          </span>
+                  </div>
+                </div>
+              </div>
+              <p></p>
+              <div class="col-md-4 mt-4">
+                <label for="id_emotionalStatus" class="form-label">What's your emotional status?</label>
+                <select formControlName="emotionalStatus"
+                        [class.is-invalid]="emotionalStatus.touched && emotionalStatus.invalid"
+                        class="custom-select my-1 mr-sm-2" id="id_emotionalStatus">
+                  <option *ngFor="let status of rowEmotionalStatus()" [ngValue]="status">{{status}}</option>
+                </select>
+              </div>
+              <div class="col-md-6 mt-4">
+                <label for="id_fullName" class="form-label">Full name</label>
+                <input formControlName="fullName" type="text" class="form-control" id="id_fullName"
+                       placeholder="Alessandro Easton Jefferson Mccoy">
+                <div *ngIf="fullName.touched && fullName.errors?.required" class="d-block invalid-feedback">Provide your
+                  full
+                  name.
+                </div>
+              </div>
+              <div class="col-md-6 mt-4">
+                <label for="id_lastName" class="form-label">Short name</label>
+                <input type="text" class="form-control" formControlName="shortName" id="id_lastName"
+                       placeholder="Alessandro Mccoy">
+                <div *ngIf="shortName.touched && shortName.errors?.required" class="d-block invalid-feedback">Provide
+                  your
+                  short name.
+                </div>
+              </div>
+              <div class="col-md-6 mt-4">
+                <label for="id_Password" class="form-label">Password</label>
+                <input formControlName="password" [class.is-invalid]="password.touched && password.invalid"
+                       type="password" class="form-control" id="id_Password" placeholder="Password">
+                <div *ngIf="password.touched && password.errors?.required" class="d-block invalid-feedback">
+                  Provide a password.
+                </div>
+              </div>
+              <div class="col-md-6 mt-4">
+                <label for="id_PasswordConfirmation" class="form-label">Confirm Password</label>
+                <input formControlName="passwordConfirmation"
+                       [class.is-invalid]="passwordConfirmation.touched && passwordConfirmation.invalid"
+                       type="password" class="form-control" id="id_PasswordConfirmation" placeholder="Confirm Password">
+                <div *ngIf="passwordConfirmation.touched && passwordConfirmation.errors?.required"
+                     class="d-block invalid-feedback">
+                  Please confirm the password.
+                </div>
+                <div
+                  *ngIf="passwordConfirmation.touched && password.value != '' && passwordConfirmation.value != '' && password.value != passwordConfirmation.value"
+                  class="d-block invalid-feedback">
+                  The password is different from the previous.
+                </div>
+              </div>
+              <div class="row justify-content-center mt-5 ml-5">
+                <button [disabled]="registerPlayerForm.invalid || password.value != passwordConfirmation.value"
+                        type="submit"
+                        class="btn btn-primary px-5"
+                        (click)="registerFormSubmit()">Submit
+                </button>
+                <button type="button" class="btn btn-primary px-3 ms-2 ml-4"
+                        (click)="clearForm()">Clear
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

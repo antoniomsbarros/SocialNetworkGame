@@ -9,12 +9,12 @@ namespace SocialNetwork.infrastructure
 
         public UnitOfWork(SocialNetworkDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public async Task<int> CommitAsync()
         {
-            return await this._context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

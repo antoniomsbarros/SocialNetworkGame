@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 import {GetListOfPendingConnectionRequestsComponent} from './get-list-of-pending-connection-requests/get-list-of-pending-connection-requests.component';
 import {HttpClientModule} from "@angular/common/http";
 
-import { AcceptOrRejectTheIntroductionComponent } from './accept-or-reject-the-introduction/accept-or-reject-the-introduction.component';
+import {AcceptOrRejectTheIntroductionComponent} from './accept-or-reject-the-introduction/accept-or-reject-the-introduction.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -13,14 +13,23 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
+import {ToastrModule} from "ngx-toastr";
+
+
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {SignUpComponent} from './sign-up/sign-up.component';
+import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
+
 import { MatSelectSearchModule } from 'mat-select-search';
+
+
+import { LoginComponent } from './login/login.component';
 
 
 import {MatSelectModule} from '@angular/material/select';
@@ -32,8 +41,12 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
     GetListOfPendingConnectionRequestsComponent,
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
-    SignUpComponent,
+
     HeaderComponent,
+    SignInComponent,
+    HeaderComponent,
+    LoginComponent,
+
   ],
   imports: [
     MatFormFieldModule,
@@ -54,7 +67,11 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
     MatSnackBarModule,
     NgMultiSelectDropDownModule.forRoot(),
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    ToastrModule.forRoot(),
+    NgbModule,
+
+
   ],
 
   bootstrap: [AppComponent]

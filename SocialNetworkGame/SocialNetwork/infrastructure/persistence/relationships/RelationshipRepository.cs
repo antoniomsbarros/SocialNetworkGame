@@ -33,8 +33,8 @@ namespace SocialNetwork.infrastructure.persistence.relationships
         {
 
             var rela = await this._socialNetworkDbContext.Set<Relationship>()
-                .Where(x => playerFrom.Equals(x.PlayerOrig))
-                .Where(y=>playerDest.Equals(y.PlayerDest))
+                .Where(x => playerFrom.Equals(x.PlayerOrig.ToString()))
+                .Where(y=>playerDest.Equals(y.PlayerDest.ToString()))
                 .FirstOrDefaultAsync(); 
             
             return rela;
