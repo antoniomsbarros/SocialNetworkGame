@@ -21,5 +21,10 @@ namespace SocialNetwork.core.model.connectionRequests.dto
             PlayerIntroduction = playerIntroduction;
             IntroductionStatus = introductionStatus;
         }
+
+        public IntroductionRequestDto():base()
+        {
+
+        }
     }
 }

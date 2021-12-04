@@ -37,5 +37,10 @@ namespace SocialNetwork.core.model.connectionRequests.dto
             Tags = tags;
 
         }
+
+        public ConnectionRequestDto()
+        {
+            
+        }
     }
 }

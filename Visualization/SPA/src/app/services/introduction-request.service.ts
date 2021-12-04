@@ -20,8 +20,10 @@ export class IntroductionRequestService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  client1="1200608@isep.ipp.pt";
-  getIntroductionsPending(client:string): Observable<any[]> {
+  client1="1200607@isep.ipp.pt";
+
+  client3="1200608@isep.ipp.pt"
+  getIntroductionsPending(client:string): Observable<ConnectionIntroductionDTO[]> {
     return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL + "playerIntroduction=" + client);
   }
 

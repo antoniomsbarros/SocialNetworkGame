@@ -29,7 +29,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   ConnectionStringh: number | undefined;
   selectedTags: string[]=[];
 
-   client = "1200607@isep.ipp.pt";
+   client = "1200610@isep.ipp.pt";
   constructor(private http: HttpClient,private location: Location,
               private IntroductionRequestService: IntroductionRequestService,
               private TagService: TagsService,private _snackBar: MatSnackBar) {
@@ -80,7 +80,9 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
       });
 
     this.IntroductionRequestService.getIntroductionsPending(this.client)
-      .subscribe(data=>this.introductionRequestPending=data);
+      .subscribe(data=>{
+        this.introductionRequestPending=data;
+      });
 
   }
 

@@ -192,7 +192,30 @@ namespace SocialNetwork.core.controller.connectionRequests
                 return NotFound($"The Player does not have any pending introduction requests");
             }
 
-            return Ok(introRequest);
+            List<IntroductionRequestDto> list = new List<IntroductionRequestDto>();
+            for (int i = 0; i < introRequest.Count; i++)
+            {
+                IntroductionRequestDto temp =new IntroductionRequestDto();
+                temp.Id = introRequest[i].Id;
+                temp.ConnectionRequestStatus = introRequest[i].ConnectionRequestStatus;
+                temp.IntroductionStatus = introRequest[i].IntroductionStatus;
+                temp.PlayerIntroduction = introRequest[i].PlayerIntroduction;
+                temp.TextIntroduction = introRequest[i].TextIntroduction;
+                temp.Text = introRequest[i].Text;
+                temp.CreationDate = introRequest[i].CreationDate;
+                temp.PlayerReceiver = introRequest[i].PlayerReceiver;
+                temp.PlayerSender = introRequest[i].PlayerSender;
+                temp.ConnectionStrengthConf = introRequest[i].ConnectionStrengthConf;
+                temp.Tags = new List<string>();
+                for (int j = 0; j < introRequest[i].Tags.Count; j++)
+                {
+                    TagDto dto1=await _tagsService.GetByIdAsync(new TagId( introRequest[i].Tags[j]));
+                    temp.Tags.Add(dto1.name);
+                }
+                list.Add(temp);
+            }
+
+            return Ok(list);
         }
         
         [HttpGet("PlayerAproval={PlayerAproval}")]
