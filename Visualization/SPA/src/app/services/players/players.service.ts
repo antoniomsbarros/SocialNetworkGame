@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {catchError, Observable, of, tap} from "rxjs";
 import {PlayerDto} from "../../dto/players/PlayerDto";
 import {RegisterPlayerDto} from "../../dto/players/RegisterPlayerDto";
+import {UpdateEmotionalStatusDto} from "../../DTO/players/UpdateEmotionalStatusDto";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,43 @@ import {RegisterPlayerDto} from "../../dto/players/RegisterPlayerDto";
 export class PlayersService {
 
   private socialNetwork: string = "http://localhost:5000/api/Players/";
+  private humorState: string = "https://localhost:5001/api/Players/humor/";
+
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
 
   constructor(private http: HttpClient) {
   }
 
   registerPlayer(dto: RegisterPlayerDto): Observable<PlayerDto> {
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
+  }
+/*
+  changeHumor(dto: UpdateEmotionalStatusDto): Observable<PlayerDto>{
+    return this.http.put<PlayerDto>(this.humorState, dto);
+  }
+ */
+  changeHumor(id: string, newMood: string): Observable<any>{
+    const url1='https://localhost:5001/api/ChangeMood/';
+    const url= `${url1}${id}/${newMood}`;
+
+    return this.http.put(url, this.httpOptions).pipe(
+      tap(_=> console.log(`updated player humor, for player id=${id}`)),
+      catchError(this.handleError<any>('changeHumor'))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }

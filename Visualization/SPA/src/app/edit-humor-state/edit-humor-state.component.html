@@ -1,0 +1,26 @@
+<div class="page-holder align-items-center py-4 vh-100">
+          <div class="px-4 py-5 my-5 text-center">
+          <h1 class="display-5 fw-bold">Change Humor State</h1>
+
+
+              <label for="id_emotionalStatus" class="form-label">What's your currently emotional status?</label>
+            <div>
+
+            <mat-form-field appearance="fill" class="form-group col-md-2" >
+              <select formControlName="emotionalStatus"
+                      [class.is-invalid]="emotionalStatus.touched && emotionalStatus.invalid"
+                      class="custom-select my-1 mr-sm-2" id="id_emotionalStatus">
+                <option *ngFor="let status of rowEmotionalStatus()" [ngValue]="status">{{status}}</option>
+              </select>
+            </mat-form-field>
+            </div>
+            <div class="form-floating mb-3">
+            </div>
+            <button class="btn btn-primary" type="button">Apply</button>
+
+
+              <div>
+              <button mat-stroked-button class="btn btn-dark" (click)="goBack()"style="margin-top: 25px">Back</button>
+            </div>
+          </div>
+          </div>
