@@ -18,6 +18,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import {ToastrModule} from "ngx-toastr";
 
+import {EditHumorStateComponent} from './edit-humor-state/edit-humor-state.component';
 
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -41,20 +42,22 @@ import {
 import {MatSelectModule} from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
+import { EditRelationshipTagsConnectionForceComponent } from './edit-relationship-tags-connection-force/edit-relationship-tags-connection-force.component';
 @NgModule({
   declarations: [
     AppComponent,
     GetListOfPendingConnectionRequestsComponent,
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
-
+    EditHumorStateComponent,
     HeaderComponent,
     SignInComponent,
     HeaderComponent,
     LoginComponent,
     ApproveDisapproveIntroductionRequestComponent,
     CreateIntroductionComponent,
-    DialogOverviewExampleDialog
+    DialogOverviewExampleDialog,
+    EditRelationshipTagsConnectionForceComponent
   ],
   imports: [
     MatFormFieldModule,
