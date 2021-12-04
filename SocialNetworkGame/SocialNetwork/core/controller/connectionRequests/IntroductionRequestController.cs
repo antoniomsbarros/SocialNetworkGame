@@ -126,6 +126,21 @@ namespace SocialNetwork.core.controller.connectionRequests
                 {
                     return StatusCode(409);
                 }
+                var nTag = 0;
+                while (nTag < connectionIntroductionRelactionshipDto.Tags.Count)
+                {
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(connectionIntroductionRelactionshipDto.Tags[nTag])).Result;
+                    if (tag != null)
+                        connectionIntroductionRelactionshipDto.Tags[nTag] = tag.id;
+                    else
+                    {
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(connectionIntroductionRelactionshipDto.Tags[nTag])).Result;
+                        connectionIntroductionRelactionshipDto.Tags[nTag] = newTag.id;
+                    }
+
+                    ++nTag;
+                }
+                
                 RelationshipPostDto relationshipDto1 = new RelationshipPostDto(
                     introductionRequestDto.PlayerSender, introductionRequestDto.PlayerIntroduction,
                     connectionIntroductionRelactionshipDto.ConnectionStrengthConf,
