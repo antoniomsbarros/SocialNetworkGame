@@ -6,6 +6,7 @@ import {LoginComponent} from "./login/login.component";
 import {GetListOfPendingConnectionRequestsComponent} from "./get-list-of-pending-connection-requests/get-list-of-pending-connection-requests.component";
 import {CreateIntroductionComponent} from "./create-introduction/create-introduction.component";
 import {ApproveDisapproveIntroductionRequestComponent} from "./approve-disapprove-introduction-request/approve-disapprove-introduction-request.component";
+import {CreateDirectRequestComponent} from "./create-direct-request/create-direct-request.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
   {path: "createIntroduction", component: CreateIntroductionComponent},
   {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},
+  {path: "createDirectRequest", component: CreateDirectRequestComponent},
 ];
 
 @NgModule({

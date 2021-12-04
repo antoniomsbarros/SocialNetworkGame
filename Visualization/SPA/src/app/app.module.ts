@@ -14,10 +14,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 import {ToastrModule} from "ngx-toastr";
-
 
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -26,35 +25,33 @@ import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
 
-import { MatSelectSearchModule } from 'mat-select-search';
+import {MatSelectSearchModule} from 'mat-select-search';
 
+import {LoginComponent} from './login/login.component';
 
-import { LoginComponent } from './login/login.component';
-
-import { ApproveDisapproveIntroductionRequestComponent } from './approve-disapprove-introduction-request/approve-disapprove-introduction-request.component';
-import {
-  CreateIntroductionComponent,
-  DialogOverviewExampleDialog
-} from './create-introduction/create-introduction.component';
-
+import {ApproveDisapproveIntroductionRequestComponent} from './approve-disapprove-introduction-request/approve-disapprove-introduction-request.component';
+import {CreateIntroductionComponent} from './create-introduction/create-introduction.component';
 
 import {MatSelectModule} from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
+import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
+import {DialogComponent} from './dialog-component/dialog.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     GetListOfPendingConnectionRequestsComponent,
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
-
     HeaderComponent,
     SignInComponent,
     HeaderComponent,
     LoginComponent,
     ApproveDisapproveIntroductionRequestComponent,
     CreateIntroductionComponent,
-    DialogOverviewExampleDialog
+    CreateDirectRequestComponent,
+    DialogComponent
   ],
   imports: [
     MatFormFieldModule,
@@ -78,11 +75,10 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
     MatDialogModule,
     ToastrModule.forRoot(),
     NgbModule,
-
-
-  ], entryComponents: [ DialogOverviewExampleDialog],
-  providers: [HttpClient,{provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
+  ], entryComponents: [],
+  providers: [HttpClient, {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }
