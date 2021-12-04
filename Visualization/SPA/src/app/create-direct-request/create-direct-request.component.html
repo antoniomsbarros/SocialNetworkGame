@@ -1,0 +1,47 @@
+<h1 class="display-5 fw-bold">Create a connection request</h1>
+<form [formGroup]="createDirectRequestForm" class="row g-3">
+  <div class="col-md-12 mt-5">
+    <label for="id_playerToAdd" class="form-label">Player's email address</label>
+    <input formControlName="playerToAdd" [class.is-invalid]="playerToAdd.touched && playerToAdd.invalid"
+           class="form-control" id="id_playerToAdd" placeholder="name@example.com">
+    <div *ngIf="playerToAdd.invalid && playerToAdd.touched">
+      <div *ngIf="playerToAdd.errors?.required" class="d-block invalid-feedback">Please provide a player.</div>
+    </div>
+  </div>
+  <div class="col-md-12 mt-5">
+    <label for="id_requestText" class="form-label">Message for the player</label>
+    <input formControlName="requestText" [class.is-invalid]="requestText.touched && requestText.invalid"
+           class="form-control" id="id_requestText"
+           placeholder="ex. Hi! I'm Michael. We work at the same team at our company!" required>
+    <div *ngIf="requestText.touched && requestText.errors?.required" class="d-block invalid-feedback">
+      Provide a message for the player you want to add.
+    </div>
+  </div>
+  <div class="col-md-12 mt-5">
+    <label for="id_connectionStrength" class="form-label">Connection Strength</label>
+    <input formControlName="connectionStrength" type="text" class="form-control" id="id_connectionStrength"
+           placeholder="ex. 40">
+    <div *ngIf="connectionStrength.touched && connectionStrength.errors?.required" class="d-block invalid-feedback">
+      Provide a strength for your possible connection with the player.
+    </div>
+  </div>
+
+  <div class="col-md-12 mt-5">
+    <label style="margin-bottom: 20px; margin-top: 20px; "> Tags List:</label>
+    <mat-form-field appearance="fill">
+      <mat-label style="margin-right: 100px">Tags List</mat-label>
+      <mat-select [formControl]="toppings" multiple (selectionChange)="changeTags($event.value)">
+        <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button (click)="openDialog()" style="margin-left: 25px">Create Tag</button>
+    <div class="row justify-content-center mt-5 ml-5">
+      <button [disabled]="createDirectRequestForm.invalid"
+              type="submit"
+              class="btn btn-primary px-5"
+              (click)="createDirectRequestFormSubmit()">Submit
+      </button>
+    </div>
+  </div>
+</form>
+
