@@ -5,7 +5,7 @@
         public string username;
         public string password;
 
-        protected SystemUserDto()
+        public SystemUserDto()
         {
             // empty
         }
