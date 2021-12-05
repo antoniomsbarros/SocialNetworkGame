@@ -13,6 +13,7 @@ export class PlayersService {
 
   private socialNetwork: string = "http://localhost:5000/api/Players/";
   private humorState: string = "https://localhost:5001/api/Players/humor/";
+  private profile: string = "https://localhost:5001/api/Players/profile/";
 
 
   httpOptions = {
@@ -27,8 +28,8 @@ export class PlayersService {
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
   }
 
-  updateProfile(dto: UpdateProfileDto): Observable<UpdateProfileDto> {
-    return this.http.put<UpdateProfileDto>(`${this.socialNetwork}${dto.id}`, dto);
+  updateProfile(dto: UpdateProfileDto): Observable<any> {
+    return this.http.put<UpdateProfileDto>(`${this.profile}${dto.email}`, dto);
   }
 
 /*
