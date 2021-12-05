@@ -1,0 +1,51 @@
+@startuml
+
+actor "Player" as P
+
+participant "<<View>>\nNetworkListing" as V
+participant "<<Component>>\nNetworkListingComponent" as CDC
+participant "<<Service>>\nRelationshipService" as DRS
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SC
+
+activate P
+activate SC
+
+P -> V : selects the depth
+
+activate V
+
+V -> CDC : getNetworkListing()
+
+activate CDC
+
+
+CDC -> DRS : getNetwork(email, depth)
+
+activate DRS
+
+DRS -> API : GET Network
+
+activate API
+
+API -> SC : getNetwork(email, depth)
+
+SC --> API
+
+API --> DRS : response JSON
+
+deactivate API
+
+DRS --> CDC : networkDto
+
+deactivate DRS
+
+CDC --> V 
+
+V --> P : shows player's network at\nthe chosen depth
+
+deactivate V 
+deactivate SC
+deactivate P
+
+@enduml

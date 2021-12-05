@@ -1,0 +1,53 @@
+@startuml
+
+actor "Player" as P
+
+participant "<<View>>\nUpdateProfile" as V
+participant "<<Component>>\nUpdateProfileComponent" as CDC
+participant "<<DTO>>\nUpdateProfileDto" as DTO
+participant "<<Service>>\nPlayerService" as DRS
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SC
+
+activate P
+activate SC
+
+P -> V : select new profile data\n(short/full name, social profiles,\nphone number)
+
+activate V
+
+V -> CDC : updateProfile()
+
+activate CDC
+
+CDC --> DTO : dto = create()
+
+CDC -> DRS : updateProfile(dto)
+
+activate DRS
+
+DRS -> API : PUT UpdateProfile
+
+activate API
+
+API -> SC : updateProfile()
+
+SC --> API
+
+API --> DRS : response JSON
+
+deactivate API
+
+DRS --> CDC : updateProfileDto
+
+deactivate DRS
+
+CDC --> V 
+
+V --> P : confirms the profile update
+
+deactivate V 
+deactivate SC
+deactivate P
+
+@enduml
