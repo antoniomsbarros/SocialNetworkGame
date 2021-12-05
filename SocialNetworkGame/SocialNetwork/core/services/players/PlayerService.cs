@@ -93,8 +93,9 @@ namespace SocialNetwork.core.services.players
 
             if (playerDto.shortName != null)
                 player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
-
-            player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth));
+            
+            if (playerDto.dateOfBirth != null)
+                player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth.Value));
 
             if (playerDto.facebookProfile != null)
                 player.LinkFacebook(FacebookProfile.ValueOf(playerDto.facebookProfile));
