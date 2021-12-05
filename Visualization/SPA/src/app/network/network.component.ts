@@ -6,6 +6,7 @@ import * as THREE from "three";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
+import {Vector4} from "three";
 
 
 @Component({
@@ -93,7 +94,6 @@ export class NetworkComponent implements OnInit {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
-    miniMapCamera.position.z = 10;
 
     this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
       window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);
@@ -204,21 +204,6 @@ export class NetworkComponent implements OnInit {
 
     window.document.body.style.overflow = "hidden";
     this.renderer.render( this.scene, this.camera );
-/*
-    // Create Square
-    this.renderer.setScissorTest(true);
-    this.renderer.setScissor(window.innerWidth - 221, 100, 202, 202);
-    //this.renderer.setClearColor(0x000000, 1); // border color
-   // this.renderer.clearColor();
-
-    // Create Mini-Graph
-
-    this.renderer.setViewport(window.innerWidth - 221, 101, 200, 200);
-    this.renderer.setScissor(window.innerWidth - 220, 101, 200, 200);
-    this.renderer.setScissorTest(true);
-    miniMapCamera.updateProjectionMatrix();
-    this.renderer.render(this.scene, miniMapCamera);*/
-
 
 
   }
@@ -228,6 +213,32 @@ export class NetworkComponent implements OnInit {
     requestAnimationFrame(this.animate.bind(this));
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    this.renderMiniMap();
   }
+  renderMiniMap() {
 
+    const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
+    miniMapCamera.position.z = 20;
+
+    const borderSize = 1;
+    const paddingX = 55;
+    const paddingY = 125;
+    const BorderColor = 0x000000;
+
+    this.renderer.setScissorTest(true);
+    this.renderer.setScissor(window.innerWidth - 200 - paddingX, paddingY, 200 + ( 2 * borderSize ),
+      200 + ( 2 * borderSize ));
+    this.renderer.setClearColor(BorderColor, 1);
+    this.renderer.clearColor();
+    let vp: Vector4 = new Vector4;
+    this.renderer.getCurrentViewport(vp);
+    this.renderer.setViewport(window.innerWidth - 200 - paddingX + borderSize, paddingY + borderSize,
+      200, 200);
+    this.renderer.setScissor(window.innerWidth - 200 - paddingX + borderSize, paddingY + borderSize,
+      200, 200);
+    miniMapCamera.updateProjectionMatrix();
+    this.renderer.render(this.scene, miniMapCamera);
+    this.renderer.setScissorTest(false);
+    this.renderer.setViewport(vp);
+  }
 }
