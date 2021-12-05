@@ -19,7 +19,6 @@ import {CreateDirectRequestComponent} from "./create-direct-request/create-direc
 import {NetworkComponent} from "./network/network.component";
 
 const routes: Routes = [
-<<<<<<< HEAD
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'signin', component: SignInComponent},
@@ -28,22 +27,11 @@ const routes: Routes = [
   {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
   {path: "createIntroduction", component: CreateIntroductionComponent},
   {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},
+  {path: "changeHumor", component: EditHumorStateComponent},
+  {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},
   {path: "createDirectRequest", component: CreateDirectRequestComponent},
 ];
-=======
-    {path: '', redirectTo: '/home', pathMatch: 'full'},
-    {path: 'home', component: HomeComponent},
-    {path: 'signin', component: SignInComponent},
-    {path: 'login', component: LoginComponent},
-    {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
-    {path: "createIntroduction", component: CreateIntroductionComponent},
-    {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},
-    {path: "changeHumor", component: EditHumorStateComponent},
-    {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},
-    {path: "createDirectRequest", component: CreateDirectRequestComponent},
-  ]
-;
->>>>>>> 1e57c9004662c62f217a6dc94ae7ae77e48e1e99
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

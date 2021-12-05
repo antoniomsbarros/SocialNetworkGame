@@ -51,7 +51,7 @@ export class CreateIntroductionComponent implements OnInit {
 
   getFriends() {
     this.ola = 0;
-    this.RelactionshipService.getallfriends(this.client).subscribe(data => {
+    this.RelactionshipService.getAllFriendsFromPlayer(this.client).subscribe(data => {
       data.forEach(item => {
         this.Friends.push({email: item.email, name: item.name})
 
@@ -61,7 +61,7 @@ export class CreateIntroductionComponent implements OnInit {
 
   getFriendsofFriends(friendenmail: string) {
     this.ola = 0;
-    this.RelactionshipService.getallfriends(friendenmail).subscribe(data => {
+    this.RelactionshipService.getAllFriendsFromPlayer(friendenmail).subscribe(data => {
       data.forEach(item => {
         if (item.email != this.client) {
           this.FriendsofFriends.push({email: item.email, name: item.name})

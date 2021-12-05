@@ -21,12 +21,10 @@ import {MatButtonModule} from "@angular/material/button";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 import {ToastrModule} from "ngx-toastr";
-<<<<<<< HEAD
-import "@angular/compiler";
-=======
 
+import "@angular/compiler";
 import {EditHumorStateComponent} from './edit-humor-state/edit-humor-state.component';
->>>>>>> 1e57c9004662c62f217a6dc94ae7ae77e48e1e99
+
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -48,7 +46,7 @@ import {
 } from './edit-relationship-tags-connection-force/edit-relationship-tags-connection-force.component';
 import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
 import {DialogComponent} from './dialog-component/dialog.component';
-import { NetworkComponent } from './network/network.component';
+import {NetworkComponent} from './network/network.component';
 
 @NgModule({
   declarations: [
