@@ -4,6 +4,7 @@ import {catchError, Observable, of, tap} from "rxjs";
 import {PlayerDto} from "../../dto/players/PlayerDto";
 import {RegisterPlayerDto} from "../../dto/players/RegisterPlayerDto";
 import {UpdateEmotionalStatusDto} from "../../DTO/players/UpdateEmotionalStatusDto";
+import {UpdateProfileDto} from "../../DTO/players/UpdateProfileDto";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,11 @@ export class PlayersService {
   registerPlayer(dto: RegisterPlayerDto): Observable<PlayerDto> {
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
   }
+
+  updateProfile(dto: UpdateProfileDto): Observable<UpdateProfileDto> {
+    return this.http.put<UpdateProfileDto>(`${this.socialNetwork}${dto.id}`, dto);
+  }
+
 /*
   changeHumor(dto: UpdateEmotionalStatusDto): Observable<PlayerDto>{
     return this.http.put<PlayerDto>(this.humorState, dto);

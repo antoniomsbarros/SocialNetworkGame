@@ -47,6 +47,7 @@ import {
 import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
 import {DialogComponent} from './dialog-component/dialog.component';
 import {NetworkComponent} from './network/network.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {NetworkComponent} from './network/network.component';
     EditRelationshipTagsConnectionForceComponent,
     CreateDirectRequestComponent,
     DialogComponent,
-    NetworkComponent
+    NetworkComponent,
+    UpdateProfileComponent
   ],
   imports: [
     MatFormFieldModule,
