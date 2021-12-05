@@ -92,7 +92,8 @@ export class NetworkComponent implements OnInit {
     this.networkElement.appendChild(this.renderer.domElement);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
-
+    const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
+    miniMapCamera.position.z = 10;
 
     this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
       window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);
@@ -107,6 +108,7 @@ export class NetworkComponent implements OnInit {
 
     let queue: NetworkFromPlayerPerspectiveDto[] = [this.network];
     let visited: NetworkFromPlayerPerspectiveDto[] = [];
+
 
     while (queue.length != 0) {
       let currentNode = queue.shift();
@@ -201,6 +203,24 @@ export class NetworkComponent implements OnInit {
     }, false);
 
     window.document.body.style.overflow = "hidden";
+    this.renderer.render( this.scene, this.camera );
+/*
+    // Create Square
+    this.renderer.setScissorTest(true);
+    this.renderer.setScissor(window.innerWidth - 221, 100, 202, 202);
+    //this.renderer.setClearColor(0x000000, 1); // border color
+   // this.renderer.clearColor();
+
+    // Create Mini-Graph
+
+    this.renderer.setViewport(window.innerWidth - 221, 101, 200, 200);
+    this.renderer.setScissor(window.innerWidth - 220, 101, 200, 200);
+    this.renderer.setScissorTest(true);
+    miniMapCamera.updateProjectionMatrix();
+    this.renderer.render(this.scene, miniMapCamera);*/
+
+
+
   }
 
 
