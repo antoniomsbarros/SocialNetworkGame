@@ -5,21 +5,13 @@
     <div class="form">
       <div class="form-row">
         <div class="form-group col-md-4">
-          <label for="input">Player From</label>
-          <input #input class="form-control" id="input"/>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-4">
-          <label for="input">Player Dest</label>
+          <label for="input2">Player's email</label>
           <input #input2 class="form-control" id="input2"/>
         </div>
       </div>
       <div class="form-row">
-        <button class="btn btn-primary shortestPath-button" id="getPath"(click)="getShortestPath(input.value,input2.value)"> Get Shortest Path </button>
-
+        <button class="btn btn-primary shortestPath-button" id="getPath"(click)="getShortestPath(input2.value)"> Get Shortest Path </button>
       </div>
-
     </div>
   </form>
   <div>

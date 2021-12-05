@@ -1,1 +1,29 @@
-<p>safest-path works!</p>
+<div class="container">
+  <h2>Safest Path Between Two Users</h2>
+  <form>
+    <div class="form">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="input2">Player's email</label>
+          <input #input2 class="form-control" id="input2"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <button class="btn btn-primary safestPath-button"
+                id="getPath"
+                (click)="getShortestPath(input2.value)">Find safest path
+        </button>
+      </div>
+    </div>
+  </form>
+  <div>
+    <table class="path-result">
+      <thead>
+
+      </thead>
+      <tr *ngFor="let path of safestPath.Path">
+        <th>{{path}}</th>
+      </tr>
+      <th><tr>{{safestPath.Value}}</tr></th></table>
+  </div>
+</div>

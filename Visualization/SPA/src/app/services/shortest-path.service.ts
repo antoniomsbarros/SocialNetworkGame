@@ -17,10 +17,8 @@ export class ShortestPathService {
   constructor(
     private http: HttpClient) { }
 
-  getShortestPath(userFrom: string, userDest: string): Observable<PathDto> {
-
-
-    const url = `${this.shortestPathUrl}?userFrom=${userFrom}&userDest=${userDest}`;
+  getShortestPath(userDest: string): Observable<PathDto> {
+    const url = `${this.shortestPathUrl}?userDest=${userDest}`;
     return this.http.get<PathDto>(environment.AIApiUrl+url)
       .pipe(catchError(e => this.handleError(e)));
   }

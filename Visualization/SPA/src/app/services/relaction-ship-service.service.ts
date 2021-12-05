@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PlayerEmailDto} from "../DTO/PlayerEmailDto";
 import {NetworkFromPlayerPerspectiveDto} from "../dto/relationships/NetworkFromPlayerPerspectiveDto";
+import {PathDto} from "../DTO/PathDto";
 
 @Injectable({
   providedIn: 'root'
@@ -22,4 +23,7 @@ export class RelactionShipServiceService {
     return this.http.get<NetworkFromPlayerPerspectiveDto>(`${this.relationURL}network/${playerEmail}/${depth}`);
   }
 
+  getSafestPath(playerEmail: any) {
+    return this.http.get<PathDto>(`${this.relationURL}network/safest-path/${playerEmail}`);
+  }
 }

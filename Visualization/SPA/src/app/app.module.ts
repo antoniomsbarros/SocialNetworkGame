@@ -48,6 +48,8 @@ import {CreateDirectRequestComponent} from './create-direct-request/create-direc
 import {DialogComponent} from './dialog-component/dialog.component';
 import {NetworkComponent} from './network/network.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
+import { SafestPathComponent } from './safest-path/safest-path.component';
+import { NetworkListingComponent } from './network-listing/network-listing.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     DialogComponent,
     NetworkComponent,
     UpdateProfileComponent,
-    ShortestPathComponent
+    ShortestPathComponent,
+    SafestPathComponent,
+    NetworkListingComponent
   ],
   imports: [
     MatFormFieldModule,

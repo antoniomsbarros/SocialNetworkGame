@@ -18,15 +18,13 @@ export class ShortestPathComponent implements OnInit {
   ngOnInit(): void{
   }
 
-  getShortestPath(userFrom:string,userDest:string):void{
-
-
-    if (!userFrom|| !userDest) {
+  getShortestPath(userDest:string):void{
+    if (!userDest) {
       alert("Invalid user(s)!")
       return;
     }
 
-    this.shortestPathService.getShortestPath(userFrom,userDest).
+    this.shortestPathService.getShortestPath(userDest).
     subscribe(
       {
         next: p => {this.shortestPath=p as PathDto,console.log(p)},

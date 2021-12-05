@@ -19,6 +19,7 @@ import {CreateDirectRequestComponent} from "./create-direct-request/create-direc
 import {NetworkComponent} from "./network/network.component";
 import {UpdateProfileComponent} from "./update-profile/update-profile.component";
 import {ShortestPathComponent} from "./shortest-path/shortest-path.component";
+import {SafestPathComponent} from "./safest-path/safest-path.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -34,6 +35,7 @@ const routes: Routes = [
   {path: "createDirectRequest", component: CreateDirectRequestComponent},
   {path: "updateProfile", component: UpdateProfileComponent},
   {path: "shortestPath", component: ShortestPathComponent},
+  {path: "safestPath", component: SafestPathComponent},
 ];
 
 
