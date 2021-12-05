@@ -1,0 +1,53 @@
+@startuml
+
+actor "Player" as P
+
+participant "<<View>>\nCreateDirectRequest" as V
+participant "<<Component>>\nCreateDirectRequestComponent" as CDC
+participant "<<DTO>>\nCreateDirectRequestDto" as DTO
+participant "<<Service>>\nDirectRequestService" as DRS
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SC
+
+activate P
+activate SC
+
+P -> V : select a player, connection strength\nand tags
+
+activate V
+
+V -> CDC : createDirectRequestFormSubmit()
+
+activate CDC
+
+CDC --> DTO : dto = create()
+
+CDC -> DRS : createDirectRequest(dto)
+
+activate DRS
+
+DRS -> API : POST DirectRequest
+
+activate API
+
+API -> SC : createDirectRequest()
+
+SC --> API
+
+API --> DRS : response JSON
+
+deactivate API
+
+DRS --> CDC : directRequestDto
+
+deactivate DRS
+
+CDC --> V 
+
+V --> P : confirms the creation of the request
+
+deactivate V 
+deactivate SC
+deactivate P
+
+@enduml
