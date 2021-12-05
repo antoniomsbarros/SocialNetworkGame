@@ -1,10 +1,14 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
-import {GetListOfPendingConnectionRequestsComponent} from './get-list-of-pending-connection-requests/get-list-of-pending-connection-requests.component';
+import {
+  GetListOfPendingConnectionRequestsComponent
+} from './get-list-of-pending-connection-requests/get-list-of-pending-connection-requests.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 
-import {AcceptOrRejectTheIntroductionComponent} from './accept-or-reject-the-introduction/accept-or-reject-the-introduction.component';
+import {
+  AcceptOrRejectTheIntroductionComponent
+} from './accept-or-reject-the-introduction/accept-or-reject-the-introduction.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule} from "@angular/forms";
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -17,7 +21,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 import {ToastrModule} from "ngx-toastr";
+<<<<<<< HEAD
 import "@angular/compiler";
+=======
+
+import {EditHumorStateComponent} from './edit-humor-state/edit-humor-state.component';
+>>>>>>> 1e57c9004662c62f217a6dc94ae7ae77e48e1e99
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -26,15 +35,17 @@ import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
 
 import {MatSelectSearchModule} from 'mat-select-search';
-
 import {LoginComponent} from './login/login.component';
-
-import {ApproveDisapproveIntroductionRequestComponent} from './approve-disapprove-introduction-request/approve-disapprove-introduction-request.component';
+import {
+  ApproveDisapproveIntroductionRequestComponent
+} from './approve-disapprove-introduction-request/approve-disapprove-introduction-request.component';
 import {CreateIntroductionComponent} from './create-introduction/create-introduction.component';
-
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
+import {
+  EditRelationshipTagsConnectionForceComponent
+} from './edit-relationship-tags-connection-force/edit-relationship-tags-connection-force.component';
 import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
 import {DialogComponent} from './dialog-component/dialog.component';
 import { NetworkComponent } from './network/network.component';
@@ -45,12 +56,14 @@ import { NetworkComponent } from './network/network.component';
     GetListOfPendingConnectionRequestsComponent,
     AcceptOrRejectTheIntroductionComponent,
     HomeComponent,
+    EditHumorStateComponent,
     HeaderComponent,
     SignInComponent,
     HeaderComponent,
     LoginComponent,
     ApproveDisapproveIntroductionRequestComponent,
     CreateIntroductionComponent,
+    EditRelationshipTagsConnectionForceComponent,
     CreateDirectRequestComponent,
     DialogComponent,
     NetworkComponent
