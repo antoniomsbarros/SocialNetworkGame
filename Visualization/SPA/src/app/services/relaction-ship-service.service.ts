@@ -19,7 +19,7 @@ export class RelactionShipServiceService {
   }
 
   getNetworkFromPlayerByDepth(playerEmail: string, depth: number): Observable<NetworkFromPlayerPerspectiveDto> {
-    return this.http.get<NetworkFromPlayerPerspectiveDto>(this.relationURL + playerEmail + "/" + depth);
+    return this.http.get<NetworkFromPlayerPerspectiveDto>(`${this.relationURL}network/${playerEmail}/${depth}`);
   }
 
 }

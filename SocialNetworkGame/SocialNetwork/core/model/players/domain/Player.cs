@@ -63,6 +63,7 @@ namespace SocialNetwork.core.model.players.domain
         {
             Id = new PlayerId(Guid.NewGuid());
             Email = email;
+            Name = new();
             PhoneNumber = phoneNumber;
             DateOfBirth = dateOfBirth;
             FacebookProfile = new();
