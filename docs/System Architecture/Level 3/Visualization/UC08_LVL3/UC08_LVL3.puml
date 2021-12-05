@@ -1,0 +1,54 @@
+@startuml
+
+actor "Unregistered User" as UNU
+participant "<<View>>\nSign in" as SI
+participant "<<Component>>\nSign In Component" as SC
+participant "<<DTO>>\nRegisterPlayerDto" as RPD
+participant "<<Service>>\nPlayerService" as PS
+participant "<<REST API>>\nAPI WebApp Visual" as API
+participant "<<C4 Container>>\nSocialNetwork" as SN
+
+activate UNU
+
+UNU -> SI : register as a player 
+
+activate SI
+
+activate SC
+
+SI --> UNU : shows a registration form 
+
+UNU -> SI : fills the form with the data and submits
+
+SI -> SC : registerFormSubmit()
+
+SC --> RPD : dto = create()
+
+SC -> PS : registerPlayer(dto)
+
+activate PS
+
+PS -> API: POST Player
+
+activate API
+API -> SN: Create(CreateUserAsPlayerDto)
+
+activate SN
+SN --> API
+deactivate SN
+
+API --> PS : response JSON
+deactivate API
+
+PS --> SC : playerCreatedDto
+
+deactivate PS
+
+SI --> UNU : confirms the registration
+
+deactivate SC 
+deactivate SI 
+deactivate UNU
+
+
+@enduml
