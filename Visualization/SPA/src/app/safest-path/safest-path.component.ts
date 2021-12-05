@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PathDto} from "../DTO/PathDto";
 import {RelactionShipServiceService} from "../services/relaction-ship-service.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-safest-path',
@@ -10,7 +11,7 @@ import {RelactionShipServiceService} from "../services/relaction-ship-service.se
 export class SafestPathComponent implements OnInit {
   safestPath: PathDto = {} as PathDto;
 
-  constructor(private relationshipService: RelactionShipServiceService) {
+  constructor(private relationshipService: RelactionShipServiceService, private location: Location) {
   }
 
   ngOnInit(): void {
@@ -31,5 +32,10 @@ export class SafestPathComponent implements OnInit {
           console.error(e)
         }
       });
+  }
+
+
+  goBack(): void {
+    this.location.back();
   }
 }

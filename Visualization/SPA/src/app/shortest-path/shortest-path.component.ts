@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PathDto } from '../DTO/PathDto';
 import { ShortestPathService } from '../services/shortest-path.service';
+import {Location} from "@angular/common";
 
 
 @Component({
@@ -13,7 +14,7 @@ export class ShortestPathComponent implements OnInit {
   shortestPath : PathDto  ={} as PathDto;
 
   constructor(
-    private shortestPathService: ShortestPathService) { }
+    private shortestPathService: ShortestPathService, private location: Location) { }
 
   ngOnInit(): void{
   }
@@ -30,5 +31,9 @@ export class ShortestPathComponent implements OnInit {
         next: p => {this.shortestPath=p as PathDto,console.log(p)},
         error: e => {console.error(e)}
       });
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }
