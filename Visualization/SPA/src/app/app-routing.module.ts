@@ -20,6 +20,7 @@ import {NetworkComponent} from "./network/network.component";
 import {UpdateProfileComponent} from "./update-profile/update-profile.component";
 import {ShortestPathComponent} from "./shortest-path/shortest-path.component";
 import {SafestPathComponent} from "./safest-path/safest-path.component";
+import {NetworkListingComponent} from "./network-listing/network-listing.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -36,6 +37,7 @@ const routes: Routes = [
   {path: "updateProfile", component: UpdateProfileComponent},
   {path: "shortestPath", component: ShortestPathComponent},
   {path: "safestPath", component: SafestPathComponent},
+  {path: "networkListing", component: NetworkListingComponent},
 ];
 
 

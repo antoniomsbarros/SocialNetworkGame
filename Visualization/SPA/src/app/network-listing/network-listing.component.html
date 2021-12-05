@@ -1,1 +1,35 @@
-<p>network-listing works!</p>
+<div class="container">
+  <h1 class="display-5 fw-bold">Select network depth</h1>
+  <form [formGroup]="getNetworkAtDepth">
+    <div class="row">
+      <div class="col-md-4 mt-2">
+        <label for="id_network_depth" class="form-label">Depth</label>
+        <input formControlName="networkDepth" [class.is-invalid]="networkDepth.touched && networkDepth.invalid"
+               class="form-control" id="id_network_depth" placeholder="1" type="number" min="1">
+        <div *ngIf="networkDepth.invalid && networkDepth.touched">
+          <div *ngIf="networkDepth.errors?.required" class="d-block invalid-feedback">Please choose a valid depth</div>
+        </div>
+        <button [disabled]="getNetworkAtDepth.invalid" type="submit"
+                class="btn btn-primary px-5 mt-1" (click)="getNetworkListing()">Submit
+        </button>
+        <button class="btn btn-dark px-5 mt-1 ml-1" (click)="goBack()">Back</button>
+
+        <div *ngIf="this.playersData.length" class="mt-4">
+          <h3>Network at chosen depth</h3>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Player's name</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let player of this.playersData" scope="row">
+                <td>{{player.name}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

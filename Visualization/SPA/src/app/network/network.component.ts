@@ -6,6 +6,7 @@ import * as THREE from "three";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
+import {Location} from "@angular/common";
 
 
 @Component({
@@ -26,7 +27,7 @@ export class NetworkComponent implements OnInit {
   }
 
 
-  constructor(public relationshipService: RelactionShipServiceService) {
+  constructor(public relationshipService: RelactionShipServiceService, private location: Location) {
   }
 
   ngOnInit(): void {
@@ -118,7 +119,7 @@ export class NetworkComponent implements OnInit {
           playerIds.push(currentNode.playerId);
           players[currentNode.playerId] = {
             name: currentNode.playerName,
-            tags: currentNode. playerTags
+            tags: currentNode. playerTags,
           };
         }
         for (let friend of currentNode.relationships) {
@@ -223,6 +224,9 @@ export class NetworkComponent implements OnInit {
 
   }
 
+  goBack(): void {
+    this.location.back();
+  }
 
   animate() {
     requestAnimationFrame(this.animate.bind(this));
