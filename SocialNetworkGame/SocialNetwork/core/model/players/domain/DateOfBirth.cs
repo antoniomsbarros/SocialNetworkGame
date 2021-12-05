@@ -24,7 +24,10 @@ namespace SocialNetwork.core.model.players.domain
 
         public DateOfBirth(DateTime date)
         {
-            Date = date;
+            if (HasMinimumAge(date.Year))
+                Date = date;
+            else
+                throw new BusinessRuleValidationException("Minimum age not respected");
         }
 
         public static bool HasMinimumAge(int year)
@@ -39,6 +42,7 @@ namespace SocialNetwork.core.model.players.domain
 
         public static DateOfBirth ValueOf(DateTime date)
         {
+            
             return new(date);
         }
 

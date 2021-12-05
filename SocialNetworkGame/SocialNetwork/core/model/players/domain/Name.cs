@@ -10,13 +10,18 @@ namespace SocialNetwork.core.model.players.domain
 
         private const string FullNameRegex = "^.*$";
 
+        private const string DefaultShortName = "Short name not specified";
+
+        private const string DefaultFullName = "Full name not specified";
+
         public string ShortName { get; }
 
         public string FullName { get; }
 
-        protected Name()
+        public Name()
         {
-            // for ORM
+            ShortName = DefaultShortName;
+            FullName = DefaultFullName;
         }
 
         public Name(string shortName, string fullName)
