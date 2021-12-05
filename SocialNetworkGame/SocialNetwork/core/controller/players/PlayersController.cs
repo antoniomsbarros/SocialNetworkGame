@@ -86,14 +86,9 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-        [HttpPut("profile/{id}")]
-        public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(Guid id, UpdatePlayerDto dto)
+        [HttpPut("profile/{email}")]
+        public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(String email, UpdatePlayerDto dto)
         {
-            if (!id.Equals(Guid.Parse(dto.id)))
-            {
-                return BadRequest();
-            }
-
             try
             {
                 var player = await _playerService.UpdateAsync(dto);

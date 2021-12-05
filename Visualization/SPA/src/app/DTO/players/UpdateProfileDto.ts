@@ -1,5 +1,4 @@
 export interface UpdateProfileDto {
-  id: string;
   email: string;
   phoneNumber: string;
   facebookProfile: string;
