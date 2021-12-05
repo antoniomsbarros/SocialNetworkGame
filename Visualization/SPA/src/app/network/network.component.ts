@@ -6,11 +6,8 @@ import * as THREE from "three";
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
-<<<<<<< HEAD
 import {Location} from "@angular/common";
-=======
 import {Vector4} from "three";
->>>>>>> 5404212e3d2ef74f3bbccec1d08e920b63a83c36
 
 
 @Component({
