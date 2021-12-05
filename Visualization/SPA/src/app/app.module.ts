@@ -31,7 +31,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
-
+import { ShortestPathComponent } from './shortest-path/shortest-path.component';
 import {MatSelectSearchModule} from 'mat-select-search';
 import {LoginComponent} from './login/login.component';
 import {
@@ -66,7 +66,8 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     CreateDirectRequestComponent,
     DialogComponent,
     NetworkComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    ShortestPathComponent
   ],
   imports: [
     MatFormFieldModule,

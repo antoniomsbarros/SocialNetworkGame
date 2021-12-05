@@ -18,6 +18,7 @@ import {
 import {CreateDirectRequestComponent} from "./create-direct-request/create-direct-request.component";
 import {NetworkComponent} from "./network/network.component";
 import {UpdateProfileComponent} from "./update-profile/update-profile.component";
+import {ShortestPathComponent} from "./shortest-path/shortest-path.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},
   {path: "createDirectRequest", component: CreateDirectRequestComponent},
   {path: "updateProfile", component: UpdateProfileComponent},
+  {path: "shortestPath", component: ShortestPathComponent},
 ];
 
 
