@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApproveDisapproveIntroductionRequestComponent } from './approve-disapprove-introduction-request.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {IntroductionRequestService} from "../services/introduction-request.service";
+import {TagsService} from "../services/tags.service";
 
 describe('ApproveDisapproveIntroductionRequestComponent', () => {
   let component: ApproveDisapproveIntroductionRequestComponent;
@@ -8,7 +13,9 @@ describe('ApproveDisapproveIntroductionRequestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ApproveDisapproveIntroductionRequestComponent ]
+      declarations: [ ApproveDisapproveIntroductionRequestComponent ],
+      imports: [HttpClientTestingModule,ReactiveFormsModule,MatSnackBarModule],
+      providers: [IntroductionRequestService,TagsService],
     })
     .compileComponents();
   });

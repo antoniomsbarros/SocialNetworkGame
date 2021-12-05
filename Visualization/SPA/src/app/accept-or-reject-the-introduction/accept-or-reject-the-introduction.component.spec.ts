@@ -14,8 +14,8 @@ describe('AcceptOrRejectTheIntroductionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ AcceptOrRejectTheIntroductionComponent ],
-      imports: [HttpClientTestingModule,],
-      providers: [],
+      imports: [HttpClientTestingModule,ReactiveFormsModule,MatSnackBarModule],
+      providers: [IntroductionRequestService,TagsService],
     })
     .compileComponents();
   });

@@ -12,13 +12,17 @@ describe('IntroductionRequestService', () => {
     TestBed.configureTestingModule({imports: [HttpClientTestingModule],
       providers: [IntroductionRequestService]});
     service = TestBed.inject(IntroductionRequestService);
+
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  /*
+
     describe("#getIntroductionPending",()=>{
+
+
+
       it('returned Observable should match the right data ',  ()=> {
 
         const client="1200607@isep.ipp.pt";
@@ -28,5 +32,6 @@ describe('IntroductionRequestService', () => {
         })
 
       });
-    })*/
+    })
+
 });

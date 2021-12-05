@@ -9,6 +9,7 @@ using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.services.players;
+using SocialNetwork.core.services.tags;
 using SocialNetwork.infrastructure.relationships;
 
 namespace SocialNetwork.core.services.relationships
@@ -18,9 +19,10 @@ namespace SocialNetwork.core.services.relationships
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRelationshipRepository _repo;
         private readonly PlayerService _playerService;
-
-        public RelationshipService(IUnitOfWork unitOfWork, IRelationshipRepository repo, PlayerService playerService)
+        private readonly TagsService _tagsService;
+        public RelationshipService(IUnitOfWork unitOfWork, IRelationshipRepository repo, PlayerService playerService, TagsService service)
         {
+            _tagsService = service;
             _unitOfWork = unitOfWork;
             _repo = repo;
             _playerService = playerService;
@@ -65,7 +67,53 @@ namespace SocialNetwork.core.services.relationships
             return listToReturnFriends;
         }
 
-
+      /* public async Task<ActionResult<NetworkFromPLayerDTO[]>> getNetworkFromPlayer(Email email)
+        {
+            List<NetworkFromPLayerDTO> list = new List<NetworkFromPLayerDTO>();
+            var listRelection = await _repo.GetAllAsync();
+            
+            
+            foreach (var VARIABLE in listRelection)
+            {
+                var cont = 0;
+                for (int i = 0; i < list.Count; i++)
+                {
+                    PlayerDto playerSender = await _playerService.GetByIdAsync(VARIABLE.PlayerOrig);
+                    PlayerDto playerDest = await _playerService.GetByIdAsync(VARIABLE.PlayerDest);
+                    if (list[i].playerDestEmail!=VARIABLE.PlayerDest.Value || list[i].playerOriginEmail!=VARIABLE.PlayerOrig.Value)
+                    {
+                        cont ++;
+                    }
+                }
+                
+            }
+            
+        }*/
+        private void trabalho(List<NetworkFromPLayerDTO> listAllRelaction, NetworkFromPLayerDTO element)
+        {
+            if (listAllRelaction.Count != 0)
+            {
+                List<NetworkFromPLayerDTO> list = new List<NetworkFromPLayerDTO>();
+                for (int i = 0; i < listAllRelaction.Count; i++)
+                {
+                    if (listAllRelaction[i].playerOriginEmail == element.playerDestEmail)
+                    {
+                        list.Add(listAllRelaction[i]);
+                        
+                    }
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    listAllRelaction.Remove(list[i]);
+                    
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    element.Relationships.Add(list[i]);
+                    trabalho(listAllRelaction, list[i]);
+                }
+            }
+        }
         public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email,
             int depth)
         {
@@ -138,7 +186,7 @@ namespace SocialNetwork.core.services.relationships
 
             return network;
         }
-
+        
         public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
         {
             var relationship = new Relationship(new PlayerId(dto.playerDest), new PlayerId(dto.playerOrig),
@@ -150,7 +198,7 @@ namespace SocialNetwork.core.services.relationships
 
             return relationship.ToDto();
         }
-
+        
         public async Task<RelationshipDto> UpdateAsync(RelationshipDto dto)
         {
             var relationship = await _repo.GetByIdAsync(new RelationshipId(dto.id));
