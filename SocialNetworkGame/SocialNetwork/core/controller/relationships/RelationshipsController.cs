@@ -46,7 +46,12 @@ namespace SocialNetwork.core.controller.relationships
 
             return cat;
         }
-
+        /*[HttpGet("list/list")]
+        public async  Task<ActionResult<List<NetworkFromPLayerDTO>>> ola()
+        {
+            return await _service.getNetworkFromPlayer(new Email("1200610@isep.ipp.pt"));
+        }*/
+            
         [HttpGet("friends/{email}")]
         public async Task<ActionResult<List<PlayerEmailDto>>> GetFriendsByEmail(string email)
         {

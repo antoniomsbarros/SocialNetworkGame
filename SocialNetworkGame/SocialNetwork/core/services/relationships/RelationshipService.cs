@@ -67,28 +67,28 @@ namespace SocialNetwork.core.services.relationships
             return listToReturnFriends;
         }
 
-      /* public async Task<ActionResult<NetworkFromPLayerDTO[]>> getNetworkFromPlayer(Email email)
-        {
-            List<NetworkFromPLayerDTO> list = new List<NetworkFromPLayerDTO>();
-            var listRelection = await _repo.GetAllAsync();
-            
-            
-            foreach (var VARIABLE in listRelection)
-            {
-                var cont = 0;
-                for (int i = 0; i < list.Count; i++)
-                {
-                    PlayerDto playerSender = await _playerService.GetByIdAsync(VARIABLE.PlayerOrig);
-                    PlayerDto playerDest = await _playerService.GetByIdAsync(VARIABLE.PlayerDest);
-                    if (list[i].playerDestEmail!=VARIABLE.PlayerDest.Value || list[i].playerOriginEmail!=VARIABLE.PlayerOrig.Value)
-                    {
-                        cont ++;
-                    }
-                }
-                
-            }
-            
-        }*/
+     /* public async Task<List<NetworkFromPLayerDTO>> getNetworkFromPlayer(Email email)
+       {
+
+           PlayerDto playerDto =await _playerService.GetByEmailAsync(email);
+           
+       }*/
+
+       private Relationship get(List<Relationship> list, string playerOrign, string playerDest)
+       {
+           Relationship value = null;
+           foreach (var VARIABLE in list)
+           {
+               if (VARIABLE.PlayerOrig.Value==playerOrign && VARIABLE.PlayerDest.Value==playerDest)
+               {
+                   value= VARIABLE;
+               }
+           }
+
+           return value;
+           
+       }
+       
         private void trabalho(List<NetworkFromPLayerDTO> listAllRelaction, NetworkFromPLayerDTO element)
         {
             if (listAllRelaction.Count != 0)

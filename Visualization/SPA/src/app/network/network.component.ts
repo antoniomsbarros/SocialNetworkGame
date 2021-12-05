@@ -93,6 +93,7 @@ export class NetworkComponent implements OnInit {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
 
+
     this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
       window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);
 
