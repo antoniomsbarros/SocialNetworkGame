@@ -17,7 +17,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {NgMultiSelectDropDownModule} from 'ng-multiselect-dropdown';
 
 import {ToastrModule} from "ngx-toastr";
-
+import "@angular/compiler";
 import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -37,6 +37,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
 import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
 import {DialogComponent} from './dialog-component/dialog.component';
+import { NetworkComponent } from './network/network.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import {DialogComponent} from './dialog-component/dialog.component';
     ApproveDisapproveIntroductionRequestComponent,
     CreateIntroductionComponent,
     CreateDirectRequestComponent,
-    DialogComponent
+    DialogComponent,
+    NetworkComponent
   ],
   imports: [
     MatFormFieldModule,
