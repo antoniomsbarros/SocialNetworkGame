@@ -1,1 +1,23 @@
 <div #networkRef></div>
+
+<div *ngIf="showDepthSelectionForm" class="container">
+  <h1 class="display-5 fw-bold">Select network depth</h1>
+  <form [formGroup]="getNetworkAtDepth">
+    <div class="row">
+      <div class="col-md-4 mt-2">
+        <label for="id_network_depth" class="form-label">Depth</label>
+        <input formControlName="networkDepth" [class.is-invalid]="networkDepth.touched && networkDepth.invalid"
+               class="form-control" id="id_network_depth" placeholder="1" type="number" min="1">
+        <div *ngIf="networkDepth.invalid && networkDepth.touched">
+          <div *ngIf="networkDepth.errors?.required" class="d-block invalid-feedback">Please choose a valid depth</div>
+        </div>
+        <button [disabled]="getNetworkAtDepth.invalid" type="submit"
+                class="btn btn-primary px-5 mt-1" (click)="getNetwork()">Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
