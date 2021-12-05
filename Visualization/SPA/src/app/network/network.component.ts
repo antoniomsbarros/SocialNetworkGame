@@ -61,7 +61,8 @@ export class NetworkComponent implements OnInit, AfterViewInit {
     this.scene.add(circle);
 
 
-
+    const miniMapCam = new THREE.OrthographicCamera(-60, 60, 60, -60);
+    miniMapCam.position.z = 10;
 
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
