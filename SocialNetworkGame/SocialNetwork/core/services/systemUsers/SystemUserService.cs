@@ -18,11 +18,10 @@ namespace SocialNetwork.core.services.systemUsers
             _repo = repo;
         }
 
-        private SystemUser CreateSystemUser(SystemUserDto systemUserDto,
-            PlayerPasswordPolicy passwordPolicy)
+        public async Task<bool> Authenticate(Username username, Password password)
         {
-            return new SystemUser(new Username(systemUserDto.username),
-                Password.ValueOf(systemUserDto.password, passwordPolicy));
+            var systemUser = await _repo.GetByIdAsync(username);
+            return systemUser.Password.Equals(password);
         }
 
         public async Task<SystemUserCreatedDto> AddAsync(SystemUserDto systemUserDto,
@@ -41,6 +40,13 @@ namespace SocialNetwork.core.services.systemUsers
             var user = CreateSystemUser(systemUserDto, passwordPolicy);
             await _repo.AddAsync(user);
             return new SystemUserCreatedDto(user.Id.Value);
+        }
+
+        private static SystemUser CreateSystemUser(SystemUserDto systemUserDto,
+            PlayerPasswordPolicy passwordPolicy)
+        {
+            return new SystemUser(new Username(systemUserDto.username),
+                Password.ValueOf(systemUserDto.password, passwordPolicy));
         }
 
         public async Task<SystemUserDto> DeleteAsync(Username username)

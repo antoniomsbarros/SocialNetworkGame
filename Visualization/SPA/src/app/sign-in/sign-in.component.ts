@@ -4,6 +4,8 @@ import {RegisterPlayerDto} from "../dto/players/RegisterPlayerDto";
 import {PlayersService} from "../services/players/players.service";
 import {ToastrService} from "ngx-toastr";
 import {PlayerDto} from "../dto/players/PlayerDto";
+import {HttpErrorResponse} from "@angular/common/http";
+import {Router} from "@angular/router";
 
 export enum EmotionalStatus {
   // excited
@@ -61,7 +63,7 @@ export class SignInComponent implements OnInit {
     passwordConfirmation: new FormControl('', [Validators.required])
   });
 
-  constructor(private toastService: ToastrService, private playerService: PlayersService) {
+  constructor(private toastService: ToastrService, private playerService: PlayersService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -117,13 +119,24 @@ export class SignInComponent implements OnInit {
         emotionalStatus: this.emotionalStatus.value,
       };
 
-    let playerDto;
+    let onNext = (player: PlayerDto) => {
+      this.toastService.success("Player created");
+      this.router.navigateByUrl('/login');
+    };
+
+    let onError = (error: HttpErrorResponse) => {
+      this.toastService.error(error.error["message"]);
+    }
 
     this.playerService.registerPlayer(dto)
-      .subscribe(dtoAnswer => playerDto = dtoAnswer);
-
-
-    // Add routing to Login view
+      .subscribe({
+        next(player) {
+          onNext(player);
+        },
+        error(error) {
+          onError(error);
+        }
+      });
   }
 
   clearForm(): void {

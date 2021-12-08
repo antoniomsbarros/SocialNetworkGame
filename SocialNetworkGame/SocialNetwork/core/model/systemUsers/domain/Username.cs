@@ -12,5 +12,10 @@ namespace SocialNetwork.core.model.systemUsers.domain
         public Username(string username) : base(username)
         {
         }
+
+        public static Username ValueOf(string id)
+        {
+            return new Username(id);
+        }
     }
 }

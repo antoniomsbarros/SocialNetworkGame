@@ -7,9 +7,9 @@ namespace SocialNetwork.core.model.shared
     /// </summary>
     public abstract class EntityId : IEquatable<EntityId>, IComparable<EntityId>
     {
-        protected Object ObjValue { get; }
+        protected object ObjValue { get; }
 
-        public String Value { get; set; }
+        public string Value { get; set; }
 
         protected EntityId()
         {

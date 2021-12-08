@@ -21,7 +21,7 @@ namespace SocialNetwork.core.model.systemUsers.domain
 
         public SystemUserDto ToDto()
         {
-            return new SystemUserDto(Id.Value, Password.Pass);
+            return new SystemUserDto(Id.Value, Password.Value);
         }
 
         public override bool Equals(object obj)

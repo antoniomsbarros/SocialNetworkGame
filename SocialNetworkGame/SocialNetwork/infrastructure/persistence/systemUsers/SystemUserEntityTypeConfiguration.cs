@@ -12,7 +12,7 @@ namespace SocialNetwork.infrastructure.persistence.systemUsers
             builder.HasKey(b => b.Id);
 
             builder.OwnsOne(b => b.Password, p => 
-                { p.Property("Pass"); });
+                { p.Property("Value"); });
         }
     }
 }

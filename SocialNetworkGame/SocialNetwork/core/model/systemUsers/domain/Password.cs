@@ -6,17 +6,22 @@ namespace SocialNetwork.core.model.systemUsers.domain
 {
     public class Password : IValueObject
     {
-        public string Pass { get; }
+        public string Value { get; }
 
         protected Password()
         {
             //for ORM
         }
 
+        public Password(string pass)
+        {
+            Value = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(pass));
+        }
+
         public Password(string pass, IPasswordPolicy passwordPolicy)
         {
             if (IsValid(pass, passwordPolicy))
-                this.Pass = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(pass));
+                Value = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(pass));
             else
                 throw new BusinessRuleValidationException("The password doesn't meet the requirements");
         }
@@ -31,6 +36,11 @@ namespace SocialNetwork.core.model.systemUsers.domain
             return new Password(password, passwordPolicy);
         }
 
+        public static Password ValueOf(string password)
+        {
+            return new Password(password);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == this)
@@ -41,12 +51,12 @@ namespace SocialNetwork.core.model.systemUsers.domain
 
             Password otherPass = (Password) obj;
 
-            return otherPass.Pass.Equals(this.Pass);
+            return otherPass.Value.Equals(Value);
         }
 
         public override int GetHashCode()
         {
-            return (Pass != null ? Pass.GetHashCode() : 0);
+            return (Value != null ? Value.GetHashCode() : 0);
         }
     }
 }

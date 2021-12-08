@@ -30,21 +30,13 @@ namespace SocialNetwork.core.services.players
         public async Task<PlayerDto> GetByIdAsync(PlayerId id)
         {
             var player = await _repo.GetByIdAsync(id);
-
-            if (player == null)
-                return null;
-
-            return player.ToDto();
+            return player?.ToDto();
         }
 
         public async Task<PlayerDto> GetByEmailAsync(Email email)
         {
             var player = await _repo.GetByEmailAsync(email);
-
-            if (player == null)
-                return null;
-
-            return player.ToDto();
+            return player?.ToDto();
         }
 
         private Player CreatePlayer(RegisterPlayerDto dto)
@@ -93,7 +85,7 @@ namespace SocialNetwork.core.services.players
 
             if (playerDto.shortName != null)
                 player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
-            
+
             if (playerDto.dateOfBirth != null)
                 player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth.Value));
 

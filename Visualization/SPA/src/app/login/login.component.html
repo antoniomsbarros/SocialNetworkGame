@@ -10,16 +10,18 @@
             <h3 class="mb-4">Hi, welcome back!</h3>
             <p class="text-muted text-sm mb-5">Did you hear about the actor who fell through the floorboards?
               He was just going through a stage.</p>
-            <form id="loginForm" action="index.html">
+            <form [formGroup]="loginForm" id="loginForm" action="index.html">
               <div class="form-floating mb-3">
                 <label for="floatingInput">Email address</label>
-                <input class="form-control" id="floatingInput" type="email" placeholder="name@example.com" required>
+                <input formControlName="username" [class.is-invalid]="username && username.touched && username.invalid"
+                       class="form-control" id="floatingInput" type="email" placeholder="name@example.com" required>
               </div>
               <div class="form-floating mb-3">
                 <label for="floatingPassword">Password</label>
-                <input class="form-control" id="floatingPassword" type="password" placeholder="Password" required>
+                <input formControlName="password" [class.is-invalid]="password && password.touched && password.invalid"
+                       class="form-control" id="floatingPassword" type="password" placeholder="Password" required>
               </div>
-              <button class="btn btn-primary" type="button">Submit</button>
+              <button class="btn btn-primary" type="button" (click)="login()">Submit</button>
             </form>
           </div>
           <div class="card-footer px-lg-5 py-lg-4">

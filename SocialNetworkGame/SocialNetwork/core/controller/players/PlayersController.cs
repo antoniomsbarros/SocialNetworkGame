@@ -19,7 +19,6 @@ namespace SocialNetwork.core.controller.players
     public class PlayersController : ControllerBase
     {
         private readonly IConfiguration _config;
-
         private readonly SystemUserService _systemUserService;
         private readonly PlayerService _playerService;
 
@@ -80,14 +79,14 @@ namespace SocialNetwork.core.controller.players
 
                 return CreatedAtAction(nameof(Create), new {playerDto.email}, playerDto);
             }
-            catch (BusinessRuleValidationException ex)
+            catch (Exception ex)
             {
                 return BadRequest(new {ex.Message});
             }
         }
 
         [HttpPut("profile/{email}")]
-        public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(String email, UpdatePlayerDto dto)
+        public async Task<ActionResult<UpdatePlayerDto>> UpdateProfile(string email, UpdatePlayerDto dto)
         {
             try
             {
