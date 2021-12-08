@@ -8,13 +8,15 @@ import {Observable} from "rxjs";
 })
 export class AuthenticationService {
 
-  private user: string = "http://localhost:5000/api/SystemUsers/login/";
+  private user: string = "https://localhost:5001/api/SystemUsers/login/";
 
   constructor(private http: HttpClient) {
   }
 
   login(dto: AuthenticateUserDto): Observable<any> {
-    return this.http.post<any>(this.user, dto);
+    return this.http.post<any>(this.user, dto, {
+      withCredentials: true
+    });
   }
 
 }
