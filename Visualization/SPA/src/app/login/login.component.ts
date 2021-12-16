@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../services/users/authentication.service";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -12,9 +12,11 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
+  @Input() recentUser?: string;
+
   loginForm = new FormGroup({
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      username: new FormControl(this.recentUser, [Validators.required]),
+      password: new FormControl(null, [Validators.required])
     }
   );
 
@@ -30,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.document.body.style.overflow = "hidden";
   }
 
   login(): void {

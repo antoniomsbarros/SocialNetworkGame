@@ -83,8 +83,7 @@ namespace SocialNetwork.core.services.players
             if (player == null)
                 return null;
 
-            if (playerDto.shortName != null)
-                player.ChangeName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
+            player.SetName(Name.ValueOf(playerDto.shortName, playerDto.fullName));
 
             if (playerDto.dateOfBirth != null)
                 player.ChangeDateOfBirth(DateOfBirth.ValueOf(playerDto.dateOfBirth.Value));
@@ -101,9 +100,7 @@ namespace SocialNetwork.core.services.players
             if (playerDto.tags != null)
                 player.ChangeTags(playerDto.tags.ConvertAll(tags => new TagId(tags)));
 
-
             await _unitOfWork.CommitAsync();
-
 
             return player.ToDto();
         }

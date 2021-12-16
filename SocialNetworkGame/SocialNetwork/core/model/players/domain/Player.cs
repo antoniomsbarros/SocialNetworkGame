@@ -96,9 +96,14 @@ namespace SocialNetwork.core.model.players.domain
             return TagsList.Remove(tagToRemove);
         }
 
-        public void ChangeName(Name newName)
+        public void SetName(Name newName)
         {
             Name = newName;
+        }
+
+        public void SetName()
+        {
+            Name = new Name();
         }
 
         public void ChangeDateOfBirth(DateOfBirth dateOfBirth)

@@ -25,13 +25,12 @@ import {ToastrModule} from "ngx-toastr";
 import "@angular/compiler";
 import {EditHumorStateComponent} from './edit-humor-state/edit-humor-state.component';
 
-import {HomeComponent} from './home/home.component';
 import {AppRoutingModule} from './app-routing.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {HeaderComponent} from './header/header.component';
 import {ReactiveFormsModule} from "@angular/forms";
-import { ShortestPathComponent } from './shortest-path/shortest-path.component';
+import {ShortestPathComponent} from './shortest-path/shortest-path.component';
 import {MatSelectSearchModule} from 'mat-select-search';
 import {LoginComponent} from './login/login.component';
 import {
@@ -47,16 +46,18 @@ import {
 import {CreateDirectRequestComponent} from './create-direct-request/create-direct-request.component';
 import {DialogComponent} from './dialog-component/dialog.component';
 import {NetworkComponent} from './network/network.component';
-import { UpdateProfileComponent } from './update-profile/update-profile.component';
-import { SafestPathComponent } from './safest-path/safest-path.component';
-import { NetworkListingComponent } from './network-listing/network-listing.component';
+import {UpdateProfileComponent} from './update-profile/update-profile.component';
+import {SafestPathComponent} from './safest-path/safest-path.component';
+import {NetworkListingComponent} from './network-listing/network-listing.component';
+import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
+import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
+import { SuggestConnectionComponent } from './suggest-connection/suggest-connection.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     GetListOfPendingConnectionRequestsComponent,
     AcceptOrRejectTheIntroductionComponent,
-    HomeComponent,
     EditHumorStateComponent,
     HeaderComponent,
     SignInComponent,
@@ -71,7 +72,10 @@ import { NetworkListingComponent } from './network-listing/network-listing.compo
     UpdateProfileComponent,
     ShortestPathComponent,
     SafestPathComponent,
-    NetworkListingComponent
+    NetworkListingComponent,
+    TermsAndConditionsComponent,
+    PrivacyPolicyComponent,
+    SuggestConnectionComponent
   ],
   imports: [
     MatFormFieldModule,

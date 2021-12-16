@@ -88,16 +88,16 @@ export class NetworkComponent implements OnInit {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xc9aa88);
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setPixelRatio( window.devicePixelRatio );
+    this.renderer = new THREE.WebGLRenderer({antialias: true});
+    this.renderer.setPixelRatio(window.devicePixelRatio);
 
     this.networkElement.appendChild(this.renderer.domElement);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
 
-    this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
-      window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);
+    this.camera = new THREE.OrthographicCamera(window.innerWidth / -20, window.innerWidth / 20,
+      window.innerHeight / 20, window.innerHeight / -20, 1, 1000);
 
     const maxDistanceY = 60, minDistanceY = -60, maxDistanceX = 60, minDistanceX = -60;
 
@@ -119,7 +119,7 @@ export class NetworkComponent implements OnInit {
           playerIds.push(currentNode.playerId);
           players[currentNode.playerId] = {
             name: currentNode.playerName,
-            tags: currentNode. playerTags,
+            tags: currentNode.playerTags,
           };
         }
         for (let friend of currentNode.relationships) {
@@ -137,13 +137,13 @@ export class NetworkComponent implements OnInit {
     const circleGeometry = new THREE.CircleGeometry(4, 32);
 
     for (let i = 0; i < playerIds.length; i++) {
-      let material = new THREE.MeshBasicMaterial({ color: 0x009EFA });
+      let material = new THREE.MeshBasicMaterial({color: 0x009EFA});
 
       let circle =
         i == 0
-        ? new THREE.Mesh(new THREE.CircleGeometry(6, 32),
-            new THREE.MeshBasicMaterial({ color: 0xFF8066 }))
-        : new THREE.Mesh(circleGeometry, material);
+          ? new THREE.Mesh(new THREE.CircleGeometry(6, 32),
+            new THREE.MeshBasicMaterial({color: 0xFF8066}))
+          : new THREE.Mesh(circleGeometry, material);
 
       circle.position.x = i == 0 ? 0 : Math.random() * (maxDistanceX - minDistanceX) + minDistanceX;
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
@@ -153,7 +153,7 @@ export class NetworkComponent implements OnInit {
       nodes[playerIds[i]] = circle;
     }
 
-    const materialConnections = new THREE.LineBasicMaterial({ color: 0xffffff });
+    const materialConnections = new THREE.LineBasicMaterial({color: 0xffffff});
     for (let connection of connections) {
       const connectionPoints: THREE.Vector3[] = [];
       for (let playerId of playerIds) {
@@ -169,12 +169,11 @@ export class NetworkComponent implements OnInit {
     }
 
 
-
-    new FontLoader().load( 'assets/fonts/helvetiker_regular.typeface.json', font => {
+    new FontLoader().load('assets/fonts/helvetiker_regular.typeface.json', font => {
       for (let playerId of playerIds) {
         let textsShapes = font.generateShapes(players[playerId].name, 1);
-        let textsGeometry = new THREE.ShapeBufferGeometry( textsShapes );
-        let textsMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee });
+        let textsGeometry = new THREE.ShapeBufferGeometry(textsShapes);
+        let textsMaterial = new THREE.MeshBasicMaterial({color: 0xeeeeee});
 
         let text = new THREE.Mesh(textsGeometry, textsMaterial);
         text.position.set(nodes[playerId].position.x - 4, nodes[playerId].position.y, 0.5);
@@ -195,7 +194,7 @@ export class NetworkComponent implements OnInit {
     this.controls.update();
 
     window.addEventListener('resize', () => {
-      this.camera.left = window.innerWidth / - 20;
+      this.camera.left = window.innerWidth / -20;
       this.camera.right = window.innerWidth / 20;
       this.camera.top = window.innerHeight / 20;
       this.camera.bottom = window.innerHeight / -20;
@@ -204,7 +203,7 @@ export class NetworkComponent implements OnInit {
     }, false);
 
     window.document.body.style.overflow = "hidden";
-    this.renderer.render( this.scene, this.camera );
+    this.renderer.render(this.scene, this.camera);
 
 
   }
@@ -219,6 +218,7 @@ export class NetworkComponent implements OnInit {
     this.renderer.render(this.scene, this.camera);
     this.renderMiniMap();
   }
+
   renderMiniMap() {
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
@@ -230,8 +230,8 @@ export class NetworkComponent implements OnInit {
     const BorderColor = 0x000000;
 
     this.renderer.setScissorTest(true);
-    this.renderer.setScissor(window.innerWidth - 200 - paddingX, paddingY, 200 + ( 2 * borderSize ),
-      200 + ( 2 * borderSize ));
+    this.renderer.setScissor(window.innerWidth - 200 - paddingX, paddingY, 200 + (2 * borderSize),
+      200 + (2 * borderSize));
     this.renderer.setClearColor(BorderColor, 1);
     this.renderer.clearColor();
     let vp: Vector4 = new Vector4;
