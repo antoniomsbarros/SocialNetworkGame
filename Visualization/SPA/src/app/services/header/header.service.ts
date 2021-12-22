@@ -1,24 +1,25 @@
 import {Injectable} from '@angular/core';
+import {NavbarComponent} from "../../ViewModel/NavbarComponent";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeaderService {
 
-  private availableComponents: string[] = ['Home'];
+  private availableComponents: NavbarComponent[] = [];
 
   constructor() {
   }
 
-  getComponents(): string[] {
+  getComponents(): any[] {
     return this.availableComponents;
   }
 
-  setComponents(components: string[]): void {
+  setComponents(components: any[]): void {
     this.availableComponents = components;
   }
 
-  addComponent(component: string): boolean {
+  addComponent(component: any): boolean {
     const componentIndex = this.availableComponents.indexOf(component, 0);
 
     if (componentIndex != -1) // verifies if the component is not already in the array
@@ -28,7 +29,7 @@ export class HeaderService {
     return true;
   }
 
-  removeComponent(component: string): boolean {
+  removeComponent(component: any): boolean {
     const componentIndex = this.availableComponents.indexOf(component, 0);
 
     if (componentIndex == -1) // verifies if the component exists in the array
@@ -38,6 +39,5 @@ export class HeaderService {
 
     return true;
   }
-
 
 }

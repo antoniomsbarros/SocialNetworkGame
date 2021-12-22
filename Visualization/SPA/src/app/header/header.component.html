@@ -8,6 +8,14 @@
   </button>
   <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngFor="let component of components">
+        <ng-container>
+          <a class="nav-link" routerLink="{{component.routerLink}}"
+             (click)="isMenuCollapsed = !isMenuCollapsed; component.current = !component.current">{{component.name}}</a>
+        </ng-container>
+      </li>
+
+      <!--
       <li class="nav-item active">
         <a class="nav-link" routerLink="/home" (click)="isMenuCollapsed = !isMenuCollapsed">Home <span class="sr-only">(current)</span></a>
       </li>
@@ -47,6 +55,7 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/safestPath">Find the Safest Path</a>
       </li>
+      -->
 
     </ul>
   </div>

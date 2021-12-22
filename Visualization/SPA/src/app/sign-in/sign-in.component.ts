@@ -69,7 +69,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   // window.document.body.style.overflow = "hidden";
+    // window.document.body.style.overflow = "hidden";
   }
 
   get isRegisterButtonPressed(): any {
@@ -112,7 +112,7 @@ export class SignInComponent implements OnInit {
     return this.registerPlayerForm.get('termsConditions');
   }
 
-  public rowEmotionalStatus(): Array<string> {
+  rowEmotionalStatus(): Array<string> {
     const keys = Object.keys(EmotionalStatus);
     return keys.slice(keys.length / 2);
   }

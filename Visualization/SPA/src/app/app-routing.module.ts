@@ -24,7 +24,7 @@ import {TermsAndConditionsComponent} from "./terms-and-conditions/terms-and-cond
 import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'signin', component: SignInComponent},
   {path: 'terms-conditions', component: TermsAndConditionsComponent},
   {path: 'privacy-policy', component: PrivacyPolicyComponent},
