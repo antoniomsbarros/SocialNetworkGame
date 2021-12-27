@@ -89,7 +89,7 @@ namespace SocialNetwork.core.services.relationships
            
        }
        
-        private void trabalho(List<NetworkFromPLayerDTO> listAllRelaction, NetworkFromPLayerDTO element)
+        /*private void trabalho(List<NetworkFromPLayerDTO> listAllRelaction, NetworkFromPLayerDTO element)
         {
             if (listAllRelaction.Count != 0)
             {
@@ -113,7 +113,7 @@ namespace SocialNetwork.core.services.relationships
                     trabalho(listAllRelaction, list[i]);
                 }
             }
-        }
+        }*/
         public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email,
             int depth)
         {
@@ -254,6 +254,70 @@ namespace SocialNetwork.core.services.relationships
 
             return new RelationshipDto(relationship.Id.Value, relationship.PlayerDest.Value,
                 relationship.PlayerOrig.Value, relationship.ConnectionStrength.Strength, tag);
+        }
+
+        public async Task<ActionResult<List<NetworkFromPLayerDTO>>> getNetworkFromPlayer(Email email)
+        {
+            //throw new NotImplementedException();
+
+            List<Relationship> relationshipDtos = _repo.GetAllAsync().Result;
+            List<NetworkFromPLayerDTO> final = new List<NetworkFromPLayerDTO>();
+            List<Relationship> temp = new List<Relationship>();
+            List<Email> playerIds = new List<Email>();
+            
+            playerIds.Add(email);
+            while (relationshipDtos.Count!=0 )
+            {
+                if (playerIds.Count!=0)
+                {
+                    PlayerDto playerDto = _playerService.GetByEmailAsync(playerIds[0]).Result;
+                    playerIds.RemoveAt(0);
+                    temp = relationshipDtos.FindAll(x =>
+                        x.PlayerOrig.Value.Equals(playerDto.id) || x.PlayerDest.Value.Equals(playerDto.id));
+                    foreach (var VARIABLE in temp)
+                    {
+                        relationshipDtos.Remove(VARIABLE);
+                    }
+                    while (temp.Count!=0)
+                    {
+                        Relationship relationshipstart=temp[0];
+                        Relationship relationshipend = temp.Find(x =>
+                            x.PlayerDest.Equals(relationshipstart.PlayerOrig) &&
+                            x.PlayerOrig.Equals(relationshipstart.PlayerDest));
+                        temp.Remove(relationshipstart);
+                        temp.Remove(relationshipend);
+
+                        NetworkFromPLayerDTO temp1 = new NetworkFromPLayerDTO();
+                       
+                        temp1.Relationships = new List<NetworkFromPLayerDTO>();
+                        temp1.playerOriginEmail = _playerService.GetByIdAsync(relationshipstart.PlayerOrig).Result.email;
+                        temp1.playerDestEmail=_playerService.GetByIdAsync(relationshipstart.PlayerDest).Result.email;
+                        temp1.RelationshipStrengthOrigin = relationshipstart.ConnectionStrength.Strength;
+                        temp1.RelationshipStrengthDest = relationshipend.ConnectionStrength.Strength;
+                        List<String> tagsstart = new List<string>();
+                        for (int i = 0; i < relationshipstart.TagsList.Count; i++)
+                        {
+                            tagsstart.Add(_tagsService.GetByIdAsync(relationshipstart.TagsList[i]).Result.name);
+                        }
+
+                        temp1.RelationshipTagsOrigin = tagsstart;
+                        List<String> tagsend = new List<string>();
+                        for (int i = 0; i < relationshipend.TagsList.Count; i++)
+                        {
+                         tagsend.Add(_tagsService.GetByIdAsync(relationshipend.TagsList[i]).Result.name);   
+                        }
+                        temp1.PlayerTagsDest = tagsend;
+                        final.Add(temp1);
+                        playerIds.Add(new Email(temp1.playerDestEmail));
+                    }
+                }
+                
+
+                
+            }
+
+            return final;
+            
         }
     }
 }
