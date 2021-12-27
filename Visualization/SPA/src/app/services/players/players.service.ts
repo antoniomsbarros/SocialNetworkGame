@@ -11,13 +11,13 @@ import {UpdateProfileDto} from "../../DTO/players/UpdateProfileDto";
 })
 export class PlayersService {
 
-  private socialNetwork: string = "http://localhost:5000/api/Players/";
+  private socialNetwork: string = "https://localhost:5001/api/Players/";
   private humorState: string = "https://localhost:5001/api/Players/humor/";
   private profile: string = "https://localhost:5001/api/Players/profile/";
 
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
 
@@ -32,17 +32,21 @@ export class PlayersService {
     return this.http.put<UpdateProfileDto>(`${this.profile}${dto.email}`, dto);
   }
 
-/*
-  changeHumor(dto: UpdateEmotionalStatusDto): Observable<PlayerDto>{
-    return this.http.put<PlayerDto>(this.humorState, dto);
+  getConnectionSuggestion(): Observable<any> {
+    return this.http.get<PlayerDto[]>(this.socialNetwork);
   }
- */
-  changeHumor(id: string, newMood: string): Observable<any>{
-    const url1='https://localhost:5001/api/ChangeMood/';
-    const url= `${url1}${id}/${newMood}`;
+
+  /*
+    changeHumor(dto: UpdateEmotionalStatusDto): Observable<PlayerDto>{
+      return this.http.put<PlayerDto>(this.humorState, dto);
+    }
+   */
+  changeHumor(id: string, newMood: string): Observable<any> {
+    const url1 = 'https://localhost:5001/api/ChangeMood/';
+    const url = `${url1}${id}/${newMood}`;
 
     return this.http.put(url, this.httpOptions).pipe(
-      tap(_=> console.log(`updated player humor, for player id=${id}`)),
+      tap(_ => console.log(`updated player humor, for player id=${id}`)),
       catchError(this.handleError<any>('changeHumor'))
     );
   }

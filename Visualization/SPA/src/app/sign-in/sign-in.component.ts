@@ -3,7 +3,6 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RegisterPlayerDto} from "../dto/players/RegisterPlayerDto";
 import {PlayersService} from "../services/players/players.service";
 import {ToastrService} from "ngx-toastr";
-import {PlayerDto} from "../dto/players/PlayerDto";
 import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 
@@ -52,21 +51,29 @@ export enum EmotionalStatus {
 })
 export class SignInComponent implements OnInit {
 
+  registerButtonPressed: boolean = false;
+
   registerPlayerForm = new FormGroup({
-    fullName: new FormControl(''),
-    shortName: new FormControl(''),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern(/[0-9]{9}/)]),
-    dateOfBirth: new FormControl('', [Validators.required]),
-    emotionalStatus: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    passwordConfirmation: new FormControl('', [Validators.required])
+    fullName: new FormControl(null),
+    shortName: new FormControl(null),
+    phoneNumber: new FormControl(null, [Validators.required, Validators.pattern(/[0-9]{9}/)]),
+    dateOfBirth: new FormControl(null, [Validators.required]),
+    emotionalStatus: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    password: new FormControl(null, [Validators.required]),
+    passwordConfirmation: new FormControl(null, [Validators.required]),
+    termsConditions: new FormControl(false, [Validators.required, Validators.requiredTrue]),
   });
 
   constructor(private toastService: ToastrService, private playerService: PlayersService, private router: Router) {
   }
 
   ngOnInit(): void {
+    // window.document.body.style.overflow = "hidden";
+  }
+
+  get isRegisterButtonPressed(): any {
+    return this.registerButtonPressed
   }
 
   get fullName(): any {
@@ -101,12 +108,18 @@ export class SignInComponent implements OnInit {
     return this.registerPlayerForm.get('passwordConfirmation');
   }
 
-  public rowEmotionalStatus(): Array<string> {
+  get termsConditions(): any {
+    return this.registerPlayerForm.get('termsConditions');
+  }
+
+  rowEmotionalStatus(): Array<string> {
     const keys = Object.keys(EmotionalStatus);
     return keys.slice(keys.length / 2);
   }
 
   registerFormSubmit(): void {
+
+    this.registerButtonPressed = true;
 
     const dto: RegisterPlayerDto =
       {
@@ -119,28 +132,28 @@ export class SignInComponent implements OnInit {
         emotionalStatus: this.emotionalStatus.value,
       };
 
-    let onNext = (player: PlayerDto) => {
-      this.toastService.success("Player created");
+    let onNext = () => {
+      this.toastService.success("Your account was successfully created!");
       this.router.navigateByUrl('/login');
     };
 
-    let onError = (error: HttpErrorResponse) => {
-      this.toastService.error(error.error["message"]);
+    let onError = (httpErrorResponse: HttpErrorResponse) => {
+      this.registerButtonPressed = false;
+
+      if (httpErrorResponse.status >= 400 && httpErrorResponse.status < 500)
+        this.toastService.error(httpErrorResponse.error["message"]);
+      else
+        this.toastService.error("It seems there's a error from our servers. Please try again later");
     }
 
     this.playerService.registerPlayer(dto)
       .subscribe({
-        next(player) {
-          onNext(player);
+        next() {
+          onNext();
         },
         error(error) {
           onError(error);
         }
       });
   }
-
-  clearForm(): void {
-    this.registerPlayerForm.reset();
-  }
-
 }

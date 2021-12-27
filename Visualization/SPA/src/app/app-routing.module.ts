@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from './home/home.component';
 import {SignInComponent} from "./sign-in/sign-in.component";
 import {LoginComponent} from "./login/login.component";
 import {
@@ -21,11 +20,14 @@ import {UpdateProfileComponent} from "./update-profile/update-profile.component"
 import {ShortestPathComponent} from "./shortest-path/shortest-path.component";
 import {SafestPathComponent} from "./safest-path/safest-path.component";
 import {NetworkListingComponent} from "./network-listing/network-listing.component";
+import {TermsAndConditionsComponent} from "./terms-and-conditions/terms-and-conditions.component";
+import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: '/home', pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
+  {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: 'signin', component: SignInComponent},
+  {path: 'terms-conditions', component: TermsAndConditionsComponent},
+  {path: 'privacy-policy', component: PrivacyPolicyComponent},
   {path: 'login', component: LoginComponent},
   {path: 'network', component: NetworkComponent},
   {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
@@ -39,7 +41,6 @@ const routes: Routes = [
   {path: "safestPath", component: SafestPathComponent},
   {path: "networkListing", component: NetworkListingComponent},
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
