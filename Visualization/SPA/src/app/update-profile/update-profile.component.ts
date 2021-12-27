@@ -55,6 +55,7 @@ export class UpdateProfileComponent implements OnInit {
 
   updateProfile() {
     let sessionEmail = localStorage.getItem('id');
+    console.log(sessionEmail)
     if (!sessionEmail) return;
     this.playerService.updateProfile({
       email: sessionEmail,

@@ -7,8 +7,9 @@ import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
 import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {Location} from "@angular/common";
-import {Vector4} from "three";
-
+import {Sphere, Vector4} from "three";
+import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
+import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js';
 
 @Component({
   selector: 'app-network',
@@ -22,6 +23,8 @@ export class NetworkComponent implements OnInit {
   private get networkElement(): HTMLCanvasElement {
     return this.networkRef.nativeElement;
   }
+
+   mouse=new THREE.Vector2();
 
   get networkDepth(): any {
     return this.getNetworkAtDepth.get('networkDepth');
@@ -81,14 +84,17 @@ export class NetworkComponent implements OnInit {
   network!: NetworkFromPlayerPerspectiveDto;
   scene!: THREE.Scene;
   renderer!: THREE.WebGLRenderer;
-  camera!: THREE.OrthographicCamera;
+  camera!: THREE.PerspectiveCamera;
   controls!: OrbitControls;
+  raycaster = new THREE.Raycaster();
+  labelRenderer!: CSS2DRenderer;
+controls1!:FlyControls;
 
   initializeGraph() {
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xc9aa88);
+    this.scene.background = new THREE.Color(0xffffff);
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({alpha:true, antialias: true });
     this.renderer.setPixelRatio( window.devicePixelRatio );
 
     this.networkElement.appendChild(this.renderer.domElement);
@@ -96,9 +102,11 @@ export class NetworkComponent implements OnInit {
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
 
-    this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
-      window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);
+    /*this.camera = new THREE.OrthographicCamera(window.innerWidth / - 20, window.innerWidth / 20,
+      window.innerHeight / 20, window.innerHeight / - 20, 1, 1000);*/
 
+    this.camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1, 1000000);
+    this.camera.position.z = 250;
     const maxDistanceY = 60, minDistanceY = -60, maxDistanceX = 60, minDistanceX = -60;
 
     //let distanceFromParentNodeRatio = 1;
@@ -134,78 +142,92 @@ export class NetworkComponent implements OnInit {
       }
     }
 
-    const circleGeometry = new THREE.CircleGeometry(4, 32);
-
+    const circleGeometry = new THREE.SphereGeometry(4, 32);
+    let position = [];
+let mesh_note=new Map();
     for (let i = 0; i < playerIds.length; i++) {
       let material = new THREE.MeshBasicMaterial({ color: 0x009EFA });
+      let circle;
 
-      let circle =
+       circle =
         i == 0
-        ? new THREE.Mesh(new THREE.CircleGeometry(6, 32),
-            new THREE.MeshBasicMaterial({ color: 0xFF8066 }))
+        ? new THREE.Mesh(new THREE.SphereGeometry(6, 32),
+            new THREE.MeshBasicMaterial({ color: 0xFF8066 ,name:playerIds[i]}))
         : new THREE.Mesh(circleGeometry, material);
+      circle.name=playerIds[i];
 
       circle.position.x = i == 0 ? 0 : Math.random() * (maxDistanceX - minDistanceX) + minDistanceX;
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
-      circle.position.z = 0;
-
+      circle.position.z = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
+      mesh_note.set(circle.id, players[playerIds[i]].name);
       this.scene.add(circle);
       nodes[playerIds[i]] = circle;
+
+     this.addLabel("              "+players[playerIds[i]].name,circle, 0xFF8066);
     }
 
-    const materialConnections = new THREE.LineBasicMaterial({ color: 0xffffff });
+
+    const materialConnections = new THREE.LineBasicMaterial({ color: 0x00000 });
     for (let connection of connections) {
+      let playerfrom;
+      let playerto;
       const connectionPoints: THREE.Vector3[] = [];
       for (let playerId of playerIds) {
         if (connection.playerFrom == playerId || connection.playerTo == playerId) {
-          connectionPoints.push(new THREE.Vector3(nodes[playerId].position.x, nodes[playerId].position.y, -0.5));
-          if (connectionPoints.length > 1)
-            break;
+          connectionPoints.push(new THREE.Vector3(nodes[playerId].position.x, nodes[playerId].position.y, nodes[playerId].position.z));
+          if (connection.playerFrom == playerId && playerfrom==null){
+            playerfrom=playerId;
+          }
+          if (connection.playerTo == playerId && playerto==null){
+            playerto=playerId;
+          }
+          if (connectionPoints.length == 2 && playerto!=null && playerfrom!=null){
+            this.createEdge(connectionPoints[0], connectionPoints[1]);
+          }
+          if (connectionPoints.length>1)
+            break
+
         }
       }
-      const geometryConnections = new THREE.BufferGeometry().setFromPoints(connectionPoints);
-      const line = new THREE.Line(geometryConnections, materialConnections);
-      this.scene.add(line);
+
     }
 
 
 
-    new FontLoader().load( 'assets/fonts/helvetiker_regular.typeface.json', font => {
-      for (let playerId of playerIds) {
-        let textsShapes = font.generateShapes(players[playerId].name, 1);
-        let textsGeometry = new THREE.ShapeBufferGeometry( textsShapes );
-        let textsMaterial = new THREE.MeshBasicMaterial({ color: 0xeeeeee });
 
-        let text = new THREE.Mesh(textsGeometry, textsMaterial);
-        text.position.set(nodes[playerId].position.x - 4, nodes[playerId].position.y, 0.5);
-        this.scene.add(text);
-      }
-    });
+
+
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableZoom = true;
     this.controls.enablePan = true;
-    this.controls.enableRotate = false;
+    this.controls.enableRotate = true;
     this.controls.minZoom = 0.2;
     this.controls.maxZoom = 12;
     this.controls.zoomSpeed = 2;
+/*
+    this.controls1 = new FlyControls( this.camera );
+    this.controls1.movementSpeed = 10;
 
-    this.camera.position.set(0, 0, 2);
-
+    this.controls1.rollSpeed = 1;
+    this.controls1.autoForward = false;
+    this.controls1.dragToLook = true;
+*/
+   // this.camera.position.set(0, 0, 2);
     this.controls.update();
-
+   // this.controls1.update(1);
+/*
     window.addEventListener('resize', () => {
-      this.camera.left = window.innerWidth / - 20;
+      this.camera.set = window.innerWidth / - 20;
       this.camera.right = window.innerWidth / 20;
       this.camera.top = window.innerHeight / 20;
       this.camera.bottom = window.innerHeight / -20;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
-    }, false);
+    }, false);*/
 
     window.document.body.style.overflow = "hidden";
     this.renderer.render( this.scene, this.camera );
-
 
   }
 
@@ -218,6 +240,9 @@ export class NetworkComponent implements OnInit {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
     this.renderMiniMap();
+this.controls1.update(1);
+
+
   }
   renderMiniMap() {
 
@@ -245,4 +270,49 @@ export class NetworkComponent implements OnInit {
     this.renderer.setScissorTest(false);
     this.renderer.setViewport(vp);
   }
+
+  addLabel(text:any, object:any, color:any){
+    var loader =new FontLoader();
+    var material_text=new THREE.MeshBasicMaterial({
+      color:color
+    });
+    loader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json",
+      (font)=>{
+      var geometry=new TextGeometry(text, {
+        font:font,
+        size:1.5,
+        height:0.01,
+        curveSegments:10,
+        bevelEnabled:false
+      });
+      var textMesh=new THREE.Mesh(geometry,material_text);
+      textMesh.name=text;
+
+      object.add(textMesh);
+      })
+  }
+
+   createEdge(position0:any, position1:any) {
+    // Compute distance between nodes
+    const distance = position1.distanceTo(position0);
+
+    // Create a mesh with the specified geometry and material
+    const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.0), new THREE.MeshBasicMaterial({ color: 0x0000ff }));
+
+    // Set its position
+    cylinder.position.set((position0.x + position1.x) / 2.0, (position0.y + position1.y) / 2.0, (position0.z + position1.z) / 2.0);
+
+    // Set its orientation
+    const angH = Math.atan2(position1.x - position0.x, position1.z - position0.z);
+    const angV = Math.acos((position1.y - position0.y) / distance);
+    cylinder.rotateY(angH);
+    cylinder.rotateX(angV);
+
+    // Set its length
+    cylinder.scale.set(1.0, distance, 1.0);
+
+    // Add it to the scene
+    this.scene.add(cylinder);
+  }
 }
+
