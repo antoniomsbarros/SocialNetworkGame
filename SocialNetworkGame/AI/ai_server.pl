@@ -7,6 +7,7 @@
 :- use_module(library(date)).
 :- use_module(library(random)).
 :- use_module(library(http/http_client)).
+:- use_module(library(http/http_ssl_plugin)).
 
 % JSON Libraries
 :- use_module(library(http/json_convert)).
@@ -22,12 +23,17 @@
 :- dynamic relationship1/2.
 :- dynamic users_combination/2.
 :- dynamic best_solution_bidirectional/2.
-: -dynamic best_solution_unidirectional/2.
+:- dynamic best_solution_unidirectional/2.
 
 % HTTP Server setup at 'Port'                           
-startServer(Port) :-   
-        http_server(http_dispatch, [port(Port)]),
-        asserta(port(Port)).
+startServer(Port) :-
+    http_server(http_dispatch,
+                [ port(Port),
+                  ssl([ certificate_file('C:/21s5_3dg_41/SocialNetworkGame/AI/socialaicert.crt'),
+                        key_file('C:/21s5_3dg_41/SocialNetworkGame/AI/socialaikey.key')
+                      ])
+                ]),
+    asserta(port(Port)).
 
 % Server startup
 start_server:-
