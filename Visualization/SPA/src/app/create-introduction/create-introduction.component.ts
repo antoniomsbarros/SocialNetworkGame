@@ -50,6 +50,8 @@ export class CreateIntroductionComponent implements OnInit {
   }
 
   getFriends() {
+    let sessionEmail = localStorage.getItem('id');
+    console.log(sessionEmail)
     this.ola = 0;
     this.RelactionshipService.getAllFriendsFromPlayer(this.client).subscribe(data => {
       data.forEach(item => {
