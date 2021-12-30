@@ -83,29 +83,16 @@ export class NetworkComponent implements OnInit {
     this.animate();
 
   }
-
-
   network!: NetworkFromPlayerPerspectiveDto;
   scene!: THREE.Scene;
   renderer!: THREE.WebGLRenderer;
   camera!: THREE.PerspectiveCamera;
   controls!: OrbitControls;
   raycaster = new THREE.Raycaster();
-  controls2!:PointerLockControls;
   labelRenderer!: CSS2DRenderer;
-controls1!:FlyControls;
 stats!:Stats;
-   moveForward = false;
-   moveBackward = false;
-   moveLeft = false;
-   moveRight = false;
-   canJump = false;
-   velocity = new THREE.Vector3();
-   prevTime = performance.now();
-   direction = new THREE.Vector3();
-   vertex = new THREE.Vector3();
-   color = new THREE.Color();
-root!: THREE.Group;
+
+
   initializeGraph() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xffffff);
@@ -117,9 +104,6 @@ root!: THREE.Group;
 
     this.networkElement.appendChild(this.renderer.domElement);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-
-    const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
-
 
 
     this.camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1, 1000000);
@@ -168,9 +152,7 @@ root!: THREE.Group;
     document.getElementById("container").appendChild( this.labelRenderer.domElement );
 
 
-    let position = [];
 let mesh_note=new Map();
-    let root;
     for (let i = 0; i < playerIds.length; i++) {
       let material = new THREE.MeshBasicMaterial({color: 0x009EFA});
       let circle;
@@ -196,7 +178,6 @@ let mesh_note=new Map();
       const label = new CSS2DObject( text );
       label.position.copy( circle.position );
       this.scene.add( label );
-     // this.addLabel("              "+players[playerIds[i]].name,circle, 0xFF8066, this.camera);
     }
 
     const materialConnections = new THREE.LineBasicMaterial({color: 0xffffff});
@@ -289,7 +270,7 @@ this.labelRenderer.render(this.scene, this.camera);
 controll(){
 
   let controls2 = new PointerLockControls(this.camera,this.renderer.domElement);
-  controls2.disconnect();
+
    var camere=this.camera;
   const onKeyDown = function (event: KeyboardEvent) {
     switch (event.code) {
@@ -325,7 +306,7 @@ camere.translateX(10)
   renderMiniMap() {
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
-    miniMapCamera.position.z = 20;
+    miniMapCamera.position.z = 250;
 
     const borderSize = 1;
     const paddingX = 55;
@@ -348,6 +329,8 @@ camere.translateX(10)
     this.renderer.setScissorTest(false);
     this.renderer.setViewport(vp);
   }
+
+
    createEdge(position0:any, position1:any) {
     // Compute distance between nodes
     const distance = position1.distanceTo(position0);
