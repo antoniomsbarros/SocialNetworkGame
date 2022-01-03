@@ -21,6 +21,7 @@ namespace SocialNetwork.infrastructure.persistence.relationships
 
         public async Task<List<Relationship>> GetRelationshipsFriendsById(PlayerId id)
         {
+            
             return await this._objs.Where(x => x.PlayerOrig.Value.Equals(id.Value)).ToListAsync();
         }
 

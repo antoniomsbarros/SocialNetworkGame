@@ -189,7 +189,9 @@ namespace SocialNetwork.core.services.relationships
         
         public async Task<RelationshipDto> AddAsync(RelationshipPostDto dto)
         {
-            var relationship = new Relationship(new PlayerId(dto.playerDest), new PlayerId(dto.playerOrig),
+            var playerOrig = await _playerService.GetByEmailAsync(new Email(dto.playerOrig));
+var playerDest= await _playerService.GetByEmailAsync(new Email(dto.playerDest));
+            var relationship = new Relationship(new PlayerId(playerDest.id), new PlayerId(playerOrig.email),
                 ConnectionStrength.ValueOf(dto.connection), dto.tags.ConvertAll(tag => new TagId(tag)));
 
             await _repo.AddAsync(relationship);

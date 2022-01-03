@@ -72,6 +72,7 @@ namespace SocialNetwork.core.controller.relationships
         [HttpPost]
         public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
         {
+            
             try
             {
                 var nTag = 0;
