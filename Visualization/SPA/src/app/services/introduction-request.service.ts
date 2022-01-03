@@ -12,17 +12,17 @@ import {CreateIntroductionRequestDto} from "../DTO/CreateIntroductionRequestDto"
   providedIn: 'root'
 })
 export class IntroductionRequestService {
-  private readonly introductionRequestURL = "http://localhost:5000/api/IntroductionRequest/";
-  private readonly TagsURL = "http://localhost:5000/api/Tags/";
+  private readonly introductionRequestURL = "https://socialnetworkbackend.azurewebsites.net/api/IntroductionRequest/";
+  private readonly TagsURL = "https://socialnetworkbackend.azurewebsites.net/api/Tags/";
   constructor(private http: HttpClient) {
   }
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  client1="1200607@isep.ipp.pt";
+  client1="Bart92595717@gmail.com";
 
-  client3="1200608@isep.ipp.pt"
+  client3="Jules46843207@gmail.com"
   getIntroductionsPending(client:string): Observable<ConnectionIntroductionDTO[]> {
     return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL + "playerIntroduction=" + client);
   }
@@ -31,15 +31,14 @@ export class IntroductionRequestService {
     return this.http.put<ConnectionIntroductionDTO>(this.introductionRequestURL + "playerIntroduction/" + connectionIntroductionDTO.id, connectionIntroductionDTO);
   }
 
-
   getIntroductionPendingAprovall(): Observable<ConnectionIntroductionDTO[]>{
     return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL+"PlayerAproval="+this.client1);
   }
   ApproveDisapproveIntroduction(connectionIntroductionDTO: ConnectionIntroductionDTO):Observable<ConnectionIntroductionDTO>{
-    return this.http.put<ConnectionIntroductionDTO>("http://localhost:5000/api/IntroductionRequest/playerapproval/"+connectionIntroductionDTO.id, connectionIntroductionDTO);
+    return this.http.put<ConnectionIntroductionDTO>(this.introductionRequestURL+"playerapproval/"+connectionIntroductionDTO.id, connectionIntroductionDTO);
   }
   getAllTags(): Observable<TagsDTO[]> {
-    return this.http.get<TagsDTO[]>(this.TagsURL+"all/");
+    return this.http.get<TagsDTO[]>(this.TagsURL+"all");
   }
   AddIntroductionRequest(connectionIntroductionDTO:CreateIntroductionRequestDto):Observable<CreateIntroductionRequestDto>{
     return this.http.post<CreateIntroductionRequestDto>(this.introductionRequestURL,connectionIntroductionDTO, this.httpOptions);

@@ -14,9 +14,9 @@ export class RelactionShipServiceService {
   }
 
   private readonly relationURL = "http://localhost:5000/api/Relationships/"
-
+private readonly URL="https://socialnetworkbackend.azurewebsites.net/api/Relationships/";
   getAllFriendsFromPlayer(playeremail: string): Observable<PlayerEmailDto[]> {
-    return this.http.get<PlayerEmailDto[]>(this.relationURL + "friends/" + playeremail);
+    return this.http.get<PlayerEmailDto[]>(this.URL + "friends/" + playeremail);
   }
 
   getNetworkFromPlayerByDepth(playerEmail: string, depth: number): Observable<NetworkFromPlayerPerspectiveDto> {

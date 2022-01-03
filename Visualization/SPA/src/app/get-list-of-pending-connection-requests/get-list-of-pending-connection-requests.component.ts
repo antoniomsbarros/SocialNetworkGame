@@ -29,7 +29,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   ConnectionStringh: number | undefined;
   selectedTags: string[]=[];
 
-   client = "1200610@isep.ipp.pt";
+   client = "Jules46843207@gmail.com";
   constructor(private http: HttpClient,private location: Location,
               private IntroductionRequestService: IntroductionRequestService,
               private TagService: TagsService,private _snackBar: MatSnackBar) {
@@ -37,10 +37,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.getPendingIntroductions();
-
-
     this.selectedItems = [];
     this.dropdownSettings = {
       singleSelection: false,
@@ -54,6 +51,9 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
       enableCheckAll: false,
 
     };
+    let sessionEmail = localStorage.getItem('id');
+   // if (!sessionEmail) return;
+    console.log(sessionEmail);
 
   }
 
@@ -78,13 +78,18 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
           this.dropdownList.push({ item_id:this.ola++, item_text: item.name})
         })
       });
-    let sessionEmail = localStorage.getItem('id');
+   /* let sessionEmail = localStorage.getItem('id');
     if (!sessionEmail) return;
-    console.log(sessionEmail);
-    /*this.IntroductionRequestService.getIntroductionsPending(sessionEmail)
+    console.log(sessionEmail);*/
+    this.IntroductionRequestService.getIntroductionsPending(this.client)
       .subscribe(data=>{
+        data.forEach(item=>{
+          console.log(item)
+          this.introductionRequestPending.push(item);
+        })
       });
-*/
+    console.log(this.introductionRequestPending)
+
   }
 
 
@@ -98,7 +103,7 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
     if (this.introductionRequestSelected!= undefined){
       this.introductionRequestSelected.introductionStatus=1;
       this.IntroductionRequestService.AcceptorrejectIntroduction(this.introductionRequestSelected).subscribe(data=>this.introductionRequestSelected=data);
-      console.log(this.introductionRequestSelected.id);
+      console.log(this.introductionRequestSelected);
       this.openSnackBar("Introduction Request Rejected","close");
       this.getPendingIntroductions();
 

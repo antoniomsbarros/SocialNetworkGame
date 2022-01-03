@@ -20,7 +20,7 @@ export class CreateIntroductionComponent implements OnInit {
   introductionRequestPending: any;
   selectedValue: any;
 
-  private client: string = "1200606@isep.ipp.pt";
+  private client: string = "Katherine42584467@gmail.com";
   Friends: PlayerEmailDto[] = [];
   FriendsofFriends: PlayerEmailDto[] = [];
   AllTags: TagsDTO[] = [];
@@ -50,11 +50,12 @@ export class CreateIntroductionComponent implements OnInit {
   }
 
   getFriends() {
-    let sessionEmail = localStorage.getItem('id');
-    console.log(sessionEmail)
+    //let sessionEmail = localStorage.getItem('id');
+   // console.log(sessionEmail)
     this.ola = 0;
     this.RelactionshipService.getAllFriendsFromPlayer(this.client).subscribe(data => {
       data.forEach(item => {
+        console.log(item)
         this.Friends.push({email: item.email, name: item.name})
 
       })
