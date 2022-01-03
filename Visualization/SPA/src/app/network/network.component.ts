@@ -14,6 +14,7 @@ import {PointerLockControls} from "three/examples/jsm/controls/PointerLockContro
 import Stats from "three/examples/jsm/libs/stats.module";
 import {NodeLib} from "three/examples/jsm/nodes/core/NodeLib";
 import nodes = NodeLib.nodes;
+import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
 @Component({
   selector: 'app-network',
@@ -90,9 +91,9 @@ export class NetworkComponent implements OnInit {
   controls!: OrbitControls;
   raycaster = new THREE.Raycaster();
   labelRenderer!: CSS2DRenderer;
-stats!:Stats;
-
-
+  mousePosition!: THREE.Vector2;
+  stats!:Stats;
+  controls1!:FlyControls;
   initializeGraph() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xffffff);
@@ -104,7 +105,6 @@ stats!:Stats;
 
     this.networkElement.appendChild(this.renderer.domElement);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-
 
     this.camera = new THREE.PerspectiveCamera(40, window.innerWidth/window.innerHeight, 1, 1000000);
     this.camera.position.z = 250;
@@ -150,9 +150,11 @@ stats!:Stats;
     this.labelRenderer.domElement.style.pointerEvents = 'none';
     // @ts-ignore
     document.getElementById("container").appendChild( this.labelRenderer.domElement );
+const raycaster=new THREE.Raycaster();
+const mouse=new THREE.Vector2();
 
-
-let mesh_note=new Map();
+let list:any=[];
+let listraduis:any=[];
     for (let i = 0; i < playerIds.length; i++) {
       let material = new THREE.MeshBasicMaterial({color: 0x009EFA});
       let circle;
@@ -160,16 +162,16 @@ let mesh_note=new Map();
         i == 0
 
           ? new THREE.Mesh(new THREE.SphereGeometry(6, 32),
-            new THREE.MeshBasicMaterial({color: 0xFF8066, name: playerIds[i]}))
+            new THREE.MeshBasicMaterial({color: 0xFF8066, name: playerIds[i] }))
           : new THREE.Mesh(circleGeometry, material);
 
 
       circle.position.x = i == 0 ? 0 : Math.random() * (maxDistanceX - minDistanceX) + minDistanceX;
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
       circle.position.z = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
-      mesh_note.set(circle.id, players[playerIds[i]].name);
       this.scene.add(circle);
       nodes[playerIds[i]] = circle;
+      list.push(circle);
       const text = document.createElement( 'div' );
       text.className = 'label';
       text.style.color = "0xFF8066";
@@ -206,6 +208,7 @@ let mesh_note=new Map();
 
     }
 
+
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableZoom = true;
     this.controls.enablePan = true;
@@ -213,16 +216,33 @@ let mesh_note=new Map();
     this.controls.minZoom = 0.2;
     this.controls.maxZoom = 12;
     this.controls.zoomSpeed = 2;
-    /*
+    this.controls.enableKeys=true;
+this.controls.keys={
+  LEFT:"KeyA",
+  UP: 'KeyP', // up arrow
+  RIGHT: 'KeyD', // right arrow
+  BOTTOM: 'KeyL'// down arrow
+
+}
+this.controls.listenToKeyEvents(document.body);
+/*
         this.controls1 = new FlyControls( this.camera );
         this.controls1.movementSpeed = 10;
-
+        this.controls1.autoForward=false;
         this.controls1.rollSpeed = 1;
         this.controls1.autoForward = false;
-        this.controls1.dragToLook = true;
-    */
+        this.controls1.dragToLook = false;
+*/
+
+        document.addEventListener("click", event=>{
+          mouse.x=( event.clientX / window.innerWidth ) * 2 - 1;
+          mouse.y= - ( event.clientY / window.innerHeight ) * 2 + 1
+
+        });
+
+
    // this.camera.position.set(0, 0, 2);
-    this.controls.update();
+   // this.controls.update();
    // this.controls1.update(1);
 /*
     window.addEventListener('resize', () => {
@@ -237,10 +257,18 @@ let mesh_note=new Map();
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     }, false);*/
+/*
 
+    this.controls1 = new FlyControls( this.camera, this.renderer.domElement );
 
+    this.controls1.movementSpeed = 1;
+    this.controls1.domElement = this.renderer.domElement;
+    //this.controls1.rollSpeed = Math.PI / 24;
+    this.controls1.autoForward = false;
+    this.controls1.dragToLook = true;
+*/
 
-    this.controll();
+    //this.controll();
 
     window.document.body.style.overflow = "hidden";
     //this.renderer.render(this.scene, this.camera);
@@ -255,18 +283,31 @@ let mesh_note=new Map();
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
      this.renderer.render(this.scene, this.camera);
+
      this.labelRenderer.setSize( window.innerWidth, window.innerHeight );
 this.labelRenderer.render(this.scene, this.camera);
+
    }
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.controls.update();
+
+
+
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const inters=this.raycaster.intersectObjects(this.scene.children);
+    console.log(this.scene.children)
+
+
+
+
     this.renderer.render(this.scene, this.camera);
     this.renderMiniMap();
-    this.labelRenderer.render(this.scene, this.camera);
-//this.controls1.update(1);
+      this.labelRenderer.render(this.scene, this.camera);
+
 
   }
+  /*
 controll(){
 
   let controls2 = new PointerLockControls(this.camera,this.renderer.domElement);
@@ -277,6 +318,7 @@ controll(){
       case 'KeyW':
        // controls2.moveForward(10)
         camere.translateZ(-10);
+
         break
       case 'KeyA':
         //controls2.moveRight(-.1)
@@ -296,13 +338,12 @@ camere.translateX(10)
         break;
     }
   }
-//this.camera=camere;
   document.addEventListener('keydown', onKeyDown, false)
   window.addEventListener('resize', this.onWindowResize, false)
   this.renderer.render(this.scene, camere);
 
 
-}
+}*/
   renderMiniMap() {
 
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
@@ -353,6 +394,7 @@ camere.translateX(10)
     // Add it to the scene
     this.scene.add(cylinder);
   }
+
 
 
 
