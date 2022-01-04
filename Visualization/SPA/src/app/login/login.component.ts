@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../services/users/authentication.service";
-import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -13,6 +13,8 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   @Input() recentUser?: string;
+
+  isLoginButtonPressed: boolean = false;
 
   loginForm = new FormGroup({
       username: new FormControl(this.recentUser, [Validators.required]),
@@ -32,18 +34,24 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    window.document.body.style.overflow = "hidden";
   }
 
   login(): void {
 
+    this.isLoginButtonPressed = true;
+
     let onNext = () => {
-      this.toastService.success("Player created");
-      this.router.navigateByUrl('/network');
+      this.toastService.success("Successfully logged in!");
+      this.navigateToMainPage();
     };
 
-    let onError = () => {
-      this.toastService.error("Login failed");
+    let onError = (httpErrorResponse: HttpErrorResponse) => {
+      if (httpErrorResponse.status >= 400 && httpErrorResponse.status < 500)
+        this.toastService.error(httpErrorResponse.error["message"]);
+      else
+        this.toastService.error("Failed to login! Please try again");
+
+      this.isLoginButtonPressed = false;
     }
 
     this.authenticationService.login({
@@ -54,9 +62,13 @@ export class LoginComponent implements OnInit {
         onNext();
       },
       error(error) {
-        onError();
+        onError(error);
       }
     });
+  }
+
+  navigateToMainPage() {
+    this.router.navigateByUrl('/network');
   }
 
 }
