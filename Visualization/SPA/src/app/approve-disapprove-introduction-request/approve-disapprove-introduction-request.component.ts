@@ -28,6 +28,9 @@ export class ApproveDisapproveIntroductionRequestComponent implements OnInit {
   getPendingApprovol(){
     this.IntroductionRequestService.getIntroductionPendingAprovall()
       .subscribe(data=>this.listofPendingApprovol=data);
+    if (this.listofPendingApprovol.length==0){
+      this.openSnackBar("Empty Approval Introductions Requests","close");
+    }
   }
   setStep(index: ConnectionIntroductionDTO) {
     this.PendingApprovolSelected=index;
@@ -37,6 +40,7 @@ export class ApproveDisapproveIntroductionRequestComponent implements OnInit {
       this.PendingApprovolSelected.connectionRequestStatus=0;
       this.IntroductionRequestService.ApproveDisapproveIntroduction(this.PendingApprovolSelected).subscribe(data=>{
          console.log(data)
+
         this.openSnackBar("Introduction Request approved","close");
 
       })
@@ -49,7 +53,7 @@ export class ApproveDisapproveIntroductionRequestComponent implements OnInit {
       this.PendingApprovolSelected.connectionRequestStatus=1;
       this.IntroductionRequestService.ApproveDisapproveIntroduction(this.PendingApprovolSelected).subscribe(data=>{
         console.log(data)
-        this.openSnackBar("Introduction Request rejected","close");
+        this.openSnackBar("Introduction Request Rejected","close");
       })
       location.reload();
     }

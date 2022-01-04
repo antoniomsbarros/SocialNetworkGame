@@ -25,7 +25,7 @@ describe('IntroductionRequestService', () => {
 
       it('returned Observable should match the right data ',  ()=> {
 
-        const client="1200607@isep.ipp.pt";
+        const client="Jules46843207@gmail.com";
         service.getIntroductionsPending(client).subscribe(data=>{
           console.log(data);
           expect(data).toBe([])

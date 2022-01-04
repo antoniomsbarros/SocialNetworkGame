@@ -12,7 +12,7 @@ export class TagsService {
 
   constructor(private http: HttpClient) { }
 
-  private readonly TagsURL = "http://localhost:5000/api/Tags/";
+  private readonly TagsURL = "https://socialnetworkbackend.azurewebsites.net/api/Tags/";
 
   getAllTags(): Observable<TagsDTO[]> {
     return this.http.get<TagsDTO[]>(this.TagsURL+"all/");
