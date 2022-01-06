@@ -5,6 +5,8 @@ using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
+using SocialNetwork.core.model.tags.dto;
+using SocialNetwork.core.services.tags;
 
 namespace SocialNetwork.core.services.players
 {
@@ -13,9 +15,9 @@ namespace SocialNetwork.core.services.players
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
         private readonly PlayerBuilder _playerBuilder;
-
         public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
         {
+            
             _unitOfWork = unitOfWork;
             _repo = repo;
             _playerBuilder = new PlayerBuilder();
@@ -136,5 +138,7 @@ namespace SocialNetwork.core.services.players
         {
             await _unitOfWork.CommitAsync();
         }
+
+        
     }
 }

@@ -64,7 +64,7 @@ namespace SocialNetwork.core.services.relationships
                 listToReturnFriends.Add(new PlayerEmailDto(friendsAux.email, friendsAux.fullName));
             }
 
-            return listToReturnFriends;
+            return listToReturnFriends; 
         }
 
      /* public async Task<List<NetworkFromPLayerDTO>> getNetworkFromPlayer(Email email)

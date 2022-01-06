@@ -55,9 +55,7 @@
               <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
             </mat-select>
           </mat-form-field>
-
             <button mat-raised-button (click)="openDialog()" style="margin-left: 25px">Create Tag</button>
-
         </form>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center" style="margin-top: 50px">
           <button (click)="create()" type="button" class="btn btn-success btn-lg px-4 gap-3" style="  background-color: green; color: white; ">Create Introduction</button>

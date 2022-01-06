@@ -9,8 +9,11 @@ using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.systemUsers.domain;
 using SocialNetwork.core.model.systemUsers.dto;
+using SocialNetwork.core.model.tags.domain;
+using SocialNetwork.core.model.tags.dto;
 using SocialNetwork.core.services.players;
 using SocialNetwork.core.services.systemUsers;
+using SocialNetwork.core.services.tags;
 
 namespace SocialNetwork.core.controller.players
 {
@@ -21,13 +24,14 @@ namespace SocialNetwork.core.controller.players
         private readonly IConfiguration _config;
         private readonly SystemUserService _systemUserService;
         private readonly PlayerService _playerService;
-
+        private readonly TagsService _tagsService;
         public PlayersController(PlayerService playerService, SystemUserService systemUserService,
-            IConfiguration config)
+            IConfiguration config, TagsService tagsService)
         {
             _playerService = playerService;
             _systemUserService = systemUserService;
             _config = config;
+            _tagsService = tagsService;
         }
 
         [HttpGet]
@@ -58,7 +62,11 @@ namespace SocialNetwork.core.controller.players
             {
                 return NotFound();
             }
-
+            for (int i = 0; i < cat.tags.Count; i++)
+            {
+                var tag=await _tagsService.GetByIdAsync(new TagId(cat.tags[i]));
+                cat.tags[i] = tag.name;
+            }
             return cat;
         }
 
@@ -90,13 +98,31 @@ namespace SocialNetwork.core.controller.players
         {
             try
             {
+                var tagsNameList = new List<string>(dto.tags);
+
+                var nTag = 0;
+                while (nTag < dto.tags.Count)
+                {
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(dto.tags[nTag])).Result;
+                    if (tag != null)
+                        dto.tags[nTag] = tag.id;
+                    else
+                    {
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(dto.tags[nTag])).Result;
+                        dto.tags[nTag] = newTag.id;
+                    }
+
+                    ++nTag;
+                }
+
+                
                 var player = await _playerService.UpdateAsync(dto);
 
                 if (player == null)
                 {
                     return NotFound();
                 }
-
+                player.tags = tagsNameList;
                 return Ok(player);
             }
             catch (BusinessRuleValidationException ex)
@@ -155,5 +181,27 @@ namespace SocialNetwork.core.controller.players
                 return BadRequest(new {ex.Message});
             }
         }
+
+        [HttpGet("Tags/{email}")]
+        public async Task<ActionResult<IEnumerable<TagDto>>> GetAllTagsofPLayer(string email)
+        {
+            try
+            {
+                var cat = await _playerService.GetByEmailAsync(new Email(email));
+                List<TagDto> result = new List<TagDto>();
+                foreach (var catTag in cat.tags)
+                {
+                    result.Add(_tagsService.GetByIdAsync(new TagId(catTag)).Result);
+                }
+
+                return Ok(result);
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {ex.Message});
+            }
+        }
     }
+    
+    
 }
