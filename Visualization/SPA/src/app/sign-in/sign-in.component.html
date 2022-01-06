@@ -1,4 +1,4 @@
-<div class="page-holder align-items-center py-4 vh-100">
+<div id="sign-in" class="page-holder align-items-center py-4 vh-100">
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-12 px-lg-2">
@@ -108,17 +108,16 @@
                     Conditions</a>.</label>
                 </div>
                 <div class="row mt-4">
-                  <button [disabled]="registerPlayerForm.invalid || password.value != passwordConfirmation.value"
-                          type="submit"
-                          class="btn btn-primary px-5"
-                          (click)="registerFormSubmit()">
-                    <div *ngIf="!isRegisterButtonPressed">
-                      Register
-                    </div>
-                    <div *ngIf="isRegisterButtonPressed">
-                      <span class="spinner-border spinner-border-sm"></span>
-                    </div>
-                  </button>
+                  <div *ngIf="!isRegisterButtonPressed">
+                    <button [disabled]="registerPlayerForm.invalid || password.value != passwordConfirmation.value"
+                            type="submit"
+                            class="button-17"
+                            (click)="registerFormSubmit()"> Register
+                    </button>
+                  </div>
+                  <div *ngIf="isRegisterButtonPressed" class="spinner-grow" style="width: 3rem; height: 3rem;"
+                       role="status">
+                  </div>
                 </div>
               </div>
             </form>

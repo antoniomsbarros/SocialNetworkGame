@@ -69,7 +69,6 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // window.document.body.style.overflow = "hidden";
   }
 
   get isRegisterButtonPressed(): any {

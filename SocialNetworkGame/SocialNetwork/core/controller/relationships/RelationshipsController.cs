@@ -20,7 +20,7 @@ namespace SocialNetwork.core.controller.relationships
     {
         private readonly RelationshipService _service;
         private readonly TagsService _tagsService;
-        
+
 
         public RelationshipsController(RelationshipService service, TagsService tagsService)
         {
@@ -46,12 +46,7 @@ namespace SocialNetwork.core.controller.relationships
 
             return cat;
         }
-        [HttpGet("list/list")]
-        public async  Task<ActionResult<List<NetworkFromPLayerDTO>>> ola()
-        {
-            return await _service.getNetworkFromPlayer(new Email("1200610@isep.ipp.pt"));
-        }
-            
+
         [HttpGet("friends/{email}")]
         public async Task<ActionResult<List<PlayerEmailDto>>> GetFriendsByEmail(string email)
         {
@@ -165,10 +160,10 @@ namespace SocialNetwork.core.controller.relationships
                 return BadRequest(new {ex.Message});
             }
         }
-        
+
         //Put: api/EditTagConnectionStrength/id
         [HttpPut("{id}")]
-        public async Task<ActionResult<RelationshipDto>>  ChangeRelationshipTag(Guid id, RelationshipDto dto)
+        public async Task<ActionResult<RelationshipDto>> ChangeRelationshipTag(Guid id, RelationshipDto dto)
         {
             if (!id.Equals(Guid.Parse(dto.id)))
             {

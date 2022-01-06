@@ -18,127 +18,47 @@
 % Primary knowledge base
 
 
-
 % Secundary knowledge base
 :- dynamic relationship1/2.
 :- dynamic users_combination/2.
 :- dynamic best_solution_bidirectional/2.
 :- dynamic best_solution_unidirectional/2.
+:- dynamic best_solution_safe_path/3.
 
-% HTTP Server setup at 'Port'                           
-startServer(Port) :-
+% Server startup                          
+start_server :-
+    load_local_modules,
+    server_port(Port),
+    certificate_file_path(Certificate_Path),
+    key_file_path(Key_Path),
     http_server(http_dispatch,
                 [ port(Port),
-                  ssl([ certificate_file('C:/21s5_3dg_41/SocialNetworkGame/AI/socialaicert.crt'),
-                        key_file('C:/21s5_3dg_41/SocialNetworkGame/AI/socialaikey.key')
+                  ssl([ certificate_file(Certificate_Path),
+                        key_file(Key_Path)
                       ])
                 ]),
     asserta(port(Port)).
 
-% Server startup
-start_server:-
-    consult(ai_server_config),  % Loads server's configuration
-    server_port(Port),
-    startServer(Port).
-
 % Shutdown server
-stopServer:-
+stopServer :-
         retract(port(Port)),
         http_stop_server(Port,_).
+
+% Services
+load_local_modules :-
+    consult(ai_server_config),  % Loads server's configuration
+    consult(services/geral_use),
+    consult(services/compute_socialnetwork_size).
 
 % Server init
 :- start_server.
 
 % HTTP Requests
-:- http_handler('/api/network/size', computeSocialNetworkSize, []).
 :- http_handler('/shortestPath', shortestPathRoute, []).
 :- http_handler('/api/network/saferPath', saferPathRoute, []).
 :- http_handler('/api/tagsincommon', computePlayerWithXTagsInCommon, []).
 
-% Methods
-
-%================== Geral Use ======================%
-
-getSocialNetworkHostPort(Host, Port) :-
-    module_socialnetwork_host(Host),
-    module_socialnetwork_port(Port).
-
-%======== Size of a Player's Social Network ========%
-
-computeSocialNetworkSize(Request) :-
-    getPlayerSocialNetwork(Request, Size),
-    reply_json(Size).
-
-getPlayerSocialNetwork(Request, Size) :-
-    http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
-    getSocialNetworkHostPort(Host, Port),
-    atom_concat('/api/Relationships/network/',Email,X),
-    atom_concat(X, '/',Y),
-    atom_concat(Y,Depth,Path),
-    http_open([host(Host), port(Port), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
-    json_read_dict(Stream, Data),
-    close(Stream),
-    createSocialNetworkTerms(Data),
-    compute_network_size(Data.PlayerId, Depth, Size),
-    retractall(relationship1(_,_)). % Delete all relationships generated
-
-createSocialNetworkTerms(Data) :-
-    setPlayerSocialNetworkTerms(Data, Data.relationships).
-
-setPlayerSocialNetworkTerms(Player, []).
-
-setPlayerSocialNetworkTerms(Player, [PlayerX]) :-
-    setPlayerSocialNetworkTerms(PlayerX, PlayerX.relationships),
-    asserta(relationship1(Player.PlayerId, PlayerX.PlayerId)).
-
-setPlayerSocialNetworkTerms(Player, [PlayerX|Relationships]) :-
-    setPlayerSocialNetworkTerms(Player, Relationships),
-    asserta(relationship1(Player.PlayerId, PlayerX.PlayerId)).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-connection(PlayerX, PlayerY) :-
-    relationship1(PlayerX, PlayerY);
-    relationship1(PlayerY, PlayerX).
-
-compute_network_size(Player, Level, Size) :-
-    compute_network_size1(1, Level, [Player], Size1),
-    Size is Size1 - 1.
-
-compute_network_size1(CurrentLevel, LimitLevel,AllPlayers,Size) :-
-    LimitLevel > CurrentLevel,
-    add_all_level1_connections(AllPlayers, AllPlayers1),
-    CurrentLevel1 is CurrentLevel + 1,
-    compute_network_size1(CurrentLevel1, LimitLevel, AllPlayers1, Size),
-    !.
-
-compute_network_size1(_, _, AllPlayers, Size) :-
-        length(AllPlayers, Size),
-        !.
-
-level1_connections(Player, AllFriends) :-
-    findall(Friends, connection(Player, Friends), AllFriends).
-
-add_all_level1_connections([], []).
-
-add_all_level1_connections([H|T], X) :-
-    add_all_level1_connections(T, K),
-    level1_connections(H, N),
-    append_new([H|N], K, X).
-
-append_new([], X, X).
-
-append_new([X|Y], Z, [X|W]):-
-    append_new(Y, Z, W),
-    \+ member(X, W),
-    !.
-
-append_new([_|Y], Z, W):-
-    append_new(Y, Z, W).  
-
-
 %======== Shortest Path Between Two Users ========%
-
 
 % define shortest path route %
 shortestPathRoute(Request):-
@@ -187,11 +107,11 @@ dfs2(Act,Dest,LA,Cam):-
         \+ member(X,LA),
         dfs2(X,Dest,[X|LA],Cam).
 
-%===================================================%
+%==================================================%
 
 %======== Strongest Path Between Two Users ========%
 
-%===== Unidirectional ====%
+%===== Unidirectional =====%
 
 strongest_path_unidirectional(Orig,Dest,Result):-
     get_time(Ti),
@@ -221,7 +141,6 @@ update_better_unidirectional(LCaminho,Sum):-
     retract(counter(NS)),
     NS1 is NS+1,
     asserta(counter(NS1)),
-
     best_solution_unidirectional(_,N),
     Sum>N,retract(best_solution_unidirectional(_,_)),
     asserta(best_solution_unidirectional(LCaminho,Sum)).
@@ -230,9 +149,17 @@ update_better_unidirectional(LCaminho,Sum):-
 dfs_force_unidirectional(Orig,Dest,Cam,Sum):-
     dfs2_force_unidirectional(Orig,Dest,[Orig],Cam,Sum).
 
-dfs2_force_unidirectional(Dest,Dest,LA,Cam,0):-!,reverse(LA,Cam).
-dfs2_force_unidirectional(Act,Dest,LA,Cam,Sum):-no(NAct,Act,_),(ligacao(NAct,NX,S1,_);ligacao(NX,NAct,_,S1)),
-no(NX,X,_),\+ member(X,LA),dfs2_force_unidirectional(X,Dest,[X|LA],Cam,SX),Sum is (SX+S1).
+dfs2_force_unidirectional(Dest,Dest,LA,Cam,0):-
+    !,
+    reverse(LA,Cam).
+
+dfs2_force_unidirectional(Act,Dest,LA,Cam,Sum):-
+    no(NAct,Act,_),
+    (ligacao(NAct,NX,S1,_);ligacao(NX,NAct,_,S1)),
+    no(NX,X,_),
+    \+ member(X,LA),
+    dfs2_force_unidirectional(X,Dest,[X|LA],Cam,SX),
+    Sum is (SX+S1).
 
 %===== Bidirectional =====%
 
@@ -261,22 +188,28 @@ best_path_bidirectional(Orig,Dest):-
     fail.
 
 update_better_bidirectional(LCaminho,Sum):-
-
-retract(counter(NS)),
-NS1 is NS+1,
-asserta(counter(NS1)),
-
+    retract(counter(NS)),
+    NS1 is NS+1,
+    asserta(counter(NS1)),
     best_solution_bidirectional(_,N),
-    Sum>N,retract(best_solution_bidirectional(_,_)),
+    Sum>N,
+    retract(best_solution_bidirectional(_,_)),
     asserta(best_solution_bidirectional(LCaminho,Sum)).
 
 dfs_force_bidirectional(Orig,Dest,Cam,Sum):-
-dfs2_force_bidirectional(Orig,Dest,[Orig],Cam,Sum).
+    dfs2_force_bidirectional(Orig,Dest,[Orig],Cam,Sum).
 
-dfs2_force_bidirectional(Dest,Dest,LA,Cam,0):-!,reverse(LA,Cam).
-dfs2_force_bidirectional(Act,Dest,LA,Cam,Sum):-no(NAct,Act,_),(ligacao(NAct,NX,S1,S2);ligacao(NX,NAct,S1,S2)),
-no(NX,X,_),\+ member(X,LA),dfs2_force_bidirectional(X,Dest,[X|LA],Cam,SX),Sum is (SX+S1+S2) .
+dfs2_force_bidirectional(Dest,Dest,LA,Cam,0):-
+    !,
+    reverse(LA,Cam).
 
+dfs2_force_bidirectional(Act,Dest,LA,Cam,Sum):-
+    no(NAct,Act,_),
+    (ligacao(NAct,NX,S1,S2);ligacao(NX,NAct,S1,S2)),
+    no(NX,X,_),
+    \+ member(X,LA),
+    dfs2_force_bidirectional(X,Dest,[X|LA],Cam,SX),
+    Sum is (SX+S1+S2).
 
 %===================================================%
 
@@ -291,12 +224,6 @@ no(NX,X,_),\+ member(X,LA),dfs2_force_bidirectional(X,Dest,[X|LA],Cam,SX),Sum is
 % relationship(1,3,4,5).
 % relationship(2,4,9,9).
 % relationship(3,4,7,6).
-
-:- http_handler('/api/network/saferPath', saferPathRoute, []).
-
-
-% (caminho, somatorio_forças, força_ligaçao_minima)
-:- dynamic best_solution_safe_path/3.
 
 
 safest_path(Orig,Dest,Min_strength,LCaminho_forlig):-
