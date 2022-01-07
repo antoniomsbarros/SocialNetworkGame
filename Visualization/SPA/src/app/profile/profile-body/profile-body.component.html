@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-4">
+    <app-profile-aboute-me [id]="id"></app-profile-aboute-me>
+  </div>
+  <div class="col-md-8">
+    <div class="tab-block">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a  data-toggle="tab" (click)="changeActivitys()">Activity</a>
+        </li>
+        <li>
+          <a  data-toggle="tab"  (click)="changeFriends()">Friends</a>
+        </li>
+        <li>
+          <a  data-toggle="tab" (click)="changeTags()" >Tags</a>
+        </li>
+      </ul>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

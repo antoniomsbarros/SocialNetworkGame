@@ -38,7 +38,7 @@ private getTagsPlayers: string="https://localhost:5001/api/Players/Tags/"
   getConnectionSuggestion(): Observable<any> {
     return this.http.get<PlayerDto[]>(this.socialNetwork);
   }
-  async getProfile(email:string):Promise<any>{
+   getProfile(email:string):Observable<any>{
     return this.http.get<PlayerDto>(this.getprofile + "=" + email);
   }
 

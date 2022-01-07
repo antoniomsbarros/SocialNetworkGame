@@ -59,6 +59,13 @@ import { DialogPhoneNumberComponent } from './update-profile/dialogComponentsUPd
 import { DialogFacebookLinkComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-facebook-link/dialog-facebook-link.component';
 import { DialogLinkedinLinkComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-linkedin-link/dialog-linkedin-link.component';
 import {MatCardModule} from "@angular/material/card";
+import { ProfileComponent } from './profile/profile.component';
+import {ProfileHeaderComponent} from "./profile/profile-header/profile-header.component";
+import {ProfileBodyComponent} from "./profile/profile-body/profile-body.component";
+import {ProfileAbouteMeComponent} from "./profile/profile-aboute-me/profile-aboute-me.component";
+import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
+import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
+import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.component";
 
 @NgModule({
   declarations: [
@@ -88,6 +95,13 @@ import {MatCardModule} from "@angular/material/card";
     DialogPhoneNumberComponent,
     DialogFacebookLinkComponent,
     DialogLinkedinLinkComponent,
+    ProfileComponent,
+    ProfileHeaderComponent,
+    ProfileBodyComponent,
+    ProfileAbouteMeComponent,
+    ProfilePostsComponent,
+    ProfileFriendsComponent,
+    ProfileTagsComponent
 
   ],
     imports: [
