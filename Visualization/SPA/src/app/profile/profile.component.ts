@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
 async getPLayerProfile() {
 
   // @ts-ignore
-  this.id = this.route.snapshot.paramMap.get('id');
+  this.id = this.route.snapshot.paramMap.get('email');
 
   if (this.id!=null){
     this.player = await firstValueFrom(this.playerService.getProfile(this.id));

@@ -44,7 +44,7 @@ export class ProfileAbouteMeComponent implements OnInit {
 
     var divphone= document.getElementById("divphoneNumber");
     var h4phone=document.createElement("h3");
-    h4phone.textContent=" Phone Number: "+<string>this.player?.phoneNumber;
+    h4phone.textContent=" "+<string>this.player?.phoneNumber;
     h4phone.style.display ="inline";
     // @ts-ignore
     divphone.appendChild(h4phone);
@@ -54,7 +54,7 @@ export class ProfileAbouteMeComponent implements OnInit {
     var h4age=document.createElement("h3");
     // @ts-ignore
     let date=new Date( this.player?.dateOfBirth);
-    h4age.textContent=" Birth Date: "+<string>moment(date).format('YYYY-MM-DD');;
+    h4age.textContent=" "+<string>moment(date).format('YYYY-MM-DD');;
     h4age.style.display ="inline";
     // @ts-ignore
     divage.appendChild(h4age);
@@ -62,7 +62,7 @@ export class ProfileAbouteMeComponent implements OnInit {
 
     var divemail= document.getElementById("divemail");
     var h4email=document.createElement("h3");
-    h4email.textContent=" Email: "+this.player?.email;
+    h4email.textContent=" "+this.player?.email;
     h4email.style.display ="inline";
     // @ts-ignore
     divemail.appendChild(h4email);
@@ -70,25 +70,111 @@ export class ProfileAbouteMeComponent implements OnInit {
 
     var divfacebooklinkedin= document.getElementById("facebooklinkdin");
     var h4face=document.createElement("h3");
-    h4face.textContent=" Facebook : "+this.player?.facebookProfile;
+    h4face.textContent=" "+this.player?.facebookProfile;
     h4face.style.display ="inline";
     // @ts-ignore
     divfacebooklinkedin.appendChild(h4face)
 
     var divlinkedin= document.getElementById("linkedin");
     var h4link=document.createElement("h3");
-    h4link.textContent=" Facebook : "+this.player?.linkedinProfile;
+    h4link.textContent=" "+this.player?.linkedinProfile;
     h4link.style.display ="inline";
     // @ts-ignore
     divlinkedin.appendChild(h4link)
 
     var divemocional= document.getElementById("emocional");
     var h4emocional=document.createElement("h3");
-    h4emocional.textContent=" Emocional Status : "+this.player?.emotionalStatus;
+    h4emocional.textContent=" Emocional Status : "+this.player?.emotionalStatus+this.emocialStatus(<string>this.player?.emotionalStatus);
     h4emocional.style.display ="inline";
     // @ts-ignore
     divemocional.appendChild(h4emocional)
 
+  }
+
+  emocialStatus(emocional:string):string{
+    let emoji="";
+    switch (emocional) {
+      case "NotSpecified":
+        emoji="NotSpecified";
+        break;
+      case "Astonishment":
+        emoji= "😲";
+      break
+      case "Eagerness":
+        emoji="😰";
+        break;
+      case "Curiosity":
+        emoji="🧐";
+        break;
+      case "Inspiration":
+        emoji="🕯🖋📝🔓💭💡";
+        break;
+      case "Desire":
+        emoji="🤤";
+        break;
+      case "Love":
+        emoji="❤";
+        break;
+      case "Fascination":
+        emoji="🤩";
+        break;
+      case "Admiration":
+        emoji="😲";
+        break;
+      case "Joyfulness":
+        emoji="😂";
+        break;
+      case "Satisfaction":
+        emoji="⭐⭐⭐⭐⭐";
+        break;
+      case "Softened":
+        emoji="🎀🧸";
+        break;
+      case "Relaxed":
+        emoji="😌";
+        break;
+      case "Awaiting":
+        emoji="⌛";
+        break;
+      case "Deferent":
+        emoji="🙄";
+        break;
+      case "Calm":
+        emoji="😌";
+        break;
+      case "Boredom":
+        emoji="🥱";
+        break;
+      case "Sadness":
+        console.log("😢");
+        break;
+      case "Isolation":
+        console.log("🏠");
+        break;
+        case "Disappointment":
+        emoji="😞";
+        break;
+      case "Contempt":
+        emoji="😒";
+        break;
+      case "Jealousy":
+        console.log("1");
+        break;
+      case "Irritation":
+        console.log("1");
+        break;
+      case "Disgust":
+        console.log("1");
+        break;
+      case "Alarm":
+        console.log("1");
+        break;
+      default:
+        console.log("default");
+
+
+    }
+    return emoji;
   }
 
 }

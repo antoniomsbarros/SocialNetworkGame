@@ -45,7 +45,7 @@ const routes: Routes = [
   {path: "shortestPath", component: ShortestPathComponent},
   {path: "safestPath", component: SafestPathComponent},
   {path: "networkListing", component: NetworkListingComponent},
-  {path: "profile/:id", component: ProfileComponent,children:[
+  {path: "profile/:email", component: ProfileComponent,children:[
       {path:"", component:ProfileBodyComponent, children:[
           {path:"", redirectTo:"post", pathMatch:"full"},
           {path:"post", component:ProfilePostsComponent},
