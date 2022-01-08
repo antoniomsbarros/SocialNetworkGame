@@ -66,7 +66,6 @@ import {ProfileAbouteMeComponent} from "./profile/profile-aboute-me/profile-abou
 import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
 import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
 import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.component";
-import { FriendsNetworkComponent } from './friends-network/friends-network.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +102,6 @@ import { FriendsNetworkComponent } from './friends-network/friends-network.compo
     ProfilePostsComponent,
     ProfileFriendsComponent,
     ProfileTagsComponent,
-    FriendsNetworkComponent
 
   ],
     imports: [
