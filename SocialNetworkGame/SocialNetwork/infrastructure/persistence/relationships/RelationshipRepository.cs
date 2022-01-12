@@ -28,14 +28,14 @@ namespace SocialNetwork.infrastructure.persistence.relationships
             await _socialNetworkDbContext.SaveChangesAsync();
         }
 
-        public async Task<Relationship> GetRelationshipOfPlayerFromTo(Email playerFrom, Email playerDest)
+        public async Task<Relationship> GetRelationshipBetweenPlayers(PlayerId playerFrom, PlayerId playerDest)
         {
-            var rela = await this._socialNetworkDbContext.Set<Relationship>()
-                .Where(x => playerFrom.Equals(x.PlayerOrig.ToString()))
-                .Where(y => playerDest.Equals(y.PlayerDest.ToString()))
+            var result = await _objs
+                .Where(relationship => relationship.PlayerOrig.Value.Equals(playerFrom.Value)
+                                       && relationship.PlayerDest.Value.Equals(playerDest.Value))
                 .FirstOrDefaultAsync();
 
-            return rela;
+            return result;
         }
     }
 }
