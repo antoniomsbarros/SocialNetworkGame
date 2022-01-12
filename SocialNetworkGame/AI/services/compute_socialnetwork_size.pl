@@ -1,5 +1,8 @@
 %======== Size of a Player's Social Network ========%
 
+% Secundary knowledge base
+:- dynamic relationship1/2.
+
 % HTTP Request
 :- http_handler('/api/network/size', computeSocialNetworkSize, []).
 
