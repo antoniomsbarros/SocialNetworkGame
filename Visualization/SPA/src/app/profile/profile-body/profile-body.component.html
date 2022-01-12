@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-md-4">
+    <app-profile-aboute-me [id]="id"></app-profile-aboute-me>
+  </div>
+  <div class="col-md-8">
+    <div class="tab-block">
+      <ul class="nav nav-tabs" id="navbar">
+        <li class="active" id="post">
+          <a  data-toggle="tab" [routerLink]="['post']"  [ngClass]="{'active' : currentTab === 'Activity'}" (click)="changeActive($event)">Activity</a>
+        </li>
+        <li id="friends">
+          <a  data-toggle="tab" [routerLink]="['friends']" [ngClass]="{'active' : currentTab === 'friends'}" (click)="changeActive($event)">Friends</a>
+        </li>
+        <li id="tags">
+          <a  data-toggle="tab" [routerLink]="['tags']" [ngClass]="{'active' : currentTab === 'tags'}" (click)="changeActive($event)">Tags</a>
+        </li>
+      </ul>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -14,7 +14,7 @@ namespace SocialNetwork.core.model.players.dto
         public DateTime dateOfBirth;
         public string shortName; // Name
         public string fullName; // Name
-        public EmotionalStatusEnum emotionalStatus;
+        public string emotionalStatus;
         public List<string> tags;
 
         public PlayerDto(string id, string email, string phoneNumber, string facebookProfile, string linkedinProfile,
@@ -27,7 +27,7 @@ namespace SocialNetwork.core.model.players.dto
             this.facebookProfile = facebookProfile;
             this.linkedinProfile = linkedinProfile;
             this.dateOfBirth = dateOfBirth;
-            this.emotionalStatus = emotionalStatus;
+            this.emotionalStatus = emotionalStatus.ToString();
             this.shortName = shortName;
             this.fullName = fullName;
             this.tags = new(tags);

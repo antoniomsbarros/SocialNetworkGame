@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, Observable, of, tap} from "rxjs";
+import {catchError, firstValueFrom, mergeAll, Observable, of, tap, withLatestFrom} from "rxjs";
 import {PlayerDto} from "../../dto/players/PlayerDto";
 import {RegisterPlayerDto} from "../../dto/players/RegisterPlayerDto";
 import {UpdateEmotionalStatusDto} from "../../DTO/players/UpdateEmotionalStatusDto";
 import {UpdateProfileDto} from "../../DTO/players/UpdateProfileDto";
+import {TagsDTO} from "../../DTO/TagsDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class PlayersService {
   private socialNetwork: string = "https://localhost:5001/api/Players/";
   private humorState: string = "https://localhost:5001/api/Players/humor/";
   private profile: string = "https://localhost:5001/api/Players/profile/";
-
-
+  private getprofile: string= "https://localhost:5001/api/Players/email";
+private getTagsPlayers: string="https://localhost:5001/api/Players/Tags/"
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -28,12 +29,17 @@ export class PlayersService {
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
   }
 
-  updateProfile(dto: UpdateProfileDto): Observable<any> {
-    return this.http.put<UpdateProfileDto>(`${this.profile}${dto.email}`, dto);
+  updateProfile(dto: UpdateProfileDto, email:string): Observable<any> {
+    console.log(dto.email);
+    console.log(dto.tags)
+    return this.http.put<UpdateProfileDto>(this.profile+email, dto);
   }
 
   getConnectionSuggestion(): Observable<any> {
     return this.http.get<PlayerDto[]>(this.socialNetwork);
+  }
+   getProfile(email:string):Observable<any>{
+    return this.http.get<PlayerDto>(this.getprofile + "=" + email);
   }
 
   /*
@@ -61,4 +67,8 @@ export class PlayersService {
       return of(result as T);
     };
   }
+    getPlayersTags(email:string):Observable<TagsDTO[]>{
+    return this.http.get<TagsDTO[]>(this.getTagsPlayers+email);
+  }
+
 }

@@ -22,6 +22,11 @@ import {SafestPathComponent} from "./safest-path/safest-path.component";
 import {NetworkListingComponent} from "./network-listing/network-listing.component";
 import {TermsAndConditionsComponent} from "./terms-and-conditions/terms-and-conditions.component";
 import {PrivacyPolicyComponent} from "./privacy-policy/privacy-policy.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.component";
+import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
+import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
+import {ProfileBodyComponent} from "./profile/profile-body/profile-body.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -40,10 +45,20 @@ const routes: Routes = [
   {path: "shortestPath", component: ShortestPathComponent},
   {path: "safestPath", component: SafestPathComponent},
   {path: "networkListing", component: NetworkListingComponent},
+  {path: "profile/:email", component: ProfileComponent,children:[
+      {path:"", component:ProfileBodyComponent, children:[
+          {path:"", redirectTo:"post", pathMatch:"full"},
+          {path:"post", component:ProfilePostsComponent},
+          {path:"tags", component:ProfileTagsComponent},
+          {path:"friends", component:ProfileFriendsComponent}
+        ]}
+    ]},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,  {
+    paramsInheritanceStrategy: 'always'
+  })],
   exports: [RouterModule]
 })
 

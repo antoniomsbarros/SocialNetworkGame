@@ -52,6 +52,20 @@ import {NetworkListingComponent} from './network-listing/network-listing.compone
 import {TermsAndConditionsComponent} from './terms-and-conditions/terms-and-conditions.component';
 import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 import { SuggestConnectionComponent } from './suggest-connection/suggest-connection.component';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { DialogFullNameComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-full-name/dialog-full-name.component';
+import { DialogShortNameComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-short-name/dialog-short-name.component';
+import { DialogPhoneNumberComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-phone-number/dialog-phone-number.component';
+import { DialogFacebookLinkComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-facebook-link/dialog-facebook-link.component';
+import { DialogLinkedinLinkComponent } from './update-profile/dialogComponentsUPdateProfile/dialog-linkedin-link/dialog-linkedin-link.component';
+import {MatCardModule} from "@angular/material/card";
+import { ProfileComponent } from './profile/profile.component';
+import {ProfileHeaderComponent} from "./profile/profile-header/profile-header.component";
+import {ProfileBodyComponent} from "./profile/profile-body/profile-body.component";
+import {ProfileAbouteMeComponent} from "./profile/profile-aboute-me/profile-aboute-me.component";
+import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
+import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
+import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.component";
 
 @NgModule({
   declarations: [
@@ -75,31 +89,46 @@ import { SuggestConnectionComponent } from './suggest-connection/suggest-connect
     NetworkListingComponent,
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
-    SuggestConnectionComponent
+    SuggestConnectionComponent,
+    DialogFullNameComponent,
+    DialogShortNameComponent,
+    DialogPhoneNumberComponent,
+    DialogFacebookLinkComponent,
+    DialogLinkedinLinkComponent,
+    ProfileComponent,
+    ProfileHeaderComponent,
+    ProfileBodyComponent,
+    ProfileAbouteMeComponent,
+    ProfilePostsComponent,
+    ProfileFriendsComponent,
+    ProfileTagsComponent,
+
   ],
-  imports: [
-    MatFormFieldModule,
-    MatSelectModule,
-    BrowserModule,
-    HttpClientModule,
-    MatSelectSearchModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatExpansionModule,
-    MatNativeDateModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    AppRoutingModule,
-    NgbModule,
-    MatSnackBarModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    ReactiveFormsModule,
-    MatDialogModule,
-    ToastrModule.forRoot(),
-    NgbModule,
-  ], entryComponents: [],
+    imports: [
+        TagCloudModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        BrowserModule,
+        HttpClientModule,
+        MatSelectSearchModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatExpansionModule,
+        MatNativeDateModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        AppRoutingModule,
+        NgbModule,
+        MatSnackBarModule,
+        NgMultiSelectDropDownModule.forRoot(),
+        ReactiveFormsModule,
+        MatDialogModule,
+        ToastrModule.forRoot(),
+        NgbModule,
+        MatCardModule,
+    ], entryComponents: [],
   providers: [HttpClient, {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent]
 })

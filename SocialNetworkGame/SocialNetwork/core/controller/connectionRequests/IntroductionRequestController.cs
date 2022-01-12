@@ -264,7 +264,8 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
             try
             {
-                var cat = await _service.UpdateConnectionStatus(new UpdateIntroductionRequestStatus(idrequest, connectionIntroductionRelactionshipDto.ConnectionRequestStatus.ToString()));
+                var cat = await _service.UpdateConnectionStatus(new UpdateIntroductionRequestStatus(idrequest, 
+                connectionIntroductionRelactionshipDto.ConnectionRequestStatus.ToString()));
                 
                 if (cat == null)
                 {
