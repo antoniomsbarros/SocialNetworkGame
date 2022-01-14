@@ -104,3 +104,4 @@ dfs2_force_bidirectional(Act,Dest,LA,Cam,Sum):-
     dfs2_force_bidirectional(X,Dest,[X|LA],Cam,SX),
     Sum is (SX+S1+S2).
 
+

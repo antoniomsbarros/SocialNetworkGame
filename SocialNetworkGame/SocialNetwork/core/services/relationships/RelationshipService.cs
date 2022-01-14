@@ -92,7 +92,7 @@ namespace SocialNetwork.core.services.relationships
                 listToReturnFriends.Add(new PlayerEmailDto(friendsAux.email, friendsAux.fullName));
             }
 
-            return listToReturnFriends; 
+            return listToReturnFriends;
         }
 
         public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetworkAtDepthByEmail(Email email,
@@ -106,7 +106,7 @@ namespace SocialNetwork.core.services.relationships
             NetworkFromPlayerPerspectiveDto network = new()
             {
                 PlayerId = player.id,
-                PlayerName = player.fullName,
+                PlayerEmail = player.email,
                 Relationships = new()
             };
 
@@ -143,7 +143,7 @@ namespace SocialNetwork.core.services.relationships
                         var playerToNetwork = new NetworkFromPlayerPerspectiveDto
                         {
                             PlayerId = playerTo.id,
-                            PlayerName = playerTo.fullName,
+                            PlayerEmail = playerTo.email,
                             Relationships = new()
                         };
 
@@ -163,7 +163,8 @@ namespace SocialNetwork.core.services.relationships
                             new NetworkFromPlayerPerspectiveDto
                             {
                                 PlayerId = nextPlayer.PlayerId,
-                                PlayerName = nextPlayer.PlayerName,
+                                PlayerEmail = nextPlayer.PlayerEmail,
+                                Relationships = new(),
                                 RelationshipStrength = oppositeRelationship.ConnectionStrength.Strength,
                                 RelationshipTags = oppositeRelationship.TagsList.ConvertAll(t =>
                                     _tagsService.GetByIdAsync(new TagId(t.Value)).Result.name)

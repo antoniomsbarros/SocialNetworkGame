@@ -38,6 +38,7 @@ stopServer :-
 load_local_modules :-
     consult(ai_server_config),  % Loads server's configuration
     consult(services/geral_use),
+    consult(services/get_player_socialnetwork),
     consult(services/compute_socialnetwork_size).
 
 % Server init

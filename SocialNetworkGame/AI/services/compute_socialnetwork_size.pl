@@ -1,44 +1,21 @@
 %======== Size of a Player's Social Network ========%
 
-% Secundary knowledge base
-:- dynamic relationship1/2.
-
 % HTTP Request
 :- http_handler('/api/network/size', computeSocialNetworkSize, []).
 
 computeSocialNetworkSize(Request) :-
     http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
-    getSocialNetworkHostPort(Host, Port),
-    atom_concat('/api/Relationships/network/',Email,X),
-    atom_concat(X, '/',Y),
-    atom_concat(Y,Depth,Path),
-    http_open([host(Host), port(Port), path(Path)], Stream, [cert_verify_hook(cert_accept_any)]),
-    json_read_dict(Stream, Data),
-    close(Stream),
-    getPlayerSocialNetwork(Data, Depth, Size), % compute_socialnetwork_size.pl
+    getPlayerSocialNetworkSize(Email, Depth, Size), % compute_socialnetwork_size.pl
     reply_json(Size).
 
-getPlayerSocialNetwork(Data, Depth, Size) :-
-    createSocialNetworkTerms(Data),
-    compute_network_size(Data.playerId, Depth, Size),
-    retractall(relationship1(_,_)). % Delete all relationships generated
-
-createSocialNetworkTerms(Data) :-
-    setPlayerSocialNetworkTerms(Data, Data.relationships).
-
-setPlayerSocialNetworkTerms(_, []).
-
-setPlayerSocialNetworkTerms(Player, [PlayerX]) :-
-    setPlayerSocialNetworkTerms(PlayerX, PlayerX.relationships),
-    asserta(relationship1(Player.playerId, PlayerX.playerId)).
-
-setPlayerSocialNetworkTerms(Player, [PlayerX|Relationships]) :-
-    setPlayerSocialNetworkTerms(Player, Relationships),
-    asserta(relationship1(Player.playerId, PlayerX.playerId)).
+getPlayerSocialNetworkSize(Email, Depth, Size) :-
+    getPlayerSocialNetwork(Email, Depth),
+    compute_network_size(Email, Depth, Size),
+    deletePlayerSocialNetwork.
 
 connection(PlayerX, PlayerY) :-
-    relationship1(PlayerX, PlayerY);
-    relationship1(PlayerY, PlayerX).
+    relationship(PlayerX, PlayerY, _, _),
+    relationship(PlayerY, PlayerX, _, _).
 
 compute_network_size(Player, Level, Size) :-
     compute_network_size1(0, Level, [Player], Size1),
