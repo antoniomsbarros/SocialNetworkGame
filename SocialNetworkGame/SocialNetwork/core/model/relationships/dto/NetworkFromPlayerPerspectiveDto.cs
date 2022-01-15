@@ -6,8 +6,7 @@ namespace SocialNetwork.core.model.relationships.dto
     {
         public string PlayerId { get; set; }
 
-        public string PlayerEmail { get; set; }
-
+        public string PlayerName { get; set; }
         public int? RelationshipStrengthOrig { get; set; }
 
         public string PlayerEmail { get; set; }
