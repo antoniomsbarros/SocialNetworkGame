@@ -1,21 +1,17 @@
 %======== Size of a Player's Social Network ========%
 
 % HTTP Request
-:- http_handler('/api/network/size', computeSocialNetworkSize, []).
+:- http_handler('/api/network/size', compute_social_network_size, []).
 
-computeSocialNetworkSize(Request) :-
+compute_social_network_size(Request) :-
     http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
-    getPlayerSocialNetworkSize(Email, Depth, Size), % compute_socialnetwork_size.pl
-    reply_json(Size).
+    get_player_social_network_size(Email, Depth, Size), % compute_socialnetwork_size.pl
+    reply_json(json([size=Size])).
 
-getPlayerSocialNetworkSize(Email, Depth, Size) :-
-    getPlayerSocialNetwork(Email, Depth),
+get_player_social_network_size(Email, Depth, Size) :-
+    get_player_social_network(Email, Depth),
     compute_network_size(Email, Depth, Size),
-    deletePlayerSocialNetwork.
-
-connection(PlayerX, PlayerY) :-
-    relationship(PlayerX, PlayerY, _, _),
-    relationship(PlayerY, PlayerX, _, _).
+    delete_player_social_network.
 
 compute_network_size(Player, Level, Size) :-
     compute_network_size1(0, Level, [Player], Size1),
@@ -29,11 +25,11 @@ compute_network_size1(CurrentLevel, LimitLevel,AllPlayers,Size) :-
     !.
 
 compute_network_size1(_, _, AllPlayers, Size) :-
-        length(AllPlayers, Size),
-        !.
+    length(AllPlayers, Size),
+    !.
 
 level1_connections(Player, AllFriends) :-
-    findall(Friends, connection(Player, Friends), AllFriends).
+    findall(Friends, connection(Player, Friends, _, _), AllFriends).
 
 add_all_level1_connections([], []).
 
