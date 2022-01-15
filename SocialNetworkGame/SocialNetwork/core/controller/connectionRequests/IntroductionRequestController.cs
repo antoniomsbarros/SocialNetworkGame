@@ -279,8 +279,6 @@ namespace SocialNetwork.core.controller.connectionRequests
             }
         }
         
-        
-
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<IntroductionRequestDto>> HardDelete(string id)
         {
