@@ -2,19 +2,12 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RelactionShipServiceService} from "../services/relaction-ship-service.service";
 import {NetworkFromPlayerPerspectiveDto} from '../dto/relationships/NetworkFromPlayerPerspectiveDto';
-import * as THREE from "three";
+import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {TextGeometry} from 'three/examples/jsm/geometries/TextGeometry';
-import {FontLoader} from 'three/examples/jsm/loaders/FontLoader';
 import {Location} from "@angular/common";
-import {Sphere, Vector4} from "three";
+import {Color, Vector2, Vector4} from "three";
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
-import { FlyControls } from 'three/examples/jsm/controls/FlyControls.js';
-import {PointerLockControls} from "three/examples/jsm/controls/PointerLockControls";
 import Stats from "three/examples/jsm/libs/stats.module";
-import {NodeLib} from "three/examples/jsm/nodes/core/NodeLib";
-import nodes = NodeLib.nodes;
-import {TrackballControls} from "three/examples/jsm/controls/TrackballControls";
 
 @Component({
   selector: 'app-network',
@@ -29,7 +22,7 @@ export class NetworkComponent implements OnInit {
     return this.networkRef.nativeElement;
   }
 
-   mouse=new THREE.Vector2();
+
 
   get networkDepth(): any {
     return this.getNetworkAtDepth.get('networkDepth');
@@ -69,19 +62,20 @@ export class NetworkComponent implements OnInit {
 
   getNetwork() {
     this.showDepthSelectionForm = false;
-    /*
-    this.relationshipService.getNetworkFromPlayerByDepth("Elva33054057@gmail.com", this.networkDepth.value)
+
+    this.relationshipService.getNetworkFromPlayerByDepth("Jules46843207@gmail.com", this.networkDepth.value)
       .subscribe(data => {
+
         this.network = data;
         this.showNetworkGraph = true;
         this.initializeGraph();
         this.animate();
       })
-    */
-    this.getTestNetwork(this.networkDepth.value);
-    this.showNetworkGraph = true;
-    this.initializeGraph();
-    this.animate();
+
+    //this.getTestNetwork(this.networkDepth.value);
+    //this.showNetworkGraph = true;
+    //this.initializeGraph();
+    //this.animate();
 
   }
   network!: NetworkFromPlayerPerspectiveDto;
@@ -91,12 +85,21 @@ export class NetworkComponent implements OnInit {
   controls!: OrbitControls;
   raycaster = new THREE.Raycaster();
   labelRenderer!: CSS2DRenderer;
-  mousePosition!: THREE.Vector2;
   stats!:Stats;
-  controls1!:FlyControls;
+  mouse: Vector2 = new THREE.Vector2(0, 0);
+  spheres:any[]=[]
+  onObject:THREE.Intersection[]=[];
+  objectPressed: THREE.Intersection[]=[];
+  buttons:any[]=[];
+  onCylinder:any[]=[]
+  labelAdded: any[] = [];
+  cylinders:any[]=[]
+  pointlight1!:THREE.PointLight
+  pointlight2!:THREE.PointLight
   initializeGraph() {
+
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xffffff);
+    this.scene.background =new Color("white");
 
 
     this.renderer = new THREE.WebGLRenderer({alpha:true, antialias: true });
@@ -110,7 +113,6 @@ export class NetworkComponent implements OnInit {
     this.camera.position.z = 250;
     const maxDistanceY = 60, minDistanceY = -60, maxDistanceX = 60, minDistanceX = -60;
 
-    //let distanceFromParentNodeRatio = 1;
     let nodes: any = {};
     let playerIds: string[] = [];
     let players: any = {};
@@ -128,12 +130,17 @@ export class NetworkComponent implements OnInit {
           players[currentNode.playerId] = {
             name: currentNode.playerName,
             tags: currentNode.playerTags,
+            emotionalStatus: currentNode.emotionalStatus,
+
           };
         }
         for (let friend of currentNode.relationships) {
+
           connections.push({
             playerFrom: currentNode.playerId,
-            playerTo: friend.playerId
+            playerTo: friend.playerId,
+            relationshipStrengthDest: friend.relationshipStrengthDest,
+            relationshipStrengthOrig:friend.relationshipStrengthOrig,
           });
           if (!visited.includes(friend) && !queue.includes(friend)) {
             queue.push(friend);
@@ -150,41 +157,45 @@ export class NetworkComponent implements OnInit {
     this.labelRenderer.domElement.style.pointerEvents = 'none';
     // @ts-ignore
     document.getElementById("container").appendChild( this.labelRenderer.domElement );
-const raycaster=new THREE.Raycaster();
-const mouse=new THREE.Vector2();
 
-let list:any=[];
-let listraduis:any=[];
+
+
     for (let i = 0; i < playerIds.length; i++) {
-      let material = new THREE.MeshBasicMaterial({color: 0x009EFA});
+      let material = new THREE.MeshStandardMaterial({color: 0x009EFA, name: playerIds[i] , metalness: 0.2,
+        roughness:0.55, opacity:1.0});
       let circle;
       circle =
         i == 0
 
           ? new THREE.Mesh(new THREE.SphereGeometry(6, 32),
-            new THREE.MeshBasicMaterial({color: 0xFF8066, name: playerIds[i] }))
+            new THREE.MeshStandardMaterial({color: 0xFF8066, name: playerIds[i] , metalness: 0.2,
+              roughness:0.55, opacity:1.0}))
           : new THREE.Mesh(circleGeometry, material);
 
 
       circle.position.x = i == 0 ? 0 : Math.random() * (maxDistanceX - minDistanceX) + minDistanceX;
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
       circle.position.z = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
+      circle.name=players[playerIds[i]].name;
+      console.log(players[playerIds[i]].name)
       this.scene.add(circle);
       nodes[playerIds[i]] = circle;
-      list.push(circle);
       const text = document.createElement( 'div' );
       text.className = 'label';
       text.style.color = "0xFF8066";
-      text.textContent = players[playerIds[i]].name;
+
+      text.textContent = players[playerIds[i]].name+"      " +this.addEmots(players[playerIds[i]].emotionalStatus);
 
       const label = new CSS2DObject( text );
       label.position.copy( circle.position );
       this.scene.add( label );
+      this.spheres.push(circle)
+
     }
 
-    const materialConnections = new THREE.LineBasicMaterial({color: 0xffffff});
 
     for (let connection of connections) {
+      console.log(connection)
       let playerfrom;
       let playerto;
       const connectionPoints: THREE.Vector3[] = [];
@@ -198,7 +209,8 @@ let listraduis:any=[];
             playerto=playerId;
           }
           if (connectionPoints.length == 2 && playerto!=null && playerfrom!=null){
-            this.createEdge(connectionPoints[0], connectionPoints[1]);
+
+            this.createEdge(connectionPoints[0], connectionPoints[1],connection);
           }
           if (connectionPoints.length>1)
             break
@@ -224,128 +236,184 @@ this.controls.keys={
   BOTTOM: 'KeyL'// down arrow
 
 }
+window.addEventListener("keydown", event=>{
+  switch (event.key) {
+    case "w":
+      this.camera.translateZ(-2);
+    break;
+    case "s":
+      this.camera.translateZ(2);
+      break;
+  }
+})
+    this.lights()
 this.controls.listenToKeyEvents(document.body);
-/*
-        this.controls1 = new FlyControls( this.camera );
-        this.controls1.movementSpeed = 10;
-        this.controls1.autoForward=false;
-        this.controls1.rollSpeed = 1;
-        this.controls1.autoForward = false;
-        this.controls1.dragToLook = false;
-*/
 
-        document.addEventListener("click", event=>{
-          mouse.x=( event.clientX / window.innerWidth ) * 2 - 1;
-          mouse.y= - ( event.clientY / window.innerHeight ) * 2 + 1
+  //  window.document.body.style.overflow = "hidden";
 
-        });
+   // window.addEventListener( 'mousemove', this.onMouseMove, false );
+    this.renderer.domElement.addEventListener("mousemove", ev => {
+      this.mouse.x = (ev.clientX / window.innerWidth) * 2 - 1;
+      this.mouse.y = - ( (ev.clientY - 70 ) / (window.innerHeight - 70) ) * 2 + 1;
+
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      this.checkIntersects();
+      this.checkIntersectsConnections();
+    })
+
+  this.renderer.domElement.addEventListener("click", event=>{
+    this.clickfunction();
+      });
+  }
 
 
-   // this.camera.position.set(0, 0, 2);
-   // this.controls.update();
-   // this.controls1.update(1);
-/*
-    window.addEventListener('resize', () => {
-<<<<<<< HEAD
-      this.camera.set = window.innerWidth / - 20;
-=======
-      this.camera.left = window.innerWidth / -20;
->>>>>>> f6a59fb186b98d50177836b5bcaf9ea0b76ebde1
-      this.camera.right = window.innerWidth / 20;
-      this.camera.top = window.innerHeight / 20;
-      this.camera.bottom = window.innerHeight / -20;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-    }, false);*/
-/*
+  clickfunction(){
+    if (this.onObject.length>0){
+      if(!((<THREE.Mesh>this.onObject[0].object).position.x == 0 && (<THREE.Mesh>this.onObject[0].object).position.y == 0)){
+        if (this.objectPressed.length > 0 && (<THREE.Mesh>this.onObject[0].object).position != (<THREE.Mesh>this.objectPressed[0].object).position){
+          (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.objectPressed[0].object).material).color.set(0x2e86c1);
+          for(let button of this.buttons) {
+            (<THREE.Mesh>this.objectPressed[0].object).remove(button);
+          }
+        }
+        this.objectPressed = this.onObject;
+        const button= document.createElement( 'button' );
+        button.className = 'btn btn-secondary';
 
-    this.controls1 = new FlyControls( this.camera, this.renderer.domElement );
+        button.addEventListener("click",event=>{
+          console.log("strongt")
 
-    this.controls1.movementSpeed = 1;
-    this.controls1.domElement = this.renderer.domElement;
-    //this.controls1.rollSpeed = Math.PI / 24;
-    this.controls1.autoForward = false;
-    this.controls1.dragToLook = true;
-*/
 
-    //this.controll();
+        })
+        button.textContent = "path";
+        button.style.color = '0x000';
+        const buttonObject = new CSS2DObject( button );
+        this.buttons.push(buttonObject);
+        (<THREE.Mesh>this.objectPressed[0].object).add(buttonObject);
+      }
+    }else {
+      if(this.objectPressed.length > 0) {
+        if(!((<THREE.Mesh>this.objectPressed[0].object).position.x == 0 && (<THREE.Mesh>this.objectPressed[0].object).position.y == 0)) {
+          (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.objectPressed[0].object).material).color.set(0x2e86c1);
+          for(let button of this.buttons) {
+            (<THREE.Mesh>this.objectPressed[0].object).remove(button);
+          }
+        }
+        this.objectPressed = [];
+      }
+    }
+  }
 
-    window.document.body.style.overflow = "hidden";
-    //this.renderer.render(this.scene, this.camera);
+
+addEmots(emocionalStatus:string):string{
+
+    let result="";
+    switch (emocionalStatus) {
+      case "NotSpecified":
+        result="NotSpecified";
+        break;
+      case "Joyful":
+        result="😊";
+        break;
+      case "Distressed":
+        result="😩";
+        break;
+      case "Hopeful":
+        result="(θ‿θ)";
+        break;
+      case "Fearful":
+        result="😨";
+        break;
+      case "Relieve":
+        result="😌";
+        break;
+      case "Disappointed":
+        result="😞";
+        break;
+      case "Proud":
+        result="";
+        break;
+      case "Remorseful":
+        result="(*´-｀*)";
+        break;
+      case "Grateful":
+        result="🤗";
+        break;
+      case "Angry":
+        result="😡";
+        break;
+      default:
+        result="NotSpecified";
+        break;
+    }
+    return result;
+}
+
+  checkIntersects(){
+    const intersection=this.raycaster.intersectObjects( this.spheres );
+    if(this.onObject.length > 0 && intersection != this.onObject) {
+      for(let obj of this.onObject) {
+        if(!this.objectPressed.some(x => x.object.position == obj.object.position)) {
+          if(!((<THREE.Mesh>obj.object).position.x == 0 && (<THREE.Mesh>obj.object).position.y == 0)) {
+            (<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.set(0x2e86c1);
+          }
+        }
+      }
+    }
+    this.onObject = intersection;
+    for(let inter of intersection) {
+      if(!((<THREE.Mesh>inter.object).position.x == 0 && (<THREE.Mesh>inter.object).position.y == 0)) {
+        (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(0xff0000);
+      }
+    }
 
   }
 
   goBack(): void {
     this.location.back();
   }
+
    onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight
     this.camera.updateProjectionMatrix()
     this.renderer.setSize(window.innerWidth, window.innerHeight)
      this.renderer.render(this.scene, this.camera);
-
      this.labelRenderer.setSize( window.innerWidth, window.innerHeight );
-this.labelRenderer.render(this.scene, this.camera);
-
+    this.labelRenderer.render(this.scene, this.camera);
    }
+
+
   animate() {
     requestAnimationFrame(this.animate.bind(this));
     this.controls.update();
-
-
-
-    this.raycaster.setFromCamera(this.mouse, this.camera);
-    const inters=this.raycaster.intersectObjects(this.scene.children);
-    console.log(this.scene.children)
-
-
-
-
     this.renderer.render(this.scene, this.camera);
     this.renderMiniMap();
       this.labelRenderer.render(this.scene, this.camera);
-
-
   }
-  /*
-controll(){
 
-  let controls2 = new PointerLockControls(this.camera,this.renderer.domElement);
-
-   var camere=this.camera;
-  const onKeyDown = function (event: KeyboardEvent) {
-    switch (event.code) {
-      case 'KeyW':
-       // controls2.moveForward(10)
-        camere.translateZ(-10);
-
-        break
-      case 'KeyA':
-        //controls2.moveRight(-.1)
-        camere.translateX(-10)
-
-        break
-      case 'KeyS':
-        //controls2.moveForward(-10);
-        camere.translateZ(10);
-        break
-      case 'KeyD':
-        //controls2.moveRight(10)
-camere.translateX(10)
-        break
-      case  'KeyP':
-
-        break;
-    }
+  lights(){
+    this.pointlight1= new THREE.PointLight( new Color("white"), 0.5);
+    this.pointlight1.position.set( -500, 500, 50 );
+    this.scene.add( this.pointlight1 );
+    this.pointlight2= new THREE.PointLight( new Color("white"), 0.5);
+    this.pointlight2.position.set( 500, -500, 50 );
+    this.scene.add( this.pointlight2 );
+    const color = 0xFFFFFF;
+    const intensity = 1.2;
+    const light = new THREE.AmbientLight(
+      color, intensity
+    );
+    this.scene.add(light);
+    const lightbackground=new THREE.SpotLight(new Color("white"), 0.7);
+    lightbackground.target=this.camera;
+    lightbackground.angle=THREE.MathUtils.degToRad(10);
+    lightbackground.penumbra=0.4;
+    lightbackground.position.z=250;
+    this.camera.add(lightbackground);
+    this.scene.add(this.camera)
   }
-  document.addEventListener('keydown', onKeyDown, false)
-  window.addEventListener('resize', this.onWindowResize, false)
-  this.renderer.render(this.scene, camere);
 
-
-}*/
   renderMiniMap() {
-
     const miniMapCamera = new THREE.OrthographicCamera(-60, 60, 60, -60);
     miniMapCamera.position.z = 250;
 
@@ -372,12 +440,13 @@ camere.translateX(10)
   }
 
 
-   createEdge(position0:any, position1:any) {
+   createEdge(position0:any, position1:any, connection:any) {
     // Compute distance between nodes
     const distance = position1.distanceTo(position0);
 
-    // Create a mesh with the specified geometry and material
-    const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.0), new THREE.MeshBasicMaterial({ color: 0x0000ff }));
+    // Create a mesh with the specified geometry and material 0x0000ff
+    const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 1.0), new
+    THREE.MeshStandardMaterial({ color: new Color("blue") , metalness:0.2,roughness:0.55, opacity:1.0    }));
 
     // Set its position
     cylinder.position.set((position0.x + position1.x) / 2.0, (position0.y + position1.y) / 2.0, (position0.z + position1.z) / 2.0);
@@ -392,11 +461,59 @@ camere.translateX(10)
     cylinder.scale.set(1.0, distance, 1.0);
 
     // Add it to the scene
+    this.cylinders.push({
+       cylinderobject: cylinder,
+       connection:connection
+     })
     this.scene.add(cylinder);
+
   }
+  checkIntersectsConnections() {
+    if(this.onObject.length > 0) {
+      if(this.onCylinder.length > 0) {
+        for(let obj of this.onCylinder) {
+          (<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.set(0x80ffff);
+          for(let label of this.labelAdded) {
+            (<THREE.Mesh>obj.object).remove(label);
+          }
+        }
+      }
+      this.onCylinder = [];
+      return;
+    }
+    let cyls = [];
+    for(let cylinder of this.cylinders) {
+      cyls.push(cylinder.cylinderobject);
+    }
+    const intersects = this.raycaster.intersectObjects( cyls );
+    if(this.onCylinder.length > 0 && intersects != this.onCylinder) {
+      for(let obj of this.onCylinder) {
+        (<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.set(new Color("blue"));
+        for(let label of this.labelAdded) {
+          (<THREE.Mesh>obj.object).remove(label);
+        }
+      }
+    }
+    this.onCylinder = intersects;
+    for(let inter of intersects) {
+      (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(new Color("blue"));
+      let con;
+      for(let cylinder of this.cylinders) {
+        if(cylinder.cylinderobject.position == (<THREE.Mesh>inter.object).position) {
+          con = cylinder;
+          break;
+        }
+      }
 
-
-
-
+      const label = document.createElement( 'div' );
+      label.className = 'badge bg-warning text-wrap';
+      label.style.width = "8rem";
+      label.textContent = "Strength Dest: " + con?.connection.relationshipStrengthDest +" Strength Origin: "+con?.connection.relationshipStrengthOrig;
+      const labelCylinderObject = new CSS2DObject( label );
+      labelCylinderObject.position.setZ( 2 );
+      this.labelAdded.push(labelCylinderObject);
+      (<THREE.Mesh>inter.object).add(labelCylinderObject);
+    }
+  }
 }
 
