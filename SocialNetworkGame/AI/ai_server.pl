@@ -17,7 +17,7 @@
 
 % Server startup                          
 start_server :-
-    load_local_modules,
+    load_services_modules,
     server_port(Port),
     certificate_file_path(Certificate_Path),
     key_file_path(Key_Path),
@@ -34,12 +34,13 @@ stopServer :-
         retract(port(Port)),
         http_stop_server(Port,_).
 
-% Services
-load_local_modules :-
+% Server services
+load_services_modules :-
     consult(ai_server_config),  % Loads server's configuration
     consult(services/geral_use),
     consult(services/get_player_socialnetwork),
-    consult(services/compute_socialnetwork_size).
+    consult(services/compute_socialnetwork_size),
+    consult(services/shortest_path).
 
 % Server init
 :- start_server.

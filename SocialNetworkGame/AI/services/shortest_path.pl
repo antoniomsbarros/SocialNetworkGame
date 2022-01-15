@@ -1,53 +1,41 @@
-%======== Shortest Path Between Two Users ========%
-
-
+%======== Shortest Path ========%
 
 % HTTP Request
-:- http_handler('/shortestPath', shortestPathRoute, []).
+:- http_handler('/api/network/shortestpath', compute_shortest_path, []).
 
-% define shortest path route %
-shortestPathRoute(Request):-
-    cors_enable,
-    http_parameters(Request, [ userFrom(From, []), userDest(Dest, [])]),
-    to_lowercase(From, NormalizedUserFrom),
-    to_lowercase(Dest, NormalizedUserDest),
-    plan_shortestPath(NormalizedUserFrom, NormalizedUserDest, LCaminho_shortestway),
-    R = json(["Path"=LCaminho_shortestway]),
-    reply_json_dict(R).
+dfs(Orig, Dest, Path) :-
+    dfs2(Orig, Dest, [Orig], Path).
 
-% conversion to lowercase %
-to_lowercase(User, UserNormalized):-
-    string_lower(User, Low),
-    normalize_space(atom(UserNormalized),Low).
+dfs2(Dest, Dest, LA, Path) :-
+    !,
+    reverse(LA, Path).
 
-plan_shortestPath(Orig, Dest, LCaminho_shortestway) :-
+dfs2(Orig, Dest, LA, Path) :-
+    (connection(Orig, NX,_,_);connection(NX, Orig,_,_)),
+    \+ member(NX, LA),
+    dfs2(NX, Dest, [NX|LA], Path).
 
-        (melhor_caminho_minimo(Orig, Dest);true),
-        retract(caminho_minimo(LCaminho_shortestway,_)),
-        nl.
+compute_shortest_path(Request):-
+    http_parameters(Request, [depth(Depth, [number]), orig(Orig, [string]), dest(Dest, [string])]),
+    get_player_social_network(Orig, Depth),
+    (shortest_path(Orig ,Dest); true),
+    retract(best_shortest_path(ShortestPath,_)),
+    retract(total_solutions(N)),
+    reply_json(json([path=ShortestPath, total_solutions=N])).
 
-melhor_caminho_minimo(Orig, Dest):-
-        asserta(caminho_minimo(_,10000)),
-        dfs(Orig, Dest,LCaminho),
-        atualiza_melhor_caminho_minimo(LCaminho),
-        fail.
+shortest_path(Orig, Dest):-
+    asserta(best_shortest_path(_, 10000)),
+    asserta(total_solutions(0)),
+    dfs(Orig, Dest, LPath),
+    update_shortest_path(LPath),
+    fail.
 
-atualiza_melhor_caminho_minimo(LCaminho):-
-        caminho_minimo(_,N),
-        length(LCaminho,C),
-        C<N,
-        retract(caminho_minimo(_,_)),
-        asserta(caminho_minimo(LCaminho,C)).
-
-
-dfs(Orig,Dest,Cam):-dfs2(Orig,Dest,[Orig],Cam).
-
-dfs2(Dest,Dest,LA,Cam):-!,
-        reverse(LA,Cam).
-
-dfs2(Act,Dest,LA,Cam):-
-        no(NAct,Act,_),
-        (ligacao(NAct,NX,_,_) ; ligacao(NX,NAct,_,_)),
-        no(NX,X,_),
-        \+ member(X,LA),
-        dfs2(X,Dest,[X|LA],Cam).
+update_shortest_path(LPath):-
+    retract(total_solutions(NS)),
+    NS1 is NS+1,
+    asserta(total_solutions(NS1)),
+    best_shortest_path(_,N),
+    length(LPath, C),
+    C < N,
+    retract(best_shortest_path(_,_)),
+    asserta(best_shortest_path(LPath, C)).
