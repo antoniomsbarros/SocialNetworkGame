@@ -3,6 +3,7 @@ import {PlayerDto} from "../../dto/players/PlayerDto";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {RelationshipDto} from "../../DTO/relationships/RelationshipDto";
+import {PlayerFriendsDTO} from "../../DTO/relationships/PlayerFriendsDTO";
 
 
 @Injectable({
@@ -20,6 +21,9 @@ export class RelationshipsService {
   }
   getRelactionPLayer(email: string):Observable<RelationshipDto[]>{
     return this.http.get<RelationshipDto[]>(this.relationships+email+"/relactionships");
+  }
+  getFriendsFriends(email:string):Observable<PlayerFriendsDTO[]>{
+    return this.http.get<PlayerFriendsDTO[]>(this.relationships+email+"/friends/friends");
   }
 
 }

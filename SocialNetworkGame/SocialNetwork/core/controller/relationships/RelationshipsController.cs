@@ -63,7 +63,16 @@ namespace SocialNetwork.core.controller.relationships
 
             return await _service.GetNetworkAtDepthByEmail(Email.ValueOf(email), depth);
         }
-
+        [HttpGet("{email}/friends/friends")]
+        public async Task<ActionResult<List<PlayerFriendsDTO>>> Getfriends(string email)
+        {
+            if (email.Length==0)
+            {
+                return BadRequest();
+                
+            }
+            return await _service.Getfriends(new Email(email));
+        }
         [HttpPost]
         public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
         {
@@ -138,6 +147,7 @@ namespace SocialNetwork.core.controller.relationships
             }
         }
 
+        
         [HttpGet("{email}/relactionships")]
         public async Task<ActionResult<List<RelationshipDto>>> getRelactionsOrigin(string email)
         {

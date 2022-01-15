@@ -330,5 +330,19 @@ namespace SocialNetwork.core.services.relationships
             return listDTOs;
         }
 
+        public async Task<ActionResult<List<PlayerFriendsDTO>>> Getfriends(Email email)
+        {
+            var orig=await _playerService.GetByEmailAsync(email);
+            var list =await _repo.GetRelationshipsFromPlayerById(new PlayerId(orig.id));
+            List<PlayerFriendsDTO> result = new List<PlayerFriendsDTO>();
+            PlayerDto temp;
+            for (int i = 0; i < list.Count; i++)
+            {
+                temp = await _playerService.GetByIdAsync(list[i].PlayerDest);
+                result.Add(new PlayerFriendsDTO(temp.shortName,temp.email, temp.facebookProfile,temp.linkedinProfile, temp.emotionalStatus, temp.phoneNumber));
+            }
+
+            return result;
+        }
     }
 }
