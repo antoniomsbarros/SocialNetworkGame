@@ -66,6 +66,7 @@ import {ProfileAbouteMeComponent} from "./profile/profile-aboute-me/profile-abou
 import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
 import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
 import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.component";
+import { TagCloudRelationshipsComponent } from './tag-cloud-relationships/tag-cloud-relationships.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.componen
     ProfilePostsComponent,
     ProfileFriendsComponent,
     ProfileTagsComponent,
+    TagCloudRelationshipsComponent,
 
   ],
     imports: [

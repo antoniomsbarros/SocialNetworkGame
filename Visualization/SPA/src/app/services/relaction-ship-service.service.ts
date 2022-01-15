@@ -13,7 +13,7 @@ export class RelactionShipServiceService {
   constructor(private http: HttpClient) {
   }
 
-  private readonly relationURL = "http://localhost:5000/api/Relationships/"
+  private readonly relationURL = "https://localhost:5001/api/Relationships/"
 private readonly URL="https://socialnetworkbackend.azurewebsites.net/api/Relationships/";
   getAllFriendsFromPlayer(playeremail: string): Observable<PlayerEmailDto[]> {
     return this.http.get<PlayerEmailDto[]>(this.URL + "friends/" + playeremail);

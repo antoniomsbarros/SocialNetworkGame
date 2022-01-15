@@ -27,6 +27,7 @@ import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.componen
 import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.component";
 import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
 import {ProfileBodyComponent} from "./profile/profile-body/profile-body.component";
+import {TagCloudRelationshipsComponent} from "./tag-cloud-relationships/tag-cloud-relationships.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -45,6 +46,7 @@ const routes: Routes = [
   {path: "shortestPath", component: ShortestPathComponent},
   {path: "safestPath", component: SafestPathComponent},
   {path: "networkListing", component: NetworkListingComponent},
+  {path: "tagsrelationships", component: TagCloudRelationshipsComponent},
   {path: "profile/:email", component: ProfileComponent,children:[
       {path:"", component:ProfileBodyComponent, children:[
           {path:"", redirectTo:"post", pathMatch:"full"},

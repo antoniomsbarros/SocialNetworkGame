@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {PlayerDto} from "../../dto/players/PlayerDto";
 import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {RelationshipDto} from "../../DTO/relationships/RelationshipDto";
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +18,8 @@ export class RelationshipsService {
   addConnectionWithPlayer(player: PlayerDto) { // Adds the connection with the player
     return this.http.post<PlayerDto>(this.relationships, player);
   }
-
+  getRelactionPLayer(email: string):Observable<RelationshipDto[]>{
+    return this.http.get<RelationshipDto[]>(this.relationships+email+"/relactionships");
+  }
 
 }
