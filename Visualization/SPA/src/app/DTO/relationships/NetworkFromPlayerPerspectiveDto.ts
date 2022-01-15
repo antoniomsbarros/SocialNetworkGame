@@ -1,9 +1,11 @@
 ﻿export interface NetworkFromPlayerPerspectiveDto {
-  relationshipId: string;
-  relationshipStrength: number;
-  RelationshipTags: string[];
+  playerTags: any;
   playerId: string;
   playerName: string;
-  playerTags: string[];
+  emotionalStatus: string;
+  relationshipStrengthDest: number;
+  relationshipStrengthOrig:number;
+  relationshipId: string;
+  RelationshipTags: string[];
   relationships: NetworkFromPlayerPerspectiveDto[];
 }
