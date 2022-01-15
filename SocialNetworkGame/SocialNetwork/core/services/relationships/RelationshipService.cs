@@ -102,6 +102,7 @@ namespace SocialNetwork.core.services.relationships
             {
                 PlayerId = player.id,
                 PlayerName = player.fullName,
+                emotionalStatus = player.emotionalStatus,
                 Relationships = new()
             };
 
@@ -109,7 +110,7 @@ namespace SocialNetwork.core.services.relationships
 
             List<Relationship> visitedRelationships = new();
             notVisitedPlayers.Add(network);
-
+            var listrelaction = GetAllAsync().Result;
             for (var currentDepth = 1; currentDepth <= depth; currentDepth++)
             {
                 if (nextDepthPlayers.Count != 0)
@@ -139,19 +140,30 @@ namespace SocialNetwork.core.services.relationships
                         {
                             PlayerId = playerTo.id,
                             PlayerName = playerTo.fullName,
+                            emotionalStatus = playerTo.emotionalStatus,
+                            //RelationshipStrengthOrig = relationship.ConnectionStrength.Strength,
+                            RelationshipStrengthOrig = listrelaction.Find(x=>
+                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
+                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connection, 
+                            RelationshipStrengthDest = relationship.ConnectionStrength.Strength,
                             Relationships = new()
                         };
 
                         nextPlayer.Relationships ??= new();
                         nextPlayer.Relationships.Add(playerToNetwork);
-
+                        
                         if (nextPlayer.PlayerId.Equals(player.id))
                         {
                             playerToNetwork.RelationshipTagsOrig = relationship.TagsList.ConvertAll(t => t.Value);
-                            playerToNetwork.RelationshipStrengthOrig = relationship.ConnectionStrength.Strength;
+                            playerToNetwork.RelationshipStrengthOrig = listrelaction.Find(x=>
+                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
+                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connection; 
+                            playerToNetwork.RelationshipStrengthDest = relationship.ConnectionStrength.Strength;
                         }
                         else
-                            playerToNetwork.RelationshipStrengthOrig = null;
+                            playerToNetwork.RelationshipStrengthOrig = listrelaction.Find(x=>
+                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
+                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connection;;
 
                         if (!nextDepthPlayers.Contains(playerToNetwork))
                             nextDepthPlayers.Add(playerToNetwork);
@@ -296,6 +308,18 @@ namespace SocialNetwork.core.services.relationships
             }
 
             return final;
+        }
+
+        public async  Task<List<RelationshipDto>> getRelactionOrigin(string email)
+        {
+            var player=_playerService.GetByEmailAsync(new Email(email)).Result;
+            var list = _repo.GetRelationshipsFromPlayerById(new PlayerId(player.id)).Result;
+            var listDTOs = new List<RelationshipDto>();
+            foreach (var VARIABLE in list)
+            {
+                listDTOs.Add(VARIABLE.ToDto());
+            }
+            return listDTOs;
         }
     }
 }
