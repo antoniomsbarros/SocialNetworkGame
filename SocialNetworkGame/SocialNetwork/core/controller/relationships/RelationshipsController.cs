@@ -63,16 +63,7 @@ namespace SocialNetwork.core.controller.relationships
 
             return await _service.GetNetworkAtDepthByEmail(Email.ValueOf(email), depth);
         }
-        [HttpGet("{email}/friends/friends")]
-        public async Task<ActionResult<List<PlayerFriendsDTO>>> Getfriends(string email)
-        {
-            if (email.Length==0)
-            {
-                return BadRequest();
-                
-            }
-            return await _service.Getfriends(new Email(email));
-        }
+
         [HttpPost]
         public async Task<ActionResult<RelationshipDto>> Create(RelationshipPostDto dto)
         {
@@ -147,33 +138,6 @@ namespace SocialNetwork.core.controller.relationships
             }
         }
 
-        
-        [HttpGet("{email}/relactionships")]
-        public async Task<ActionResult<List<RelationshipDto>>> getRelactionsOrigin(string email)
-        {
-            try
-            {
-                var cat = await _service.getRelactionOrigin(email);
-                if (cat == null)
-                {
-                    return NotFound();
-                }
-
-                for (int i = 0; i < cat.Count; i++)
-                {
-                    for (int j = 0; j < cat[i].tags.Count; j++)
-                    {
-                        cat[i].tags[j] =  _tagsService.GetByIdAsync(new TagId(cat[i].tags[j])).Result.name;
-                    }
-                }
-
-                return cat;
-            }
-            catch (BusinessRuleValidationException ex)
-            {
-                return BadRequest(new {ex.Message});
-            }
-        }
 
         // For testing
         [HttpDelete("{id}/hard")]
