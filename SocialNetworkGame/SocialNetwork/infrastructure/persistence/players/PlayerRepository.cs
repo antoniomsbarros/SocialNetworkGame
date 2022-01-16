@@ -22,5 +22,11 @@ namespace SocialNetwork.infrastructure.persistence.players
                 .Where(player => player.Email.Address.Equals(email.Address))
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<int> getNumberofPlayers()
+        {
+            return await _objs.CountAsync();
+
+        }
     }
 }

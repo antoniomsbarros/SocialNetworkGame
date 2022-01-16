@@ -1,62 +1,69 @@
-<nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand">
-    <img src="assets/images/company_logo.png" width="30" height="30" class="d-inline-block align-top"
-         alt="Company logo">
-  </a>
-  <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
-    &#9776;
-  </button>
-  <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngFor="let component of components">
-        <ng-container>
-          <a class="nav-link" routerLink="{{component.routerLink}}"
-             (click)="isMenuCollapsed = !isMenuCollapsed; component.current = !component.current">{{component.name}}</a>
-        </ng-container>
-      </li>
+<div *ngIf="numberofPlayers===0; else defined">
 
-      <!--
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/home" (click)="isMenuCollapsed = !isMenuCollapsed">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/login">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/getlistPendig">Introduction Request</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/createIntroduction">Create Introduction Request</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/createDirectRequest">Create Direct Request</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/GetApprovolRequests">Pending Introduction Request</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/changeHumor">Edit Humor State</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/updateProfile">Update Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/editRelationshipTagsAndConnectionStrength">Edit Relationship Tags</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/network">View network</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/networkListing">View network (listing)</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/shortestPath">Find the Shortest Path</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/safestPath">Find the Safest Path</a>
-      </li>
-      -->
+</div>
+<ng-template #defined>
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand">
+      <img src="assets/images/company_logo.png" width="30" height="30" class="d-inline-block align-top"
+           alt="Company logo">
+    </a>
+    <p style="color: white">Number of Players: {{numberofPlayers}}</p>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      &#9776;
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" *ngFor="let component of components">
+          <ng-container>
+            <a class="nav-link" routerLink="{{component.routerLink}}"
+               (click)="isMenuCollapsed = !isMenuCollapsed; component.current = !component.current">{{component.name}}</a>
+          </ng-container>
+        </li>
 
-    </ul>
-  </div>
-</nav>
+        <!--
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/home" (click)="isMenuCollapsed = !isMenuCollapsed">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/getlistPendig">Introduction Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/createIntroduction">Create Introduction Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/createDirectRequest">Create Direct Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/GetApprovolRequests">Pending Introduction Request</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/changeHumor">Edit Humor State</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/updateProfile">Update Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/editRelationshipTagsAndConnectionStrength">Edit Relationship Tags</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/network">View network</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/networkListing">View network (listing)</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shortestPath">Find the Shortest Path</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/safestPath">Find the Safest Path</a>
+        </li>
+        -->
+
+      </ul>
+    </div>
+  </nav>
+
+</ng-template>
