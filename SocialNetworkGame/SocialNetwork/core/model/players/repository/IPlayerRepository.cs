@@ -7,5 +7,7 @@ namespace SocialNetwork.core.model.players.repository
     public interface IPlayerRepository : IRepository<Player, PlayerId>
     {
         Task<Player> GetByEmailAsync(Email email);
+
+        Task<int> getNumberofPlayers();
     }
 }

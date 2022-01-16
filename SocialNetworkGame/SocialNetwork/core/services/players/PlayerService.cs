@@ -139,6 +139,10 @@ namespace SocialNetwork.core.services.players
             await _unitOfWork.CommitAsync();
         }
 
-        
+        public async Task<int> CountAsync()
+        {
+            var playernumber =await _repo.getNumberofPlayers();
+            return playernumber;
+        }
     }
 }

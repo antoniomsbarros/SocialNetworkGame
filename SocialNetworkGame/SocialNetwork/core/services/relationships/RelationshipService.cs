@@ -74,6 +74,21 @@ namespace SocialNetwork.core.services.relationships
             return result;
         }
 
+        public async Task<ActionResult<List<PlayerFriendsDTO>>> GetFriends(Email email)
+        {
+            var orig = await _playerService.GetByEmailAsync(email);
+            var list = await _repo.GetRelationshipsFromPlayerById(new PlayerId(orig.id));
+            List<PlayerFriendsDTO> result = new List<PlayerFriendsDTO>();
+            PlayerDto temp;
+            for (int i = 0; i < list.Count; i++)
+            {
+                temp = await _playerService.GetByIdAsync(list[i].PlayerDest);
+                result.Add(new PlayerFriendsDTO(temp.shortName, temp.email, temp.facebookProfile, temp.linkedinProfile,
+                    temp.emotionalStatus, temp.phoneNumber));
+            }
+
+            return result;
+        }
         public async Task<List<PlayerEmailDto>> GetRelationByEmail(string email)
         {
             var player = await _playerService.GetByEmailAsync(new Email(email));
@@ -106,10 +121,9 @@ namespace SocialNetwork.core.services.relationships
             NetworkFromPlayerPerspectiveDto network = new()
             {
                 PlayerId = player.id,
-
-                PlayerName = player.fullName,
-                emotionalStatus = player.emotionalStatus,
+                PlayerName = player.shortName,
                 PlayerEmail = player.email,
+                EmotionalStatus = player.emotionalStatus,
                 Relationships = new()
             };
 
@@ -117,7 +131,7 @@ namespace SocialNetwork.core.services.relationships
 
             List<Relationship> visitedRelationships = new();
             notVisitedPlayers.Add(network);
-            var listrelaction = GetAllAsync().Result;
+
             for (var currentDepth = 1; currentDepth <= depth; currentDepth++)
             {
                 if (nextDepthPlayers.Count != 0)
@@ -146,33 +160,37 @@ namespace SocialNetwork.core.services.relationships
                         var playerToNetwork = new NetworkFromPlayerPerspectiveDto
                         {
                             PlayerId = playerTo.id,
-
-                            PlayerName = playerTo.fullName,
-                            emotionalStatus = playerTo.emotionalStatus,
-                            //RelationshipStrengthOrig = relationship.ConnectionStrength.Strength,
-                            RelationshipStrengthOrig = listrelaction.Find(x=>
-                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
-                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connectionStrength, 
-                            RelationshipStrengthDest = relationship.ConnectionStrength.Strength,
+                            PlayerName = playerTo.shortName,
                             PlayerEmail = playerTo.email,
+                            EmotionalStatus = playerTo.emotionalStatus,
                             Relationships = new()
                         };
 
                         nextPlayer.Relationships ??= new();
                         nextPlayer.Relationships.Add(playerToNetwork);
-                        
-                        if (nextPlayer.PlayerId.Equals(player.id))
-                        {
-                            
-                            playerToNetwork.RelationshipStrengthOrig = listrelaction.Find(x=>
-                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
-                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connectionStrength; 
-                            playerToNetwork.RelationshipStrengthDest = relationship.ConnectionStrength.Strength;
-                        }
-                        else
-                            playerToNetwork.RelationshipStrengthOrig = listrelaction.Find(x=>
-                                (x.playerOrig.Equals(relationship.PlayerDest.Value) && 
-                                 (x.playerDest.Equals(relationship.PlayerOrig.Value)))).connectionStrength;;
+
+                        playerToNetwork.RelationshipTags = relationship.TagsList.ConvertAll(t =>
+                            _tagsService.GetByIdAsync(new TagId(t.Value)).Result.name);
+
+                        playerToNetwork.RelationshipStrength = relationship.ConnectionStrength.Strength;
+
+                        var oppositeRelationship =
+                            await _repo.GetRelationshipBetweenPlayers(new PlayerId(playerTo.id),
+                                new PlayerId(nextPlayer.PlayerId));
+
+                        playerToNetwork.Relationships.Add(
+                            new NetworkFromPlayerPerspectiveDto
+                            {
+                                PlayerId = nextPlayer.PlayerId,
+                                PlayerEmail = nextPlayer.PlayerEmail,
+                                Relationships = new(),
+                                RelationshipStrength = oppositeRelationship.ConnectionStrength.Strength,
+                                RelationshipTags = oppositeRelationship.TagsList.ConvertAll(t =>
+                                    _tagsService.GetByIdAsync(new TagId(t.Value)).Result.name)
+                            }
+                        );
+
+                        visitedRelationships.Add(oppositeRelationship);
 
                         if (!nextDepthPlayers.Contains(playerToNetwork))
                             nextDepthPlayers.Add(playerToNetwork);
@@ -254,95 +272,6 @@ namespace SocialNetwork.core.services.relationships
 
             return new RelationshipDto(relationship.Id.Value, relationship.PlayerDest.Value,
                 relationship.PlayerOrig.Value, relationship.ConnectionStrength.Strength, tag);
-        }
-        public async Task<ActionResult<List<NetworkFromPLayerDTO>>> getNetworkFromPlayer(Email email)
-        {
-            //throw new NotImplementedException();
-
-            List<Relationship> relationshipDtos = _repo.GetAllAsync().Result;
-            List<NetworkFromPLayerDTO> final = new List<NetworkFromPLayerDTO>();
-            List<Relationship> temp = new List<Relationship>();
-            List<Email> playerIds = new List<Email>();
-
-            playerIds.Add(email);
-            while (relationshipDtos.Count != 0)
-            {
-                if (playerIds.Count != 0)
-                {
-                    PlayerDto playerDto = _playerService.GetByEmailAsync(playerIds[0]).Result;
-                    playerIds.RemoveAt(0);
-                    temp = relationshipDtos.FindAll(x =>
-                        x.PlayerOrig.Value.Equals(playerDto.id) || x.PlayerDest.Value.Equals(playerDto.id));
-                    foreach (var VARIABLE in temp)
-                    {
-                        relationshipDtos.Remove(VARIABLE);
-                    }
-
-                    while (temp.Count != 0)
-                    {
-                        Relationship relationshipstart = temp[0];
-                        Relationship relationshipend = temp.Find(x =>
-                            x.PlayerDest.Equals(relationshipstart.PlayerOrig) &&
-                            x.PlayerOrig.Equals(relationshipstart.PlayerDest));
-                        temp.Remove(relationshipstart);
-                        temp.Remove(relationshipend);
-
-                        NetworkFromPLayerDTO temp1 = new NetworkFromPLayerDTO();
-
-                        temp1.Relationships = new List<NetworkFromPLayerDTO>();
-                        temp1.playerOriginEmail =
-                            _playerService.GetByIdAsync(relationshipstart.PlayerOrig).Result.email;
-                        temp1.playerDestEmail = _playerService.GetByIdAsync(relationshipstart.PlayerDest).Result.email;
-                        temp1.RelationshipStrengthOrigin = relationshipstart.ConnectionStrength.Strength;
-                        temp1.RelationshipStrengthDest = relationshipend.ConnectionStrength.Strength;
-                        List<String> tagsstart = new List<string>();
-                        for (int i = 0; i < relationshipstart.TagsList.Count; i++)
-                        {
-                            tagsstart.Add(_tagsService.GetByIdAsync(relationshipstart.TagsList[i]).Result.name);
-                        }
-
-                        temp1.RelationshipTagsOrigin = tagsstart;
-                        List<String> tagsend = new List<string>();
-                        for (int i = 0; i < relationshipend.TagsList.Count; i++)
-                        {
-                            tagsend.Add(_tagsService.GetByIdAsync(relationshipend.TagsList[i]).Result.name);
-                        }
-
-                        temp1.PlayerTagsDest = tagsend;
-                        final.Add(temp1);
-                        playerIds.Add(new Email(temp1.playerDestEmail));
-                    }
-                }
-            }
-
-            return final;
-        }
-
-        public async  Task<List<RelationshipDto>> getRelactionOrigin(string email)
-        {
-            var player=_playerService.GetByEmailAsync(new Email(email)).Result;
-            var list = _repo.GetRelationshipsFromPlayerById(new PlayerId(player.id)).Result;
-            var listDTOs = new List<RelationshipDto>();
-            foreach (var VARIABLE in list)
-            {
-                listDTOs.Add(VARIABLE.ToDto());
-            }
-            return listDTOs;
-        }
-
-        public async Task<ActionResult<List<PlayerFriendsDTO>>> Getfriends(Email email)
-        {
-            var orig=await _playerService.GetByEmailAsync(email);
-            var list =await _repo.GetRelationshipsFromPlayerById(new PlayerId(orig.id));
-            List<PlayerFriendsDTO> result = new List<PlayerFriendsDTO>();
-            PlayerDto temp;
-            for (int i = 0; i < list.Count; i++)
-            {
-                temp = await _playerService.GetByIdAsync(list[i].PlayerDest);
-                result.Add(new PlayerFriendsDTO(temp.shortName,temp.email, temp.facebookProfile,temp.linkedinProfile, temp.emotionalStatus, temp.phoneNumber));
-            }
-
-            return result;
         }
     }
 }

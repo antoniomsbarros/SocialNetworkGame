@@ -59,9 +59,7 @@ export abstract class BaseController {
     return BaseController.jsonResponse(this.res, 429, message ? message : 'Too many requests');
   }
 
-  public todo () {
-    return BaseController.jsonResponse(this.res, 400, 'TODO');
-  }
+
 
   public fail (error: Error | string) {
     console.log(error);
