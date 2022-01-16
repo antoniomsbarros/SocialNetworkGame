@@ -41,27 +41,23 @@ export default {
   },
 
   controllers: {
-    role: {
-      name: "RoleController",
-      path: "../controllers/roleController"
+    post: {
+      name: "PostController",
+      path: "../controllers/postController"
     }
   },
 
   repos: {
-    role: {
-      name: "RoleRepo",
-      path: "../repos/roleRepo"
-    },
-    user: {
-      name: "UserRepo",
-      path: "../repos/userRepo"
+    post: {
+      name: "PostRepo",
+      path: "../repos/postRepo"
     }
   },
 
   services: {
-    role: {
-      name: "RoleService",
-      path: "../services/roleService"
+    post: {
+      name: "PostService",
+      path: "../services/postService"
     }
   },
 };
