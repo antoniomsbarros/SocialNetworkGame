@@ -74,6 +74,21 @@ namespace SocialNetwork.core.services.relationships
             return result;
         }
 
+        public async Task<ActionResult<List<PlayerFriendsDTO>>> GetFriends(Email email)
+        {
+            var orig = await _playerService.GetByEmailAsync(email);
+            var list = await _repo.GetRelationshipsFromPlayerById(new PlayerId(orig.id));
+            List<PlayerFriendsDTO> result = new List<PlayerFriendsDTO>();
+            PlayerDto temp;
+            for (int i = 0; i < list.Count; i++)
+            {
+                temp = await _playerService.GetByIdAsync(list[i].PlayerDest);
+                result.Add(new PlayerFriendsDTO(temp.shortName, temp.email, temp.facebookProfile, temp.linkedinProfile,
+                    temp.emotionalStatus, temp.phoneNumber));
+            }
+
+            return result;
+        }
         public async Task<List<PlayerEmailDto>> GetRelationByEmail(string email)
         {
             var player = await _playerService.GetByEmailAsync(new Email(email));
@@ -106,7 +121,9 @@ namespace SocialNetwork.core.services.relationships
             NetworkFromPlayerPerspectiveDto network = new()
             {
                 PlayerId = player.id,
+                PlayerName = player.shortName,
                 PlayerEmail = player.email,
+                EmotionalStatus = player.emotionalStatus,
                 Relationships = new()
             };
 
@@ -143,7 +160,9 @@ namespace SocialNetwork.core.services.relationships
                         var playerToNetwork = new NetworkFromPlayerPerspectiveDto
                         {
                             PlayerId = playerTo.id,
+                            PlayerName = playerTo.shortName,
                             PlayerEmail = playerTo.email,
+                            EmotionalStatus = playerTo.emotionalStatus,
                             Relationships = new()
                         };
 

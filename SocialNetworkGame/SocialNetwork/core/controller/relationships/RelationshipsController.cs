@@ -53,6 +53,17 @@ namespace SocialNetwork.core.controller.relationships
             return await _service.GetRelationByEmail(email);
         }
 
+        [HttpGet("{email}/friends/friends")]
+        public async Task<ActionResult<List<PlayerFriendsDTO>>> GetFriends(string email)
+        {
+            if (email.Length == 0)
+            {
+                return BadRequest();
+            }
+
+            return await _service.GetFriends(new Email(email));
+        }
+
         [HttpGet("network/{email}/{depth}")]
         public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetwork(string email, int depth)
         {
