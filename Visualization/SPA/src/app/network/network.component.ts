@@ -351,6 +351,7 @@ addEmots(emocionalStatus:string):string{
 
   checkIntersects(){
     const intersection=this.raycaster.intersectObjects( this.spheres );
+    console.log(intersection);
     if(this.onObject.length > 0 && intersection != this.onObject) {
       for(let obj of this.onObject) {
         if(!this.objectPressed.some(x => x.object.position == obj.object.position)) {
@@ -366,7 +367,6 @@ addEmots(emocionalStatus:string):string{
         (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(0xff0000);
       }
     }
-
   }
 
   goBack(): void {
@@ -406,9 +406,9 @@ addEmots(emocionalStatus:string):string{
     this.scene.add(light);
     const lightbackground=new THREE.SpotLight(new Color("white"), 0.7);
     lightbackground.target=this.camera;
-    lightbackground.angle=THREE.MathUtils.degToRad(10);
+    lightbackground.angle=THREE.MathUtils.degToRad(4);
     lightbackground.penumbra=0.4;
-    lightbackground.position.z=250;
+    lightbackground.position.z=290;
     this.camera.add(lightbackground);
     this.scene.add(this.camera)
   }
