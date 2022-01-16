@@ -17,6 +17,7 @@ export class PlayersService {
   private profile: string = "https://localhost:5001/api/Players/profile/";
   private getprofile: string = "https://localhost:5001/api/Players/email";
   private getTagsPlayers: string = "https://localhost:5001/api/Players/Tags/"
+  private getnumberofplayer: string = "https://localhost:5001/api/Players/numberPlayers/"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -74,4 +75,7 @@ export class PlayersService {
     return this.http.get<TagsDTO[]>(this.getTagsPlayers + email);
   }
 
+  getNumberOfPLayers(): Observable<number> {
+    return this.http.get<number>(this.getnumberofplayer);
+  }
 }

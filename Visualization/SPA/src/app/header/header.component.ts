@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HeaderService} from "../services/header/header.service";
+import { PlayersService } from '../services/players/players.service';
+import { firstValueFrom, timer } from "rxjs";
 
 @Component({
   selector: 'app-header',
@@ -10,8 +12,8 @@ export class HeaderComponent implements OnInit {
 
   public isMenuCollapsed = true;
 
-  constructor(private headerService: HeaderService) {
-  }
+  numberofPlayers: number = 0;
+  constructor(private headerService: HeaderService, private playerService: PlayersService) { }
 
   ngOnInit(): void {
     this.headerService.setComponents([{
@@ -25,10 +27,14 @@ export class HeaderComponent implements OnInit {
           current: true
         }]
     )
+    this.getplayernumber();
   }
 
   get components() {
     return this.headerService.getComponents();
   }
 
+  async getplayernumber() {
+    this.numberofPlayers = await firstValueFrom(this.playerService.getNumberOfPLayers());
+  }
 }

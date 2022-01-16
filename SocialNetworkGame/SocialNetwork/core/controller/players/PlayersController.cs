@@ -205,5 +205,12 @@ namespace SocialNetwork.core.controller.players
                 return BadRequest(new {ex.Message});
             }
         }
+
+        [HttpGet("numberPlayers")]
+        public async Task<ActionResult<int>> getTotalPLayers()
+        {
+            var playerNumber = await _playerService.CountAsync();
+            return playerNumber;
+        }
     }
 }
