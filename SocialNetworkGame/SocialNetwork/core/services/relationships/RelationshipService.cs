@@ -89,6 +89,7 @@ namespace SocialNetwork.core.services.relationships
 
             return result;
         }
+
         public async Task<List<PlayerEmailDto>> GetRelationByEmail(string email)
         {
             var player = await _playerService.GetByEmailAsync(new Email(email));

@@ -3,15 +3,15 @@
     public enum EmotionalStatusEnum
     {
         NotSpecified,
-        Joyful, 
-        Distressed, 
-        Hopeful, 
-        Fearful, 
-        Relieve, 
-        Disappointed, 
-        Proud, 
-        Remorseful, 
-        Grateful, 
-        Angry 
+        Joyful,
+        Distressed,
+        Hopeful,
+        Fearful,
+        Relieve,
+        Disappointed,
+        Proud,
+        Remorseful,
+        Grateful,
+        Angry
     }
 }
