@@ -8,9 +8,6 @@ import { UniqueEntityID } from "../core/domain/UniqueEntityID";
 
 import { IPostDTO } from "../dto/IPostDTO";
 import { Post } from "../domain/post";
-import { Types } from "mongoose";
-import { Reaction } from "../domain/reaction";
-import { Comment } from "../domain/comment";
 import PostRepo from "../repos/postRepo";
 import { CommentMap } from './CommentMap';
 import {ReactionMap} from "./ReactionMap";
@@ -18,13 +15,12 @@ import {ReactionMap} from "./ReactionMap";
 export class PostMap extends Mapper<Post> {
 
   public static toDTO(post: Post): IPostDTO {
-    const repo = Container.get(PostRepo);
     return {
       id: post.id.toString(),
       postText: post.postText,
       creationDate: post.creationDate,
       playerCreator: post.playerCreator,
-      reactions: post.reactions ? post.reactions.map(r => r.id.toString()) : [], // TODO add reaction DTO
+      reactions: post.reactions ? post.reactions.map(r => ReactionMap.toDTO(r)) : [],
       comments: post.comments ? post.comments.map(r => CommentMap.toDTO(r)) : [],
       tags: post.tags
     } as IPostDTO;
@@ -35,17 +31,11 @@ export class PostMap extends Mapper<Post> {
    console.log(rawPost)
     const postOrError = Post.create({
         postText: rawPost.postText,
-        reactions: rawPost.reactions ? await Promise.all(rawPost.reactions.map(async reactions => {
-          // TODO add reaction model
-          // return await repo.findReactionByDomainId(reaction.domainId);
-          console.log(reactions)
-          return ReactionMap.toDomain(await repo.findReactionByDomainId(reactions.domainId));
+        reactions: rawPost.reactions ? await Promise.all(rawPost.reactions.map(async reaction => {
+          return await repo.findReactionByDomainId(reaction.domainId);
         })) : [],
-
-
         comments: rawPost.comments ? await Promise.all(rawPost.comments.map(async comment => {
-          //return CommentMap.toDomain(await repo.findCommentByDomainId(comment.domainId));
-          return (await repo.findCommentByDomainId(comment.domainId));
+          return await repo.findCommentByDomainId(comment.domainId);
         })) : [],
 
         creationDate: rawPost.creationDate,

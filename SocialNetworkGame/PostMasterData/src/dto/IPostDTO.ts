@@ -1,9 +1,10 @@
 import { ICommentDTO } from "./ICommentDTO";
+import { IReactionDTO } from "./IReactionDTO";
 
 export interface IPostDTO {
     id: string;
     postText: string;
-    reactions: string[]; // TODO populate reaction DTO
+    reactions: IReactionDTO[];
     comments: ICommentDTO[];
     creationDate: string;
     playerCreator: string;

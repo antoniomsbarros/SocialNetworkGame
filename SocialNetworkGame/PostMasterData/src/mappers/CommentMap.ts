@@ -7,14 +7,14 @@ import { Comment } from "../domain/comment";
 import { ICommentDTO } from "../dto/ICommentDTO";
 import { ICommentPersistence } from "../dataschema/ICommentPersistence";
 import PostRepo from "../repos/postRepo";
+import { ReactionMap } from './ReactionMap';
 
-// TODO parse reactions in toDomain
 export class CommentMap extends Mapper<Comment> {
   
   public static toDTO(comment: Comment): ICommentDTO {
     return {
       domainId: comment.id.toString(),
-      reactions: comment.reactions ? comment.reactions.map(r => r.id.toString()) : [],
+      reactions: comment.reactions ? comment.reactions.map(r => ReactionMap.toDTO(r)) : [],
       playerCreator: comment.playerCreator,
       commentText: comment.commentText,
       creationDate: comment.creationDate
@@ -29,8 +29,7 @@ export class CommentMap extends Mapper<Comment> {
     const commentOrError = Comment.create({
         commentText: rawComment.commentText,
         reactions: rawComment.reactions ? await Promise.all(rawComment.reactions.map(async reaction => {
-          //TODO add reaction model
-          //return await repo.findReactionByDomainId(reaction.domainId);
+          return await repo.findReactionByDomainId(reaction.domainId);
         })) : [],
         creationDate: rawComment.creationDate,
         playerCreator: rawComment.playerCreator,

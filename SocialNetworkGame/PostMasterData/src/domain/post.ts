@@ -126,8 +126,6 @@ export class Post extends AggregateRoot<PostProps> {
       }
     }
 
-    // TODO addReaction, removeReaction
-
 }
 
 
