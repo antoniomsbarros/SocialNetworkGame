@@ -197,5 +197,18 @@ namespace SocialNetwork.core.controller.relationships
                 return BadRequest(new {ex.Message});
             }
         }
+
+        [HttpGet("playerorigin/{emailorigin}/playerdest/{emaildest}")]
+        public async Task<ActionResult<PlayersRelationshipDto>> getRelactionByPLayers(string emailorigin, string emaildest)
+        {
+            if (emaildest.Equals(emailorigin))
+            {
+                return BadRequest();
+            }else
+            {
+                
+                return await _service.GetRelationshipBetweenTwoPlayers(new PlayerId(emailorigin), new PlayerId(emaildest));
+            }
+        }
     }
 }

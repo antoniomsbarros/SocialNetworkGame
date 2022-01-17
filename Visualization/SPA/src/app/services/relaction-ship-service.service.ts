@@ -26,4 +26,7 @@ private readonly URL="https://socialnetworkbackend.azurewebsites.net/api/Relatio
   getSafestPath(playerEmail: any) {
     return this.http.get<PathDto>(`${this.relationURL}network/safest-path/${playerEmail}`);
   }
+  getRelactionShipsPLayers(playerorigin:string, playerdes:string ):Observable<any>{
+    return this.http.get<any>(this.relationURL+"playerorigin/"+playerorigin+"/playerdest/"+playerdes);
+  }
 }

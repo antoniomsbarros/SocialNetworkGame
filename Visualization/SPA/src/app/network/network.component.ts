@@ -8,6 +8,9 @@ import {Location} from "@angular/common";
 import {Color, Vector2, Vector4} from "three";
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import Stats from "three/examples/jsm/libs/stats.module";
+import {lastValueFrom} from "rxjs";
+import {PlayerFriendsDTO} from "../DTO/relationships/PlayerFriendsDTO";
+import {PlayersRelationshipDto} from "../DTO/relationships/PlayersRelationshipDto";
 
 @Component({
   selector: 'app-network',
@@ -21,8 +24,12 @@ export class NetworkComponent implements OnInit {
   private get networkElement(): HTMLCanvasElement {
     return this.networkRef.nativeElement;
   }
-
-
+  async getrelactions(playerorigin:string, playerdes:string):Promise<PlayersRelationshipDto>{
+    var cons=[];
+    const relactions= this.relationshipService.getRelactionShipsPLayers(playerorigin, playerdes);
+    cons=await lastValueFrom(relactions);
+    return cons
+  }
 
   get networkDepth(): any {
     return this.getNetworkAtDepth.get('networkDepth');
@@ -122,7 +129,9 @@ export class NetworkComponent implements OnInit {
     let visited: NetworkFromPlayerPerspectiveDto[] = [];
 
     while (queue.length != 0) {
+
       let currentNode = queue.shift();
+
       if (currentNode) {
         visited.push(currentNode);
         if (!playerIds.includes(currentNode.playerId)) {
@@ -139,16 +148,27 @@ export class NetworkComponent implements OnInit {
           connections.push({
             playerFrom: currentNode.playerId,
             playerTo: friend.playerId,
-            relationshipStrengthDest: friend.relationshipStrengthDest,
-            relationshipStrengthOrig:friend.relationshipStrengthOrig,
+            relationshipStrengthDest: 0,
+            relationshipStrengthOrig:0,
           });
           if (!visited.includes(friend) && !queue.includes(friend)) {
             queue.push(friend);
           }
         }
+
       }
     }
+  console.log(connections)
+    for (let i = 0; i < connections.length; i++) {
+      this.getrelactions(connections[i].playerFrom, connections[i].playerTo).then(s=>{
+       // connections[i].relationshipStrengthDest
+        console.log(s);
+        connections.find(item=>(item.playerFrom==s.relationshipFromOrig.playerOrig && item.playerTo==s.relationshipFromOrig.playerDest)).relationshipStrengthOrig=s.relationshipFromOrig.connectionStrength;
+        connections.find(item=>(item.playerFrom==s.relationshipFromDest.playerDest && item.playerTo==s.relationshipFromDest.playerOrig)).relationshipStrengthDest=s.relationshipFromDest.connectionStrength;
 
+
+      });
+    }
     const circleGeometry = new THREE.SphereGeometry(4, 32);
     this.labelRenderer = new CSS2DRenderer();
     this.labelRenderer.setSize( window.innerWidth, window.innerHeight );
@@ -177,7 +197,7 @@ export class NetworkComponent implements OnInit {
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
       circle.position.z = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
       circle.name=players[playerIds[i]].name;
-      console.log(players[playerIds[i]].name)
+
       this.scene.add(circle);
       nodes[playerIds[i]] = circle;
       const text = document.createElement( 'div' );
@@ -195,7 +215,7 @@ export class NetworkComponent implements OnInit {
 
 
     for (let connection of connections) {
-      console.log(connection)
+
       let playerfrom;
       let playerto;
       const connectionPoints: THREE.Vector3[] = [];
@@ -351,7 +371,7 @@ addEmots(emocionalStatus:string):string{
 
   checkIntersects(){
     const intersection=this.raycaster.intersectObjects( this.spheres );
-    console.log(intersection);
+
     if(this.onObject.length > 0 && intersection != this.onObject) {
       for(let obj of this.onObject) {
         if(!this.objectPressed.some(x => x.object.position == obj.object.position)) {

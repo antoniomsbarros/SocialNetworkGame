@@ -48,12 +48,12 @@ namespace SocialNetwork.core.services.relationships
             return cat.ToDto();
         }
 
-        public async Task<PlayersRelationshipDto> GetRelationshipBetweenTwoPlayers(Email playerOrig, Email playerDest)
+        public async Task<PlayersRelationshipDto> GetRelationshipBetweenTwoPlayers(PlayerId playerOrig, PlayerId playerDest)
         {
             var result = new PlayersRelationshipDto();
 
-            var playerFrom = await _playerService.GetByEmailAsync(playerOrig);
-            var playerTo = await _playerService.GetByEmailAsync(playerDest);
+            var playerFrom = await _playerService.GetByIdAsync(playerOrig);
+            var playerTo = await _playerService.GetByIdAsync(playerDest);
 
             var relationshipOrig =
                 await _repo.GetRelationshipBetweenPlayers(new PlayerId(playerFrom.id), new PlayerId(playerTo.id));
@@ -273,5 +273,7 @@ namespace SocialNetwork.core.services.relationships
             return new RelationshipDto(relationship.Id.Value, relationship.PlayerDest.Value,
                 relationship.PlayerOrig.Value, relationship.ConnectionStrength.Strength, tag);
         }
+
+       
     }
 }

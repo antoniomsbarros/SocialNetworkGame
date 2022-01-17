@@ -3,8 +3,7 @@
   playerId: string;
   playerName: string;
   emotionalStatus: string;
-  relationshipStrengthDest: number;
-  relationshipStrengthOrig:number;
+  relationshipStrength:number;
   relationshipId: string;
   RelationshipTags: string[];
   relationships: NetworkFromPlayerPerspectiveDto[];
