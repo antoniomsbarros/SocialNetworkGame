@@ -40,7 +40,8 @@ export class PostMap extends Mapper<Post> {
 
 
         comments: rawPost.comments ? await Promise.all(rawPost.comments.map(async comment => {
-          return CommentMap.toDomain(await repo.findCommentByDomainId(comment.domainId));
+          //return CommentMap.toDomain(await repo.findCommentByDomainId(comment.domainId));
+          return (await repo.findCommentByDomainId(comment.domainId));
         })) : [],
 
         creationDate: rawPost.creationDate,
