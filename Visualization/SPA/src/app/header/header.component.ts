@@ -35,6 +35,6 @@ export class HeaderComponent implements OnInit {
   }
 
   async getplayernumber() {
-    this.numberofPlayers = await firstValueFrom(this.playerService.getNumberofPLayers());
+    this.numberofPlayers = await firstValueFrom(this.playerService.getNumberOfPLayers());
   }
 }

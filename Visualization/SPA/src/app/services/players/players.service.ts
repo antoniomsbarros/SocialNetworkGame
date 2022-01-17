@@ -15,14 +15,13 @@ export class PlayersService {
   private socialNetwork: string = "https://localhost:5001/api/Players/";
   private humorState: string = "https://localhost:5001/api/Players/humor/";
   private profile: string = "https://localhost:5001/api/Players/profile/";
-  private getprofile: string= "https://localhost:5001/api/Players/email";
+  private getprofile: string = "https://localhost:5001/api/Players/email";
   private getTagsPlayers: string = "https://localhost:5001/api/Players/Tags/"
   private getnumberofplayer: string = "https://localhost:5001/api/Players/numberPlayers/"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
-
 
   constructor(private http: HttpClient) {
   }
@@ -31,16 +30,17 @@ export class PlayersService {
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
   }
 
-  updateProfile(dto: UpdateProfileDto, email:string): Observable<any> {
+  updateProfile(dto: UpdateProfileDto, email: string): Observable<any> {
     console.log(dto.email);
     console.log(dto.tags)
-    return this.http.put<UpdateProfileDto>(this.profile+email, dto);
+    return this.http.put<UpdateProfileDto>(this.profile + email, dto);
   }
 
   getConnectionSuggestion(): Observable<any> {
     return this.http.get<PlayerDto[]>(this.socialNetwork);
   }
-   getProfile(email:string):Observable<any>{
+
+  getProfile(email: string): Observable<any> {
     return this.http.get<PlayerDto>(this.getprofile + "=" + email);
   }
 
@@ -49,6 +49,7 @@ export class PlayersService {
       return this.http.put<PlayerDto>(this.humorState, dto);
     }
    */
+
   changeHumor(id: string, newMood: string): Observable<any> {
     const url1 = 'https://localhost:5001/api/ChangeMood/';
     const url = `${url1}${id}/${newMood}`;
@@ -69,11 +70,12 @@ export class PlayersService {
       return of(result as T);
     };
   }
-    getPlayersTags(email:string):Observable<TagsDTO[]>{
-    return this.http.get<TagsDTO[]>(this.getTagsPlayers+email);
+
+  getPlayersTags(email: string): Observable<TagsDTO[]> {
+    return this.http.get<TagsDTO[]>(this.getTagsPlayers + email);
   }
 
-  getNumberofPLayers(): Observable<number> {
+  getNumberOfPLayers(): Observable<number> {
     return this.http.get<number>(this.getnumberofplayer);
   }
 }

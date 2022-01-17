@@ -7,41 +7,17 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {Router} from "@angular/router";
 
 export enum EmotionalStatus {
-  // excited
-  Astonishment,
-  Eagerness,
-  Curiosity,
-
-  Inspiration,
-  Desire,
-  Love,
-
-  // pleasant
-  Fascination,
-  Admiration,
-  Joyfulness,
-
-  Satisfaction,
-  Softened,
-  Relaxed,
-
-  // calm
-  Awaiting,
-  Deferent,
-  Calm,
-
-  Boredom,
-  Sadness,
-  Isolation,
-
-  // unpleasant
-  Disappointment,
-  Contempt,
-  Jealousy,
-
-  Irritation,
-  Disgust,
-  Alarm
+  NotSpecified,
+  Joyful,
+  Distressed,
+  Hopeful,
+  Fearful,
+  Relieve,
+  Disappointed,
+  Proud,
+  Remorseful,
+  Grateful,
+  Angry
 }
 
 @Component({
@@ -139,9 +115,12 @@ export class SignInComponent implements OnInit {
     let onError = (httpErrorResponse: HttpErrorResponse) => {
       this.registerButtonPressed = false;
 
-      if (httpErrorResponse.status >= 400 && httpErrorResponse.status < 500)
-        this.toastService.error(httpErrorResponse.error["message"]);
-      else
+      if (httpErrorResponse.status >= 400 && httpErrorResponse.status < 500) {
+        if (httpErrorResponse.error["message"] == null)
+          this.toastService.error("An unexpected error occured. Please try again");
+        else
+          this.toastService.error(httpErrorResponse.error["message"]);
+      } else
         this.toastService.error("It seems there's a error from our servers. Please try again later");
     }
 

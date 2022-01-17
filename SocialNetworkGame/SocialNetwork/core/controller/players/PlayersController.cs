@@ -25,6 +25,7 @@ namespace SocialNetwork.core.controller.players
         private readonly SystemUserService _systemUserService;
         private readonly PlayerService _playerService;
         private readonly TagsService _tagsService;
+
         public PlayersController(PlayerService playerService, SystemUserService systemUserService,
             IConfiguration config, TagsService tagsService)
         {
@@ -62,11 +63,13 @@ namespace SocialNetwork.core.controller.players
             {
                 return NotFound();
             }
+
             for (int i = 0; i < cat.tags.Count; i++)
             {
-                var tag=await _tagsService.GetByIdAsync(new TagId(cat.tags[i]));
+                var tag = await _tagsService.GetByIdAsync(new TagId(cat.tags[i]));
                 cat.tags[i] = tag.name;
             }
+
             return cat;
         }
 
@@ -115,13 +118,14 @@ namespace SocialNetwork.core.controller.players
                     ++nTag;
                 }
 
-                
+
                 var player = await _playerService.UpdateAsync(dto);
 
                 if (player == null)
                 {
                     return NotFound();
                 }
+
                 player.tags = tagsNameList;
                 return Ok(player);
             }
@@ -209,6 +213,4 @@ namespace SocialNetwork.core.controller.players
             return playerNumber;
         }
     }
-    
-    
 }
