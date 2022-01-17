@@ -12,6 +12,7 @@ import { CommentMap } from '../mappers/CommentMap';
 import { Comment } from '../domain/comment';
 import { ReactionMap } from '../mappers/ReactionMap';
 import { IReactionPersistence } from '../dataschema/IReactionPersistence';
+import {Reaction} from "../domain/reaction";
 
 @Service()
 export default class PostRepo implements IPostRepo {
@@ -34,14 +35,14 @@ export default class PostRepo implements IPostRepo {
   public async exists (postId: PostId | string): Promise<boolean> {
     const idX = postId instanceof PostId ? (<PostId>postId).id.toValue() : postId;
 
-    const query = { domainId: idX}; 
+    const query = { domainId: idX};
     const postDocument = await this.postSchema.findOne( query );
 
     return !!postDocument === true;
   }
 
   public async save (post: Post): Promise<Post> {
-    const query = { domainId: post.id.toString() }; 
+    const query = { domainId: post.id.toString() };
 
     const postDocument = await this.postSchema.findOne( query );
     try {
@@ -85,11 +86,11 @@ export default class PostRepo implements IPostRepo {
     }
   }
 
-  
+
 
   public async findByDomainId (postId: PostId | string): Promise<Post> {
     const query = { domainId: postId};
-    const postRecord = await this.postSchema.findOne( query as FilterQuery<IPostPersistence & Document> ).populate("comments");
+    const postRecord = await this.postSchema.findOne( query as FilterQuery<IPostPersistence & Document> ).populate("comments").populate("reactions");
     if( postRecord != null) {
       return PostMap.toDomain(postRecord);
     }
@@ -100,7 +101,7 @@ export default class PostRepo implements IPostRepo {
 
   public async findPostsByPlayerId (playerId: string): Promise<Post[]> {
     const query = { playerCreator: playerId};
-    const postRecords = await this.postSchema.find(query as FilterQuery<IPostPersistence & Document>).populate("comments");
+    const postRecords = await this.postSchema.find(query as FilterQuery<IPostPersistence & Document>).populate("comments").populate("reactions");
     if (postRecords != null) {
       return await Promise.all(postRecords.map(postRecord => PostMap.toDomain(postRecord)));
     }
@@ -129,5 +130,15 @@ export default class PostRepo implements IPostRepo {
     else
       return null;
   }
+  public async findReactionByDomainId(reactionId:string):Promise<Reaction>{
+    console.log(reactionId)
+    const query={domainId:reactionId};
 
+    const reactionRecord= await this.reactionSchema.findOne(query as FilterQuery<IReactionPersistence & Document>);
+      if (reactionRecord!=null){
+        return ReactionMap.toDomain(reactionRecord);
+      }else {
+        return null;
+      }
+  }
 }

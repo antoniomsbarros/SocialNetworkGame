@@ -60,17 +60,17 @@ export class Post extends AggregateRoot<PostProps> {
         { argument: props.playerCreator, argumentName: 'playerCreator' },
         { argument: props.tags, argumentName: 'tags' }
       ];
-  
+
       const guardResult = Guard.againstNullOrUndefinedBulk(guardedProps);
-  
+
       if (!guardResult.succeeded) {
         return Result.fail<Post>(guardResult.message)
-      }     
+      }
       else {
         const post = new Post({
           ...props
         }, id);
-  
+
         return Result.ok<Post>(post);
       }
     }
@@ -108,7 +108,23 @@ export class Post extends AggregateRoot<PostProps> {
         this.props.comments.splice(index, 1);
       }
     }
+    public addReaction(reaction:Reaction):boolean{
+      if (this.props.reactions && this.props.reactions.includes(reaction)) {
+        return false;
+      }
+      if (!this.props.comments)
+        this.props.reactions=[]
 
+      this.props.reactions.push(reaction)
+      return true;
+    }
+
+    public removeReaction(reaction:Reaction):void{
+      const index=this.props.reactions.indexOf(reaction, 0);
+      if (index>-1){
+        this.props.reactions.splice(index, 1);
+      }
+    }
 
     // TODO addReaction, removeReaction
 

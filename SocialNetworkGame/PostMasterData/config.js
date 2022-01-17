@@ -19,8 +19,8 @@ export default {
   /**
    * That long string from mlab
    */
-  databaseURL: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/test",
-
+ // databaseURL: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/test",
+  databaseURL: process.env.MONGODB_URI || "mongodb+srv://user:Antonio1!@cluster0.4o2ks.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   /**
    * Your secret sauce
    */

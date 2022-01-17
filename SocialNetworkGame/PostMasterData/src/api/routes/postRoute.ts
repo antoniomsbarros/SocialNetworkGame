@@ -16,5 +16,7 @@ export default (app: Router) => {
   route.get('/:playerId', (req, res, next) => ctrl.getPlayerFeed(req, res, next));
   route.post('', (req, res, next) => ctrl.newPost(req, res, next))
   route.post('/:postId/comments', (req, res, next) => ctrl.addComment(req, res, next))
+  route.post("/:postId/reactions",(req, res, next) => ctrl.addReaction(req, res, next))
+  route.post("/:postId/comments/reactions",(req, res, next) => ctrl.addReactionComent(req, res, next))
 
 };

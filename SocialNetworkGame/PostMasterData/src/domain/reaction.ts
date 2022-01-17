@@ -44,7 +44,7 @@ export class Reaction extends Entity<ReactionProps> {
 
     if (!guardResult.succeeded) {
       return Result.fail<Reaction>(guardResult.message)
-    }     
+    }
     else {
       const reaction = new Reaction({
         ...props

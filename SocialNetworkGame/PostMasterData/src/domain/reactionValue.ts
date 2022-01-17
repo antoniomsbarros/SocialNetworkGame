@@ -16,12 +16,12 @@ export class ReactionValue extends ValueObject<ReactionValueProps> {
   get value (): ReactionValueEnum {
     return this.props.reaction;
   }
-  
+
   private constructor (props: ReactionValueProps) {
     super(props);
   }
 
-  public static create (reactionValue: string): Result<ReactionValue> {
+  public static create(reactionValue: string): Result<ReactionValue> {
     const guardResult = Guard.againstNullOrUndefined(reactionValue, 'reaction');
     if (!guardResult.succeeded) {
       return Result.fail<ReactionValue>(guardResult.message);
@@ -31,4 +31,5 @@ export class ReactionValue extends ValueObject<ReactionValueProps> {
       }))
     }
   }
+
 }
