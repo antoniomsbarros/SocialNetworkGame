@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
@@ -143,6 +145,43 @@ namespace SocialNetwork.core.services.players
         {
             var playernumber =await _repo.getNumberofPlayers();
             return playernumber;
+        }
+        
+        public async Task<List<TagCloud>> GetTagCloudFromPlayers()
+        {
+            var players = await GetAllAsync();
+            List<String> tags = new List<string>();
+            List<TagCloud> tagClouds = new List<TagCloud>();
+
+            foreach (var p in players) 
+            {
+                foreach (var tag in p.tags)
+                {
+                    tags.Add(tag);
+                }
+            }
+
+            List<string> distinctTags = tags.Distinct().ToList();
+            List<string> commonTags = new List<string>();
+            int count = 0;
+
+            foreach (var dt in distinctTags)
+            {
+                foreach (var t in tags)
+                {
+                    if (dt.Equals(t))
+                    {
+                        count++;
+                        commonTags.Add(dt);
+                    }
+                }
+                
+                double percentagem = ((double) count / tags.Count) * 100.0;
+                tagClouds.Add(new TagCloud(commonTags, percentagem));
+                count = 0;
+            }
+        
+            return tagClouds;
         }
     }
 }
