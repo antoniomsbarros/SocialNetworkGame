@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.relationships.repository;
 using SocialNetwork.core.model.shared;
-using SocialNetwork.infrastructure.relationships;
+
 
 namespace SocialNetworkTest.services
 {
@@ -47,6 +48,16 @@ namespace SocialNetworkTest.services
             }
 
             public Task<List<Relationship>> GetRelationshipsFriendsById(PlayerId id)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public Task<List<Relationship>> GetRelationshipsFromPlayerById(PlayerId id)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public Task<Relationship> GetRelationshipBetweenPlayers(PlayerId playerFrom, PlayerId playerDest)
             {
                 throw new System.NotImplementedException();
             }
