@@ -10,7 +10,7 @@ import PostRepo from "../repos/postRepo";
 import { ReactionMap } from './ReactionMap';
 
 export class CommentMap extends Mapper<Comment> {
-  
+
   public static toDTO(comment: Comment): ICommentDTO {
     return {
       domainId: comment.id.toString(),

@@ -6,4 +6,5 @@ export default interface IPostController  {
   addComment(req: Request, res: Response, next: NextFunction);
   addReaction(req: Request, res: Response, next: NextFunction);
   addReactionComent(req: Request, res: Response, next: NextFunction);
+  calculatestrenght(req: Request, res: Response, next: NextFunction);
 }

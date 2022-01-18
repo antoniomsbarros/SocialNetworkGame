@@ -13,6 +13,8 @@ import {IReactionDTO} from "../dto/IReactionDTO";
 import {Reaction} from "../domain/reaction";
 import {ReactionValue} from "../domain/reactionValue";
 import {IReactionComentDTO} from "../dto/IReactionComentDTO";
+import {Identifier} from "../core/domain/Identifier";
+import {StrengthPLayersDTO} from "../dto/StrengthPLayersDTO";
 
 @Service()
 export default class PostService implements IPostService {
@@ -23,12 +25,83 @@ export default class PostService implements IPostService {
   public async getPlayerFeed(playerId: string): Promise<Result<IPostDTO[]>> {
     try {
       const posts = await this.postRepo.findPostsByPlayerId(playerId);
+
       return Result.ok<IPostDTO[]>(posts.map(post => PostMap.toDTO(post)))
     } catch (e) {
       throw e;
     }
   }
+  public async getstrength(body: StrengthPLayersDTO): Promise<Result<StrengthPLayersDTO>> {
+    return Promise.resolve(undefined);
+    try {
+      const  postplayer1=await this.postRepo.findPostsByPlayerId(body.playerIdOrigin);
+      const postplayer2=await this.postRepo.findPostsByPlayerId(body.playerIdDest);
+      let countlike=0;
+      let countdislike=0;
+      //reaction in a post of player
+      for (let i = 0; i < postplayer1.length; i++) {
+        for (let j = 0; j < postplayer1[i].reactions.length; j++) {
+          if (postplayer1[i].reactions[j].playerId.toString()==body.playerIdDest){
+            if (postplayer1[i].reactions[j].reactionValue.value.toString()=="Like"){
+              countlike++;
+            }
+            if (postplayer1[i].reactions[j].reactionValue.value.toString()=="Dislike"){
+              countdislike++;
+            }
+          }
+        }
+        //reaction in a coment of the player
+        for (let j = 0; j < postplayer1[i].comments.length; j++) {
+          if (postplayer1[i].comments[j].playerCreator.toString()==body.playerIdDest){
+            for (let k = 0; k < postplayer1[i].comments[j].reactions.length; k++) {
+              if (postplayer1[i].comments[j].reactions[k].playerId.toString()==body.playerIdOrigin){
+                if (postplayer1[i].comments[j].reactions[k].reactionValue.value.toString()=="Like"){
+                  countlike++;
+                }
+                if (postplayer1[i].comments[j].reactions[k].reactionValue.value.toString()=="Dislike"){
+                  countdislike++;
+                }
+              }
+            }
+          }
+        }
+      }
 
+      // reaction of post in the other player
+      for (let i = 0; i < postplayer2.length; i++) {
+        for (let j = 0; j < postplayer2[i].reactions.length; j++) {
+          if (postplayer2[i].reactions[j].playerId.toString() == body.playerIdOrigin) {
+            if (postplayer2[i].reactions[j].reactionValue.value.toString() == "Like") {
+              countlike++;
+            }
+            if (postplayer2[i].reactions[j].reactionValue.value.toString() == "Dislike") {
+              countdislike++;
+            }
+          }
+        }
+        //reaction in a coment of the player
+        for (let j = 0; j < postplayer2[i].comments.length; j++) {
+          if (postplayer2[i].comments[j].playerCreator.toString()==body.playerIdOrigin){
+            for (let k = 0; k < postplayer2[i].comments[j].reactions.length; k++) {
+              if (postplayer2[i].comments[j].reactions[k].playerId.toString()==body.playerIdDest){
+                if (postplayer2[i].comments[j].reactions[k].reactionValue.value.toString()=="Like"){
+                  countlike++;
+                }
+                if (postplayer2[i].comments[j].reactions[k].reactionValue.value.toString()=="Dislike"){
+                  countdislike++;
+                }
+              }
+            }
+          }
+        }
+      }
+      body.strength=(countlike-countdislike);
+      return Result.ok<StrengthPLayersDTO>(body)
+    }catch (e){
+      throw e;
+    }
+
+  }
   public async newPost(postDTO: IPostDTO): Promise<Result<IPostDTO>> {
     try {
       const postOrError = await Post.create({
@@ -99,7 +172,7 @@ export default class PostService implements IPostService {
         playerId: ReactionDTO.playerId,
         reactionValue:  ReactionValue.create(ReactionDTO.reactionValue).getValue()
       });
-      //console.log(reactionOrError)
+
       if (reactionOrError.isFailure) {
         return Result.fail<IPostDTO>(reactionOrError.errorValue());
       }
@@ -107,7 +180,6 @@ export default class PostService implements IPostService {
       post.addReaction(createdReaction);
 
       await this.postRepo.save(post);
-      console.log(post)
       return  Result.ok<IPostDTO>(PostMap.toDTO(post)as IPostDTO)
     }catch (e) {
       throw e;
@@ -117,18 +189,31 @@ export default class PostService implements IPostService {
 
 
   public async addReactionComment(param: IPostDTO, body: IReactionComentDTO): Promise<Result<IPostDTO>> {
-    return Promise.resolve(undefined);
+
     try {
       let post: Post;
+
       const postOrError= await this.getPost(param.id);
       if (postOrError.isFailure) {
         return Result.fail<IPostDTO>(postOrError.error);
       } else {
         post = postOrError.getValue();
       }
-    let coment: Comment;
 
+      for ( let i = 0; i < post.comments.length; i++) {
+        if (post.comments[i].id.toString()==body.comentId){
+          const reactionOrError=await Reaction.create({
+            creationDate: body.creationDate,
+            playerId: body.playerId,
+            reactionValue:  ReactionValue.create(body.reactionValue).getValue()
+          });
+          post.comments[i].reactions.push(reactionOrError.getValue());
+          break;
+        }
+      }
 
+      await this.postRepo.save(post);
+      return  Result.ok<IPostDTO>(PostMap.toDTO(post)as IPostDTO)
     }catch (e) {
       throw e;
     }
@@ -145,13 +230,8 @@ export default class PostService implements IPostService {
       return Result.fail<Post>("Couldn't find post by id=" + post);
     }
   }
-  private  getComent(postDTO: IPostDTO, comentid:string):ICommentDTO{
-
-      return  postDTO.comments.find(item=>item.domainId===comentid);
 
 
-
-  }
 
 
 

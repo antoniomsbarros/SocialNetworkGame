@@ -10,6 +10,7 @@ import { IPostDTO } from '../dto/IPostDTO';
 import { ICommentDTO } from '../dto/ICommentDTO';
 import {IReactionDTO} from "../dto/IReactionDTO";
 import {IReactionComentDTO} from "../dto/IReactionComentDTO";
+import {StrengthPLayersDTO} from "../dto/StrengthPLayersDTO";
 
 @Service()
 export default class PostController implements IPostController /* TODO: extends ../core/infra/BaseController */ {
@@ -85,6 +86,7 @@ export default class PostController implements IPostController /* TODO: extends 
 
   public async addReactionComent(req: Request, res: Response, next: NextFunction) {
     try {
+
       const postORError=await this.postServiceInstance.addReactionComment({
         id:req.params.postId
       }as IPostDTO, req.body as IReactionComentDTO) as Result<IPostDTO>;
@@ -98,7 +100,22 @@ export default class PostController implements IPostController /* TODO: extends 
       return next(e)
     }
 
+
   }
+
+  public async calculatestrenght(req: Request, res: Response, next: NextFunction) {
+    try {
+      const  strength=await this.postServiceInstance.getstrength(req.body as StrengthPLayersDTO )as Result<StrengthPLayersDTO>;
+      if (strength.isFailure){
+        return res.status(409).send();
+      }
+      const strenghtDTO=strength.getValue();
+      return res.json(strenghtDTO).status(200);
+    }catch (e){
+      return next(e)
+    }
+  }
+
 
 
 }

@@ -18,5 +18,5 @@ export default (app: Router) => {
   route.post('/:postId/comments', (req, res, next) => ctrl.addComment(req, res, next))
   route.post("/:postId/reactions",(req, res, next) => ctrl.addReaction(req, res, next))
   route.post("/:postId/comments/reactions",(req, res, next) => ctrl.addReactionComent(req, res, next))
-
+  route.get("/calculatestrengh",(req, res, next) => ctrl.calculatestrenght(req, res, next) )
 };

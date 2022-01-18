@@ -45,6 +45,7 @@ export default class PostRepo implements IPostRepo {
     const query = { domainId: post.id.toString() };
 
     const postDocument = await this.postSchema.findOne( query );
+
     try {
       if (postDocument === null ) {
         const rawPost: any = PostMap.toPersistence(post);
@@ -66,14 +67,39 @@ export default class PostRepo implements IPostRepo {
 
         postDocument.comments = await Promise.all(post.comments.map(async (comment) => {
           const commentRecord = await this.commentSchema.findOne({ domainId: comment.id.toString() } as FilterQuery<ICommentPersistence & Document>);
+
           if (commentRecord != null) {
+
+            commentRecord.reactions=await  Promise.all(comment.reactions.map(async (reaction)=>{
+              const reactionrecord=await this.reactionSchema.findOne({domainId:reaction.id.toString() }as FilterQuery<IReactionPersistence & Document>);
+              if (reactionrecord != null) {
+                return reactionrecord._id;
+              } else {
+                let reactionCreated = await this.reactionSchema.create(ReactionMap.toPersistence(reaction));
+                return reactionCreated._id;
+              }
+            }))
+             await this.commentSchema.findByIdAndUpdate(commentRecord._id, commentRecord);
             return commentRecord._id;
           } else {
+
+            commentRecord.reactions=await  Promise.all(comment.reactions.map(async (reaction)=>{
+              const reactionrecord=await this.reactionSchema.findOne({domainId:reaction.id.toString() }as FilterQuery<IReactionPersistence & Document>);
+
+              if (reactionrecord != null) {
+                return reactionrecord._id;
+              } else {
+                let reactionCreated = await this.reactionSchema.create(ReactionMap.toPersistence(reaction));
+                return reactionCreated._id;
+              }
+
+            }))
+
             let commentCreated = await this.commentSchema.create(CommentMap.toPersistence(comment));
             return commentCreated._id;
           }
         }));
-
+        console.log(postDocument.comments)
         postDocument.creationDate = post.creationDate;
         postDocument.playerCreator = post.playerCreator;
         postDocument.tags = Array.from(post.tags);
@@ -113,7 +139,7 @@ export default class PostRepo implements IPostRepo {
 
   public async findCommentById (commentId: ObjectId): Promise<Comment> {
     const query = { _id: commentId};
-    const commentRecord = await this.commentSchema.findOne( query as FilterQuery<ICommentPersistence & Document> );
+    const commentRecord = await this.commentSchema.findOne( query as FilterQuery<ICommentPersistence & Document> ).populate("reactions");
     if(commentRecord != null) {
       return CommentMap.toDomain(commentRecord);
     }
@@ -123,7 +149,7 @@ export default class PostRepo implements IPostRepo {
 
   public async findCommentByDomainId (commentId: string): Promise<Comment> {
     const query = { domainId: commentId};
-    const commentRecord = await this.commentSchema.findOne( query as FilterQuery<ICommentPersistence & Document> );
+    const commentRecord = await this.commentSchema.findOne( query as FilterQuery<ICommentPersistence & Document> ).populate("reactions");
     if(commentRecord != null) {
       return CommentMap.toDomain(commentRecord);
     }
@@ -131,7 +157,6 @@ export default class PostRepo implements IPostRepo {
       return null;
   }
   public async findReactionByDomainId(reactionId:string):Promise<Reaction>{
-    console.log(reactionId)
     const query={domainId:reactionId};
 
     const reactionRecord= await this.reactionSchema.findOne(query as FilterQuery<IReactionPersistence & Document>);

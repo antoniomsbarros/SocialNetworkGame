@@ -28,7 +28,6 @@ export class PostMap extends Mapper<Post> {
 
   public static async toDomain (rawPost: any | Model<IPostPersistence & Document> ): Promise<Post> {
     const repo = Container.get(PostRepo);
-   console.log(rawPost)
     const postOrError = Post.create({
         postText: rawPost.postText,
         reactions: rawPost.reactions ? await Promise.all(rawPost.reactions.map(async reaction => {
