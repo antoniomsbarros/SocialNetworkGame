@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {PlayerDto} from "../../dto/players/PlayerDto";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {catchError, Observable, of, tap} from "rxjs";
 import {RelationshipDto} from "../../DTO/relationships/RelationshipDto";
 import {PlayerFriendsDTO} from "../../DTO/relationships/PlayerFriendsDTO";
+import {TagCloud} from "../../DTO/TagCloud";
 
 
 @Injectable({
@@ -12,6 +13,10 @@ import {PlayerFriendsDTO} from "../../DTO/relationships/PlayerFriendsDTO";
 export class RelationshipsService {
 
   private relationships: string = "https://localhost:5001/api/Relationships/";
+
+  httpOptions = {
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  };
 
   constructor(private http: HttpClient) {
   }
@@ -26,4 +31,22 @@ export class RelationshipsService {
     return this.http.get<PlayerFriendsDTO[]>(this.relationships+email+"/friends/friends");
   }
 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  getTagCloudFromRelationships(): Observable<TagCloud[]> {
+    const url = `${this.relationships}/TagCloud`;
+    return this.http.get<TagCloud[]>(url, this.httpOptions)
+      .pipe(tap(_ => console.log(`fetched getTagCloudFromRelationships`)),
+        catchError(this.handleError<TagCloud[]>(`getTagCloudFromRelationships`,[]))
+      );
+  }
 }
