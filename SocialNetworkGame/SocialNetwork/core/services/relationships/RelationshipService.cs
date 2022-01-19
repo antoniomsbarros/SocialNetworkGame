@@ -292,7 +292,6 @@ namespace SocialNetwork.core.services.relationships
             }
 
             List<string>  distinctTags = tags.Distinct().ToList();
-            List<string> commonTag = new List<string>();
             int count = 0;
 
             foreach (var dt in distinctTags)
@@ -302,12 +301,12 @@ namespace SocialNetwork.core.services.relationships
                     if (dt.Equals(t))
                     {
                         count++;
-                        commonTag.Add(dt);
+                        
                     }
                 }
               
                 double percentagem = ((double) count / tags.Count) * 100.0;
-                tagClouds.Add(new TagCloud(commonTag, percentagem));
+                tagClouds.Add(new TagCloud(dt, percentagem));
                 count = 0;
             }
         
