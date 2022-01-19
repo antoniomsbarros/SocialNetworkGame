@@ -3,24 +3,23 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {environment} from "../../environments/environment";
 import {PathDto} from "../DTO/PathDto";
+import {ShortspathsDTO} from "../DTO/shortspathsDTO";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShortestPathService {
-  private shortestPathUrl = 'shortestPath';
+  private shortestPathUrl = 'https://socialnetworkai041.westeurope.cloudapp.azure.com/api/network/shortestpath?depth=';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   constructor(
     private http: HttpClient) { }
 
-  getShortestPath(userDest: string): Observable<PathDto> {
-    const url = `${this.shortestPathUrl}?userDest=${userDest}`;
-    return this.http.get<PathDto>(environment.AIApiUrl+url)
-      .pipe(catchError(e => this.handleError(e)));
+  getShortestPath(depth:string, playersender:string, playerdest:string): Observable<ShortspathsDTO> {
+  return this.http.get<ShortspathsDTO>(this.shortestPathUrl+depth+"&orig="+playersender+"&dest="+playerdest).pipe(catchError(this.handleError))
   }
 
   private handleError(err : HttpErrorResponse) {

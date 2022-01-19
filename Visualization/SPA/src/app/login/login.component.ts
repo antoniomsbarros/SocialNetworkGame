@@ -65,6 +65,10 @@ export class LoginComponent implements OnInit {
         onError(error);
       }
     });
+
+    localStorage.clear();
+    // @ts-ignore
+    localStorage.setItem('playeremail', this.username?.value);
   }
 
   navigateToMainPage() {

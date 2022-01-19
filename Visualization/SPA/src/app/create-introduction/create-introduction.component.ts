@@ -20,7 +20,7 @@ export class CreateIntroductionComponent implements OnInit {
   introductionRequestPending: any;
   selectedValue: any;
 
-  private client: string = "Katherine42584467@gmail.com";
+  private client: string ="" ;
   Friends: PlayerEmailDto[] = [];
   FriendsofFriends: PlayerEmailDto[] = [];
   AllTags: TagsDTO[] = [];
@@ -36,7 +36,10 @@ export class CreateIntroductionComponent implements OnInit {
 
   playerreciver: any;
   playerintroducting: any;
-
+  getcurrentuser(){
+    this.client=localStorage.getItem('playeremail')!.trim();
+    console.log(this.client)
+  }
   constructor(private http: HttpClient, private location: Location,
               private IntroductionRequestService: IntroductionRequestService,
               private TagService: TagsService, private RelactionshipService: RelactionShipServiceService,
@@ -45,6 +48,7 @@ export class CreateIntroductionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getcurrentuser()
     this.get();
     this.getFriends();
   }

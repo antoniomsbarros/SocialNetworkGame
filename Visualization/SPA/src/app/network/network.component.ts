@@ -8,9 +8,11 @@ import {Location} from "@angular/common";
 import {Color, Vector2, Vector4} from "three";
 import {CSS2DObject, CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import Stats from "three/examples/jsm/libs/stats.module";
-import {lastValueFrom} from "rxjs";
+import {firstValueFrom, lastValueFrom} from "rxjs";
 import {PlayerFriendsDTO} from "../DTO/relationships/PlayerFriendsDTO";
 import {PlayersRelationshipDto} from "../DTO/relationships/PlayersRelationshipDto";
+import {ShortestPathService} from "../services/shortest-path.service";
+import {ShortspathsDTO} from "../DTO/shortspathsDTO";
 
 @Component({
   selector: 'app-network',
@@ -34,12 +36,25 @@ export class NetworkComponent implements OnInit {
   get networkDepth(): any {
     return this.getNetworkAtDepth.get('networkDepth');
   }
-
-
-  constructor(public relationshipService: RelactionShipServiceService, private location: Location) {
+  async getshortsPath(depth:string, playerorigin:string, playerDest:string):Promise<any>{
+    return await firstValueFrom(this.ShortestPathService.getShortestPath(depth,playerorigin,playerDest));
   }
 
+  constructor(public relationshipService: RelactionShipServiceService, private location: Location,
+              public ShortestPathService:ShortestPathService) {
+  }
+  getcurrentuser(){
+    let i=localStorage.getItem('playeremail')!.trim();
+    return i;
+  }
+getea(){
+  /*this.getshortsPath("2", "pedro@email.com", "miguel@email.com").then(x=>{
+    console.log(x);
+  })*/
+
+}
   ngOnInit(): void {
+  this.getea();
   }
 
   showDepthSelectionForm: boolean = true;
@@ -70,7 +85,7 @@ export class NetworkComponent implements OnInit {
   getNetwork() {
     this.showDepthSelectionForm = false;
 
-    this.relationshipService.getNetworkFromPlayerByDepth("Jules46843207@gmail.com", this.networkDepth.value)
+    this.relationshipService.getNetworkFromPlayerByDepth(this.getcurrentuser(), this.networkDepth.value)
       .subscribe(data => {
 
         this.network = data;

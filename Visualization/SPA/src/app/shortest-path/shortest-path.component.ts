@@ -25,12 +25,12 @@ export class ShortestPathComponent implements OnInit {
       return;
     }
 
-    this.shortestPathService.getShortestPath(userDest).
+   /* this.shortestPathService.getShortestPath(userDest).
     subscribe(
       {
         next: p => {this.shortestPath=p as PathDto,console.log(p)},
         error: e => {console.error(e)}
-      });
+      });*/
   }
 
   goBack(): void {

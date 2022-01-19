@@ -29,14 +29,18 @@ export class GetListOfPendingConnectionRequestsComponent implements OnInit {
   ConnectionStringh: number | undefined;
   selectedTags: string[]=[];
 
-   client = "Jules46843207@gmail.com";
+   client = "";
   constructor(private http: HttpClient,private location: Location,
               private IntroductionRequestService: IntroductionRequestService,
               private TagService: TagsService,private _snackBar: MatSnackBar) {
 
   }
-
+  getcurrentuser(){
+    this.client=localStorage.getItem('playeremail')!.trim();
+console.log(this.client)
+  }
   ngOnInit(): void {
+    this.getcurrentuser();
     this.getPendingIntroductions();
     this.selectedItems = [];
     this.dropdownSettings = {

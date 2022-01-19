@@ -32,8 +32,9 @@ export default class PostService implements IPostService {
     }
   }
   public async getstrength(body: StrengthPLayersDTO): Promise<Result<StrengthPLayersDTO>> {
-    return Promise.resolve(undefined);
+
     try {
+
       const  postplayer1=await this.postRepo.findPostsByPlayerId(body.playerIdOrigin);
       const postplayer2=await this.postRepo.findPostsByPlayerId(body.playerIdDest);
       let countlike=0;

@@ -15,14 +15,18 @@ export class IntroductionRequestService {
   private readonly introductionRequestURL = "https://socialnetworkbackend.azurewebsites.net/api/IntroductionRequest/";
   private readonly TagsURL = "https://socialnetworkbackend.azurewebsites.net/api/Tags/";
   constructor(private http: HttpClient) {
+    this.getcurrentuser();
   }
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+  client1="";
+  getcurrentuser(){
+    this.client1=localStorage.getItem('playeremail')!.trim();
+    this.client3=localStorage.getItem('playeremail')!.trim();
+  }
 
-  client1="Bart92595717@gmail.com";
-
-  client3="Jules46843207@gmail.com"
+  client3=""
   getIntroductionsPending(client:string): Observable<ConnectionIntroductionDTO[]> {
     return this.http.get<ConnectionIntroductionDTO[]>(this.introductionRequestURL + "playerIntroduction=" + client);
   }

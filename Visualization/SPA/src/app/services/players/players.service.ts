@@ -78,4 +78,7 @@ export class PlayersService {
   getNumberOfPLayers(): Observable<number> {
     return this.http.get<number>(this.getnumberofplayer);
   }
+  getstrenghvalue(emaiLOrigin:string, emailDest:string){
+    return this.http.get<>();
+  }
 }

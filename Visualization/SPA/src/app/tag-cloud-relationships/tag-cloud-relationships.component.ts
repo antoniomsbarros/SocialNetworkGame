@@ -17,6 +17,7 @@ export class TagCloudRelationshipsComponent implements OnInit {
   relactionships!:RelationshipDto[]
   tags:string[]=[];
   ngOnInit(): void {
+   this.getcurrentuser()
     this.getRelationships().then(s=>{
       console.log(s);
       this.relactionships=s;
@@ -26,6 +27,10 @@ export class TagCloudRelationshipsComponent implements OnInit {
     console.log(this.relactionships);
   }
   email="Bart92595717@gmail.com"
+  getcurrentuser(){
+    this.email=localStorage.getItem('playeremail')!.trim();
+    console.log(this.email)
+  }
   async getRelationships():Promise<RelationshipDto[]>{
     var cons=[];
     const relactions= this.relationshipsservice.getRelactionPLayer(this.email);
