@@ -17,6 +17,7 @@ namespace SocialNetwork.core.services.players
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPlayerRepository _repo;
         private readonly PlayerBuilder _playerBuilder;
+        private readonly TagsService _tagsService;
         public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
         {
             
@@ -162,7 +163,7 @@ namespace SocialNetwork.core.services.players
             }
 
             List<string> distinctTags = tags.Distinct().ToList();
-            List<string> commonTags = new List<string>();
+          
             int count = 0;
 
             foreach (var dt in distinctTags)
@@ -172,15 +173,15 @@ namespace SocialNetwork.core.services.players
                     if (dt.Equals(t))
                     {
                         count++;
-                        commonTags.Add(dt);
+                       
                     }
                 }
                 
                 double percentagem = ((double) count / tags.Count) * 100.0;
-                tagClouds.Add(new TagCloud(commonTags, percentagem));
+                //TagDto ta = _tagsService.GetByIdAsync(new TagId(dt)).Result;
+                tagClouds.Add(new TagCloud(dt, percentagem));
                 count = 0;
             }
-        
             return tagClouds;
         }
     }

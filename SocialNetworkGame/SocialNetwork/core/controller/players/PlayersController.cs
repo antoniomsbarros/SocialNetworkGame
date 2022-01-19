@@ -213,7 +213,7 @@ namespace SocialNetwork.core.controller.players
             return playerNumber;
         }
         
-        // GET: api/Player/TagCloud
+        // GET: api/Players/TagCloud
         [HttpGet("TagCloud")]
         public async Task<ActionResult<List<TagCloud>>> GetTagCloudFromPlayers()
         {
