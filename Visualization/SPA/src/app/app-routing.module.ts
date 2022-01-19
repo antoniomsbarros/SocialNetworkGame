@@ -28,6 +28,12 @@ import {ProfilePostsComponent} from "./profile/profile-posts/profile-posts.compo
 import {ProfileFriendsComponent} from "./profile/profile-friends/profile-friends.component";
 import {ProfileBodyComponent} from "./profile/profile-body/profile-body.component";
 import {TagCloudRelationshipsComponent} from "./tag-cloud-relationships/tag-cloud-relationships.component";
+import {
+  ConsultAllPlayersTagCloudComponent
+} from "./consult-all-players-tag-cloud/consult-all-players-tag-cloud.component";
+import {
+  ConsultAllRelationshipsTagCloudComponent
+} from "./consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -55,6 +61,8 @@ const routes: Routes = [
           {path:"friends", component:ProfileFriendsComponent}
         ]}
     ]},
+  {path: "consultPlayersTagCloud", component: ConsultAllPlayersTagCloudComponent},
+  {path: "consultRelationshipsTagCloud", component: ConsultAllRelationshipsTagCloudComponent},
 ];
 
 @NgModule({

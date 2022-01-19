@@ -83,15 +83,13 @@ export class PlayersService {
 
 
   networkLength(): Observable<number> {
-    const url = 'https://lapr5backend.azurewebsites.net/api/NerworkLength';
-    return this.http.get<number>(url).pipe(tap(_ =>console.log('fetched network length')),
-      catchError(this.handleError<number>('getNetworkLength',0))
-    );
+    const url = 'https://localhost:5001/api/Players/NerworkLength';
+    return this.http.get<number>(url);
   }
 
 
   getTagCloudFromPlayers(): Observable<TagCloud[]> {
-    const url = `${this.socialNetwork}/TagCloud`;
+    const url = `https://localhost:5001/api/Players/TagCloud`;
     return this.http.get<TagCloud[]>(url, this.httpOptions)
       .pipe(tap(_ => console.log(`fetched getTagCloudFromPlayers`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromPlayers`,[]))
