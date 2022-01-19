@@ -212,5 +212,19 @@ namespace SocialNetwork.core.controller.players
             var playerNumber = await _playerService.CountAsync();
             return playerNumber;
         }
+        
+        // GET: api/Player/TagCloud
+        [HttpGet("TagCloud")]
+        public async Task<ActionResult<List<TagCloud>>> GetTagCloudFromPlayers()
+        {
+            var tagCloud = await _playerService.GetTagCloudFromPlayers();
+
+            if (tagCloud == null)
+            {
+                return NotFound();
+            }
+
+            return tagCloud;
+        }
     }
 }

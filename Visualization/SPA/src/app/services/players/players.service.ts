@@ -6,6 +6,7 @@ import {RegisterPlayerDto} from "../../dto/players/RegisterPlayerDto";
 import {UpdateEmotionalStatusDto} from "../../DTO/players/UpdateEmotionalStatusDto";
 import {UpdateProfileDto} from "../../DTO/players/UpdateProfileDto";
 import {TagsDTO} from "../../DTO/TagsDTO";
+import {TagCloud} from "../../DTO/TagCloud";
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,22 @@ export class PlayersService {
   getNumberOfPLayers(): Observable<number> {
     return this.http.get<number>(this.getnumberofplayer);
   }
-  getstrenghvalue(emaiLOrigin:string, emailDest:string){
-    return this.http.get<>();
+
+
+  networkLength(): Observable<number> {
+    const url = 'https://lapr5backend.azurewebsites.net/api/NerworkLength';
+    return this.http.get<number>(url).pipe(tap(_ =>console.log('fetched network length')),
+      catchError(this.handleError<number>('getNetworkLength',0))
+    );
+  }
+
+
+  getTagCloudFromPlayers(): Observable<TagCloud[]> {
+    const url = `${this.socialNetwork}/TagCloud`;
+    return this.http.get<TagCloud[]>(url, this.httpOptions)
+      .pipe(tap(_ => console.log(`fetched getTagCloudFromPlayers`)),
+        catchError(this.handleError<TagCloud[]>(`getTagCloudFromPlayers`,[]))
+      );
+
   }
 }

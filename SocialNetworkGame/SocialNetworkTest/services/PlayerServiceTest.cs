@@ -68,6 +68,11 @@ namespace SocialNetworkTest.services
             {
                 throw new NotImplementedException();
             }
+
+            public Task<int> getNumberofPlayers()
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestMethod]

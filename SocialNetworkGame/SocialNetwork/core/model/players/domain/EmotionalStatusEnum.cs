@@ -12,6 +12,7 @@
         Proud,
         Remorseful,
         Grateful,
-        Angry
+        Angry,
+        Admiration
     }
 }

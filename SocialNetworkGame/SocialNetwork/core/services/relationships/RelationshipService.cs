@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.core.model.players.domain;
@@ -275,6 +276,43 @@ namespace SocialNetwork.core.services.relationships
                 relationship.PlayerOrig.Value, relationship.ConnectionStrength.Strength, tag);
         }
 
+        public async Task<List<TagCloud>> GetTagCloudFromRelationships()
+        {
+            var relationships = await GetAllAsync();
+            List<string> tags = new List<string> ();
+            List<TagCloud> tagClouds = new List<TagCloud>();
+
+            foreach (var r in relationships) 
+            {
+                foreach (var t in r.tags)
+                {
+                    tags.Add(t);
+                }
+               
+            }
+
+            List<string>  distinctTags = tags.Distinct().ToList();
+            List<string> commonTag = new List<string>();
+            int count = 0;
+
+            foreach (var dt in distinctTags)
+            {
+                foreach (var t in tags)
+                {
+                    if (dt.Equals(t))
+                    {
+                        count++;
+                        commonTag.Add(dt);
+                    }
+                }
+              
+                double percentagem = ((double) count / tags.Count) * 100.0;
+                tagClouds.Add(new TagCloud(commonTag, percentagem));
+                count = 0;
+            }
+        
+            return tagClouds;
+        }
        
     }
 }

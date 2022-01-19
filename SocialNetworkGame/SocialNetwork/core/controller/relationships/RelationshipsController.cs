@@ -210,5 +210,19 @@ namespace SocialNetwork.core.controller.relationships
                 return await _service.GetRelationshipBetweenTwoPlayers(new PlayerId(emailorigin), new PlayerId(emaildest));
             }
         }
+        
+        // GET: api/Relationships/TagCloud
+        [HttpGet("TagCloud")]
+        public async Task<ActionResult<List<TagCloud>>> GetTagCloudFromRelationships()
+        {
+            var tagCloud = await _service.GetTagCloudFromRelationships();
+
+            if (tagCloud == null)
+            {
+                return NotFound();
+            }
+
+            return tagCloud;
+        }
     }
 }
