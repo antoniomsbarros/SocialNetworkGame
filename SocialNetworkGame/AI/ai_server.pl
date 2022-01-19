@@ -29,6 +29,8 @@ start_server :-
                 ]),
     asserta(port(Port)).
 
+% Cors setup
+:- set_setting(http:cors, [*]).
 % Shutdown server
 stopServer :-
         retract(port(Port)),

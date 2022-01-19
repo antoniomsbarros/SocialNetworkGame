@@ -28,6 +28,7 @@ export class PlayersService {
   }
 
   registerPlayer(dto: RegisterPlayerDto): Observable<PlayerDto> {
+
     return this.http.post<PlayerDto>(this.socialNetwork, dto);
   }
 

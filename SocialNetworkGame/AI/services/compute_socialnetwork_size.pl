@@ -4,6 +4,7 @@
 :- http_handler('/api/network/size', compute_social_network_size, []).
 
 compute_social_network_size(Request) :-
+    cors_enable(Request, [methods([get])]),
     http_parameters(Request, [email(Email, [string]), depth(Depth, [number])]),
     get_player_social_network_size(Email, Depth, Size), % compute_socialnetwork_size.pl
     reply_json(json([size=Size])).

@@ -11,6 +11,7 @@ computePlayerWithXTagsInCommon(Request) :-
     reply_json(Result).
 
 getPlayerWithXTagsInCommon(Request, Result) :-
+    cors_enable(Request, [methods([get])]),
     http_parameters(Request, [combinations(X, [number])]),
     getSocialNetworkHostPort(Host, Port),
     http_open([host(Host), port(Port), path('/api/Players')], Stream, [cert_verify_hook(cert_accept_any)]),

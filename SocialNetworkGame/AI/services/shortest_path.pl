@@ -16,6 +16,7 @@ dfs2(Orig, Dest, LA, Path) :-
     dfs2(NX, Dest, [NX|LA], Path).
 
 compute_shortest_path(Request):-
+    cors_enable(Request, [methods([get])]),
     http_parameters(Request, [depth(Depth, [number]), orig(Orig, [string]), dest(Dest, [string])]),
     get_player_social_network(Orig, Depth),
     (shortest_path(Orig ,Dest); true),

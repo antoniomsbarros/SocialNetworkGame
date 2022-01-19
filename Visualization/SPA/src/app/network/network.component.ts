@@ -44,8 +44,15 @@ export class NetworkComponent implements OnInit {
               public ShortestPathService:ShortestPathService) {
   }
   getcurrentuser(){
+
     let i=localStorage.getItem('playeremail')!.trim();
-    return i;
+
+    console.log(i)
+
+    let temp=this.getshortsPath("2", "pedro@email.com", "miguel@email.com").then(s=>{
+      console.log(s)
+    });
+return i;
   }
 getea(){
   /*this.getshortsPath("2", "pedro@email.com", "miguel@email.com").then(x=>{
