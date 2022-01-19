@@ -13,8 +13,7 @@ export class ConsultAllRelationshipsTagCloudComponent implements OnInit {
 
   tagClouds: TagCloud[] = [];
 
-  constructor(private route: ActivatedRoute,
-              private _RelationshipService: RelationshipsService,
+  constructor(private _RelationshipService: RelationshipsService,
               private location: Location) { }
 
   ngOnInit(): void {
