@@ -629,3 +629,7 @@ body{margin-top:20px;
   border-color: #DDD;
   border-top: 1px solid #FFF;
 }
+
+.interactable:hover {
+  cursor: pointer;
+}

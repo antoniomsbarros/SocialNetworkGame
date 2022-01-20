@@ -1,76 +1,79 @@
-<div class="tab-content p30" style="height: 730px;">
-  <div id="tab1" class="tab-pane active">
-    <div class="media">
-      <a class="pull-left" href="#"> <img class="media-object mn thumbnail mw50" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="..."> </a>
+<div class="tab-content p30 mb20 tab-pane active" id="tab1">
+  <div *ngIf="this.isOurProfileFeed()" class="mb-5">
+    <form [formGroup]="newPost">
+      <textarea formControlName="postText" type="text" class="form-control mb-1"></textarea>
+      <button (click)="addNewPost()" type="button" class="btn-sm btn-primary">Post</button>
+    </form>
+  </div>
+  <div *ngIf="!currentPlayerHasNoPosts && playerFeed.length == 0">
+    <p>Fetching player's posts...</p>
+  </div>
+  <div *ngIf="currentPlayerHasNoPosts">
+    <p>This user hasn't posted anything yet.</p>
+  </div>
+  <div *ngIf="playerFeed && playerFeed.length">
+    <div *ngFor="let post of playerFeed" class="media">
+      <a class="pull-left" href="#">
+        <img class="media-object mn thumbnail mw50" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+      </a>
       <div class="media-body">
-        <h5 class="media-heading mb20">Simon Rivers Posted
-          <small> - 3 hours ago</small>
-        </h5>
-        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" class="mw140 mr25 mb20">
-        <img src="https://bootdey.com/img/Content/avatar/avatar8.png" class="mw140 mr25 mb20">
-        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="mw140 mb20">
-        <div class="media-links">
-                      <span class="text-light fs12 mr10">
-                        <span class="fa fa-thumbs-o-up text-primary mr5"></span> Like </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-share text-primary mr5"></span> Share </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-floppy-o text-primary mr5"></span> Save </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-comment text-primary mr5"></span> Comment </span>
-        </div>
-      </div>
-    </div>
-    <div class="media mt25">
-      <a class="pull-left" href="#"> <img class="media-object mn thumbnail thumbnail-sm rounded mw40" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="..."> </a>
-      <div class="media-body mb5">
-        <h5 class="media-heading mbn">Simon Rivers Posted
-          <small> - 3 hours ago</small>
-        </h5>
-        <p> Omg so freaking sweet dude.</p>
-        <div class="media pb10">
-          <a class="pull-left" href="#"> <img class="media-object mn thumbnail thumbnail-sm rounded mw40" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="..."> </a>
-          <div class="media-body mb5">
-            <h5 class="media-heading mbn">Jessica Wong
-              <small> - 3 hours ago</small>
-            </h5>
-            <p>Omgosh I'm in love</p>
+        <div>
+          <h5 class="media-heading mbn">{{post.playerCreator}} Posted <small> - {{this.getTimeSince(post.creationDate)}} ago</small></h5>
+          <p>{{post.postText}}</p>
+          <div class="media-links">
+            <span (click)="addReactionToPost(post.id, 'Like')" class="interactable fs12 mr10">
+              {{post.reactions.reduce(this.likeReducer, 0)}}
+              <span [className]="this.postReactedByCurrentUser(post.id, ['0', 'Like'])
+              ? 'fa fa-thumbs-up text-primary mr5'
+              : 'fa fa-thumbs-o-up text-primary mr5'"></span>
+            </span>
+            <span (click)="addReactionToPost(post.id, 'Dislike')" class="interactable fs12 mr10">
+              {{post.reactions.reduce(this.dislikeReducer, 0)}}
+              <span [className]="this.postReactedByCurrentUser(post.id, ['1', 'Dislike'])
+                ? 'fa fa-thumbs-down text-primary mr5'
+                : 'fa fa-thumbs-o-down text-primary mr5'">
+              </span>
+            </span>
+            <span (click)="startCommenting(post.id)" class="interactable fs12 mr10">
+              {{post.comments.length}}
+              <span [className]="commentingPosts.includes(post.id) ? 'fa fa-comment text-primary mr5' : 'fa fa-comment-o text-primary mr5'"></span>
+            </span>
+          </div>
+          <div *ngIf="commentingPosts.includes(post.id)">
+            <form [formGroup]="getCommentText">
+              <textarea formControlName="comment" type="text" class="form-control mb-1"></textarea>
+              <button (click)="addCommentToPost(post.id)" type="button" class="btn-sm btn-primary">Send comment</button>
+            </form>
           </div>
         </div>
-        <div class="media mtn">
-          <a class="pull-left" href="#"> <img class="media-object mn thumbnail thumbnail-sm rounded mw40" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="..."> </a>
-          <div class="media-body mb5">
-            <h5 class="media-heading mbn">Jessica Wong
-              <small> - 3 hours ago</small>
-            </h5>
-            <p>Omgosh I'm in love</p>
+        <div *ngIf="post.comments.length" class="mt-3">
+          <div *ngFor="let comment of post.comments" class="media pb10">
+            <a class="pull-left" href="#">
+              <img class="media-object mn thumbnail thumbnail-sm rounded mw40" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="...">
+            </a>
+            <div class="media-body mb5">
+              <h5 class="media-heading mbn">{{comment.playerCreator}}<small> - {{this.getTimeSince(comment.creationDate)}} ago</small></h5>
+              <p>{{comment.commentText}}</p>
+              <div class="media-links">
+                <span (click)="addReactionToComment(post.id, comment.domainId, 'Like')" class="fs12 mr10 interactable">
+                  {{comment.reactions.reduce(this.likeReducer, 0)}}
+                  <span [className]="this.commentReactedByCurrentUser(post.id, comment.domainId, ['0', 'Like'])
+                    ? 'fa fa-thumbs-up text-primary mr5'
+                    : 'fa fa-thumbs-o-up text-primary mr5'">
+                  </span>
+                </span>
+                <span (click)="addReactionToComment(post.id, comment.domainId, 'Dislike')" class="fs12 mr10 interactable">
+                  {{comment.reactions.reduce(this.dislikeReducer, 0)}}
+                  <span [className]="this.commentReactedByCurrentUser(post.id, comment.domainId, ['1', 'Dislike'])
+                    ? 'fa fa-thumbs-down text-primary mr5'
+                    : 'fa fa-thumbs-o-down text-primary mr5'">
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="media mt25">
-      <a class="pull-left" href="#"> <img class="media-object thumbnail mw50" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="..."> </a>
-      <div class="media-body">
-        <h5 class="media-heading mb20">Simon Rivers Posted
-          <small> - 3 hours ago</small>
-        </h5>
-        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="mw140 mr25 mb20">
-        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="mw140 mr25 mb20">
-        <img src="https://bootdey.com/img/Content/avatar/avatar4.png" class="mw140 mb20">
-        <div class="media-links">
-                      <span class="text-light fs12 mr10">
-                        <span class="fa fa-thumbs-o-up text-primary mr5"></span> Like </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-share text-primary mr5"></span> Share </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-floppy-o text-primary mr5"></span> Save </span>
-          <span class="text-light fs12 mr10">
-                        <span class="fa fa-comment text-primary mr5"></span> Comment </span>
         </div>
       </div>
     </div>
   </div>
-  <div id="tab2" class="tab-pane"></div>
-  <div id="tab3" class="tab-pane"></div>
-  <div id="tab4" class="tab-pane"></div>
 </div>
