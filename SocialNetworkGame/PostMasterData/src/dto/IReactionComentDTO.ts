@@ -1,5 +1,5 @@
 ﻿export interface IReactionComentDTO {
-  comentId: string;
+  commentId: string;
   domainId: string;
   reactionValue: string;
   creationDate: string;
