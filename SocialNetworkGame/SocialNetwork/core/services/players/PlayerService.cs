@@ -8,6 +8,7 @@ using SocialNetwork.core.model.players.repository;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.model.tags.dto;
+using SocialNetwork.core.model.tags.repository;
 using SocialNetwork.core.services.tags;
 
 namespace SocialNetwork.core.services.players
@@ -18,12 +19,14 @@ namespace SocialNetwork.core.services.players
         private readonly IPlayerRepository _repo;
         private readonly PlayerBuilder _playerBuilder;
         private readonly TagsService _tagsService;
-        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo)
+        private readonly ITagRepository _repoTags;
+        public PlayerService(IUnitOfWork unitOfWork, IPlayerRepository repo,ITagRepository repoTags)
         {
             
             _unitOfWork = unitOfWork;
             _repo = repo;
             _playerBuilder = new PlayerBuilder();
+            _repoTags = repoTags;
         }
 
         public async Task<List<PlayerDto>> GetAllAsync()
@@ -148,12 +151,14 @@ namespace SocialNetwork.core.services.players
             return playernumber;
         }
         
-        public async Task<List<TagCloud>> GetTagCloudFromPlayers()
+        public async Task<List<TagCloudDto>> GetTagCloudFromPlayers()
         {
             var players = await GetAllAsync();
+          
             List<String> tags = new List<string>();
-            List<TagCloud> tagClouds = new List<TagCloud>();
-
+            
+            List<TagCloudDto> tagClouds = new List<TagCloudDto>();
+            
             foreach (var p in players) 
             {
                 foreach (var tag in p.tags)
@@ -178,15 +183,10 @@ namespace SocialNetwork.core.services.players
                 }
                 
                 double percentagem = ((double) count / tags.Count) * 100.0;
-                //TagDto ta = _tagsService.GetByIdAsync(new TagId(dt)).Result;
-                tagClouds.Add(new TagCloud(dt, percentagem));
+                var tag = await _repoTags.GetByIdAsync(new TagId(dt));
+                tagClouds.Add(new TagCloudDto(dt,tag.TagName.Value, Math.Round(percentagem, 2)));
                 count = 0;
             }
-<<<<<<< HEAD
-            
-        
-=======
->>>>>>> e13893f2172ea1d5f5a0f92785f9100ca7449ba2
             return tagClouds;
         }
     }

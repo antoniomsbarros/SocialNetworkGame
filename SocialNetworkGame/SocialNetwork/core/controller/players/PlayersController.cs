@@ -136,14 +136,9 @@ namespace SocialNetwork.core.controller.players
         }
 
         [HttpPut("humor/{id}")]
-        public async Task<ActionResult<UpdateEmotionalStatusDto>> ChangeEmotionalStatus(Guid id,
+        public async Task<ActionResult<UpdateEmotionalStatusDto>> ChangeEmotionalStatus(string id,
             UpdateEmotionalStatusDto dto)
         {
-            if (!id.Equals(Guid.Parse(dto.id)))
-            {
-                return BadRequest();
-            }
-
             try
             {
                 var player =
@@ -215,7 +210,7 @@ namespace SocialNetwork.core.controller.players
         
         // GET: api/Players/TagCloud
         [HttpGet("TagCloud")]
-        public async Task<ActionResult<List<TagCloud>>> GetTagCloudFromPlayers()
+        public async Task<ActionResult<List<TagCloudDto>>> GetTagCloudFromPlayers()
         {
             var tagCloud = await _playerService.GetTagCloudFromPlayers();
 
