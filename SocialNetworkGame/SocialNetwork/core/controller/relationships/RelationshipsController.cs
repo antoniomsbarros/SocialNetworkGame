@@ -213,7 +213,7 @@ namespace SocialNetwork.core.controller.relationships
         
         // GET: api/Relationships/TagCloud
         [HttpGet("TagCloud")]
-        public async Task<ActionResult<List<TagCloud>>> GetTagCloudFromRelationships()
+        public async Task<ActionResult<List<TagCloudDto>>> GetTagCloudFromRelationships()
         {
             var tagCloud = await _service.GetTagCloudFromRelationships();
 
