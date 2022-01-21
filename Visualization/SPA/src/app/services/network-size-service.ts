@@ -3,10 +3,11 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Size} from "three/examples/jsm/utils/ShadowMapViewer";
+import {environment} from "../../environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class networkSizeService {
-  private url = "https://localhost:5001/api/NetworkSize/"; // URL to web api
+  private url =environment.AIApiUrl+ "NetworkSize/"; // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})

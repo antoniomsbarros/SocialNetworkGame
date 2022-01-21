@@ -5,6 +5,7 @@ import {catchError, Observable, of, tap} from "rxjs";
 import {RelationshipDto} from "../../DTO/relationships/RelationshipDto";
 import {PlayerFriendsDTO} from "../../DTO/relationships/PlayerFriendsDTO";
 import {TagCloud} from "../../DTO/TagCloud";
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -12,7 +13,7 @@ import {TagCloud} from "../../DTO/TagCloud";
 })
 export class RelationshipsService {
 
-  private relationships: string = "https://localhost:5001/api/Relationships/";
+  private relationships: string = environment.APIUrl+"Relationships/";
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -43,7 +44,7 @@ export class RelationshipsService {
   }
 
   getTagCloudFromRelationships(): Observable<TagCloud[]> {
-    const url = 'https://localhost:5001/api/Relationships/TagCloud';
+    const url = this.relationships+'TagCloud';
     return this.http.get<TagCloud[]>(url, this.httpOptions)
       .pipe(tap(_ => console.log(`fetched getTagCloudFromRelationships`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromRelationships`,[]))

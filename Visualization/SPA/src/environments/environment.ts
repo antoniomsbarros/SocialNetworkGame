@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  AIApiUrl : 'http://localhost:5100/',
-
+  AIApiUrl : 'https://socialnetworkai041.westeurope.cloudapp.azure.com/api/',
+  APIUrl: "https://socialnetworkbackend.azurewebsites.net/api/",
+  PostMasterData:"https://postmasterdata.azurewebsites.net/api/"
 };
 
 /*

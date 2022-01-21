@@ -6,14 +6,15 @@ import {Observable, of} from 'rxjs';
 import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
 import {TagsDTO} from "../DTO/TagsDTO";
 import {CreateIntroductionRequestDto} from "../DTO/CreateIntroductionRequestDto";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class IntroductionRequestService {
-  private readonly introductionRequestURL = "https://socialnetworkbackend.azurewebsites.net/api/IntroductionRequest/";
-  private readonly TagsURL = "https://socialnetworkbackend.azurewebsites.net/api/Tags/";
+  private readonly introductionRequestURL = environment.APIUrl+"IntroductionRequest/";
+  private readonly TagsURL = environment.APIUrl+"Tags/";
   constructor(private http: HttpClient) {
     this.getcurrentuser();
   }

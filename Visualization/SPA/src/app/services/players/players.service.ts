@@ -7,18 +7,19 @@ import {UpdateEmotionalStatusDto} from "../../DTO/players/UpdateEmotionalStatusD
 import {UpdateProfileDto} from "../../DTO/players/UpdateProfileDto";
 import {TagsDTO} from "../../DTO/TagsDTO";
 import {TagCloud} from "../../DTO/TagCloud";
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayersService {
 
-  private socialNetwork: string = "https://localhost:5001/api/Players/";
-  private humorState: string = "https://localhost:5001/api/Players/humor/";
-  private profile: string = "https://localhost:5001/api/Players/profile/";
-  private getprofile: string = "https://localhost:5001/api/Players/email";
-  private getTagsPlayers: string = "https://localhost:5001/api/Players/Tags/"
-  private getnumberofplayer: string = "https://localhost:5001/api/Players/numberPlayers/"
+  private socialNetwork: string = environment.APIUrl+"Players/";
+  private humorState: string = environment.APIUrl+"Players/humor/";
+  private profile: string = environment.APIUrl+"Players/profile/";
+  private getprofile: string =environment.APIUrl+ "Players/email";
+  private getTagsPlayers: string = environment.APIUrl+"Players/Tags/"
+  private getnumberofplayer: string =environment.APIUrl+ "Players/numberPlayers/"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -53,7 +54,7 @@ export class PlayersService {
    */
 
   changeHumor(id: string, newMood: string): Observable<any> {
-    const url1 = 'https://localhost:5001/api/ChangeMood/';
+    const url1 =environment.APIUrl+ 'ChangeMood/';
     const url = `${url1}${id}/${newMood}`;
 
     return this.http.put(url, this.httpOptions).pipe(
@@ -83,13 +84,13 @@ export class PlayersService {
 
 
   networkLength(): Observable<number> {
-    const url = 'https://localhost:5001/api/Players/NerworkLength';
+    const url = environment.APIUrl+'Players/NerworkLength';
     return this.http.get<number>(url);
   }
 
 
   getTagCloudFromPlayers(): Observable<TagCloud[]> {
-    const url = `https://localhost:5001/api/Players/TagCloud`;
+    const url = environment.APIUrl+`Players/TagCloud`;
     return this.http.get<TagCloud[]>(url, this.httpOptions)
       .pipe(tap(_ => console.log(`fetched getTagCloudFromPlayers`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromPlayers`,[]))

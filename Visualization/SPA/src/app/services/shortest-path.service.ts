@@ -9,7 +9,7 @@ import {ShortspathsDTO} from "../DTO/shortspathsDTO";
   providedIn: 'root'
 })
 export class ShortestPathService {
-  private shortestPathUrl = 'https://socialnetworkai041.westeurope.cloudapp.azure.com/api/network/shortestpath?depth=';
+  private shortestPathUrl = environment.AIApiUrl+'network/shortestpath?depth=';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,6 +22,7 @@ export class ShortestPathService {
     private http: HttpClient) { }
 
   getShortestPath(depth:string, playersender:string, playerdest:string): Observable<any> {
+
   return this.http.get<ShortspathsDTO>(this.shortestPathUrl+depth+"&orig="+playersender+"&dest="+playerdest,this.httpOptions).pipe(catchError(this.handleError))
   }
 

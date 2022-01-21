@@ -5,12 +5,13 @@ import {CommentDto} from "../../dto/posts/CommentDto";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ReactionDto} from "../../dto/posts/ReactionDto";
 import {ReactionCommentDto} from "../../DTO/posts/ReactionCommentDto";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostsService {
-  private postsRoute: string = "http://localhost:3000/api/posts/"; // TODO add ssl
+  private postsRoute: string =environment.PostMasterData+ "posts/"; // TODO add ssl
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
