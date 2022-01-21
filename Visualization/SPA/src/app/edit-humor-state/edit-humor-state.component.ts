@@ -23,11 +23,11 @@ export class EditHumorStateComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  changeHumor(humor: string) {
-    if (!humor) return;
-    let id1 = localStorage.getItem('id');
-    if (!id1) return;
-    this.playerService.changeHumor(id1.slice(1, length - 1), humor).subscribe(player => {
+  changeHumor() {
+    let humor = this.emotionalStatus.value;
+    console.log(humor);
+
+    this.playerService.changeHumor('fds2@email.com', humor).subscribe(player => {
       this.player1.push(player);
     });
   }

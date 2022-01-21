@@ -3,21 +3,22 @@
           <h1 class="display-5 fw-bold">Change Humor State</h1>
 
 
-              <label for="id_emotionalStatus" class="form-label">What's your currently emotional status?</label>
+              <label for="emotionalStatus" class="form-label">What's your currently emotional status?</label>
             <div>
-
+              <form [formGroup]="player">
             <mat-form-field appearance="fill" class="form-group col-md-2" >
               <select formControlName="emotionalStatus"
                       [class.is-invalid]="emotionalStatus.touched && emotionalStatus.invalid"
-                      class="custom-select my-1 mr-sm-2" id="id_emotionalStatus">
+                      class="custom-select my-1 mr-sm-2" id="emotionalStatus">
                 <option *ngFor="let status of rowEmotionalStatus()" [ngValue]="status">{{status}}</option>
               </select>
             </mat-form-field>
-            </div>
+
             <div class="form-floating mb-3">
             </div>
-            <button mat-stroked-button class="btn btn-dark" (click)="emotionalStatus"style="margin-top: 25px">Apply</button>
-
+            <button mat-stroked-button class="btn btn-dark" (click)="changeHumor()"style="margin-top: 25px">Apply</button>
+            </form>
+            </div>
 
               <div>
               <button mat-stroked-button class="btn btn-dark" (click)="goBack()"style="margin-top: 25px">Back</button>

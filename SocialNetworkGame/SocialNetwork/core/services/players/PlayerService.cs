@@ -128,7 +128,7 @@ namespace SocialNetwork.core.services.players
 
         public async Task<PlayerDto> ChangeEmotionalStatus(UpdateEmotionalStatusDto dto)
         {
-            var player = await _repo.GetByIdAsync(new PlayerId(dto.id));
+            var player = await _repo.GetByEmailAsync(new Email(dto.id));
 
             if (player == null)
                 return null;
