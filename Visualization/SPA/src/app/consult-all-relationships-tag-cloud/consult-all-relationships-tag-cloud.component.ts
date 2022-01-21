@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {TagCloud} from "../DTO/TagCloud";
 import {RelationshipsService} from "../services/relationships/relationships.service";
 import {Location} from "@angular/common";
@@ -22,6 +21,7 @@ export class ConsultAllRelationshipsTagCloudComponent implements OnInit {
 
   getTagCloudFromRelationships(): void{
     this._RelationshipService.getTagCloudFromRelationships().subscribe(t => this.tagClouds = t);
+    console.log(this.tagClouds)
   }
 
   goBack(): void{
