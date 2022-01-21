@@ -13,6 +13,7 @@ import {PlayerFriendsDTO} from "../DTO/relationships/PlayerFriendsDTO";
 import {PlayersRelationshipDto} from "../DTO/relationships/PlayersRelationshipDto";
 import {ShortestPathService} from "../services/shortest-path.service";
 import {ShortspathsDTO} from "../DTO/shortspathsDTO";
+import {ifStmt} from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: 'app-network',
@@ -22,6 +23,7 @@ import {ShortspathsDTO} from "../DTO/shortspathsDTO";
 export class NetworkComponent implements OnInit {
   @ViewChild('networkRef')
   private networkRef!: ElementRef;
+
 
   private get networkElement(): HTMLCanvasElement {
     return this.networkRef.nativeElement;
@@ -46,22 +48,11 @@ export class NetworkComponent implements OnInit {
   getcurrentuser(){
 
     let i=localStorage.getItem('playeremail')!.trim();
-
     console.log(i)
 
-    let temp=this.getshortsPath("2", "pedro@email.com", "miguel@email.com").then(s=>{
-      console.log(s)
-    });
 return i;
   }
-getea(){
-  /*this.getshortsPath("2", "pedro@email.com", "miguel@email.com").then(x=>{
-    console.log(x);
-  })*/
-
-}
   ngOnInit(): void {
-  this.getea();
   }
 
   showDepthSelectionForm: boolean = true;
@@ -125,6 +116,9 @@ getea(){
   cylinders:any[]=[]
   pointlight1!:THREE.PointLight
   pointlight2!:THREE.PointLight
+  playersall!:any[];
+  listspheres!:THREE.Mesh[];
+  listcylinders!: THREE.Mesh[];
   initializeGraph() {
 
     this.scene = new THREE.Scene();
@@ -162,7 +156,7 @@ getea(){
             name: currentNode.playerName,
             tags: currentNode.playerTags,
             emotionalStatus: currentNode.emotionalStatus,
-
+            playerEmail: currentNode.playerEmail
           };
         }
         for (let friend of currentNode.relationships) {
@@ -180,11 +174,11 @@ getea(){
 
       }
     }
-  console.log(connections)
+
     for (let i = 0; i < connections.length; i++) {
       this.getrelactions(connections[i].playerFrom, connections[i].playerTo).then(s=>{
        // connections[i].relationshipStrengthDest
-        console.log(s);
+
         connections.find(item=>(item.playerFrom==s.relationshipFromOrig.playerOrig && item.playerTo==s.relationshipFromOrig.playerDest)).relationshipStrengthOrig=s.relationshipFromOrig.connectionStrength;
         connections.find(item=>(item.playerFrom==s.relationshipFromDest.playerDest && item.playerTo==s.relationshipFromDest.playerOrig)).relationshipStrengthDest=s.relationshipFromDest.connectionStrength;
 
@@ -199,7 +193,7 @@ getea(){
     this.labelRenderer.domElement.style.pointerEvents = 'none';
     // @ts-ignore
     document.getElementById("container").appendChild( this.labelRenderer.domElement );
-
+    this.playersall=players;
 
 
     for (let i = 0; i < playerIds.length; i++) {
@@ -218,7 +212,7 @@ getea(){
       circle.position.x = i == 0 ? 0 : Math.random() * (maxDistanceX - minDistanceX) + minDistanceX;
       circle.position.y = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
       circle.position.z = i == 0 ? 0 : Math.random() * (maxDistanceY - minDistanceY) + minDistanceY;
-      circle.name=players[playerIds[i]].name;
+      circle.name=players[playerIds[i]].playerEmail;
 
       this.scene.add(circle);
       nodes[playerIds[i]] = circle;
@@ -231,6 +225,7 @@ getea(){
       const label = new CSS2DObject( text );
       label.position.copy( circle.position );
       this.scene.add( label );
+
       this.spheres.push(circle)
 
     }
@@ -251,7 +246,6 @@ getea(){
             playerto=playerId;
           }
           if (connectionPoints.length == 2 && playerto!=null && playerfrom!=null){
-
             this.createEdge(connectionPoints[0], connectionPoints[1],connection);
           }
           if (connectionPoints.length>1)
@@ -319,19 +313,50 @@ this.controls.listenToKeyEvents(document.body);
           }
         }
         this.objectPressed = this.onObject;
-        const button= document.createElement( 'button' );
-        button.className = 'btn btn-secondary';
 
-        button.addEventListener("click",event=>{
-          console.log("strongt")
+        this.getshortsPath(this.networkDepth.value, this.getcurrentuser(), this.objectPressed[0].object.name).then(s=>{
+        console.log(s)
+          for (let i = 0; i < this.spheres.length; i++) {
+            if ((<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.equals(new Color("green"))){
+              (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.set(new Color("Steelblue"));
+            }
+          }
+          this.listspheres=[];
+          for (let i = 0; i < s.path.length; i++) {
+            for (let j = 0; j < this.spheres.length; j++) {
+              if (this.spheres[j]!=undefined){
+                if (this.spheres[j].name===s.path[i]){
+                  this.listspheres.push(this.spheres[j])
+                }
+              }
+            }
+          }
+          //console.log(this.listspheres)
 
 
+           this.listcylinders=[];
+          for (let i = 0; i < this.cylinders.length; i++) {
+            let playerto=this.playersall[this.cylinders[i].connection.playerTo];
+            let playerfrom=this.playersall[this.cylinders[i].connection.playerFrom]
+
+            for (let j = 0; j <= s.path.length-1; j++) {
+              if (s.path[j]==playerfrom.playerEmail && playerto.playerEmail==s.path[j+1]){
+                this.listcylinders.push(this.cylinders[i].cylinderobject);
+                (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.cylinders[i].cylinderobject).material).color.set(new Color("Green"));
+              }
+            }
+          }
+          /*for (let i=0; i<this.listcylinders.length;i++){
+
+            (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.listcylinders[i]).material).color.set(new Color("Green"));
+            console.log("op")
+            console.log(this.listcylinders[i])
+          }*/
+          for (let i = 1; i < this.listspheres.length; i++) {
+             (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.listspheres[i]).material).color.set(new Color("Green"));
+          }
         })
-        button.textContent = "path";
-        button.style.color = '0x000';
-        const buttonObject = new CSS2DObject( button );
-        this.buttons.push(buttonObject);
-        (<THREE.Mesh>this.objectPressed[0].object).add(buttonObject);
+
       }
     }else {
       if(this.objectPressed.length > 0) {
@@ -349,7 +374,7 @@ this.controls.listenToKeyEvents(document.body);
 
 addEmots(emocionalStatus:string):string{
 
-    let result="";
+    let result;
     switch (emocionalStatus) {
       case "NotSpecified":
         result="NotSpecified";
@@ -398,7 +423,9 @@ addEmots(emocionalStatus:string):string{
       for(let obj of this.onObject) {
         if(!this.objectPressed.some(x => x.object.position == obj.object.position)) {
           if(!((<THREE.Mesh>obj.object).position.x == 0 && (<THREE.Mesh>obj.object).position.y == 0)) {
-            (<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.set(0x2e86c1);
+            if(!(<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.equals(new Color("green"))){
+              (<THREE.MeshBasicMaterial>(<THREE.Mesh>obj.object).material).color.set(new Color("Steelblue"));
+            }
           }
         }
       }
@@ -406,7 +433,9 @@ addEmots(emocionalStatus:string):string{
     this.onObject = intersection;
     for(let inter of intersection) {
       if(!((<THREE.Mesh>inter.object).position.x == 0 && (<THREE.Mesh>inter.object).position.y == 0)) {
-        (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(0xff0000);
+        if (!(<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.equals(new Color("green"))){
+          (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(new Color("red"));
+        }
       }
     }
   }

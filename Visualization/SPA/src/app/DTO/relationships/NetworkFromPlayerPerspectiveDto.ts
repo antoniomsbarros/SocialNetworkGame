@@ -1,4 +1,5 @@
 ﻿export interface NetworkFromPlayerPerspectiveDto {
+  playerEmail: string;
   playerTags: any;
   playerId: string;
   playerName: string;

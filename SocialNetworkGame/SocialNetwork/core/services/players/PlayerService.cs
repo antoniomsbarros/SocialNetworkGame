@@ -180,6 +180,7 @@ namespace SocialNetwork.core.services.players
                 tagClouds.Add(new TagCloud(commonTags, percentagem));
                 count = 0;
             }
+            
         
             return tagClouds;
         }
