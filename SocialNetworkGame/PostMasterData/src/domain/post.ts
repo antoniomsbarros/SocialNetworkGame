@@ -108,21 +108,42 @@ export class Post extends AggregateRoot<PostProps> {
         this.props.comments.splice(index, 1);
       }
     }
+    
     public addReaction(reaction:Reaction):boolean{
       if (this.props.reactions && this.props.reactions.includes(reaction)) {
         return false;
       }
-      if (!this.props.comments)
+  
+      if (this.props.reactions) {
+        for (let existingReaction of this.props.reactions) {
+          if (existingReaction.playerId == reaction.playerId) {
+            if (existingReaction.reactionValue.equals(reaction.reactionValue)) {
+              this.removeReaction(reaction);
+              return true;
+            } else {
+              this.removeReaction(reaction);
+              this.props.reactions.push(reaction)
+              return true;
+            }
+          }
+        }
+      }
+  
+      if (!this.props.reactions)
         this.props.reactions=[]
-
+  
       this.props.reactions.push(reaction)
       return true;
     }
-
-    public removeReaction(reaction:Reaction):void{
-      const index=this.props.reactions.indexOf(reaction, 0);
-      if (index>-1){
-        this.props.reactions.splice(index, 1);
+  
+    public removeReaction(reaction: Reaction): void {
+      for (let existingReaction of this.props.reactions) {
+        if (existingReaction.props.playerId == reaction.playerId) {
+          const index=this.props.reactions.indexOf(existingReaction, 0);
+          if (index>-1){
+            this.props.reactions.splice(index, 1);
+          }
+        }
       }
     }
 

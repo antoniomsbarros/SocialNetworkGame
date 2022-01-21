@@ -3,8 +3,8 @@ import { Result } from "../core/logic/Result";
 import { Guard } from "../core/logic/Guard";
 
 enum ReactionValueEnum {
-  Like,
-  Dislike
+  Like = 0,
+  Dislike = 1
 }
 
 
@@ -30,6 +30,11 @@ export class ReactionValue extends ValueObject<ReactionValueProps> {
         reaction: ReactionValueEnum[reactionValue]
       }))
     }
+  }
+
+
+  public equals(vo: ReactionValue): boolean {
+    return this.props.reaction.toString() == ReactionValueEnum[vo.props.reaction];
   }
 
 }

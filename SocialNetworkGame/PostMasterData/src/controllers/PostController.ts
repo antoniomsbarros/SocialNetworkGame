@@ -70,38 +70,37 @@ export default class PostController implements IPostController /* TODO: extends 
 
   public async addReaction(req: Request, res: Response, next: NextFunction) {
     try {
-      const postORError=await this.postServiceInstance.addReaction({
-        id:req.params.postId
-      }as IPostDTO, req.body as IReactionDTO) as Result<IPostDTO>;
+      const postORError = await this.postServiceInstance.addReaction({
+        id: req.params.postId
+      } as IPostDTO, req.body as IReactionDTO) as Result<IPostDTO>;
 
       if (postORError.isFailure) {
         return res.status(409).send();
       }
-      const  postDTO=postORError.getValue();
-      return  res.json(postDTO).status(200);
-    }catch (e) {
+      const postDTO = postORError.getValue();
+      return res.json(postDTO).status(200);
+    } catch (e) {
       return next(e);
     }
   }
 
   public async addReactionComent(req: Request, res: Response, next: NextFunction) {
     try {
-
-      const postORError=await this.postServiceInstance.addReactionComment({
-        id:req.params.postId
-      }as IPostDTO, req.body as IReactionComentDTO) as Result<IPostDTO>;
+      const postORError = await this.postServiceInstance.addReactionComment({
+        id: req.params.postId
+      } as IPostDTO, req.body as IReactionComentDTO) as Result<IPostDTO>;
 
       if (postORError.isFailure) {
         return res.status(409).send();
       }
-      const  postDTO=postORError.getValue();
-      return  res.json(postDTO).status(200);
-    }catch (e) {
+      const postDTO = postORError.getValue();
+      return res.json(postDTO).status(200);
+    } catch (e) {
       return next(e)
     }
-
-
   }
+
+
 
   public async calculatestrenght(req: Request, res: Response, next: NextFunction) {
     try {

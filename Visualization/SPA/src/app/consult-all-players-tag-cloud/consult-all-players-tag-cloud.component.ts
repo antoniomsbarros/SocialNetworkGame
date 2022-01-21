@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
 import {PlayersService} from "../services/players/players.service";
 import {TagCloud} from "../DTO/TagCloud";
 import {Location} from "@angular/common";
@@ -11,11 +10,9 @@ import {Location} from "@angular/common";
 })
 export class ConsultAllPlayersTagCloudComponent implements OnInit {
 
-
   tagClouds: TagCloud[] = [];
 
-  constructor(private route: ActivatedRoute,
-              private _playerService: PlayersService,
+  constructor(private _playerService: PlayersService,
               private location: Location) { }
 
   ngOnInit(): void {
@@ -23,7 +20,11 @@ export class ConsultAllPlayersTagCloudComponent implements OnInit {
   }
 
   getTagCloudFromPlayers(): void{
-    this._playerService.getTagCloudFromPlayers().subscribe(t => this.tagClouds = t);
+    this._playerService.getTagCloudFromPlayers().subscribe({
+
+      next: (t) => {this.tagClouds = t,console.log(t)},
+
+    })
   }
 
   goBack(): void{

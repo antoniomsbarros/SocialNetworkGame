@@ -43,7 +43,7 @@ export class RelationshipsService {
   }
 
   getTagCloudFromRelationships(): Observable<TagCloud[]> {
-    const url = `${this.relationships}/TagCloud`;
+    const url = 'https://localhost:5001/api/Relationships/TagCloud';
     return this.http.get<TagCloud[]>(url, this.httpOptions)
       .pipe(tap(_ => console.log(`fetched getTagCloudFromRelationships`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromRelationships`,[]))

@@ -109,7 +109,7 @@ export default class PostService implements IPostService {
         postText: postDTO.postText,
         reactions: [],
         comments: [],
-        creationDate: postDTO.creationDate,
+        creationDate: (new Date().getTime() / 1000).toString(),
         playerCreator: postDTO.playerCreator,
         tags: postDTO.tags,
       });
@@ -143,7 +143,7 @@ export default class PostService implements IPostService {
         reactions: [],
         playerCreator: commentDTO.playerCreator,
         commentText: commentDTO.commentText,
-        creationDate: commentDTO.commentText,
+        creationDate: (new Date().getTime() / 1000).toString(),
       });
 
 
@@ -153,36 +153,42 @@ export default class PostService implements IPostService {
       const createdComment = commentOrError.getValue();
       post.addComment(createdComment);
       await this.postRepo.save(post);
+
       return Result.ok<IPostDTO>(PostMap.toDTO(post) as IPostDTO)
     } catch (e) {
       throw e;
     }
   }
+
   public async addReaction(postDTO: IPostDTO, ReactionDTO: IReactionDTO): Promise<Result<IPostDTO>> {
     try {
+
       let post: Post;
-      const postOrError= await this.getPost(postDTO.id);
+      const postOrError = await this.getPost(postDTO.id);
       if (postOrError.isFailure) {
         return Result.fail<IPostDTO>(postOrError.error);
       } else {
         post = postOrError.getValue();
       }
 
-      const reactionOrError=await Reaction.create({
-        creationDate: ReactionDTO.creationDate,
+      const reactionOrError = await Reaction.create({
+        creationDate: (new Date().getTime() / 1000).toString(),
         playerId: ReactionDTO.playerId,
-        reactionValue:  ReactionValue.create(ReactionDTO.reactionValue).getValue()
+        reactionValue: ReactionValue.create(ReactionDTO.reactionValue).getValue()
       });
 
       if (reactionOrError.isFailure) {
+        console.log(postDTO)
+
         return Result.fail<IPostDTO>(reactionOrError.errorValue());
       }
-      const createdReaction=reactionOrError.getValue();
+      const createdReaction = reactionOrError.getValue();
+
       post.addReaction(createdReaction);
 
       await this.postRepo.save(post);
-      return  Result.ok<IPostDTO>(PostMap.toDTO(post)as IPostDTO)
-    }catch (e) {
+      return Result.ok<IPostDTO>(PostMap.toDTO(post) as IPostDTO)
+    } catch (e) {
       throw e;
     }
   }
@@ -190,32 +196,31 @@ export default class PostService implements IPostService {
 
 
   public async addReactionComment(param: IPostDTO, body: IReactionComentDTO): Promise<Result<IPostDTO>> {
-
     try {
       let post: Post;
 
-      const postOrError= await this.getPost(param.id);
+      const postOrError = await this.getPost(param.id);
       if (postOrError.isFailure) {
         return Result.fail<IPostDTO>(postOrError.error);
       } else {
         post = postOrError.getValue();
       }
 
-      for ( let i = 0; i < post.comments.length; i++) {
-        if (post.comments[i].id.toString()==body.comentId){
-          const reactionOrError=await Reaction.create({
-            creationDate: body.creationDate,
+      for (let i = 0; i < post.comments.length; i++) {
+        if (post.comments[i].id.toString() == body.commentId) {
+          const reactionOrError = await Reaction.create({
+            creationDate: (new Date().getTime() / 1000).toString(),
             playerId: body.playerId,
-            reactionValue:  ReactionValue.create(body.reactionValue).getValue()
+            reactionValue: ReactionValue.create(body.reactionValue).getValue()
           });
-          post.comments[i].reactions.push(reactionOrError.getValue());
+          post.comments[i].addReaction(reactionOrError.getValue());
           break;
         }
       }
 
       await this.postRepo.save(post);
-      return  Result.ok<IPostDTO>(PostMap.toDTO(post)as IPostDTO)
-    }catch (e) {
+      return Result.ok<IPostDTO>(PostMap.toDTO(post) as IPostDTO)
+    } catch (e) {
       throw e;
     }
   }

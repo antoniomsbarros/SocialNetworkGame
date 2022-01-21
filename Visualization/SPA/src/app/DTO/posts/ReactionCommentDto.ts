@@ -1,4 +1,4 @@
-﻿export interface IReactionComentDTO {
+﻿export interface ReactionCommentDto {
   commentId: string;
   domainId: string;
   reactionValue: string;
