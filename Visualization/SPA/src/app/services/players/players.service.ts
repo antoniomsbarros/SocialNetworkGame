@@ -53,10 +53,14 @@ export class PlayersService {
    */
 
   changeHumor(id: string, newMood: string): Observable<any> {
-    const url1 = 'https://localhost:5001/api/ChangeMood/';
-    const url = `${url1}${id}/${newMood}`;
+    const url1 = 'https://localhost:5001/api/Players/humor';
 
-    return this.http.put(url, this.httpOptions).pipe(
+    const url = `${url1}/${id}/`;
+
+    return this.http.put(url, {
+      id: id,
+      newEmotionalStatus:newMood
+    }).pipe(
       tap(_ => console.log(`updated player humor, for player id=${id}`)),
       catchError(this.handleError<any>('changeHumor'))
     );
