@@ -54,7 +54,7 @@ export class PlayersService {
    */
 
   changeHumor(id: string, newMood: string): Observable<any> {
-    const url1 =environment.APIUrl+ 'ChangeMood/';
+    const url1 =environment.APIUrl+ 'Players/ChangeMood';
     const url = `${url1}/${id}/`;
     return this.http.put(url, {
       id: id,
@@ -97,6 +97,10 @@ export class PlayersService {
       .pipe(tap(_ => console.log(`fetched getTagCloudFromPlayers`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromPlayers`,[]))
       );
-
   }
+
+  getCurrentLoggedInUser(): string {
+    return localStorage.getItem('playeremail')!.trim() || "undefined";
+  }
+
 }

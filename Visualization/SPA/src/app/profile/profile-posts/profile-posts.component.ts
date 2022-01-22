@@ -6,6 +6,8 @@ import {CommentDto} from "../../dto/posts/CommentDto";
 import {PostsService} from "../../services/posts/posts.service";
 import {ReactionDto} from "../../dto/posts/ReactionDto";
 import {ReactionCommentDto} from "../../DTO/posts/ReactionCommentDto";
+import {PlayersService} from "../../services/players/players.service";
+import {  firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-posts',
@@ -38,7 +40,7 @@ export class ProfilePostsComponent implements OnInit {
   }
 
 
-  constructor(private postService: PostsService, private route: ActivatedRoute) {
+  constructor(private postService: PostsService, private route: ActivatedRoute, private playerService: PlayersService) {
   }
 
   getPlayerFeed() {
@@ -139,11 +141,11 @@ export class ProfilePostsComponent implements OnInit {
   }
 
   isOurProfileFeed(): boolean {
-    return true;
+    return this.userEmail == this.getCurrentPlayer();
   }
 
   getCurrentPlayer(): string {
-    return "Bart92595717@gmail.com";
+    return this.playerService.getCurrentLoggedInUser() || "";
   }
 
   addNewPost() {

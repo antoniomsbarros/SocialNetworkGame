@@ -323,7 +323,10 @@ namespace SocialNetwork.core.services.relationships
             var listDTOs = new List<RelationshipDto>();
             foreach (var VARIABLE in list)
             {
-                listDTOs.Add(VARIABLE.ToDto());
+                var dto = VARIABLE.ToDto();
+                dto.playerDestEmail = _playerService.GetByIdAsync(new PlayerId(dto.playerDest)).Result.email;
+                dto.playerOrigEmail = _playerService.GetByIdAsync(new PlayerId(dto.playerOrig)).Result.email;
+                listDTOs.Add(dto);
             }
 
             return listDTOs;
