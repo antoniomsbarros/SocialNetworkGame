@@ -66,6 +66,7 @@ export class UpdateProfileComponent implements OnInit {
   playerDTO: PlayerDto[] =[];
   email="Bart92595717@gmail.com";
   ngOnInit(): void {
+    this.email=localStorage.getItem('playeremail')!.trim();
     this.getPersonalData();
     // this.getPersonalData();
     console.log(this.data);

@@ -24,8 +24,8 @@ export class ShortestPathComponent implements OnInit {
       alert("Invalid user(s)!")
       return;
     }
-
-   /* this.shortestPathService.getShortestPath(userDest).
+/*
+    this.shortestPathService.getShortestPath(userDest).
     subscribe(
       {
         next: p => {this.shortestPath=p as PathDto,console.log(p)},
