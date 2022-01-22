@@ -1,4 +1,8 @@
-<div #networkRef><div id="container"></div></div>
+
+<div #networkRef>
+  <h3 *ngIf="!showDepthSelectionForm" style="margin-left: 10px">Size of network at depth {{this.networkDepth.value}}: {{this.spheres.length}}</h3>
+  <div id="container"></div>
+</div>
 
 <div *ngIf="showDepthSelectionForm" class="container">
   <h1 class="display-5 fw-bold">Select network depth</h1>
