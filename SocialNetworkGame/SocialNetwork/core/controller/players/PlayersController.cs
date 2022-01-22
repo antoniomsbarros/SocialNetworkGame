@@ -135,14 +135,13 @@ namespace SocialNetwork.core.controller.players
             }
         }
 
-        [HttpPut("humor/{id}")]
+        [HttpPut("ChangeMood/{id}")]
         public async Task<ActionResult<UpdateEmotionalStatusDto>> ChangeEmotionalStatus(string id,
             UpdateEmotionalStatusDto dto)
         {
             try
             {
-                var player =
-                    await _playerService.ChangeEmotionalStatus(dto);
+                var player = await _playerService.ChangeEmotionalStatus(dto);
 
                 if (player == null)
                 {
