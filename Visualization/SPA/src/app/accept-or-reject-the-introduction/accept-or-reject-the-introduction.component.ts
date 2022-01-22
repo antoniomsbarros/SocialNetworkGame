@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Location} from "@angular/common";
 import {IntroductionRequestService} from "../services/introduction-request.service";
 import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-accept-or-reject-the-introduction',
   templateUrl: './accept-or-reject-the-introduction.component.html',
@@ -11,7 +12,7 @@ import {ConnectionIntroductionDTO} from "../dto/ConnectionIntroductionDTO";
 export class AcceptOrRejectTheIntroductionComponent implements OnInit {
 
   constructor(private http: HttpClient,private location: Location,
-              private IntroductionRequestService: IntroductionRequestService, ) { }
+              private IntroductionRequestService: IntroductionRequestService,private route: ActivatedRoute,private router:Router ) { }
 
   listofPendingApprovol: ConnectionIntroductionDTO[]=[]
   PendingApprovolSelected: ConnectionIntroductionDTO | undefined ;

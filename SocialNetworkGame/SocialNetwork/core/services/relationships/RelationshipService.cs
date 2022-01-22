@@ -316,6 +316,17 @@ namespace SocialNetwork.core.services.relationships
         
             return tagClouds;
         }
-       
+        public async  Task<List<RelationshipDto>> getRelactionOrigin(string email)
+        {
+            var player = _playerService.GetByEmailAsync(new Email(email)).Result;
+            var list = _repo.GetRelationshipsFromPlayerById(new PlayerId(player.id)).Result;
+            var listDTOs = new List<RelationshipDto>();
+            foreach (var VARIABLE in list)
+            {
+                listDTOs.Add(VARIABLE.ToDto());
+            }
+
+            return listDTOs;
+        }
     }
 }

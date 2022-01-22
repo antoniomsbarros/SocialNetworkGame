@@ -63,7 +63,32 @@ namespace SocialNetwork.core.controller.relationships
 
             return await _service.GetFriends(new Email(email));
         }
+        [HttpGet("{email}/relactionships")]
+        public async Task<ActionResult<List<RelationshipDto>>> getRelactionsOrigin(string email)
+        {
+            try
+            {
+                var cat = await _service.getRelactionOrigin(email);
+                if (cat == null)
+                {
+                    return NotFound();
+                }
 
+                for (int i = 0; i < cat.Count; i++)
+                {
+                    for (int j = 0; j < cat[i].tags.Count; j++)
+                    {
+                        cat[i].tags[j] = _tagsService.GetByIdAsync(new TagId(cat[i].tags[j])).Result.name;
+                    }
+                }
+
+                return cat;
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {ex.Message});
+            }
+        }
         [HttpGet("network/{email}/{depth}")]
         public async Task<ActionResult<NetworkFromPlayerPerspectiveDto>> GetNetwork(string email, int depth)
         {
@@ -212,7 +237,7 @@ namespace SocialNetwork.core.controller.relationships
         }
         
         // GET: api/Relationships/TagCloud
-        [HttpGet("TagCloud")]
+        [HttpGet("TagCloud")]   
         public async Task<ActionResult<List<TagCloudDto>>> GetTagCloudFromRelationships()
         {
             var tagCloud = await _service.GetTagCloudFromRelationships();

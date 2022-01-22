@@ -96,7 +96,7 @@ export class PlayersService {
     return this.http.get<TagCloud[]>(url, this.httpOptions)
       .pipe(tap(_ => console.log(`fetched getTagCloudFromPlayers`)),
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromPlayers`,[]))
-      )
+      );
 
   }
 }

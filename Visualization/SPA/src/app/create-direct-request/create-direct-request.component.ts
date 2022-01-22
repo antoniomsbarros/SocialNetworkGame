@@ -67,7 +67,7 @@ export class CreateDirectRequestComponent implements OnInit {
   createDirectRequestFormSubmit(): void {
     const dto: CreateDirectRequestDto =
       {
-        playerSender: 'teste@gmail.com', // User authenticated email
+        playerSender: localStorage.getItem('playeremail')!.trim(), // User authenticated email
         playerReceiver: this.playerToAdd.value,
         text: this.requestText.value,
         connectionStrength: this.connectionStrength.value,

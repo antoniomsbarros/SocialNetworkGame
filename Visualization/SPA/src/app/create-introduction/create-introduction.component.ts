@@ -161,9 +161,10 @@ export class CreateIntroductionComponent implements OnInit {
       console.log(ConnectionIntroductionCreate);
       var one = this.IntroductionRequestService.AddIntroductionRequest(ConnectionIntroductionCreate)
       one.subscribe(data => {
-        this.openSnackBar("Introduction Request created", "close");
+
 
       });
+      this.openSnackBar("Introduction Request created", "close");
       location.reload();
     }
   }

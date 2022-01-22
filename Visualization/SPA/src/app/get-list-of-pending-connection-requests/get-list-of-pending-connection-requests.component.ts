@@ -55,9 +55,7 @@ console.log(this.client)
       enableCheckAll: false,
 
     };
-    let sessionEmail = localStorage.getItem('id');
-   // if (!sessionEmail) return;
-    console.log(sessionEmail);
+
 
   }
 
@@ -82,15 +80,15 @@ console.log(this.client)
           this.dropdownList.push({ item_id:this.ola++, item_text: item.name})
         })
       });
-   /* let sessionEmail = localStorage.getItem('id');
-    if (!sessionEmail) return;
-    console.log(sessionEmail);*/
     this.IntroductionRequestService.getIntroductionsPending(this.client)
       .subscribe(data=>{
         data.forEach(item=>{
           console.log(item)
           this.introductionRequestPending.push(item);
         })
+        if (this.introductionRequestPending.length==0){
+          this.openSnackBar("Empty Introductions Requests","close");
+        }
       });
     console.log(this.introductionRequestPending)
 
