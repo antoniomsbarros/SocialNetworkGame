@@ -50,4 +50,8 @@ export class RelationshipsService {
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromRelationships`,[]))
       );
   }
+
+  updateRelationship(relationshipDto: RelationshipDto): Observable<RelationshipDto> {
+    return this.http.put<RelationshipDto>(this.relationships, relationshipDto)
+  }
 }
