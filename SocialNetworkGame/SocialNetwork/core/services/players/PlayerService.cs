@@ -125,6 +125,19 @@ namespace SocialNetwork.core.services.players
 
             return player.ToDto();
         }
+        
+        public async Task<PlayerDto> DeleteAsync(string email)
+        {
+            var player = await _repo.GetByEmailAsync(new Email(email));
+
+            if (player == null)
+                return null;
+
+            _repo.Remove(player);
+            await _unitOfWork.CommitAsync();
+
+            return player.ToDto();
+        }
 
         public async Task<PlayerDto> ChangeEmotionalStatus(UpdateEmotionalStatusDto dto)
         {
