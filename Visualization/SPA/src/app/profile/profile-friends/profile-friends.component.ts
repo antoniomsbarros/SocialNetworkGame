@@ -15,7 +15,7 @@ export class ProfileFriendsComponent implements OnInit {
   friends:PlayerFriendsDTO[]=[];
   values:any[][]=[[],[],[]];
   email="Bart92595717@gmail.com";
-
+  friend:any[]=[];
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.email = params['email'];
@@ -43,6 +43,7 @@ export class ProfileFriendsComponent implements OnInit {
           item.linkedinProfile="https://www.linkedin.com/"
         }
         item.emocionalStatus= this.addEmots(item.emocionalStatus);
+        item.numberoffriends= this.listoffriends(item.email);
         if (conty==3){
           contX+=1;
           conty=0;
@@ -101,16 +102,25 @@ export class ProfileFriendsComponent implements OnInit {
     }
     return result;
   }
-  async getNumberOffriendsfriends(email:string){
+  async getNumberOffriendsfriends(email:string):Promise<RelationshipDto[]>{
     var cons=[];
-    const relactions=this.relationshipsservice.getRelactionPLayer(email)
-    cons=await lastValueFrom(relactions);
+    cons=await lastValueFrom(this.relationshipsservice.getRelactionPLayer(email));
     return cons;
   }
   listoffriends(email:any){
 
-   console.log(email)
-    return 0;
+    let result=0;
+    if (!this.friend.includes(email)){
+      console.log(email)
+     let ola= this.getNumberOffriendsfriends(email).then(data=>{
+       this.friend.push(email);
+       return data.length;
+
+      })
+
+    }
+console.log(result)
+return result;
   }
 
 }

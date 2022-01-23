@@ -4,4 +4,5 @@ export interface PlayerFriendsDTO{
   facebookProfile: string;
   linkedinProfile: string;
   emocionalStatus: string;
+  numberoffriends: number;
 }

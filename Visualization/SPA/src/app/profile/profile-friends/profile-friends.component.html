@@ -1,5 +1,5 @@
 <!-- Usar espacamente de um <p> -->
-<div *ngIf="values==[]; else defined">
+<div *ngIf="values==[] && friend==[]; else defined">
 
 </div>
 <ng-template #defined>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-6">
                       <div class="mt-3">
-                        <h4>{{listoffriends(values)}}</h4>
+                        <h4>{{col.numberoffriends}}</h4>
                         <p class="mb-0 text-muted">Friends</p>
                       </div>
                     </div>

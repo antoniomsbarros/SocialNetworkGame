@@ -49,14 +49,14 @@ export class NetworkListingComponent implements OnInit {
   }
 
   getNetworkListing() {
-    /*
-    this.relationshipService.getNetworkFromPlayerByDepth("Elva33054057@gmail.com", this.networkDepth.value)
+
+    this.relationshipService.getNetworkFromPlayerByDepth(localStorage.getItem('playeremail')!.trim(), this.networkDepth.value)
       .subscribe(data => {
         this.network = data;
-        this.displayListingTable();
+        this.updateTableData();
       })
-    */
-    this.getTestNetwork(this.networkDepth.value);
+
+    //this.getTestNetwork(this.networkDepth.value);
     this.updateTableData();
   }
 
