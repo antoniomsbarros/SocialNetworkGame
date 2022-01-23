@@ -97,7 +97,7 @@ namespace SocialNetwork.core.model.relationships.domain
 
         public void ChangeTags(List<TagId> tags)
         {
-            if (tags is {Count: > 0})
+            if (tags.Count > 0)
             {
                 TagsList.Clear();
                 TagsList.AddRange(tags);

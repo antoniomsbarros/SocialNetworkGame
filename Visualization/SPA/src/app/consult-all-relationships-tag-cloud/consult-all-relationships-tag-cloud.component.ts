@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {TagCloud} from "../DTO/TagCloud";
 import {RelationshipsService} from "../services/relationships/relationships.service";
 import {Location} from "@angular/common";
+import {CloudData, CloudOptions} from 'angular-tag-cloud-module';
+import { prepareDataForTagCloudWeighted} from "../profile/profile-tags/prepareDataForTagCloud";
 
 @Component({
   selector: 'app-consult-all-relationships-tag-cloud',
@@ -9,20 +11,28 @@ import {Location} from "@angular/common";
   styleUrls: ['./consult-all-relationships-tag-cloud.component.css']
 })
 export class ConsultAllRelationshipsTagCloudComponent implements OnInit {
-
-  tagClouds: TagCloud[] = [];
+  data: CloudData[] = [];
+  options: CloudOptions = {
+    width: 1,
+    height: 200,
+    overflow: false,
+    zoomOnHover:{
+      scale:1.2,
+      transitionTime:0.3,
+      delay:0.3
+    },
+    realignOnResize:true
+  };
 
   constructor(private _RelationshipService: RelationshipsService,
               private location: Location) { }
 
   ngOnInit(): void {
-    this.getTagCloudFromRelationships();
+    this._RelationshipService.getTagCloudFromRelationships().subscribe(t => {
+      this.data = prepareDataForTagCloudWeighted(t);
+    });
   }
 
-  getTagCloudFromRelationships(): void{
-    this._RelationshipService.getTagCloudFromRelationships().subscribe(t => this.tagClouds = t);
-    console.log(this.tagClouds)
-  }
 
   goBack(): void{
     this.location.back();

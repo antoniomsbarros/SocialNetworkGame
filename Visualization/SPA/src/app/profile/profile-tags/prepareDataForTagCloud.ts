@@ -33,3 +33,33 @@ export function prepareDataForTagCloud(tags: string[]): CloudData[] {
 
   return cd;
 }
+
+export function prepareDataForTagCloudWeighted(weightedTags: any[]): CloudData[] {
+  const cd: CloudData[] = [];
+
+  for (let i = 0; i < weightedTags.length; i++) {
+    let color: string = "";
+    let text = weightedTags[i]["tag"];
+    let rotate = 0;
+
+    // randomly rotate some elements (less probability)
+    if (Math.random() >= 0.8) {
+      const plusMinus = Math.random() >= 0.5 ? '' : '-';
+      rotate = Math.floor(Math.random() * Number(`${plusMinus}20`) + 1);
+    }
+
+    // randomly set color attribute
+    color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+    const el: CloudData = {
+      text: text,
+      weight: weightedTags[i]["percentage"],
+      color: color,
+      rotate: rotate
+    };
+
+    cd.push(el);
+  }
+
+  return cd;
+}

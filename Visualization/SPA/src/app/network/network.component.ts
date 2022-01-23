@@ -14,7 +14,8 @@ import {PlayersRelationshipDto} from "../DTO/relationships/PlayersRelationshipDt
 import {ShortestPathService} from "../services/shortest-path.service";
 import {ShortspathsDTO} from "../DTO/shortspathsDTO";
 import {ifStmt} from "@angular/compiler/src/output/output_ast";
-
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {PlayersService} from "../services/players/players.service";
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
@@ -23,6 +24,8 @@ import {ifStmt} from "@angular/compiler/src/output/output_ast";
 export class NetworkComponent implements OnInit {
   @ViewChild('networkRef')
   private networkRef!: ElementRef;
+  private player: any;
+
 
 
   private get networkElement(): HTMLCanvasElement {
@@ -43,7 +46,7 @@ export class NetworkComponent implements OnInit {
   }
 
   constructor(public relationshipService: RelactionShipServiceService, private location: Location,
-              public ShortestPathService:ShortestPathService) {
+              public ShortestPathService:ShortestPathService, public PlayersService:PlayersService) {
   }
   getcurrentuser(){
 
@@ -119,8 +122,13 @@ return i;
   playersall!:any[];
   listspheres!:THREE.Mesh[];
   listcylinders!: THREE.Mesh[];
+  button!:any;
+  avatar!:any;
+  bilbord!:any;
+  meshtotal: THREE.Mesh[] = [];
+  dir!:THREE.Vector3
   initializeGraph() {
-
+this.dir=new THREE.Vector3();
     this.scene = new THREE.Scene();
     this.scene.background =new Color("white");
 
@@ -225,7 +233,7 @@ return i;
       const label = new CSS2DObject( text );
       label.position.copy( circle.position );
       this.scene.add( label );
-
+      this.meshtotal.push(circle)
       this.spheres.push(circle)
 
     }
@@ -265,6 +273,22 @@ return i;
     this.controls.maxZoom = 12;
     this.controls.zoomSpeed = 2;
     this.controls.enableKeys=true;
+    let intersects: THREE.Intersection[] = []
+    /*this.controls.addEventListener("change", ()=>{
+        this.raycaster.set(this.controls.target,
+          this.dir.subVectors(this.camera.position, this.controls.target).normalize() )
+      console.log(this.meshtotal)
+      intersects = this.raycaster.intersectObjects(this.meshtotal, false)
+      console.log(intersects)
+      if (intersects.length > 0) {
+        if (
+          intersects[0].distance < this.controls.target.distanceTo(this.camera.position)
+        ) {
+          this.camera.position.copy(intersects[0].point)
+        }
+      }
+
+    })*/
 this.controls.keys={
   LEFT:"KeyA",
   UP: 'KeyP', // up arrow
@@ -276,10 +300,40 @@ window.addEventListener("keydown", event=>{
   switch (event.key) {
     case "w":
       this.camera.translateZ(-2);
+      if (this.collisionBreak()){
+        this.camera.translateZ(2);
+      }
     break;
     case "s":
       this.camera.translateZ(2);
+      if (this.collisionBreak()){
+        this.camera.translateZ(-2);
+      }
       break;
+    case "a":
+      this.camera.translateX(-2);
+      if (this.collisionBreak()){
+        this.camera.translateX(2);
+      }
+      break;
+    case "d":
+      this.camera.translateX(2)
+      if (this.collisionBreak()){
+        this.camera.translateX(-2);
+      }
+      break;
+    case "l":
+      this.camera.position.y=this.camera.position.y- 2;
+      if (this.collisionBreak()){
+        this.camera.position.y=this.camera.position.y+2;
+      }
+      break;
+    case "p":
+      this.camera.position.y =this.camera.position.y+ 2;
+      if (this.collisionBreak()){
+        this.camera.position.y=this.camera.position.y-2;
+      }
+    break;
   }
 })
     this.lights()
@@ -294,7 +348,7 @@ this.controls.listenToKeyEvents(document.body);
 
       this.raycaster.setFromCamera(this.mouse, this.camera);
       this.checkIntersects();
-      this.checkIntersectsConnections();
+      this.checkInterCylinder();
     })
 
   this.renderer.domElement.addEventListener("click", event=>{
@@ -308,17 +362,17 @@ this.controls.listenToKeyEvents(document.body);
       if(!((<THREE.Mesh>this.onObject[0].object).position.x == 0 && (<THREE.Mesh>this.onObject[0].object).position.y == 0)){
         if (this.objectPressed.length > 0 && (<THREE.Mesh>this.onObject[0].object).position != (<THREE.Mesh>this.objectPressed[0].object).position){
           (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.objectPressed[0].object).material).color.set(0x2e86c1);
-          for(let button of this.buttons) {
-            (<THREE.Mesh>this.objectPressed[0].object).remove(button);
-          }
+          (<THREE.Mesh>this.objectPressed[0].object).remove(this.avatar);
+          (<THREE.Mesh>this.objectPressed[0].object).remove(this.bilbord)
         }
         this.objectPressed = this.onObject;
 
+
         this.getshortsPath(this.networkDepth.value, this.getcurrentuser(), this.objectPressed[0].object.name).then(s=>{
-        console.log(s)
           for (let i = 0; i < this.spheres.length; i++) {
             if ((<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.equals(new Color("green"))){
               (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.set(new Color("Steelblue"));
+
             }
           }
           this.listspheres=[];
@@ -334,7 +388,7 @@ this.controls.listenToKeyEvents(document.body);
           //console.log(this.listspheres)
 
 
-           this.listcylinders=[];
+          this.listcylinders=[];
           for (let i = 0; i < this.cylinders.length; i++) {
             let playerto=this.playersall[this.cylinders[i].connection.playerTo];
             let playerfrom=this.playersall[this.cylinders[i].connection.playerFrom]
@@ -353,18 +407,24 @@ this.controls.listenToKeyEvents(document.body);
             console.log(this.listcylinders[i])
           }*/
           for (let i = 1; i < this.listspheres.length; i++) {
-             (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.listspheres[i]).material).color.set(new Color("Green"));
+            (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.listspheres[i]).material).color.set(new Color("Green"));
           }
         })
+        this.createAvatar()
+        console.log(this.objectPressed[0].object.name)
+        this.getPlayerInfo(this.objectPressed[0].object.name).then(data=>{
+          this.createbillboard(data)
+        })
+
 
       }
+
     }else {
       if(this.objectPressed.length > 0) {
         if(!((<THREE.Mesh>this.objectPressed[0].object).position.x == 0 && (<THREE.Mesh>this.objectPressed[0].object).position.y == 0)) {
-          (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.objectPressed[0].object).material).color.set(0x2e86c1);
-          for(let button of this.buttons) {
-            (<THREE.Mesh>this.objectPressed[0].object).remove(button);
-          }
+         // (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.objectPressed[0].object).material).color.set(0x2e86c1);
+          (<THREE.Mesh>this.objectPressed[0].object).remove(this.avatar);
+          (<THREE.Mesh>this.objectPressed[0].object).remove(this.bilbord);
         }
         this.objectPressed = [];
       }
@@ -373,11 +433,10 @@ this.controls.listenToKeyEvents(document.body);
 
 
 addEmots(emocionalStatus:string):string{
-
     let result;
     switch (emocionalStatus) {
       case "NotSpecified":
-        result="NotSpecified";
+        result="❌";
         break;
       case "Joyful":
         result="😊";
@@ -429,12 +488,14 @@ addEmots(emocionalStatus:string):string{
           }
         }
       }
+
     }
     this.onObject = intersection;
     for(let inter of intersection) {
       if(!((<THREE.Mesh>inter.object).position.x == 0 && (<THREE.Mesh>inter.object).position.y == 0)) {
         if (!(<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.equals(new Color("green"))){
           (<THREE.MeshBasicMaterial>(<THREE.Mesh>inter.object).material).color.set(new Color("red"));
+
         }
       }
     }
@@ -534,12 +595,15 @@ addEmots(emocionalStatus:string):string{
     // Add it to the scene
     this.cylinders.push({
        cylinderobject: cylinder,
-       connection:connection
+       connection:connection,
+      position0:position0,
+      position1:position1
      })
+
     this.scene.add(cylinder);
 
   }
-  checkIntersectsConnections() {
+  checkInterCylinder() {
     if(this.onObject.length > 0) {
       if(this.onCylinder.length > 0) {
         for(let obj of this.onCylinder) {
@@ -585,6 +649,141 @@ addEmots(emocionalStatus:string):string{
       this.labelAdded.push(labelCylinderObject);
       (<THREE.Mesh>inter.object).add(labelCylinderObject);
     }
+  }
+  createAvatar(){
+    const loader = new GLTFLoader();
+    loader.load(
+      'assets/layout/network/pikachu/pikachu.gltf',
+      ( gltf ) => {
+        var pikachu = gltf.scene;
+        pikachu.scale.set(5,5,5);
+        pikachu.position.setX(14);
+        pikachu.position.setY(-4);
+        pikachu.position.setZ(1);
+        this.avatar=pikachu;
+        (<THREE.Mesh>this.objectPressed[0].object).add(pikachu);
+      },
+      ( xhr ) => {
+        // called while loading is progressing
+        console.log( `${( xhr.loaded / xhr.total * 100 )}% loaded` );
+      },
+      ( error ) => {
+        // called when loading has errors
+        console.error( 'An error happened', error );
+      },
+    );
+  }
+
+  createbillboard(player:any){
+    console.log(player)
+    const divcard = document.createElement( 'div' );
+    divcard.className = "card";
+    divcard.style.width = "14rem";
+
+    const divcardbody = document.createElement( 'div' );
+    divcardbody.className = "card-body";
+
+    const row = document.createElement( 'div' );
+    row.className = "row";
+    const colname = document.createElement( 'div' );
+    colname.className = "col-10";
+
+    const shortName = document.createElement( 'h4' );
+    shortName.textContent ="Short Name: "+ player.shortName ;
+    shortName.style.marginTop = "3px";
+    const colfullName=document.createElement("div")
+    colfullName.className="col-10";
+    const fullName=document.createElement("h4");
+    fullName.textContent="Full Name: "+player.fullName;
+    fullName.style.marginTop="3px"
+
+
+    const colemail = document.createElement( 'div' );
+    colemail.className = "col-12";
+
+    const playeremail = document.createElement( 'h4' );
+    playeremail.textContent = "Email: "  + player.email;
+
+if (player.facebookProfile!="Not specified"){
+  const colfacebookProfile=document.createElement("div");
+  colfacebookProfile.className="col-10"
+
+  const facebookProfile=document.createElement("h4")
+  facebookProfile.textContent="Facebook: "+player.facebookProfile;
+  colfacebookProfile.appendChild(facebookProfile);
+  row.appendChild(colfacebookProfile);
+}
+   if (player.linkedinProfile!="Not specified") {
+     const collinkedinProfile=document.createElement("div");
+     collinkedinProfile.className="col-10"
+     const linkedinProfile=document.createElement("h4");
+     linkedinProfile.textContent="Linkedin: "+player.linkedinProfile;
+     collinkedinProfile.appendChild(linkedinProfile);
+     row.appendChild(collinkedinProfile);
+   }
+    const colPhoneNumber= document.createElement("div");
+   colPhoneNumber.className="col-10";
+   const phoneNumber=document.createElement("h4");
+   phoneNumber.textContent="Phone: "+player.phoneNumber;
+   colPhoneNumber.appendChild(phoneNumber);
+   row.appendChild(colPhoneNumber);
+
+   const colTags=document.createElement("div");
+   colTags.className="col-10";
+    for (let i = 0; i < player.tags; i++) {
+      const tag=document.createElement("span");
+      tag.className="badge badge-pill badge-warning";
+      tag.textContent=player.tag[i];
+      colTags.appendChild(tag);
+    }
+    row.appendChild(colTags);
+    colfullName.appendChild(fullName);
+    colname.appendChild(shortName);
+
+    colemail.appendChild(playeremail);
+    row.appendChild(colname);
+    row.appendChild(colfullName);
+    row.appendChild(colemail);
+    divcardbody.appendChild(row);
+
+    divcard.appendChild(divcardbody);
+    const popup = new CSS2DObject( divcard );
+    popup.position.setX( -20 );
+    popup.position.setY( -50 );
+    popup.position.setZ( 10 );
+
+      if( (<THREE.Mesh>this.onObject[0].object).children.length === 1 ||
+      (<THREE.Mesh>this.onObject[0].object).children.length === 2) {
+      (<THREE.Mesh>this.onObject[0].object).add(popup);
+      this.bilbord = popup;
+    }
+
+
+  }
+
+ async getPlayerInfo(email:string){
+    this.player = await firstValueFrom(this.PlayersService.getProfile(email));
+return this.player;
+  }
+
+  collisionBreak(){
+    let distance=50;
+    for (let i = 0; i < this.cylinders.length; i++) {
+        let temp=new THREE.Vector3();
+      let line=new THREE.Line3(this.cylinders[i].position0,this.cylinders[i].position1);
+      distance=line.closestPointToPoint(this.camera.position,true, temp).distanceTo(this.camera.position);
+      if(distance < 10){
+        return true;
+      }
+    }
+
+    for (let i = 0; i < this.spheres.length; i++) {
+      distance=this.camera.position.distanceTo(this.spheres[i].position);
+      if (distance<7){
+        return true;
+      }
+    }
+    return false;
   }
 }
 

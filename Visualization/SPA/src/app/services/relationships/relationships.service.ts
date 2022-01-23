@@ -6,6 +6,7 @@ import {RelationshipDto} from "../../DTO/relationships/RelationshipDto";
 import {PlayerFriendsDTO} from "../../DTO/relationships/PlayerFriendsDTO";
 import {TagCloud} from "../../DTO/TagCloud";
 import { environment } from 'src/environments/environment';
+import {StrengthPLayersDTO} from "../../DTO/relationships/StrengthPLayersDTO";
 
 
 @Injectable({
@@ -14,7 +15,7 @@ import { environment } from 'src/environments/environment';
 export class RelationshipsService {
 
   private relationships: string = environment.APIUrl+"Relationships/";
-
+  private StrengthPLayersUrl:string=environment.PostMasterData+"posts/calculatestrengh"
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
@@ -50,4 +51,11 @@ export class RelationshipsService {
         catchError(this.handleError<TagCloud[]>(`getTagCloudFromRelationships`,[]))
       );
   }
+
+  updateRelationship(relationshipDto: RelationshipDto): Observable<RelationshipDto> {
+    return this.http.put<RelationshipDto>(this.relationships, relationshipDto)
+  }
+getConnectionStrenght(strengthPLayersDTO:StrengthPLayersDTO) :Observable<StrengthPLayersDTO>{
+    return this.http.post<StrengthPLayersDTO>(this.StrengthPLayersUrl,strengthPLayersDTO );
+}
 }

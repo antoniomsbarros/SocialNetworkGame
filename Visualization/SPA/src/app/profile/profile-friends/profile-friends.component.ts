@@ -15,6 +15,7 @@ export class ProfileFriendsComponent implements OnInit {
   friends:PlayerFriendsDTO[]=[];
   values:any[][]=[[],[],[]];
   email="Bart92595717@gmail.com";
+
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.email = params['email'];
@@ -25,7 +26,7 @@ export class ProfileFriendsComponent implements OnInit {
    var cons=[];
    const relactions= this.relationshipsservice.getFriendsFriends(this.email);
    cons=await lastValueFrom(relactions);
-   console.log(cons)
+
    return cons;
   }
   preparedata(){
@@ -100,7 +101,16 @@ export class ProfileFriendsComponent implements OnInit {
     }
     return result;
   }
+  async getNumberOffriendsfriends(email:string){
+    var cons=[];
+    const relactions=this.relationshipsservice.getRelactionPLayer(email)
+    cons=await lastValueFrom(relactions);
+    return cons;
+  }
+  listoffriends(email:any){
 
-
+   console.log(email)
+    return 0;
+  }
 
 }

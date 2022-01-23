@@ -13,9 +13,12 @@ export class HeaderComponent implements OnInit {
   public isMenuCollapsed = true;
 
   numberofPlayers: number = 0;
+
+  player: any;
   constructor(private headerService: HeaderService, private playerService: PlayersService) { }
 
   ngOnInit(): void {
+    this.player=localStorage.getItem('playeremail')!.trim();
     this.headerService.setComponents([{
         name: "Login",
         routerLink: "/login",

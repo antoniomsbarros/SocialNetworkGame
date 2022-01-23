@@ -24,10 +24,12 @@ export class EditHumorStateComponent implements OnInit {
   }
 
   changeHumor() {
+    let currentUser = this.playerService.getCurrentLoggedInUser();
+    if (!currentUser) return;
     let humor = this.emotionalStatus.value;
     console.log(humor);
 
-    this.playerService.changeHumor('fds2@email.com', humor).subscribe(player => {
+    this.playerService.changeHumor(currentUser, humor).subscribe(player => {
       this.player1.push(player);
     });
   }

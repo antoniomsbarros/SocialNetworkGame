@@ -139,6 +139,7 @@ namespace SocialNetwork.core.controller.relationships
 
             try
             {
+
                 var cat = await _service.UpdateAsync(dto);
 
                 if (cat == null)
@@ -159,6 +160,23 @@ namespace SocialNetwork.core.controller.relationships
         {
             try
             {
+                var tagsNameList = new List<string>(dto.tags);
+
+                var nTag = 0;
+                while (nTag < dto.tags.Count)
+                {
+                    var tag = _tagsService.GetByNameAsync(TagName.ValueOf(dto.tags[nTag])).Result;
+                    if (tag != null)
+                        dto.tags[nTag] = tag.id;
+                    else
+                    {
+                        var newTag = _tagsService.AddAsync(new CreateTagDto(dto.tags[nTag])).Result;
+                        dto.tags[nTag] = newTag.id;
+                    }
+                    ++nTag;
+                }
+
+                
                 var cat = await _service.ChangeRelationshipTagConnectionStrength(dto);
 
                 if (cat == null)
@@ -166,6 +184,7 @@ namespace SocialNetwork.core.controller.relationships
                     return NotFound();
                 }
 
+                cat.tags = tagsNameList;
                 return Ok(cat);
             }
             catch (BusinessRuleValidationException ex)
