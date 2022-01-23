@@ -42,19 +42,19 @@ const routes: Routes = [
   {path: 'terms-conditions', component: TermsAndConditionsComponent},
   {path: 'privacy-policy', component: PrivacyPolicyComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'network', component: NetworkComponent},
-  {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
-  {path: "createIntroduction", component: CreateIntroductionComponent},
-  {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},
-  {path: "changeHumor", component: EditHumorStateComponent},
-  {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},
-  {path: "createDirectRequest", component: CreateDirectRequestComponent},
-  {path: "updateProfile", component: UpdateProfileComponent},
-  {path: "shortestPath", component: ShortestPathComponent},
-  {path: "safestPath", component: SafestPathComponent},
-  {path: "networkListing", component: NetworkListingComponent},
-  {path: "tagsrelationships", component: TagCloudRelationshipsComponent},
-  {path:"searcheprofile", component: SearchProfileComponent},
+  {path: 'network', component: NetworkComponent},//esta
+  {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},//esta
+  {path: "createIntroduction", component: CreateIntroductionComponent},//esta
+  {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},//esta
+  {path: "changeHumor", component: EditHumorStateComponent},//esta
+  {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},//esta
+  {path: "createDirectRequest", component: CreateDirectRequestComponent},//esta
+  {path: "updateProfile", component: UpdateProfileComponent},//esta
+  {path: "shortestPath", component: ShortestPathComponent},//esta
+  {path: "safestPath", component: SafestPathComponent},//esta
+  {path: "networkListing", component: NetworkListingComponent},//esta
+  {path: "tagsrelationships", component: TagCloudRelationshipsComponent},//esta
+  {path:"searcheprofile", component: SearchProfileComponent},//esta
   {path: "profile/:email", component: ProfileComponent,children:[
       {path:"", component:ProfileBodyComponent, children:[
           {path:"", redirectTo:"post", pathMatch:"full"},
@@ -63,8 +63,8 @@ const routes: Routes = [
           {path:"friends", component:ProfileFriendsComponent}
         ]}
     ]},
-  {path: "consultPlayersTagCloud", component: ConsultAllPlayersTagCloudComponent},
-  {path: "consultRelationshipsTagCloud", component: ConsultAllRelationshipsTagCloudComponent},
+  {path: "consultPlayersTagCloud", component: ConsultAllPlayersTagCloudComponent},//esta
+  {path: "consultRelationshipsTagCloud", component: ConsultAllRelationshipsTagCloudComponent},//esta
 ];
 
 @NgModule({
