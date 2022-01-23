@@ -27,6 +27,7 @@ export class NetworkComponent implements OnInit {
   private player: any;
 
 
+
   private get networkElement(): HTMLCanvasElement {
     return this.networkRef.nativeElement;
   }
@@ -124,8 +125,10 @@ return i;
   button!:any;
   avatar!:any;
   bilbord!:any;
+  meshtotal: THREE.Mesh[] = [];
+  dir!:THREE.Vector3
   initializeGraph() {
-
+this.dir=new THREE.Vector3();
     this.scene = new THREE.Scene();
     this.scene.background =new Color("white");
 
@@ -230,7 +233,7 @@ return i;
       const label = new CSS2DObject( text );
       label.position.copy( circle.position );
       this.scene.add( label );
-
+      this.meshtotal.push(circle)
       this.spheres.push(circle)
 
     }
@@ -270,6 +273,22 @@ return i;
     this.controls.maxZoom = 12;
     this.controls.zoomSpeed = 2;
     this.controls.enableKeys=true;
+    let intersects: THREE.Intersection[] = []
+    /*this.controls.addEventListener("change", ()=>{
+        this.raycaster.set(this.controls.target,
+          this.dir.subVectors(this.camera.position, this.controls.target).normalize() )
+      console.log(this.meshtotal)
+      intersects = this.raycaster.intersectObjects(this.meshtotal, false)
+      console.log(intersects)
+      if (intersects.length > 0) {
+        if (
+          intersects[0].distance < this.controls.target.distanceTo(this.camera.position)
+        ) {
+          this.camera.position.copy(intersects[0].point)
+        }
+      }
+
+    })*/
 this.controls.keys={
   LEFT:"KeyA",
   UP: 'KeyP', // up arrow
@@ -281,10 +300,40 @@ window.addEventListener("keydown", event=>{
   switch (event.key) {
     case "w":
       this.camera.translateZ(-2);
+      if (this.collisionBreak()){
+        this.camera.translateZ(2);
+      }
     break;
     case "s":
       this.camera.translateZ(2);
+      if (this.collisionBreak()){
+        this.camera.translateZ(-2);
+      }
       break;
+    case "a":
+      this.camera.translateX(-2);
+      if (this.collisionBreak()){
+        this.camera.translateX(2);
+      }
+      break;
+    case "d":
+      this.camera.translateX(2)
+      if (this.collisionBreak()){
+        this.camera.translateX(-2);
+      }
+      break;
+    case "l":
+      this.camera.position.y=this.camera.position.y- 2;
+      if (this.collisionBreak()){
+        this.camera.position.y=this.camera.position.y+2;
+      }
+      break;
+    case "p":
+      this.camera.position.y =this.camera.position.y+ 2;
+      if (this.collisionBreak()){
+        this.camera.position.y=this.camera.position.y-2;
+      }
+    break;
   }
 })
     this.lights()
@@ -299,7 +348,7 @@ this.controls.listenToKeyEvents(document.body);
 
       this.raycaster.setFromCamera(this.mouse, this.camera);
       this.checkIntersects();
-      this.checkIntersectsConnections();
+      this.checkInterCylinder();
     })
 
   this.renderer.domElement.addEventListener("click", event=>{
@@ -320,8 +369,6 @@ this.controls.listenToKeyEvents(document.body);
 
 
         this.getshortsPath(this.networkDepth.value, this.getcurrentuser(), this.objectPressed[0].object.name).then(s=>{
-          (<THREE.Mesh>this.objectPressed[0].object).remove(this.button);
-          console.log(s)
           for (let i = 0; i < this.spheres.length; i++) {
             if ((<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.equals(new Color("green"))){
               (<THREE.MeshBasicMaterial>(<THREE.Mesh>this.spheres[i]).material).color.set(new Color("Steelblue"));
@@ -386,7 +433,6 @@ this.controls.listenToKeyEvents(document.body);
 
 
 addEmots(emocionalStatus:string):string{
-
     let result;
     switch (emocionalStatus) {
       case "NotSpecified":
@@ -549,12 +595,15 @@ addEmots(emocionalStatus:string):string{
     // Add it to the scene
     this.cylinders.push({
        cylinderobject: cylinder,
-       connection:connection
+       connection:connection,
+      position0:position0,
+      position1:position1
      })
+
     this.scene.add(cylinder);
 
   }
-  checkIntersectsConnections() {
+  checkInterCylinder() {
     if(this.onObject.length > 0) {
       if(this.onCylinder.length > 0) {
         for(let obj of this.onCylinder) {
@@ -703,7 +752,7 @@ if (player.facebookProfile!="Not specified"){
     popup.position.setY( -50 );
     popup.position.setZ( 10 );
 
-      if((<THREE.Mesh>this.onObject[0].object).children.length === 1 ||
+      if( (<THREE.Mesh>this.onObject[0].object).children.length === 1 ||
       (<THREE.Mesh>this.onObject[0].object).children.length === 2) {
       (<THREE.Mesh>this.onObject[0].object).add(popup);
       this.bilbord = popup;
@@ -715,6 +764,26 @@ if (player.facebookProfile!="Not specified"){
  async getPlayerInfo(email:string){
     this.player = await firstValueFrom(this.PlayersService.getProfile(email));
 return this.player;
+  }
+
+  collisionBreak(){
+    let distance=50;
+    for (let i = 0; i < this.cylinders.length; i++) {
+        let temp=new THREE.Vector3();
+      let line=new THREE.Line3(this.cylinders[i].position0,this.cylinders[i].position1);
+      distance=line.closestPointToPoint(this.camera.position,true, temp).distanceTo(this.camera.position);
+      if(distance < 10){
+        return true;
+      }
+    }
+
+    for (let i = 0; i < this.spheres.length; i++) {
+      distance=this.camera.position.distanceTo(this.spheres[i].position);
+      if (distance<7){
+        return true;
+      }
+    }
+    return false;
   }
 }
 

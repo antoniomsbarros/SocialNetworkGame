@@ -5,6 +5,9 @@ import {firstValueFrom} from "rxjs";
 import {PlayerDto} from "../../dto/players/PlayerDto";
 import {ActivatedRoute} from "@angular/router";
 import * as moment from "moment";
+import {RelationshipsService} from "../../services/relationships/relationships.service";
+import {RelactionShipServiceService} from "../../services/relaction-ship-service.service";
+
 @Component({
   selector: 'app-profile-aboute-me',
   templateUrl: './profile-aboute-me.component.html',
@@ -15,12 +18,17 @@ export class ProfileAbouteMeComponent implements OnInit {
 
   player?:PlayerDto;
 
-  constructor(private playerService: PlayersService, private route: ActivatedRoute) {
+  constructor(private playerService: PlayersService, private route: ActivatedRoute,private RelationshipsService: RelationshipsService, private RelactionShipServiceService:RelactionShipServiceService) {
 
   }
   @Input() id:string="";
+  currentuser:string="";
+  friend:boolean=false;
+  numberoflikesdislikes!:number;
   ngOnInit(): void {
+    this.currentuser=localStorage.getItem('playeremail')!.trim() || "undefined";
     this.getPlayerProfile();
+    this.checkiftheplayerisafriend();
   }
 
   async getPlayerProfile(){
@@ -84,97 +92,80 @@ export class ProfileAbouteMeComponent implements OnInit {
 
     var divemocional= document.getElementById("emocional");
     var h4emocional=document.createElement("h3");
-    h4emocional.textContent=" Emocional Status : "+this.player?.emotionalStatus+this.emocialStatus(<string>this.player?.emotionalStatus);
+    h4emocional.textContent=" Emocional Status : "+this.player?.emotionalStatus+this.addEmots(<string>this.player?.emotionalStatus);
     h4emocional.style.display ="inline";
     // @ts-ignore
     divemocional.appendChild(h4emocional)
 
   }
 
-  emocialStatus(emocional:string):string{
-    let emoji="";
-    switch (emocional) {
+
+  addEmots(emocionalStatus:string):string{
+    let result;
+    switch (emocionalStatus) {
       case "NotSpecified":
-        emoji="NotSpecified";
+        result="❌";
         break;
-      case "Astonishment":
-        emoji= "😲";
-      break
-      case "Eagerness":
-        emoji="😰";
+      case "Joyful":
+        result="😊";
         break;
-      case "Curiosity":
-        emoji="🧐";
+      case "Distressed":
+        result="😩";
         break;
-      case "Inspiration":
-        emoji="🕯🖋📝🔓💭💡";
+      case "Hopeful":
+        result="(θ‿θ)";
         break;
-      case "Desire":
-        emoji="🤤";
+      case "Fearful":
+        result="😨";
         break;
-      case "Love":
-        emoji="❤";
+      case "Relieve":
+        result="😌";
         break;
-      case "Fascination":
-        emoji="🤩";
+      case "Disappointed":
+        result="😞";
         break;
-      case "Admiration":
-        emoji="😲";
+      case "Proud":
+        result="";
         break;
-      case "Joyfulness":
-        emoji="😂";
+      case "Remorseful":
+        result="(*´-｀*)";
         break;
-      case "Satisfaction":
-        emoji="⭐⭐⭐⭐⭐";
+      case "Grateful":
+        result="🤗";
         break;
-      case "Softened":
-        emoji="🎀🧸";
-        break;
-      case "Relaxed":
-        emoji="😌";
-        break;
-      case "Awaiting":
-        emoji="⌛";
-        break;
-      case "Deferent":
-        emoji="🙄";
-        break;
-      case "Calm":
-        emoji="😌";
-        break;
-      case "Boredom":
-        emoji="🥱";
-        break;
-      case "Sadness":
-        console.log("😢");
-        break;
-      case "Isolation":
-        console.log("🏠");
-        break;
-        case "Disappointment":
-        emoji="😞";
-        break;
-      case "Contempt":
-        emoji="😒";
-        break;
-      case "Jealousy":
-        console.log("1");
-        break;
-      case "Irritation":
-        console.log("1");
-        break;
-      case "Disgust":
-        console.log("1");
-        break;
-      case "Alarm":
-        console.log("1");
+      case "Angry":
+        result="😡";
         break;
       default:
-        console.log("default");
-
-
+        result="NotSpecified";
+        break;
     }
-    return emoji;
+    return result;
   }
+async getnumberofconnection(){
+    let strenght={
+      playerIdOrigin: this.id,
+      playerIdDest: this.currentuser,
+      strength: 0
+    }
 
+     return await firstValueFrom(this.RelationshipsService.getConnectionStrenght(strenght))
+
+}
+async getfriends(){
+    return  await firstValueFrom(this.RelactionShipServiceService.getAllFriendsFromPlayer(this.currentuser));
+}
+ checkiftheplayerisafriend() {
+  this.getfriends().then(data => {
+    data.forEach(item => {
+      if (item.email === this.id) {
+        this.friend = true;
+        this.getnumberofconnection().then(r => {
+          this.numberoflikesdislikes=r.strength;
+        });
+      }
+    })
+  })
+
+}
 }
