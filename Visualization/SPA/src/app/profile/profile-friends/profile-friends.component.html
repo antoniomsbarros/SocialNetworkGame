@@ -27,24 +27,19 @@
                  <button type="button" class="btn btn-primary mt-3 btn-rounded waves-effect w-md waves-light"  ><a href="http://localhost:4200/profile/{{col.email}}/friends">Profile</a></button>
                 <div class="mt-4">
                   <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                       <div class="mt-3">
                         <h4>2563</h4>
                         <p class="mb-0 text-muted">Posts</p>
                       </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-6">
                       <div class="mt-3">
-                        <h4>6952</h4>
-                        <p class="mb-0 text-muted">Likes</p>
+                        <h4>{{listoffriends(values)}}</h4>
+                        <p class="mb-0 text-muted">Friends</p>
                       </div>
                     </div>
-                    <div class="col-4">
-                      <div class="mt-3">
-                        <h4>1125</h4>
-                        <p class="mb-0 text-muted">Reactions</p>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
               </div>

@@ -104,7 +104,7 @@ export default class PostController implements IPostController /* TODO: extends 
 
   public async calculatestrenght(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log("ola")
+      
       const  strength=await this.postServiceInstance.getstrength(req.body as StrengthPLayersDTO )as Result<StrengthPLayersDTO>;
       if (strength.isFailure){
         return res.status(409).send();

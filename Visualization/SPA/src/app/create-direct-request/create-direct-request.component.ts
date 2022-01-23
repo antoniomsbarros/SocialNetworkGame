@@ -4,6 +4,8 @@ import {DialogComponent} from "../dialog-component/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {DirectRequestService} from "../services/directrequests/direct-request.service";
 import {CreateDirectRequestDto} from "../dto/directrequests/CreateDirectRequestDto";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-direct-request',
@@ -25,7 +27,7 @@ export class CreateDirectRequestComponent implements OnInit {
     requestText: new FormControl('', [Validators.required]),
   });
 
-  constructor(public dialog: MatDialog, public directRequestService: DirectRequestService) {
+  constructor(public dialog: MatDialog, public directRequestService: DirectRequestService,private toastService: ToastrService,) {
   }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class CreateDirectRequestComponent implements OnInit {
   }
 
   createDirectRequestFormSubmit(): void {
+    console.log("aqui")
     const dto: CreateDirectRequestDto =
       {
         playerSender: localStorage.getItem('playeremail')!.trim(), // User authenticated email
@@ -78,7 +81,8 @@ export class CreateDirectRequestComponent implements OnInit {
 
     this.directRequestService.createDirectRequest(dto)
       .subscribe(dtoAnswer => directRequestDto = dtoAnswer);
-
+    this.toastService.success("Direct Request sent");
+      location.reload();
     // Add validation
   }
 

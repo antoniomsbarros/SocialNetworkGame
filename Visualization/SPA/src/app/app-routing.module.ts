@@ -35,6 +35,7 @@ import {
   ConsultAllRelationshipsTagCloudComponent
 } from "./consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component";
 import {GetPendingDirectRequestsComponent} from "./get-pending-direct-requests/get-pending-direct-requests.component";
+import {SearchProfileComponent} from "./search-profile/search-profile.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -55,6 +56,7 @@ const routes: Routes = [
   {path: "safestPath", component: SafestPathComponent},
   {path: "networkListing", component: NetworkListingComponent},
   {path: "tagsrelationships", component: TagCloudRelationshipsComponent},
+  {path:"searcheprofile", component: SearchProfileComponent},
   {path: "profile/:email", component: ProfileComponent,children:[
       {path:"", component:ProfileBodyComponent, children:[
           {path:"", redirectTo:"post", pathMatch:"full"},
