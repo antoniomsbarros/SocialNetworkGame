@@ -18,4 +18,8 @@ export class DirectRequestService {
     return this.http.post<DirectRequestDto>(this.socialNetwork, dto);
   }
 
+  getPendingDirectRequests(player: string): Observable<DirectRequestDto[]> {
+    return this.http.get<DirectRequestDto[]>(this.socialNetwork + "player=" + player);
+  }
+
 }
