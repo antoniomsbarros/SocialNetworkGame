@@ -1,31 +1,54 @@
 % Algoritmo Best First Max
 
-bestfs1(Orig,Dest,Cam,Custo):- bestfs12(Dest,[[Orig]],Cam,Custo),! ,
-                    write('Caminho='),write(Cam),nl.
+bestfs(Orig, Dest, Path, Cost):- 
+    bestfs2(Dest,[[Orig]], Path, Cost).
 
-bestfs12(Dest,[[Dest|T]|_],Cam,Custo):- reverse([Dest|T],Cam), calcula_custo(Cam,Custo).
+bestfs2(Dest, [[Dest|T]|_], Path, Cost):- 
+    reverse([Dest|T], Path), 
+    compute_cost(Path, Cost).
 
-bestfs12(Dest,[[Dest|_]|LLA2],Cam,Custo):- !,bestfs12(Dest,LLA2,Cam,Custo).
+bestfs2(Dest, [[Dest|_]|LLA2], Path , Cost):- 
+    !,
+    bestfs2(Dest, LLA2, Path, Cost).
     
-bestfs12(Dest,LLA,Cam,Custo):-    member1(LA,LLA,LLA1),LA=[Act|_],
-                ((Act==Dest,!,bestfs12(Dest,[LA|LLA1],Cam,Custo)) ; (findall((CX,[X|LA]),
-                (no(NAct,Act,_),no(NX,X,_),(ligacao(NAct,NX,S1,_,S2,_);ligacao(NX,NAct,_,S1,_,S2)),CX is S1+S2,
-                \+member(X,LA)),Novos),
-                Novos\==[],!,
-                sort(0,@>=,Novos,NovosOrd),
-                retira_custos(NovosOrd,NovosOrd1),
-                append(NovosOrd1,LLA1,LLA2),
-                %write('LLA2='),write(LLA2),nl,
-                bestfs12(Dest,LLA2,Cam,Custo))).
+bestfs2(Dest, LLA, Path, Cost):-
+    member1(LA, LLA, LLA1),
+    LA=[Act|_],
+    ((Act==Dest,
+        !,
+        bestfs2(Dest,[LA|LLA1], Path, Cost)); 
+    (findall((CX, [X|LA]),
+    (no(NAct, Act, _),
+        no(NX, X, _),
+        (connection(NAct, NX ,S1, _, S2, _);connection(NX, NAct, _, S1, _, S2)),
+        CX is S1 + S2,
+        \+member(X, LA)), NewStrengths),
+    NewStrengths \==[],
+    !,
+    sort(0, @>=, NewStrengths, NewStrengthsOrd),
+    delete_costs(NewStrengthsOrd, NewStrengthsOrd1),
+    append(NewStrengthsOrd1, LLA1, LLA2),
+    bestfs2(Dest, LLA2, Path, Cost))).
 
 member1(LA,[LA|LAA],LAA).
-member1(LA,[_|LAA],LAA1):-member1(LA,LAA,LAA1).
 
-retira_custos([],[]).
-retira_custos([(_,LA)|L],[LA|L1]):-retira_custos(L,L1).
+member1(LA,[_|LAA],LAA1):-
+    member1(LA,LAA,LAA1).
 
-calcula_custo([Act,X],C):-!,no(NAct,Act,_),no(NX,X,_),
-                    (ligacao(NAct,NX,S1,_,_,_);ligacao(NX,NAct,_,S1,_,_)),C is S1.
-calcula_custo([Act,X|L],P):-calcula_custo([X|L],P1), 
-                    no(NAct,Act,_),no(NX,X,_),
-                    (ligacao(NAct,NX,S1,_,_,_);ligacao(NX,NAct,_,S1,_,_)),P is P1+S1.
+delete_costs([],[]).
+
+delete_costs([(_,LA)|L], [LA|L1]):-
+    delete_costs(L, L1).
+
+compute_cost([Act,X], C):-
+    !,
+    no(NAct, Act, _),
+    no(NX, X, _),
+    (connection(NAct, NX, S1,_,_,_);connection(NX,NAct,_,S1,_,_)),
+    C is S1.
+
+compute_cost([Act,X|L], P):-
+    compute_cost([X|L], P1), 
+    no(NAct,Act,_),no(NX, X, _),
+    (connection(NAct, NX, S1, _, _, _);connection(NX, NAct, _, S1, _, _)),
+    P is P1+S1.
