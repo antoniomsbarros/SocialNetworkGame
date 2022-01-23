@@ -1,13 +1,16 @@
-﻿function randomString (strLength: any, charSet?: any) {
-  let result = [];
-  strLength = strLength || 5;
-  charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  while (--strLength)
-    result.push(charSet.charAt(Math.floor(Math.random() * charSet.length)));
-  return result.join('');
-}
+﻿
 
 describe('Register a new user, create new post and comment the created post', () => {
+
+  function randomString (strLength: any, charSet?: any) {
+    let result = [];
+    strLength = strLength || 5;
+    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    while (--strLength)
+      result.push(charSet.charAt(Math.floor(Math.random() * charSet.length)));
+    return result.join('');
+  }
+
   let randomEmail = `${randomString(10)}@email.com`
   let randomPassword = randomString(10)
   let randomPhoneNumber = `+351${randomString(9, "0123456789")}`
