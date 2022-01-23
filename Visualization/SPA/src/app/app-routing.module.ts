@@ -34,7 +34,9 @@ import {
 import {
   ConsultAllRelationshipsTagCloudComponent
 } from "./consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component";
+import {GetPendingDirectRequestsComponent} from "./get-pending-direct-requests/get-pending-direct-requests.component";
 import {SearchProfileComponent} from "./search-profile/search-profile.component";
+import {DeleteAccountComponent} from "./delete-account/delete-account.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -42,19 +44,23 @@ const routes: Routes = [
   {path: 'terms-conditions', component: TermsAndConditionsComponent},
   {path: 'privacy-policy', component: PrivacyPolicyComponent},
   {path: 'login', component: LoginComponent},
+
   {path: 'network', component: NetworkComponent},//esta
   {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},//esta
+  {path: "pendingDirectRequests", component: GetPendingDirectRequestsComponent},
   {path: "createIntroduction", component: CreateIntroductionComponent},//esta
   {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},//esta
   {path: "changeHumor", component: EditHumorStateComponent},//esta
   {path: "editRelationshipTagsAndConnectionStrength", component: EditRelationshipTagsConnectionForceComponent},//esta
   {path: "createDirectRequest", component: CreateDirectRequestComponent},//esta
   {path: "updateProfile", component: UpdateProfileComponent},//esta
+  {path: "deleteAccount", component: DeleteAccountComponent},//esta
   {path: "shortestPath", component: ShortestPathComponent},//esta
   {path: "safestPath", component: SafestPathComponent},//esta
   {path: "networkListing", component: NetworkListingComponent},//esta
   {path: "tagsrelationships", component: TagCloudRelationshipsComponent},//esta
-  {path:"searcheprofile", component: SearchProfileComponent},//esta
+  {path: "searcheprofile", component: SearchProfileComponent},//esta
+
   {path: "profile/:email", component: ProfileComponent,children:[
       {path:"", component:ProfileBodyComponent, children:[
           {path:"", redirectTo:"post", pathMatch:"full"},

@@ -20,4 +20,7 @@ export class AuthenticationService {
     });
   }
 
+  logout() {
+    localStorage.removeItem("playeremail")
+  }
 }

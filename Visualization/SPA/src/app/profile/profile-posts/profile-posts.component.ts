@@ -8,6 +8,10 @@ import {ReactionDto} from "../../dto/posts/ReactionDto";
 import {ReactionCommentDto} from "../../DTO/posts/ReactionCommentDto";
 import {PlayersService} from "../../services/players/players.service";
 import {  firstValueFrom } from 'rxjs';
+import {DialogComponent} from "../../dialog-component/dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {IntroductionRequestService} from "../../services/introduction-request.service";
+import {TagsDTO} from "../../DTO/TagsDTO";
 
 @Component({
   selector: 'app-profile-posts',
@@ -19,6 +23,31 @@ export class ProfilePostsComponent implements OnInit {
   playerFeed: PostDto[] = [];
   commentingPosts!: string[];
   currentPlayerHasNoPosts: boolean = false;
+
+  tags = new FormControl();
+  tagsList: string[] = [];
+  tagsSelected: string[] = []
+  animal: string | undefined;
+  name: string | undefined;
+  allTags: TagsDTO[] = []
+
+  changeTags(value: any) {
+    this.tagsSelected = value;
+  }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '250px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != undefined) {
+        this.tagsList.push(result);
+      }
+    });
+  }
+
+
 
 
   getCommentText = new FormGroup({
@@ -40,7 +69,20 @@ export class ProfilePostsComponent implements OnInit {
   }
 
 
-  constructor(private postService: PostsService, private route: ActivatedRoute, private playerService: PlayersService) {
+  constructor(private postService: PostsService,
+              private route: ActivatedRoute,
+              private playerService: PlayersService,
+              private dialog: MatDialog,
+              private introductionRequestService: IntroductionRequestService) {
+  }
+
+  loadTags() {
+    this.introductionRequestService.getAllTags().subscribe(tags => {
+      tags.forEach(tag => {
+        this.allTags.push(tag);
+        this.tagsList.push(tag.name);
+      });
+    });
   }
 
   getPlayerFeed() {
@@ -59,6 +101,7 @@ export class ProfilePostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshFeed();
+    this.loadTags();
   }
 
   likeReducer(previousValue: number, currentValue: ReactionDto) : number {
@@ -153,7 +196,7 @@ export class ProfilePostsComponent implements OnInit {
     this.postService.addNewPost({
       postText: this.postText.value,
       playerCreator: this.getCurrentPlayer(),
-      tags: ["a", "b"]
+      tags: this.tagsSelected
     } as PostDto).subscribe(post => {
       this.playerFeed.unshift(post);
     })

@@ -84,6 +84,9 @@ export class PlayersService {
     return this.http.get<number>(this.getnumberofplayer);
   }
 
+  deleteAccount(player: string) {
+    return this.http.delete<any>(this.socialNetwork + player);
+  }
 
   networkLength(): Observable<number> {
     const url = environment.APIUrl+'Players/NerworkLength';
@@ -102,5 +105,6 @@ export class PlayersService {
   getCurrentLoggedInUser(): string {
     return localStorage.getItem('playeremail')!.trim() || "undefined";
   }
+
 
 }

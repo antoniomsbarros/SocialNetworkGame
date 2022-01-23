@@ -69,7 +69,9 @@ import {ProfileTagsComponent} from "./profile/profile-tags/profile-tags.componen
 import { TagCloudRelationshipsComponent } from './tag-cloud-relationships/tag-cloud-relationships.component';
 import { ConsultAllPlayersTagCloudComponent } from './consult-all-players-tag-cloud/consult-all-players-tag-cloud.component';
 import { ConsultAllRelationshipsTagCloudComponent } from './consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component';
+import { GetPendingDirectRequestsComponent } from './get-pending-direct-requests/get-pending-direct-requests.component';
 import { SearchProfileComponent } from './search-profile/search-profile.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +111,9 @@ import { SearchProfileComponent } from './search-profile/search-profile.componen
     TagCloudRelationshipsComponent,
     ConsultAllPlayersTagCloudComponent,
     ConsultAllRelationshipsTagCloudComponent,
+    GetPendingDirectRequestsComponent,
     SearchProfileComponent,
+    DeleteAccountComponent,
 
   ],
     imports: [

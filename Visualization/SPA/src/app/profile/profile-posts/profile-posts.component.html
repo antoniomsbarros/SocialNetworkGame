@@ -2,6 +2,17 @@
   <div *ngIf="this.isOurProfileFeed()" class="mb-5">
     <form [formGroup]="newPost">
       <textarea formControlName="postText" type="text" class="form-control mb-1"></textarea>
+
+      <label style="margin-bottom: 20px; margin-top: 20px; " > Tags List:</label>
+      <mat-form-field appearance="fill">
+        <mat-label style="margin-right: 100px">Tags List</mat-label>
+        <mat-select [formControl]="tags" multiple (selectionChange)="changeTags($event.value)">
+          <mat-option *ngFor="let topping of tagsList" [value]="topping">{{topping}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button (click)="openDialog()" style="margin-left: 25px">Create Tag</button>
+
       <button (click)="addNewPost()" type="button" class="btn-sm btn-primary">Post</button>
     </form>
   </div>
@@ -18,7 +29,7 @@
       </a>
       <div class="media-body">
         <div>
-          <h5 class="media-heading mbn">{{post.playerCreator}} Posted <small> - {{this.getTimeSince(post.creationDate)}} ago</small></h5>
+          <h5 class="media-heading mbn">{{post.playerCreator}} Posted <small> - {{this.getTimeSince(post.creationDate)}} ago (tags: {{post.tags.join(", ")}})</small></h5>
           <p>{{post.postText}}</p>
           <div class="media-links">
             <span (click)="addReactionToPost(post.id, 'Like')" class="interactable fs12 mr10">
