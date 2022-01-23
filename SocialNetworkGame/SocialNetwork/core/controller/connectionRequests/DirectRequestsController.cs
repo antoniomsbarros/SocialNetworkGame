@@ -107,5 +107,30 @@ namespace SocialNetwork.core.controller.connectionRequests
                 return BadRequest(new {Message = ex.Message});
             }
         }
+        
+        
+        [HttpPut]
+        public async Task<IActionResult> UpdateDirectRequest(DirectRequestDto directRequestDto)
+        {
+            try
+            {
+                var cat = await _service.UpdateRequestStatus(
+                    new UpdateDirectRequestStatus(directRequestDto.Id, 
+                        directRequestDto.ConnectionRequestStatus.ToString(),
+                        directRequestDto.PlayerReceiver,
+                        directRequestDto.PlayerSender,
+                        directRequestDto.Tags));
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+                return Ok(cat);
+            }
+            catch(BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {Message = ex.Message});
+            }
+        }
+        
     }
 }

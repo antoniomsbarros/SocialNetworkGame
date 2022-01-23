@@ -6,9 +6,11 @@ using SocialNetwork.core.model.connectionRequests.repository;
 using SocialNetwork.core.model.players.domain;
 using SocialNetwork.core.model.players.dto;
 using SocialNetwork.core.model.relationships.domain;
+using SocialNetwork.core.model.relationships.dto;
 using SocialNetwork.core.model.shared;
 using SocialNetwork.core.model.tags.domain;
 using SocialNetwork.core.services.players;
+using SocialNetwork.core.services.relationships;
 
 namespace SocialNetwork.core.services.connectionRequests
 {
@@ -17,12 +19,15 @@ namespace SocialNetwork.core.services.connectionRequests
         private readonly IUnitOfWork _unitOfWork;
         private readonly IDirectRequestRepository _repo;
         private readonly PlayerService _playerService;
+        private readonly RelationshipService _relationshipService;
 
-        public DirectRequestService(IUnitOfWork unitOfWork, IDirectRequestRepository repo, PlayerService playerService)
+        public DirectRequestService(IUnitOfWork unitOfWork, IDirectRequestRepository repo, PlayerService playerService,
+            RelationshipService relationshipService)
         {
             _unitOfWork = unitOfWork;
             _repo = repo;
             _playerService = playerService;
+            _relationshipService = relationshipService;
         }
 
         public async Task<List<DirectRequestDto>> GetAllAsync()
@@ -68,6 +73,34 @@ namespace SocialNetwork.core.services.connectionRequests
                 list2.Add(introductionRequestDto);
             }
             return list2;
+        }
+        
+        
+        public async Task<DirectRequestDto> UpdateRequestStatus(UpdateDirectRequestStatus dto)
+        {
+            var cat = await _repo.GetByIdAsync(new ConnectionRequestId(dto.id));
+
+            if (cat == null)
+            {
+                return null;
+            }
+
+            cat.ChangeStatus(ConnectionRequestStatus.ValueOf(dto.newStatus));
+
+            if (dto.newStatus == ConnectionRequestStatusEnum.Approved)
+            {
+                await _relationshipService.AddAsync(new RelationshipPostDto(dto.playerReceiverEmail, dto.playerSenderEmail,
+                    cat.ConnectionStrengthConf.Strength, cat.TagsConf.ConvertAll(t=>t.Value.ToString())));
+            
+                await _relationshipService.AddAsync(new RelationshipPostDto(dto.playerSenderEmail, dto.playerReceiverEmail,
+                    10, new List<string>()));
+            }
+
+
+            
+            await _unitOfWork.CommitAsync();
+
+            return cat.ToDto();
         }
     }
 }
