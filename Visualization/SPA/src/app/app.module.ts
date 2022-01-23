@@ -71,6 +71,7 @@ import { ConsultAllPlayersTagCloudComponent } from './consult-all-players-tag-cl
 import { ConsultAllRelationshipsTagCloudComponent } from './consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component';
 import { GetPendingDirectRequestsComponent } from './get-pending-direct-requests/get-pending-direct-requests.component';
 import { SearchProfileComponent } from './search-profile/search-profile.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { SearchProfileComponent } from './search-profile/search-profile.componen
     ConsultAllRelationshipsTagCloudComponent,
     GetPendingDirectRequestsComponent,
     SearchProfileComponent,
+    DeleteAccountComponent,
 
   ],
     imports: [

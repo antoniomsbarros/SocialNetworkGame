@@ -157,6 +157,29 @@ namespace SocialNetwork.core.controller.players
         }
 
 
+        [HttpDelete("{email}")]
+        public async Task<ActionResult<PlayerDto>> Delete(string email)
+        {
+            try
+            {
+                /*
+                var cat = await _playerService.DeleteAsync(email);
+
+                if (cat == null)
+                {
+                    return NotFound();
+                }
+                */
+                await _systemUserService.DeleteAsync(new Username(email));
+
+                return Ok(new {email});
+            }
+            catch (BusinessRuleValidationException ex)
+            {
+                return BadRequest(new {ex.Message});
+            }
+        }
+        
         // For tests
         [HttpDelete("{id}/hard")]
         public async Task<ActionResult<PlayerDto>> HardDelete(string id)

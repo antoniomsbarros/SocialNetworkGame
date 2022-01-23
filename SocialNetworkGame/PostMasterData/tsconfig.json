@@ -23,10 +23,8 @@
     "esModuleInterop": true
   },
   "include": [
-    "./src/**/*", "index.js"
-  ],
+    "./src/**/*", "index.js", "./tests/**/*"],
   "exclude": [
-    "node_modules",
-    "tests"
+    "node_modules"
   ]
 }

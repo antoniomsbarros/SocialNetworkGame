@@ -1,7 +1,7 @@
 <div class="tab-content p30 mb20 tab-pane active" id="tab1">
   <div *ngIf="this.isOurProfileFeed()" class="mb-5">
     <form [formGroup]="newPost">
-      <textarea formControlName="postText" type="text" class="form-control mb-1"></textarea>
+      <textarea id="textArea" formControlName="postText" type="text" class="form-control mb-1"></textarea>
 
       <label style="margin-bottom: 20px; margin-top: 20px; " > Tags List:</label>
       <mat-form-field appearance="fill">
@@ -13,7 +13,7 @@
       <br>
       <button mat-raised-button (click)="openDialog()" style="margin-left: 25px">Create Tag</button>
 
-      <button (click)="addNewPost()" type="button" class="btn-sm btn-primary">Post</button>
+      <button (click)="addNewPost()" id="createPostButton" type="button" class="btn-sm btn-primary">Post</button>
     </form>
   </div>
   <div *ngIf="!currentPlayerHasNoPosts && playerFeed.length == 0">
@@ -52,7 +52,7 @@
           </div>
           <div *ngIf="commentingPosts.includes(post.id)">
             <form [formGroup]="getCommentText">
-              <textarea formControlName="comment" type="text" class="form-control mb-1"></textarea>
+              <textarea id="textAreaComment" formControlName="comment" type="text" class="form-control mb-1"></textarea>
               <button (click)="addCommentToPost(post.id)" type="button" class="btn-sm btn-primary">Send comment</button>
             </form>
           </div>
