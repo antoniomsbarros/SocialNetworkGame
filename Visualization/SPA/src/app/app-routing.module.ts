@@ -34,6 +34,7 @@ import {
 import {
   ConsultAllRelationshipsTagCloudComponent
 } from "./consult-all-relationships-tag-cloud/consult-all-relationships-tag-cloud.component";
+import {GetPendingDirectRequestsComponent} from "./get-pending-direct-requests/get-pending-direct-requests.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -43,6 +44,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'network', component: NetworkComponent},
   {path: "getlistPendig", component: GetListOfPendingConnectionRequestsComponent},
+  {path: "pendingDirectRequests", component: GetPendingDirectRequestsComponent},
   {path: "createIntroduction", component: CreateIntroductionComponent},
   {path: "GetApprovolRequests", component: ApproveDisapproveIntroductionRequestComponent},
   {path: "changeHumor", component: EditHumorStateComponent},
